@@ -1,58 +1,71 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-boxes = {
-  'ubuntu/xenial64' => {
-    'name'  => 'ubuntu/xenial64',
-    'url'   => 'ubuntu/xenial64'
-  },
-}
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
 
-Vagrant.configure("2") do |config|
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  os = "bento/ubuntu-18.04"
+  net_ip = "192.168.50"
 
-  config.vm.define :cluster_config do |cluster_config|
-
-    cluster_config.vm.hostname = 'config.cluster.local'
-    cluster_config.vm.box = 'ubuntu/xenial64'
-    cluster_config.vm.box_url = boxes['ubuntu/xenial64']['url']
-    cluster_config.vm.network :private_network, ip: "10.10.10.200"
-
-    cluster_config.vm.provider :virtualbox do |vb|
-      vb.customize ["modifyvm", :id, "--memory", 512]
-      vb.customize ["modifyvm", :id, "--cpus", 1]
-      vb.name = 'cluster-config'
-      vb.gui = false
+  config.vm.define :master, primary: true do |master_config|
+    master_config.vm.provider "virtualbox" do |vb|
+        vb.memory = "2048"
+        vb.cpus = 1
+        vb.name = "master"
     end
+    
+    master_config.vm.box = "#{os}"
+    master_config.vm.host_name = 'saltmaster.local'
+    master_config.vm.network "private_network", ip: "#{net_ip}.10"
+    master_config.vm.synced_folder "saltstack/salt/", "/srv/salt"
+    master_config.vm.synced_folder "saltstack/pillar/", "/srv/pillar"
 
-    cluster_config.vm.provision :salt do |salt|
-      salt.minion_config = "minions/config.conf"
+    master_config.vm.provision :salt do |salt|
+      salt.master_config = "saltstack/etc/master"
+      salt.master_key = "saltstack/keys/master_minion.pem"
+      salt.master_pub = "saltstack/keys/master_minion.pub"
+      salt.minion_key = "saltstack/keys/master_minion.pem"
+      salt.minion_pub = "saltstack/keys/master_minion.pub"
+      salt.seed_master = {
+                          "minion1" => "saltstack/keys/minion1.pub",
+                          "minion2" => "saltstack/keys/minion2.pub"
+                         }
+
+      salt.install_type = "stable"
+      salt.install_master = true
+      salt.no_minion = true
+      salt.verbose = true
       salt.colorize = true
-      salt.bootstrap_options = "-F -c /tmp -P"
+      salt.bootstrap_options = "-P -c /tmp"
     end
-  
   end
 
-  config.vm.define :cluster_service do |cluster_service|
 
-    cluster_service.vm.hostname = 'service.cluster.local'
-    cluster_service.vm.box = 'ubuntu/xenial64'
-    cluster_service.vm.box_url = boxes['ubuntu/xenial64']['url']
-    cluster_service.vm.network :private_network, ip: "10.10.10.201"
+  [
+    ["minion1",    "#{net_ip}.11",    "1024",    os ],
+    ["minion2",    "#{net_ip}.12",    "1024",    os ],
+  ].each do |vmname,ip,mem,os|
+    config.vm.define "#{vmname}" do |minion_config|
+      minion_config.vm.provider "virtualbox" do |vb|
+          vb.memory = "#{mem}"
+          vb.cpus = 1
+          vb.name = "#{vmname}"
+      end
 
-    cluster_service.vm.provider :virtualbox do |vb|
-      vb.customize ["modifyvm", :id, "--memory", 4096]
-      vb.customize ["modifyvm", :id, "--cpus", 1]
-      vb.name = 'cluster-servie'
-      vb.gui = false
+      minion_config.vm.box = "#{os}"
+      minion_config.vm.hostname = "#{vmname}"
+      minion_config.vm.network "private_network", ip: "#{ip}"
+
+      minion_config.vm.provision :salt do |salt|
+        salt.minion_config = "saltstack/etc/#{vmname}"
+        salt.minion_key = "saltstack/keys/#{vmname}.pem"
+        salt.minion_pub = "saltstack/keys/#{vmname}.pub"
+        salt.install_type = "stable"
+        salt.verbose = true
+        salt.colorize = true
+        salt.bootstrap_options = "-P -c /tmp"
+      end
     end
-
-    cluster_service.vm.provision :salt do |salt|
-      salt.minion_config = "minions/service.conf"
-      salt.colorize = true
-      salt.bootstrap_options = "-F -c /tmp -P"
-    end
-  
   end
-
 end
-
