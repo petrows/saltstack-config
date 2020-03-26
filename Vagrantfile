@@ -88,7 +88,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 
     local_config.vm.box = "#{os}"
-    local_config.vm.host_name = "salt.local"
+    local_config.vm.host_name = "salt-local.local"
     local_config.vm.network "private_network", ip: "#{net_ip}.11"
     local_config.vm.synced_folder ".", "/srv/salt"
 
