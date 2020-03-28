@@ -1,6 +1,7 @@
 base:
   '*':
     - common
-  'fish':
-    - fish
+  'pws-system*':
+    - common.nginx
+    - pws.system
   

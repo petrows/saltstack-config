@@ -1,0 +1,12 @@
+version: '2'
+volumes:
+  cmk_data: {}
+services:
+  check_mk:
+    image: checkmk/check-mk-raw:1.6.0-latest
+    ports:
+      - "5000:5000"
+    volumes:
+      - cmk_data:/omd/sites
+      - /etc/localtime:/etc/localtime
+    container_name: check-mk-server
