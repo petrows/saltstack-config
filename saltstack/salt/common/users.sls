@@ -52,7 +52,7 @@ user_{{user_id}}_fish_powerline:
 
 # FZF install
 user_{{user_id}}_fzf_src:
-  git.cloned:
+  git.latest:
     - user: {{user_id}}
     - name: https://github.com/junegunn/fzf.git
     - target: {{user.home}}/.fzf
