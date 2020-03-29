@@ -35,8 +35,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       salt.minion_pub = "saltstack/keys/master_minion.pub"
       salt.seed_master = {
         "pws-system-dev" => "saltstack/keys/pws-system-dev.pub",
-        "jenkins-dev" => "saltstack/keys/jenkins-dev.pub",
-        "check-mk-dev" => "saltstack/keys/check-mk-dev.pub",
+        "pws-pve-dev" => "saltstack/keys/pws-pve-dev.pub",
       }
 
       salt.install_type = "stable"
@@ -53,8 +52,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   [
     ["pws-system-dev", "#{net_ip}.12", "1024", os],
-    ["jenkins-dev", "#{net_ip}.13", "1024", os],
-    ["check-mk-dev", "#{net_ip}.14", "1024", os],
+    ["pws-pve-dev", "#{net_ip}.13", "1024", "debian/buster64"],
   ].each do |vmname, ip, mem, os|
     config.vm.define "#{vmname}" do |minion_config|
       minion_config.vm.provider "virtualbox" do |vb|

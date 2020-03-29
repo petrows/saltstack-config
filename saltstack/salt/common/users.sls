@@ -90,9 +90,10 @@ user_{{user_id}}_vim_plug_deploy:
     - user: {{user_id}}
     - group: {{user_id}}
 
+# Ignore errors
 user_{{user_id}}_vim_plug:
   cmd.run:
-    - name: "vim -E -s -u '{{ user.home }}/.vimrc' -c 'PlugInstall --sync' -c 'qall'"
+    - name: "vim -E -s -u '{{ user.home }}/.vimrc' -c 'PlugInstall --sync' -c 'qall'; true"
     - cwd: {{user.home}}
     - runas: {{user_id}}
     - creates:
