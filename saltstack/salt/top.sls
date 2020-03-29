@@ -3,7 +3,10 @@ base:
     - common
   'pws-*':
     - common.monitoring
-  'pws-system*':
+    - common.users
+  'roles:nginx':
+    - match: pillar
     - common.nginx
+  'pws-system*':
     - pws.system
   
