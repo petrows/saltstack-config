@@ -17,7 +17,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define :master, primary: true do |master_config|
     master_config.vm.provider "virtualbox" do |vb|
       vb.memory = "2048"
-      vb.cpus = 1
+      vb.cpus = 4
       vb.name = "master"
     end
 
@@ -59,7 +59,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.define "#{vmname}" do |minion_config|
       minion_config.vm.provider "virtualbox" do |vb|
         vb.memory = "#{mem}"
-        vb.cpus = 1
+        vb.cpus = 4
         vb.name = "#{vmname}"
       end
 
@@ -85,7 +85,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "salt-local" do |local_config|
     local_config.vm.provider "virtualbox" do |vb|
       vb.memory = "2048"
-      vb.cpus = 1
+      vb.cpus = 4
       vb.name = "local-salt"
     end
 

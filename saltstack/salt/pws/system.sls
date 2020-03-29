@@ -7,6 +7,7 @@ system_proxy_conf:
   file.managed:
     - name: /etc/nginx/conf.d/proxy.conf
     - source: salt://files/pws-system/proxy.conf
+    - template: jinja
     - user: root
     - group: root
     - mode: 644
