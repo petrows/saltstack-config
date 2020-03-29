@@ -1,4 +1,4 @@
-
+# Required packages
 
 fish_packages:
   pkg.installed:
@@ -17,6 +17,8 @@ fish_packages:
       - mc
       - fish
       - powerline
+
+# Loop over allowed users on this server
 
 {% for user_id, user in pillar.get('users', {}).items() %}
 user_{{user_id}}_group:
@@ -90,7 +92,7 @@ user_{{user_id}}_vim_plug_deploy:
     - user: {{user_id}}
     - group: {{user_id}}
 
-# Ignore errors
+# Ignore errors on vim setup
 user_{{user_id}}_vim_plug:
   cmd.run:
     - name: "vim -E -s -u '{{ user.home }}/.vimrc' -c 'PlugInstall --sync' -c 'qall'; true"
@@ -98,4 +100,17 @@ user_{{user_id}}_vim_plug:
     - runas: {{user_id}}
     - creates:
       - {{user.home}}/.vim/plugged
+
+# Git configuration
+
+{% for config_key, config_value in pillar.get('git_config', {}).items() %}
+user_{{user_id}}_git_{{config_key}}:
+  git.config_set:
+    - name: {{config_key}}
+    - value: "{{config_value}}"
+    - global: True
+    - user: {{user_id}}
+# Git config
+{% endfor %}
+
 {% endfor %}
