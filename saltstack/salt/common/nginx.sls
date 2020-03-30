@@ -6,6 +6,11 @@ nginx:
     - required:
       - pkg: nginx
 
+nginx-config-dummy:
+  file.managed:
+    - name: /etc/nginx/conf.d/empty.saltstack
+    - contents: ''
+
 reload-nginx:
   service.running:
     - name: nginx

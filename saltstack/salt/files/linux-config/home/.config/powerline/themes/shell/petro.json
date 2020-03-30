@@ -11,7 +11,7 @@
 						"function": "powerline.segments.shell.last_pipe_status"
 					},
 					{
-						"function": "powerline.segments.common.vcs.branch"
+						"function": "{{ pillar['powerline_git_plugin'] }}"
 					}
 				]
 			}

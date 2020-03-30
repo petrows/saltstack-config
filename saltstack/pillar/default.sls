@@ -1,5 +1,9 @@
 # Default pillar values
 
+# Use 'powerline.segments.common.vcs.branch' for old systems
+powerline_git_plugin: 'powerline_gitstatus.gitstatus'
+powerline_git_pkg: 'powerline-gitstatus'
+
 git_config:
   core.whitespace: fix, trailing-space
   color.ui: auto

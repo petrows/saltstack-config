@@ -8,6 +8,13 @@ fish_packages:
       - vim-nox
       - vim-youcompleteme
 
+{% if pillar['powerline_git_pkg'] %}
+fish_git_packages:
+  pkg.installed:
+    - pkgs:
+      - {{ pillar['powerline_git_pkg'] }}
+{% endif %}
+
 # Loop over allowed users on this server
 
 {% for user_id, user in pillar.get('users', {}).items() %}

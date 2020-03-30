@@ -9,3 +9,9 @@ apt install salt-minion
 echo -e "master: system.pws\nid: pws-system\n" > /etc/salt/minion
 ```
 
+# Run test machines
+```
+vagrant up master
+vagrant up pws-web-vm-dev
+vagrant ssh master -- sudo salt --force-color 'pws-web-vm-dev' state.apply
+```
