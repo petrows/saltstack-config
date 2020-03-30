@@ -6,6 +6,10 @@ base:
   'pws-*':
     - pws.user-root
 
+# All dev servers should have virtual user config
+  '*-dev':
+    - pws.user-vagrant
+
 # Separate hosts config
   'pws-system*':
     - pws.system

@@ -3,20 +3,10 @@
 fish_packages:
   pkg.installed:
     - pkgs:
-      - net-tools
-      - vim
-      - vim-nox
-      - vim-youcompleteme
-      - git
-      - python3
-      - python3-pip
-      - python3-git
-      - curl
-      - wget
-      - screen
-      - mc
       - fish
       - powerline
+      - vim-nox
+      - vim-youcompleteme
 
 # Loop over allowed users on this server
 
