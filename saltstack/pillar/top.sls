@@ -15,9 +15,12 @@ base:
   'pws-system*':
     - pws.system
     - pws.user-master
+    - pws.powerline-legacy
   'pws-system-dev':
     - pws.system-dev
   'pws-web-vm*':
     - pws.web-vm
     - pws.user-www
-    
+    - pws.powerline-legacy
+  'pws-home*':
+    - pws.powerline-legacy
