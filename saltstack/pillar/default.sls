@@ -4,6 +4,9 @@
 powerline_git_plugin: 'powerline_gitstatus.gitstatus'
 powerline_git_pkg: 'powerline-gitstatus'
 
+# If check-mk used, we can install additional plugins to monitor it
+check_mk_plugins: {}
+
 git_config:
   core.whitespace: fix, trailing-space
   color.ui: auto
