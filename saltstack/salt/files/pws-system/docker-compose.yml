@@ -4,6 +4,8 @@ volumes:
 services:
   check_mk:
     image: checkmk/check-mk-raw:1.6.0-latest
+    environment:
+      - MAIL_RELAY_HOST=system.pws
     ports:
       - "5000:5000"
     volumes:
