@@ -9,4 +9,5 @@ base:
     - common.nginx
   'pws-system*':
     - pws.system
+    - common.mail-relay
   

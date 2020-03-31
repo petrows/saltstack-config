@@ -1,0 +1,1 @@
+[{{ pillar['pws_secrets']['mail_relay']['host'] }}]:{{ pillar['pws_secrets']['mail_relay']['port'] }}    {{ pillar['pws_secrets']['mail_relay']['username'] }}:{{ pillar['pws_secrets']['mail_relay']['password'] }}

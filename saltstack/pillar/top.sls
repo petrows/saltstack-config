@@ -5,6 +5,9 @@ base:
 # All PWS servers should have at least advanced config for root
   'pws-*':
     - pws.user-root
+# Password management
+    - pws.secrets-default
+    - pws.secrets
 
 # All dev servers should have virtual user config
   '*-dev':
