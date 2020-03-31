@@ -15,6 +15,8 @@ base:
     - pws.powerline-legacy
 
 # Separate hosts config
+  'pws-pve*':
+    - pws.pve
   'pws-system*':
     - pws.system
     - pws.user-master
