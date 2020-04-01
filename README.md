@@ -8,6 +8,11 @@ Install fish
 apt install salt-minion
 echo -e "master: system.pws\nid: pws-system\n" > /etc/salt/minion
 ```
+```
+curl -o bootstrap-salt.sh -L https://bootstrap.saltstack.com
+sh bootstrap-salt.sh
+echo -e "master: system.pws\nid: pws-system\n" > /etc/salt/minion
+```
 
 # Run test machines
 ```

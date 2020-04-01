@@ -29,3 +29,5 @@ base:
     - pws.powerline-legacy
   'pws-home*':
     - pws.powerline-legacy
+  'pws-fabian*':
+    - pws.powerline-legacy
