@@ -8,6 +8,8 @@ base:
 # Password management
     - pws.secrets-default
     - pws.secrets
+# Redirect local email to mine
+    - pws.mail-redirect
 
 # All dev servers should have virtual user config
   '*-dev':

@@ -1,0 +1,6 @@
+root: {{ pillar['maintainer_email'] }}
+postmaster: root
+nobody: root
+hostmaster: root
+webmaster: root
+www: root

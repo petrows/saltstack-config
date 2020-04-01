@@ -21,7 +21,7 @@ postfix_conf:
     - template: jinja
     - user: root
     - group: root
-    - mode: 600
+    - mode: 644
 
 postfix_postmap:
   cmd.wait:
