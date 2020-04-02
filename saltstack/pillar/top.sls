@@ -33,3 +33,5 @@ base:
     - pws.powerline-legacy
   'pws-fabian*':
     - pws.powerline-legacy
+  'pws-octoprint*':
+    - pws.powerline-legacy
