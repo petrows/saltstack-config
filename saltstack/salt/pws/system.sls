@@ -19,6 +19,13 @@ system_rootdir:
     - group:  root
     - mode:  755
 
+system_cmk_rootdir:
+  file.directory:
+    - name:  /opt/cmk_data
+    - user:  1000
+    - group:  1000
+    - mode:  755
+
 system_compose:
   file.managed:
     - name: /opt/system/docker-compose.yml
