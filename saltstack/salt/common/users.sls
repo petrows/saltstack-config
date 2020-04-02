@@ -5,6 +5,10 @@ fish_packages:
     - pkgs:
       - fish
       - powerline
+
+vim_packages:
+  pkg.installed:
+    - pkgs:
       - vim-nox
       - vim-youcompleteme
 
