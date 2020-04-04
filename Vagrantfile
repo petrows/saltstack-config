@@ -36,6 +36,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       salt.seed_master = {
         "pws-system-dev" => "saltstack/keys/pws-system-dev.pub",
         "pws-pve-dev" => "saltstack/keys/pws-pve-dev.pub",
+        "pws-web-vm-dev" => "saltstack/keys/pws-pve-dev.pub",
+        "pws-backup-dev" => "saltstack/keys/pws-backup-dev.pub",
       }
 
       salt.install_type = "stable"
@@ -54,6 +56,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ["pws-system-dev", "#{net_ip}.12", "1024", os],
     ["pws-pve-dev", "#{net_ip}.13", "1024", "debian/stretch64"],
     ["pws-web-vm-dev", "#{net_ip}.13", "1024", "debian/stretch64"],
+    ["pws-backup-dev", "#{net_ip}.14", "1024", "debian/buster64"],
   ].each do |vmname, ip, mem, os|
     config.vm.define "#{vmname}" do |minion_config|
       minion_config.vm.provider "virtualbox" do |vb|

@@ -1,0 +1,2 @@
+roles:
+  tmp-ramdisk: {}
