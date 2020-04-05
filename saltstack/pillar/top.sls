@@ -10,6 +10,8 @@ base:
     - pws.secrets
 # Redirect local email to mine
     - pws.mail-redirect
+# Mount /tmp into RAM
+    - pws.role-tmpramdisk
 
 # All dev servers should have virtual user config
   '*-dev':
