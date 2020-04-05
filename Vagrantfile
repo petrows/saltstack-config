@@ -43,7 +43,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       salt.no_minion = true
       salt.verbose = true
       salt.colorize = true
-      salt.bootstrap_options = "-P -c /tmp"
+      salt.bootstrap_options = "-x python3 -P -c /tmp"
     end
   end
 
@@ -53,7 +53,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   [
     ["pws-system-dev", "#{net_ip}.12", "1024", os],
     ["pws-pve-dev", "#{net_ip}.13", "1024", "debian/stretch64"],
-    ["pws-web-vm-dev", "#{net_ip}.13", "1024", "debian/stretch64"],
+    ["pws-web-vm-dev", "#{net_ip}.14", "1024", "debian/stretch64"],
+    ["pws-backup-dev", "#{net_ip}.15", "1024", "debian/buster64"],
   ].each do |vmname, ip, mem, os|
     config.vm.define "#{vmname}" do |minion_config|
       minion_config.vm.provider "virtualbox" do |vb|
@@ -73,7 +74,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         salt.install_type = "stable"
         salt.verbose = true
         salt.colorize = true
-        salt.bootstrap_options = "-P -c /tmp"
+        salt.bootstrap_options = "-x python3 -P -c /tmp"
       end
     end
   end
@@ -97,7 +98,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       salt.masterless = true
       salt.verbose = true
       salt.colorize = true
-      salt.bootstrap_options = "-P -c /tmp"
+      salt.bootstrap_options = "-x python3 -P -c /tmp"
     end
   end
 end

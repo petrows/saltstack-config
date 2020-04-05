@@ -18,6 +18,11 @@ default_locale:
       - locale: us_locale
 
 {% if pillar['maintainer_email'] %}
+mail_alias_packages:
+  pkg.installed:
+    - pkgs:
+      - mailutils
+
 mail_alias_maintainer:
   file.managed:
     - name: /etc/aliases
