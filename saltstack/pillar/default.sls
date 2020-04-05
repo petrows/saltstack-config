@@ -1,8 +1,8 @@
 # Default pillar values
 
 # Use 'powerline.segments.common.vcs.branch' for old systems
-powerline_git_plugin: 'powerline_gitstatus.gitstatus'
-powerline_git_pkg: 'powerline-gitstatus'
+powerline_git_plugin: 'powerline.segments.common.vcs.branch'
+powerline_git_pkg: ''
 
 # If check-mk used, we can install additional plugins to monitor it
 check_mk_plugins: {}

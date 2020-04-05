@@ -14,24 +14,21 @@ base:
 # All dev servers should have virtual user config
   '*-dev':
     - pws.user-vagrant
-    - pws.powerline-legacy
 
 # Separate hosts config
   'pws-pve*':
     - pws.pve
+    - pws.powerline-gitstatus
   'pws-system*':
     - pws.system
     - pws.user-master
-    - pws.powerline-legacy
   'pws-system-dev':
     - pws.system-dev
   'pws-web-vm*':
     - pws.web-vm
     - pws.user-www
-    - pws.powerline-legacy
-  'pws-home*':
-    - pws.powerline-legacy
-  'pws-fabian*':
-    - pws.powerline-legacy
-  'pws-octoprint*':
-    - pws.powerline-legacy
+  'pws-backup-dev':
+    - pws.powerline-gitstatus
+  'pws-backup*':
+    - pws.role-tmpramdisk
+
