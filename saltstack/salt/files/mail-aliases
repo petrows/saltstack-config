@@ -4,3 +4,10 @@ nobody: root
 hostmaster: root
 webmaster: root
 www: root
+mailer-daemon: root
+usenet: root
+news: root
+ftp: root
+abuse: root
+noc: root
+security: root

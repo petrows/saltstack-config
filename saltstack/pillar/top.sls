@@ -31,6 +31,4 @@ base:
     - pws.user-www
   'pws-backup-dev':
     - pws.powerline-gitstatus
-  'pws-backup*':
-    - pws.role-tmpramdisk
 
