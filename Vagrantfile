@@ -8,7 +8,7 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  os = "bento/ubuntu-18.04"
+  os_u18 = "bento/ubuntu-18.04"
   net_ip = "10.99.99"
 
   # ============================================================================================
@@ -21,7 +21,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.name = "master"
     end
 
-    master_config.vm.box = "#{os}"
+    master_config.vm.box = "#{os_u18}"
     master_config.vm.host_name = "saltmaster.local"
     master_config.vm.network "private_network", ip: "#{net_ip}.10"
     master_config.vm.synced_folder "saltstack/salt/", "/srv/salt"
@@ -36,6 +36,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       salt.seed_master = {
         "pws-system-dev" => "saltstack/keys/pws-system-dev.pub",
         "pws-pve-dev" => "saltstack/keys/pws-pve-dev.pub",
+        "pws-web-vm-dev" => "saltstack/keys/pws-web-vm-dev.pub",
+        "pws-backup-dev" => "saltstack/keys/pws-backup-dev.pub",
       }
 
       salt.install_type = "stable"
@@ -51,9 +53,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Salt minion config
 
   [
-    ["pws-system-dev", "#{net_ip}.12", "1024", os],
+    ["pws-system-dev", "#{net_ip}.12", "1024", os_u18],
     ["pws-pve-dev", "#{net_ip}.13", "1024", "debian/stretch64"],
-    ["pws-web-vm-dev", "#{net_ip}.14", "1024", "debian/stretch64"],
+    ["pws-web-vm-dev", "#{net_ip}.14", "1024", "debian/buster64"],
     ["pws-backup-dev", "#{net_ip}.15", "1024", "debian/buster64"],
   ].each do |vmname, ip, mem, os|
     config.vm.define "#{vmname}" do |minion_config|

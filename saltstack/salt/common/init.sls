@@ -29,4 +29,7 @@ mail_alias_maintainer_db:
     - name: newaliases
     - onchanges:
       - file: /etc/aliases
+    - requre:
+      - pkg:
+        - mail-tools
 {% endif %}

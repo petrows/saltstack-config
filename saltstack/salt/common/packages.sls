@@ -5,6 +5,7 @@ common_packages:
       - strace
       - vim
       - net-tools
+      - mailutils
       - git
       - python3
       - python3-pip
