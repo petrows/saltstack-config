@@ -19,4 +19,7 @@ base:
   'pws-web-vm*':
     - pws.web-vm
     - common.mail-relay
+  'pws-backup*':
+    - pws.backup
+    - common.mail-relay
   

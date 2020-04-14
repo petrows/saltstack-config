@@ -3,6 +3,9 @@ backup_packages:
     - pkgs:
       - openjdk-11-jre
       - libxss1
+      - libgdk-pixbuf2.0-0
+      - libgtk-3-0
+    - install_recommends: True
 
 cmd-test:
   cmd.run:
