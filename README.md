@@ -17,7 +17,7 @@ echo -e "master: system.pws\nid: pws-system\n" > /etc/salt/minion
 Minion:
 ```
 curl -L https://bootstrap.saltstack.com -o install_salt.sh
-sudo sh install_salt.sh -P
+sudo sh install_salt.sh -P -A system.pws -i pws-server-name
 ```
 
 # Run test machines

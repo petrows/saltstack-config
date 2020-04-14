@@ -29,6 +29,4 @@ base:
   'pws-web-vm*':
     - pws.web-vm
     - pws.user-www
-  'pws-backup*':
-    - pws.powerline-gitstatus
 

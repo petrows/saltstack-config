@@ -56,7 +56,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ["pws-system-dev", "#{net_ip}.12", "1024", os_u18],
     ["pws-pve-dev", "#{net_ip}.13", "1024", "debian/stretch64"],
     ["pws-web-vm-dev", "#{net_ip}.14", "1024", "debian/buster64"],
-    ["pws-backup-dev", "#{net_ip}.15", "1024", "debian/buster64"],
+    ["pws-backup-dev", "#{net_ip}.15", "1024", os_u18],
   ].each do |vmname, ip, mem, os|
     config.vm.define "#{vmname}" do |minion_config|
       minion_config.vm.provider "virtualbox" do |vb|
@@ -91,7 +91,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.name = "local-salt"
     end
 
-    local_config.vm.box = "#{os}"
+    local_config.vm.box = "#{os_u18}"
     local_config.vm.host_name = "salt-local.local"
     local_config.vm.network "private_network", ip: "#{net_ip}.11"
     local_config.vm.synced_folder ".", "/srv/salt"
