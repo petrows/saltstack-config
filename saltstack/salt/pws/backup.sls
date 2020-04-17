@@ -1,9 +1,16 @@
+backup_gui_packages:
+  pkg.installed:
+    - pkgs:
+      - xauth
+      - vim-gtk # Force install minimal GUI app
+    - install_recommends: True
+
 backup_packages:
   pkg.installed:
     - pkgs:
       - openjdk-11-jre
       - libxss1
-      - libgdk-pixbuf2.0-0
+      - libgdk-pixbuf2.0-0    
       - libgtk-3-0
     - install_recommends: True
 
