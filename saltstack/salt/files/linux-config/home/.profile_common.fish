@@ -10,3 +10,8 @@ for p in $test_user_path;
         set -gx PATH $p $PATH
     end
 end
+
+# Load local config, if exists
+if test -x $HOME/.profile_local.fish
+    source $HOME/.profile_local.fish
+end

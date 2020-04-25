@@ -1,3 +1,8 @@
+common_packages:
+  pkg.installed:
+    - pkgs:
+      - openssl
+
 nginx:
   pkg:
     - installed
@@ -10,6 +15,14 @@ nginx-config-dummy:
   file.managed:
     - name: /etc/nginx/conf.d/empty.saltstack
     - contents: ''
+
+nginx-dh:
+  cmd.run:
+    - name: "openssl dhparam -out /etc/nginx/dhparam.pem 4096"
+    - cwd: root
+    - runas: root
+    - creates:
+      - /etc/nginx/dhparam.pem
 
 reload-nginx:
   service.running:
@@ -24,3 +37,5 @@ nginx-config-test:
     - name: nginx.configtest
     - watch:
       - file: /etc/nginx/conf.d/*
+      - file: /etc/nginx/nginx.conf
+
