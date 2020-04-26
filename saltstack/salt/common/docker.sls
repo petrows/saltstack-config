@@ -10,7 +10,9 @@ docker_repository:
 docker_pkg:
   pkg.installed:
     - pkgs:
-      - docker.io
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
     - refresh: True
     - require:
       - pkgrepo: docker_repository
