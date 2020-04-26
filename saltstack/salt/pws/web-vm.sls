@@ -1,8 +1,3 @@
-system_packages:
-  pkg.installed:
-    - pkgs:
-      - docker.io
-      - docker-compose
 
 system_proxy_conf:
   file.managed:
