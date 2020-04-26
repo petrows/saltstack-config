@@ -1,16 +1,22 @@
 
-system_proxy_conf:
+wiki-nginx:
   file.managed:
     - name: /etc/nginx/conf.d/wiki.conf
-    - source: salt://files/pws-web-vm/proxy.conf
+    - source: salt://files/docker-compose/proxy.conf
     - template: jinja
     - user: root
     - group: root
     - mode: 644
+    # Virtual host config:
+    - config_name: wiki
+    - port: 7003
+    - domain:
+        - wiki.web-vm.pws
+        - wiki.petro.ws
 
 # WikiMedia
 
-wiki_rootdir:
+wiki-rootdir:
   file.directory:
     - name:  /opt/wiki
     - makedirs: True
@@ -18,14 +24,14 @@ wiki_rootdir:
     - group:  root
     - mode:  755
 
-wiki_dir_images:
+wiki-dir-images:
   file.directory:
     - name:  /opt/wiki/images
     - user:  root
     - group:  root
     - mode:  777
 
-wiki_compose:
+wiki-compose:
   file.managed:
     - name: /opt/wiki/docker-compose.yml
     - source: salt://files/pws-web-vm/wiki/docker-compose.yml
@@ -46,6 +52,3 @@ compose-wiki.service:
     - enable: True
     - watch:
       - file: /opt/wiki/docker-compose.yml
-
-# Owncloud
-
