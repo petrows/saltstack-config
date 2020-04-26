@@ -1,4 +1,4 @@
-common_packages:
+linux-base-packages:
   pkg.installed:
     - pkgs:
       - htop

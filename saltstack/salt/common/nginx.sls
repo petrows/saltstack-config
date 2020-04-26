@@ -1,4 +1,4 @@
-common_packages:
+nginx-common-packages:
   pkg.installed:
     - pkgs:
       - openssl

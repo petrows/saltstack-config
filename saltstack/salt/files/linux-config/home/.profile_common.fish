@@ -1,5 +1,5 @@
 # Common profile config
-set -gx EDITOR /usr/bin/vim
+set -gx EDITOR (which vim)
 set -gx VISUAL $EDITOR
 set -gx GIT_EDITOR $EDITOR
 
@@ -12,6 +12,6 @@ for p in $test_user_path;
 end
 
 # Load local config, if exists
-if test -x $HOME/.profile_local.fish
+if test -f $HOME/.profile_local.fish
     source $HOME/.profile_local.fish
 end

@@ -36,6 +36,12 @@ user_{{user_id}}_config:
   require:
     - pkg: fish_packages
 
+user_{{user_id}}_fish_local:
+  cmd.run:
+    - name: |
+        touch {{ user.home }}/.profile_local.fish
+    - creates: {{ user.home }}/.profile_local.fish
+
 # Powerline
 
 user_{{user_id}}_fish_profile:
