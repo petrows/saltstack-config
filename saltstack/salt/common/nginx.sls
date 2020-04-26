@@ -19,10 +19,17 @@ nginx-config-dummy:
 nginx-dh:
   cmd.run:
     - name: "openssl dhparam -out /etc/nginx/dhparam.pem 4096"
-    - cwd: root
     - runas: root
     - creates:
       - /etc/nginx/dhparam.pem
+
+nginx-rootconf:
+  file.managed:
+    - name: /etc/nginx/nginx.conf
+    - source: salt://files/nginx/nginx.conf
+    - user: root
+    - group: root
+    - mode: 644
 
 reload-nginx:
   service.running:

@@ -6,7 +6,7 @@ system_packages:
 
 system_proxy_conf:
   file.managed:
-    - name: /etc/nginx/conf.d/proxy.conf
+    - name: /etc/nginx/conf.d/wiki.conf
     - source: salt://files/pws-web-vm/proxy.conf
     - template: jinja
     - user: root
@@ -45,7 +45,7 @@ compose-wiki.service:
     - template: jinja
     - user: root
     - group: root
-    - context: 
+    - context:
       compose_path: /opt/wiki/
   service.running:
     - enable: True
