@@ -1,6 +1,7 @@
 nginx-common-packages:
   pkg.installed:
     - pkgs:
+      - certbot
       - openssl
 
 nginx:
