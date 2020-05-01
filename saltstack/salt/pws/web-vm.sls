@@ -53,3 +53,4 @@ compose-wiki.service:
     - enable: True
     - watch:
       - file: /opt/wiki/docker-compose.yml
+
