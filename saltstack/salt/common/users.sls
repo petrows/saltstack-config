@@ -66,7 +66,7 @@ user_{{user_id}}_fzf_src:
     - user: {{user_id}}
     - name: https://github.com/junegunn/fzf.git
     - target: {{user.home}}/.fzf
-    #- depth: 1 # too new
+    - force_reset: True
 
 user_{{user_id}}_fzf_config:
   cmd.run:
