@@ -38,6 +38,21 @@ nginx-rootconf:
     - group: root
     - mode: 644
 
+nginx-acme:
+  file.managed:
+    - name: /etc/nginx/acme.conf
+    - source: salt://files/nginx/acme.conf
+    - user: root
+    - group: root
+    - mode: 644
+
+nginx-acme-root:
+  file.directory:
+    - name:  /var/www/letsencrypt
+    - user:  root
+    - group:  root
+    - mode:  777
+
 reload-nginx:
   service.running:
     - name: nginx

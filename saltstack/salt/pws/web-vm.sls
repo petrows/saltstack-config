@@ -11,8 +11,8 @@ wiki-nginx:
     - config_name: wiki
     - port: 7003
     - domain:
-        - wiki.web-vm.pws
         - wiki.petro.ws
+        - wiki.web-vm.pws
 
 # WikiMedia
 
