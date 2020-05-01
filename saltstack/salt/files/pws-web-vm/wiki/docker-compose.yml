@@ -14,7 +14,7 @@ services:
       # After initial setup, download LocalSettings.php to the same directory as
       # this yaml and uncomment the following line and use compose to restart
       # the mediawiki service
-      {% if salt['file.exists']('/opt/wiki/LocalSettings.php') %}
+      {% if salt['file.file_exists']('/opt/wiki/LocalSettings.php') %}
       - /opt/wiki/LocalSettings.php:/var/www/html/LocalSettings.php
       {% endif %}
   database:

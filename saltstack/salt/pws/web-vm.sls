@@ -35,6 +35,7 @@ wiki-compose:
   file.managed:
     - name: /opt/wiki/docker-compose.yml
     - source: salt://files/pws-web-vm/wiki/docker-compose.yml
+    - template: jinja
     - user: root
     - group: root
     - mode: 644
