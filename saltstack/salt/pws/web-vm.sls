@@ -31,6 +31,13 @@ wiki-dir-images:
     - group:  root
     - mode:  777
 
+wiki-dir-mysql:
+  file.directory:
+    - name:  /opt/wiki/mysql
+    - user:  999
+    - group:  999
+    - mode:  700
+
 wiki-compose:
   file.managed:
     - name: /opt/wiki/docker-compose.yml

@@ -8,7 +8,7 @@ services:
     ports:
       - 7003:80
     links:
-      - database
+      - mediawiki-db
     volumes:
       - /opt/wiki/images:/var/www/html/images
       # After initial setup, download LocalSettings.php to the same directory as
@@ -17,9 +17,11 @@ services:
       {% if salt['file.file_exists']('/opt/wiki/LocalSettings.php') %}
       - /opt/wiki/LocalSettings.php:/var/www/html/LocalSettings.php
       {% endif %}
-  database:
+  mediawiki-db:
     image: mariadb
     restart: always
+    volumes:
+      - /opt/wiki/mysql:/var/lib/mysql
     environment:
       # @see https://phabricator.wikimedia.org/source/mediawiki/browse/master/includes/DefaultSettings.php
       MYSQL_DATABASE: wiki
