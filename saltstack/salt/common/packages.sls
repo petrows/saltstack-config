@@ -14,3 +14,8 @@ linux-base-packages:
       - wget
       - screen
       - mc
+
+linux-autoupgrade-packages:
+  pkg.installed:
+    - pkgs:
+      - unattended-upgrades

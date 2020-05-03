@@ -1,6 +1,6 @@
 ## Apply local config
 
-Install fish 
+Install fish
 `salt-call --local --file-root salt state.apply common.fish pillar='{"users": {"user1":1} }'`
 
 # Configure new machine:
@@ -26,3 +26,10 @@ vagrant up master
 vagrant up pws-web-vm-dev
 vagrant ssh master -- sudo salt --force-color 'pws-web-vm-dev' state.apply
 ```
+
+# Nginx config
+Auto-use of self-signed or Letsencrypt certs. After new web service installed run
+```
+certbot certonly --webroot --webroot-path /var/www/letsencrypt --agree-tos -m email -d domain
+```
+and apply config again.
