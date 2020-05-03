@@ -33,3 +33,10 @@ Auto-use of self-signed or Letsencrypt certs. After new web service installed ru
 certbot certonly --webroot --webroot-path /var/www/letsencrypt --agree-tos -m email -d domain
 ```
 and apply config again.
+
+# Time
+NTP is not used. Used systemd (linux default)
+```
+systemctl status systemd-timesyncd
+timedatectl
+```

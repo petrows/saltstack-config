@@ -1,7 +1,7 @@
 include:
   - common.packages
 
-us_locale:
+locale-us:
   locale.present:
     - name: en_US.UTF-8
 
@@ -11,11 +11,15 @@ ru_RU.UTF-8:
 de_DE.UTF-8:
   locale.present
 
-default_locale:
+locale-default:
   locale.system:
     - name: en_US.UTF-8
     - require:
-      - locale: us_locale
+      - locale: locale-us
+
+default-timezone:
+  timezone.system:
+    - name: Europe/Berlin
 
 {% if pillar['maintainer_email'] %}
 mail_alias_maintainer:
