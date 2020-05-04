@@ -21,7 +21,7 @@ default-timezone:
   timezone.system:
     - name: Europe/Berlin
 
-{% if pillar['maintainer_email'] %}
+{% if salt.pillar.get('maintainer_email', '') != '' %}
 mail_alias_maintainer:
   file.managed:
     - name: /etc/aliases

@@ -31,3 +31,12 @@ base:
     - pws.user-www
   'pws-backup*':
     - pws.user-master
+
+# Local PC config
+  'petro-pc':
+    - pws.user-root
+    - pws.user-petro
+    - pws.secrets-default
+    - pws.secrets
+    - pws.mail-redirect
+    - pws.role-tmpramdisk

@@ -22,4 +22,6 @@ base:
   'pws-backup*':
     - pws.backup
     - common.mail-relay
-  
+  'petro-pc':
+    - common.users
+    - common.mail-relay
