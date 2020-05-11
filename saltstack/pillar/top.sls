@@ -40,3 +40,4 @@ base:
     - pws.secrets
     - pws.mail-redirect
     - pws.role-tmpramdisk
+    - pws.powerline-gitstatus

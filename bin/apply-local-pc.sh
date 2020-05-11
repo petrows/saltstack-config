@@ -5,4 +5,9 @@ if [[ -z "$1" ]]; then
     exit 1
 fi
 
-sudo salt-call --id="$1" --file-root salt --pillar-root pillar --local state.apply
+if [[ ! -d saltstack/salt ]]; then
+    echo "This script must be called from repo root"
+    exit 1
+fi
+
+sudo salt-call --id="$1" --file-root saltstack/salt --pillar-root saltstack/pillar --local state.apply
