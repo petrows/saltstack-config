@@ -1,6 +1,7 @@
 linux-base-packages:
   pkg.installed:
     - pkgs:
+      - ack
       - htop
       - strace
       - vim

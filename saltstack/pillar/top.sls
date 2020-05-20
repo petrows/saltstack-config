@@ -24,6 +24,8 @@ base:
   'pws-system*':
     - pws.system
     - pws.user-master
+  'pws-fabian*':
+    - pws.user-master
   'pws-system-dev':
     - pws.system-dev
   'pws-web-vm*':
