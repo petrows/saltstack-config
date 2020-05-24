@@ -11,6 +11,8 @@ services:
       - mediawiki-db
     volumes:
       - /opt/wiki/images:/var/www/html/images
+      # Extensions
+      - /opt/wiki/extensions/TinyMCE:/var/www/html/extensions/TinyMCE
       # PHP config
       - /opt/wiki/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
       # After initial setup, download LocalSettings.php to the same directory as

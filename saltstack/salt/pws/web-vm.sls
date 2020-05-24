@@ -41,6 +41,21 @@ wiki-dir-images:
     - group:  root
     - mode:  777
 
+wiki-dir-extensions:
+  file.directory:
+    - name:  /opt/wiki/extensions
+    - user:  root
+    - group:  root
+    - mode:  644
+
+wiki-ext-tinyMCE:
+  git.latest:
+    - user: root
+    - name: https://gerrit.wikimedia.org/r/mediawiki/extensions/TinyMCE.git
+    - target: /opt/wiki/extensions/TinyMCE
+    - force_fetch: True
+    - force_reset: True
+
 wiki-dir-mysql:
   file.directory:
     - name:  /opt/wiki/mysql
