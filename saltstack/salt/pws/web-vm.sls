@@ -57,6 +57,15 @@ wiki-compose:
     - group: root
     - mode: 644
 
+wiki-upload-config:
+  file.managed:
+    - name: /opt/wiki/uploads.ini
+    - source: salt://files/pws-web-vm/wiki/uploads.ini
+    - template: jinja
+    - user: root
+    - group: root
+    - mode: 644
+
 compose-wiki.service:
   file.managed:
     - name: /etc/systemd/system/compose-wiki.service
@@ -69,5 +78,5 @@ compose-wiki.service:
   service.running:
     - enable: True
     - watch:
-      - file: /opt/wiki/docker-compose.yml
+      - file: /opt/wiki/*
 
