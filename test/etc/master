@@ -1,0 +1,4 @@
+# Test env config
+
+# Auto accept keys
+auto_accept: True
