@@ -9,7 +9,7 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   os_u18 = "bento/ubuntu-18.04"
-  os_u20 = "generic/ubuntu2004"
+  os_u20 = "bento/ubuntu-20.04"
   os_ram = 2048
   net_ip = "10.99.99"
   net_dns_ip = "10.99.99.1,10.99.99.254"
