@@ -1,6 +1,6 @@
 domain: web-vm.pws
 check_mk_plugins:
-  nginx_status: {}
+  - nginx_status
 roles:
-  docker: {}
-  nginx: {}
+  - docker
+  - nginx

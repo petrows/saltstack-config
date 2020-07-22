@@ -1,5 +1,4 @@
 check_mk_plugins:
-  smart: {}
-  lvm: {}
-  apcaccess: {}
-
+  - smart
+  - lvm
+  - apcaccess

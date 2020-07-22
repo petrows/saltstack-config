@@ -1,2 +1,2 @@
 roles:
-  tmp-ramdisk: {}
+  - tmp-ramdisk

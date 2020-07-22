@@ -1,14 +1,4 @@
 
-# Web data mount
-web-nfs:
-  mount.mounted:
-    - name: /srv/web
-    - device: pve.pws:/srv/hdd2/web
-    - fstype: nfs
-    - mkmnt: True
-    - opts:
-      - defaults
-
 wiki-nginx:
   file.managed:
     - name: /etc/nginx/conf.d/wiki.conf

@@ -4,3 +4,4 @@ pws_secrets:
     port: 587
     username: 'test@example.com'
     password: 'testpassword'
+  db_password: ''

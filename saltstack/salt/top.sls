@@ -4,6 +4,9 @@ base:
   'pws-*':
     - common.monitoring
     - common.users
+  'roles:mounts':
+    - match: pillar
+    - roles.mounts
   'roles:tmp-ramdisk':
     - match: pillar
     - common.tmp-ramdisk

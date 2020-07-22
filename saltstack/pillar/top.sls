@@ -31,6 +31,8 @@ base:
   'pws-web-vm*':
     - pws.web-vm
     - pws.user-www
+  'pws-web-vm':
+    - pws.web-vm-prod
   'pws-backup*':
     - pws.user-master
 

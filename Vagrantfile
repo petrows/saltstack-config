@@ -75,7 +75,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         salt.install_type = "stable"
         salt.verbose = true
         salt.colorize = true
-        salt.bootstrap_options = "-x python38 -P -c /tmp -A #{net_ip}.10 -i #{vmname}"
+        salt.bootstrap_options = "-x python3 -P -c /tmp -A #{net_ip}.10 -i #{vmname}"
       end
     end
   end
@@ -96,6 +96,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     local_config.vm.synced_folder ".", "/srv/salt"
 
     local_config.vm.provision :salt do |salt|
+      salt.install_type = "stable"
       salt.masterless = true
       salt.verbose = true
       salt.colorize = true
