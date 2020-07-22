@@ -1,6 +1,7 @@
 base:
   '*':
     - default
+    - users.uids
 
 # All PWS servers should have at least advanced config for root
   'pws-*':
@@ -11,7 +12,7 @@ base:
 # Redirect local email to mine
     - pws.mail-redirect
 # Mount /tmp into RAM
-    - pws.role-tmpramdisk
+    - common.tmp-ramdisk
 
 # All dev servers should have virtual user config
   '*-dev':
@@ -23,9 +24,9 @@ base:
     - pws.powerline-gitstatus
   'pws-system*':
     - pws.system
-    - pws.user-master
+    - users.master
   'pws-fabian*':
-    - pws.user-master
+    - users.master
   'pws-system-dev':
     - pws.system-dev
   'pws-web-vm*':
@@ -34,7 +35,10 @@ base:
   'pws-web-vm':
     - pws.web-vm-prod
   'pws-backup*':
-    - pws.user-master
+    - users.master
+  'pws-home-dev':
+    - users.master
+    - services.openhab
 
 # Local PC config
   'petro-pc':

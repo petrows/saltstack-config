@@ -39,6 +39,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       salt.minion_key = "test/keys/master_minion.pem"
       salt.minion_pub = "test/keys/master_minion.pub"
       salt.install_type = "stable"
+      salt.version = "3001"
       salt.install_master = true
       salt.no_minion = true
       salt.verbose = true
@@ -56,6 +57,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ["pws-web-vm-dev", "#{net_ip}.14", os_ram, "debian/buster64"],
     ["pws-backup-dev", "#{net_ip}.15", os_ram, os_u18],
     ["pws-u20-dev", "#{net_ip}.16", os_ram, os_u20],
+    ["pws-home-dev", "#{net_ip}.17", os_ram, os_u20],
   ].each do |vmname, ip, mem, os|
     config.vm.define "#{vmname}" do |minion_config|
       minion_config.vm.provider "virtualbox" do |vb|
@@ -73,6 +75,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       minion_config.vm.provision :salt do |salt|
         salt.install_type = "stable"
+        salt.version = "3001"
         salt.verbose = true
         salt.colorize = true
         salt.bootstrap_options = "-x python3 -P -c /tmp -A #{net_ip}.10 -i #{vmname}"
@@ -97,6 +100,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     local_config.vm.provision :salt do |salt|
       salt.install_type = "stable"
+      salt.version = "3001"
       salt.masterless = true
       salt.verbose = true
       salt.colorize = true

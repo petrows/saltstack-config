@@ -16,6 +16,9 @@ base:
   'roles:nginx':
     - match: pillar
     - common.nginx
+  'roles:openhab':
+    - match: pillar
+    - services.openhab
   'pws-system*':
     - pws.system
     - common.mail-relay
