@@ -1,14 +1,14 @@
 base:
   '*':
     - default
-    - users.uids
-
-# All PWS servers should have at least advanced config for root
-  'pws-*':
-    - pws.user-root
 # Password management
     - pws.secrets-default
+{% if salt['pillar.file_exists']('pws/secrets.sls') %}
     - pws.secrets
+{% endif %}
+# All PWS servers should have at least advanced config for root
+  'pws-*':
+    - users.root
 # Redirect local email to mine
     - pws.mail-redirect
 # Mount /tmp into RAM
@@ -16,7 +16,7 @@ base:
 
 # All dev servers should have virtual user config
   '*-dev':
-    - pws.user-vagrant
+    - users.vagrant
 
 # Separate hosts config
   'pws-pve*':
@@ -31,7 +31,7 @@ base:
     - pws.system-dev
   'pws-web-vm*':
     - pws.web-vm
-    - pws.user-www
+    - users.www
   'pws-web-vm':
     - pws.web-vm-prod
   'pws-backup*':
@@ -42,8 +42,8 @@ base:
 
 # Local PC config
   'petro-pc':
-    - pws.user-root
-    - pws.user-petro
+    - users.root
+    - users.petro
     - pws.secrets-default
     - pws.secrets
     - pws.mail-redirect

@@ -7,6 +7,11 @@
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
+def cpu_count
+  require "etc"
+  Etc.nprocessors
+end
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   os_u18 = "bento/ubuntu-18.04"
   os_u20 = "bento/ubuntu-20.04"
@@ -20,7 +25,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define :master, primary: true do |master_config|
     master_config.vm.provider "virtualbox" do |vb|
       vb.memory = "2048"
-      vb.cpus = 4
+      vb.cpus = cpu_count / 2
       vb.name = "master"
     end
 
@@ -62,7 +67,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.define "#{vmname}" do |minion_config|
       minion_config.vm.provider "virtualbox" do |vb|
         vb.memory = "#{mem}"
-        vb.cpus = 4
+        vb.cpus = cpu_count / 2
         vb.name = "#{vmname}"
       end
 
@@ -89,7 +94,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "salt-local" do |local_config|
     local_config.vm.provider "virtualbox" do |vb|
       vb.memory = "2048"
-      vb.cpus = 4
+      vb.cpus = cpu_count / 2
       vb.name = "local-salt"
     end
 

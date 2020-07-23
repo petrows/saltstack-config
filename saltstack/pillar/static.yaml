@@ -1,0 +1,9 @@
+# Common static values registry, to be used both in pillar and sls
+
+# Common uids repository
+uids:
+  master: 2017
+
+# Services proxy ports
+proxy_ports:
+  openhab_http: 8001

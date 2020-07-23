@@ -12,8 +12,8 @@ openhab-dir-{{ dir }}:
   file.directory:
     - name:  {{ dir }}
     - makedirs: True
-    - user:  {{ pillar.uids.master }}
-    - group:  {{ pillar.uids.master }}
+    - user:  {{ pillar.static.uids.master }}
+    - group:  {{ pillar.static.uids.master }}
     - mode:  755
 {% endfor %}
 
