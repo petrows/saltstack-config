@@ -20,6 +20,9 @@ git_config:
   alias.pb: git push --set-upstream origin HEAD
   alias.pf: git push --force
 
+nginx:
+  dhparam: False
+
 # Export static registry as pillar to be used in SLS
 {% import_yaml 'static.yaml' as static %}
 static: {{ static|yaml }}

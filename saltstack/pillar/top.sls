@@ -32,6 +32,7 @@ base:
   'pws-web-vm*':
     - pws.web-vm
     - users.www
+    - services.wiki
   'pws-web-vm':
     - pws.web-vm-prod
   'pws-backup*':

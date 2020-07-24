@@ -1,19 +1,3 @@
-
-wiki-nginx:
-  file.managed:
-    - name: /etc/nginx/conf.d/wiki.conf
-    - source: salt://files/docker-compose/proxy.conf
-    - template: jinja
-    - user: root
-    - group: root
-    - mode: 644
-    # Virtual host config:
-    - config_name: wiki
-    - port: 7003
-    - domain:
-        - wiki.petro.ws
-        - wiki.web-vm.pws
-
 # WikiMedia
 
 wiki-rootdir:

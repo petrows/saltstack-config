@@ -2,6 +2,7 @@
 
 roles:
   - docker
+  - nginx
   - wiki
 
 wiki:
@@ -13,6 +14,7 @@ wiki:
 
 proxy_vhosts:
   wiki:
-    domain: wiki.petro.ws
+    domain: wiki-dev.local.pws
     port: {{ static.proxy_ports.wiki_http }}
-    ssl: external
+    ssl: internal
+    ssl_name: local
