@@ -17,6 +17,46 @@ nginx-config-dummy:
     - name: /etc/nginx/conf.d/empty.saltstack
     - contents: ''
 
+# Hosts config
+{%- for conf_id, conf in (salt['pillar.get']('proxy_vhosts', {})).items() %}
+
+# Prepare SSL config
+{% set ssl_type = conf['ssl']|default(None) %}
+{% set ssl_cert = None %}
+{% set ssl_key = None %}
+
+{% if ssl_type == 'external' %}
+  {% set ssl_cert = '/etc/letsencrypt/live/'+conf.domain+'/fullchain.pem' %}
+  {% set ssl_key = '/etc/letsencrypt/live/'+conf.domain+'/fullchain.pem' %}
+{% endif %}
+
+{% if ssl_type == 'internal' %}
+  {% set ssl_cert = '/etc/ssl/certs/pws-internal.pem' %}
+  {% set ssl_key = '/etc/ssl/certs/pws-internal.key' %}
+{% endif %}
+
+# Fallback
+{% if (ssl_cert and not salt['file.file_exists'](ssl_cert)) %}
+  {% set ssl_cert = '/etc/nginx/ssl-selfsigned.crt' %}
+  {% set ssl_key = '/etc/nginx/ssl-selfsigned.key' %}
+{% endif %}
+
+nginx-proxy-conf-{{ conf_id }}:
+  file.managed:
+    - name: /etc/nginx/conf.d/{{ conf_id }}.conf
+    - source: salt://files/nginx/nginx-proxy.conf
+    - template: jinja
+    - user: root
+    - group: root
+    - mode: 644
+    - context:
+      conf_id: {{ conf_id }}
+      conf: {{ conf|yaml }}
+      ssl_type: {{ ssl_type }}
+      ssl_cert: {{ ssl_cert }}
+      ssl_key: {{ ssl_key }}
+{% endfor %}
+
 nginx-dh:
   cmd.run:
     - name: "openssl dhparam -out /etc/nginx/dhparam.pem 4096"

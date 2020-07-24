@@ -2,4 +2,4 @@
 users:
   www:
     home: /home/www
-    uid: {{ static.ids.www }}
+    uid: {{ static.uids.www }}

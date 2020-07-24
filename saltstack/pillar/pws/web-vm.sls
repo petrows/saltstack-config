@@ -4,3 +4,4 @@ check_mk_plugins:
 roles:
   - docker
   - nginx
+  - wiki

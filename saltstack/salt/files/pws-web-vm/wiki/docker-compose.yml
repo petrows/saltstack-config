@@ -6,7 +6,7 @@ services:
     image: mediawiki
     restart: always
     ports:
-      - 7003:80
+      - {{ pillar.static.proxy_ports.wiki_http }}:80
     links:
       - mediawiki-db
     volumes:

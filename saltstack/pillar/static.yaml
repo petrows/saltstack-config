@@ -3,7 +3,9 @@
 # Common uids repository
 uids:
   master: 2017
+  www: 2018
 
 # Services proxy ports
 proxy_ports:
-  openhab_http: 8001
+  wiki_http: 7001
+  openhab_http: 7002

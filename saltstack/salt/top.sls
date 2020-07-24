@@ -19,6 +19,9 @@ base:
   'roles:openhab':
     - match: pillar
     - services.openhab
+  'roles:wiki':
+    - match: pillar
+    - services.wiki
   'pws-system*':
     - pws.system
     - common.mail-relay
