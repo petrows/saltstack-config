@@ -48,5 +48,5 @@ base:
     - pws.secrets-default
     - pws.secrets
     - pws.mail-redirect
-    - pws.role-tmpramdisk
     - pws.powerline-gitstatus
+    - common.tmp-ramdisk

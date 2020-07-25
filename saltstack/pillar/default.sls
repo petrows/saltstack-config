@@ -17,8 +17,8 @@ git_config:
   alias.s: status --short
   alias.checkout-pr: "!f() { git fetch origin pull/$1/head:pr-$1 && git checkout pr-$1; }; f"
   alias.ch: "!f() { git fetch; git checkout -f --recursive-submodules $1; }; f"
-  alias.pb: git push --set-upstream origin HEAD
-  alias.pf: git push --force
+  alias.pb: push --set-upstream origin HEAD
+  alias.pf: push --force
 
 nginx:
   dhparam: False
