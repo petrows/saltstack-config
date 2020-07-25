@@ -13,6 +13,7 @@ pws_secrets:
     from: mail
     from_domain: example.com
   db_password: test-password
+
   # Local cert for testing, signed for *.local.pws
   ssl_pws_local:
     crt: |

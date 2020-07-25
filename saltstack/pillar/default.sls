@@ -7,6 +7,7 @@ powerline_git_pkg: ''
 # If check-mk used, we can install additional plugins to monitor it
 check_mk_plugins: {}
 
+# Values to ge set as git config for all users passed in 'users' role
 git_config:
   core.whitespace: fix, trailing-space
   color.ui: auto
@@ -19,7 +20,15 @@ git_config:
   alias.ch: "!f() { git fetch; git checkout -f --recursive-submodules $1; }; f"
   alias.pb: push --set-upstream origin HEAD
   alias.pf: push --force
+  alias.d: diff
+  alias.dh: diff HEAD
+  alias.ds: diff --cached
+  alias.wdiff: diff --color-words --ignore-all-space
+  alias.co: checkout
+  alias.unstage: reset HEAD
+  alias.undo: checkout --
 
+# Force generate new dhparm keys for Nginx (required for external servers)
 nginx:
   dhparam: False
 

@@ -22,32 +22,45 @@ base:
   'pws-pve*':
     - pws.pve
     - pws.powerline-gitstatus
+
   'pws-system*':
+    - common.mail-relay
     - pws.system
-    - users.master
-  'pws-fabian*':
     - users.master
   'pws-system-dev':
     - pws.system-dev
+
+  'pws-fabian*':
+    - common.mail-relay
+    - users.master
+
   'pws-web-vm*':
+    - common.mail-relay
     - pws.web-vm
     - users.www
     - services.wiki
     - services.nextcloud
+
   'pws-web-vm':
+    - services.wiki-prod
+    - services.cloud-prod
     - pws.web-vm-prod
+
   'pws-backup*':
+    - common.mail-relay
     - users.master
+
   'pws-home-dev':
     - users.master
     - services.openhab
 
 # Local PC config
   'petro-pc':
+    - common.tmp-ramdisk
+    - common.mail-relay
     - users.root
     - users.petro
     - pws.secrets-default
     - pws.secrets
     - pws.mail-redirect
     - pws.powerline-gitstatus
-    - common.tmp-ramdisk

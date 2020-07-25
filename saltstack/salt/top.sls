@@ -1,15 +1,21 @@
 base:
+
   '*':
     - common
+
   'pws-*':
     - common.monitoring
     - common.users
+
   'roles:mounts':
     - match: pillar
     - roles.mounts
   'roles:tmp-ramdisk':
     - match: pillar
     - common.tmp-ramdisk
+  'roles:mail-relay':
+    - match: pillar
+    - common.mail-relay
   'roles:docker':
     - match: pillar
     - common.docker
@@ -25,15 +31,16 @@ base:
   'roles:nextcloud':
     - match: pillar
     - services.nextcloud
+
+  'pws-pve*':
+    - pws.pve
+
   'pws-system*':
     - pws.system
-    - common.mail-relay
-  'pws-web-vm*':
-    - pws.web-vm
-    - common.mail-relay
+
   'pws-backup*':
     - pws.backup
-    - common.mail-relay
+
+# Local host config
   'petro-pc':
     - common.users
-    - common.mail-relay

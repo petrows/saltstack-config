@@ -2,3 +2,6 @@
 
 # Auto accept keys
 auto_accept: True
+
+# Merge lsist (roles)
+pillar_merge_lists: True

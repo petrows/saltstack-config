@@ -3,6 +3,15 @@ system_packages:
     - pkgs:
       - docker-compose
 
+system-salt-masterconf:
+  file.managed:
+    - name: /etc/salt/master
+    - source: salt://files/pws-system/salt-master.yml
+    - template: jinja
+    - user: root
+    - group: root
+    - mode: 644
+
 system_proxy_conf:
   file.managed:
     - name: /etc/nginx/conf.d/proxy.conf
