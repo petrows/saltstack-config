@@ -33,6 +33,7 @@ base:
     - pws.web-vm
     - users.www
     - services.wiki
+    - services.nextcloud
   'pws-web-vm':
     - pws.web-vm-prod
   'pws-backup*':

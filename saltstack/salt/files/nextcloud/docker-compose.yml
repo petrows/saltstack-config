@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+  app:
+    image: nextcloud:{{ pillar.nextcloud.version }}
+    ports:
+      - {{ pillar.static.proxy_ports.nextcloud_http }}:80
+    links:
+      - db
+    volumes:
+      - /opt/nextcloud-data/data:/var/www/html
+    restart: always
+    environment:
+      NEXTCLOUD_TRUSTED_DOMAINS: {{ pillar.proxy_vhosts.nextcloud.domain }}
+      TRUSTED_PROXIES: 172.0.0.0/8
+      SMTP_HOST: {{ pillar.pws_secrets.mail_marinakopf.host }}
+      SMTP_PORT: {{ pillar.pws_secrets.mail_marinakopf.port }}
+      SMTP_SECURE: {{ pillar.pws_secrets.mail_marinakopf.secure }}
+      SMTP_NAME: {{ pillar.pws_secrets.mail_marinakopf.username }}
+      SMTP_PASSWORD: {{ pillar.pws_secrets.mail_marinakopf.password }}
+      MAIL_FROM_ADDRESS: {{ pillar.pws_secrets.mail_marinakopf.from }}
+      MAIL_DOMAIN: {{ pillar.pws_secrets.mail_marinakopf.from_domain }}
+  db:
+    image: mariadb:{{ pillar.nextcloud.version_db }}
+    restart: always
+    volumes:
+      - /opt/nextcloud-data/db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: nextcloud
+      MYSQL_PASSWORD: {{ pillar['pws_secrets']['db_password'] }}
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+

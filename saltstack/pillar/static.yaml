@@ -2,10 +2,12 @@
 
 # Common uids repository
 uids:
+  www-data: 33
   master: 2017
   www: 2018
 
 # Services proxy ports
 proxy_ports:
-  wiki_http: 7001
-  openhab_http: 7002
+  wiki_http:        7001
+  openhab_http:     7002
+  nextcloud_http:   7003
