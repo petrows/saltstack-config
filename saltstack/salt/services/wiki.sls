@@ -40,7 +40,7 @@ wiki-dir-mysql:
 wiki-compose:
   file.managed:
     - name: /opt/wiki/docker-compose.yml
-    - source: salt://files/pws-web-vm/wiki/docker-compose.yml
+    - source: salt://files/wiki/docker-compose.yml
     - template: jinja
     - user: root
     - group: root
@@ -49,7 +49,7 @@ wiki-compose:
 wiki-upload-config:
   file.managed:
     - name: /opt/wiki/uploads.ini
-    - source: salt://files/pws-web-vm/wiki/uploads.ini
+    - source: salt://files/wiki/uploads.ini
     - template: jinja
     - user: root
     - group: root
@@ -68,4 +68,3 @@ compose-wiki.service:
     - enable: True
     - watch:
       - file: /opt/wiki/*
-

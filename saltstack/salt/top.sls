@@ -22,6 +22,9 @@ base:
   'roles:wiki':
     - match: pillar
     - services.wiki
+  'roles:nextcloud':
+    - match: pillar
+    - services.nextcloud
   'pws-system*':
     - pws.system
     - common.mail-relay

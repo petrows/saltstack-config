@@ -2,13 +2,13 @@
 version: '2'
 
 services:
-  mediawiki:
+  app:
     image: mediawiki
     restart: always
     ports:
       - {{ pillar.static.proxy_ports.wiki_http }}:80
     links:
-      - mediawiki-db
+      - db
     volumes:
       - /opt/wiki/images:/var/www/html/images
       # Extensions
@@ -21,8 +21,8 @@ services:
       {% if salt['file.file_exists']('/opt/wiki/LocalSettings.php') %}
       - /opt/wiki/LocalSettings.php:/var/www/html/LocalSettings.php
       {% endif %}
-  mediawiki-db:
-    image: mariadb
+  db:
+    image: mariadb:10.4
     restart: always
     volumes:
       - /opt/wiki/mysql:/var/lib/mysql

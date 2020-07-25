@@ -1,10 +1,18 @@
 pws_secrets:
   mail_relay:
-    host: 'smtp.example.com'
+    host: smtp.example.com
     port: 587
-    username: 'test@example.com'
-    password: 'testpassword'
-  db_password: ''
+    username: test@example.com
+    password: testpassword
+  mail_marinakopf:
+    host: smtp.example.com
+    port: 465
+    secure: ssl
+    username: test@example.com
+    password: testpassword
+    from: mail
+    from_domain: example.com
+  db_password: test-password
   # Local cert for testing, signed for *.local.pws
   ssl_pws_local:
     crt: |
