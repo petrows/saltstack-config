@@ -8,9 +8,9 @@ roles:
 wiki:
   version: 1.34.1
   dirs:
-    - /opt/wiki/images
-    - /opt/wiki/extensions
-    - /opt/wiki/uploads
+    - /opt/wiki-data/images
+    - /opt/wiki-data/extensions
+    - /opt/wiki-data/uploads
 
 proxy_vhosts:
   wiki:

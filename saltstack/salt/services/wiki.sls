@@ -8,25 +8,21 @@ wiki-rootdir:
     - group:  root
     - mode:  755
 
-wiki-dir-images:
+{% for dir in pillar.get('wiki:dirs', []) %}
+wiki-dir-{{ dir }}:
   file.directory:
-    - name:  /opt/wiki/images
-    - user:  root
-    - group:  root
-    - mode:  777
-
-wiki-dir-extensions:
-  file.directory:
-    - name:  /opt/wiki/extensions
-    - user:  root
-    - group:  root
-    - mode:  644
+    - name:  {{ dir }}
+    - makedirs: True
+    - user:  {{ pillar.static.uids.www-data }}
+    - group:  {{ pillar.static.uids.www-data }}
+    - mode:  755
+{% endfor %}
 
 wiki-ext-tinyMCE:
   git.latest:
     - user: root
     - name: https://gerrit.wikimedia.org/r/mediawiki/extensions/TinyMCE.git
-    - target: /opt/wiki/extensions/TinyMCE
+    - target: /opt/wiki-data/extensions/TinyMCE
     - force_fetch: True
     - force_reset: True
 
@@ -48,16 +44,16 @@ wiki-compose:
 
 wiki-upload-config:
   file.managed:
-    - name: /opt/wiki/uploads.ini
+    - name: /opt/wiki-data/uploads.ini
     - source: salt://files/wiki/uploads.ini
     - template: jinja
     - user: root
     - group: root
     - mode: 644
 
-compose-wiki.service:
+wiki.service:
   file.managed:
-    - name: /etc/systemd/system/compose-wiki.service
+    - name: /etc/systemd/system/wiki.service
     - source: salt://files/docker-compose/systemd.service
     - template: jinja
     - user: root

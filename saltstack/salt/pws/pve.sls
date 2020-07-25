@@ -1,6 +1,6 @@
 
 # Common folders
-system_cmk_rootdir:
+pve-export-web:
   file.directory:
     - name:  /srv/hdd2/web
     - user:  1000
