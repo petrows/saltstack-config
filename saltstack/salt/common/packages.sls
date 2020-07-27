@@ -22,8 +22,7 @@ linux-autoupgrade-packages:
       - unattended-upgrades
 
 {% for pkg in pillar.get('packages', []) %}
-linux-add-package-{{pkg}}:
+linux-add-package-{{ pkg }}:
   pkg.installed:
-    - pkgs:
-      - {{ pkg }}
+    - name: {{ pkg }}
 {% endfor %}

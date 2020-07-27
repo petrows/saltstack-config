@@ -17,6 +17,11 @@ nginx-config-dummy:
     - name: /etc/nginx/conf.d/empty.saltstack
     - contents: ''
 
+nginx-ssl-dummy:
+  file.managed:
+    - name: /etc/ssl/certs/empty.saltstack
+    - contents: ''
+
 # Hosts config
 {%- for conf_id, conf in (salt['pillar.get']('proxy_vhosts', {})).items() %}
 
