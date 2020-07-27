@@ -24,5 +24,6 @@ linux-autoupgrade-packages:
 {% for pkg in pillar.get('packages', []) %}
 linux-add-package-{{pkg}}:
   pkg.installed:
-    - {{ pkg }}
+    - pkgs:
+      - {{ pkg }}
 {% endfor %}
