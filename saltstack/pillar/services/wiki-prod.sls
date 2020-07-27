@@ -1,3 +1,5 @@
+{% import_yaml 'static.yaml' as static %}
+
 proxy_vhosts:
   wiki:
     domain: wiki.petro.ws

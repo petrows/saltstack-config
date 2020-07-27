@@ -43,7 +43,7 @@ base:
 
   'pws-web-vm':
     - services.wiki-prod
-    - services.cloud-prod
+    - services.nextcloud-prod
     - pws.web-vm-prod
 
   'pws-backup*':
