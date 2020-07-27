@@ -1,6 +1,9 @@
 roles:
   - mounts
 
+packages:
+  - mount.cifs
+
 mounts:
   nextcloud-data:
     name: /opt/nextcloud-data

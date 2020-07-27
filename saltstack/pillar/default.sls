@@ -1,5 +1,8 @@
 # Default pillar values
 
+# Additional software
+packages: []
+
 # Use 'powerline.segments.common.vcs.branch' for old systems
 powerline_git_plugin: 'powerline.segments.common.vcs.branch'
 powerline_git_pkg: ''
