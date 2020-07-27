@@ -4,7 +4,7 @@ check_mk_plugins:
   - nginx_status
 
 packages:
-  - cifs-utils
+  - nfs-common
 
 roles:
   - docker
