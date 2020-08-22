@@ -13,6 +13,8 @@ base:
     - pws.mail-redirect
 # Mount /tmp into RAM
     - common.tmp-ramdisk
+# Generic server role
+    - common.server
 
 # All dev servers should have virtual user config
   '*-dev':

@@ -1,0 +1,10 @@
+[Unit]
+Description=Auto update salt-minion
+
+[Timer]
+Unit=salt-minion-update.service
+OnBootSec=15min
+OnUnitActiveSec=1w
+
+[Install]
+WantedBy=timers.target

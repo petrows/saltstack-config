@@ -7,6 +7,9 @@ base:
     - common.monitoring
     - common.users
 
+  'roles:server':
+    - match: pillar
+    - roles.server
   'roles:mounts':
     - match: pillar
     - roles.mounts

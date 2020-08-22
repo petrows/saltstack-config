@@ -1,0 +1,2 @@
+roles:
+  - server
