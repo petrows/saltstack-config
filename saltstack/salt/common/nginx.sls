@@ -12,6 +12,10 @@ nginx:
     - required:
       - pkg: nginx
 
+nginx-clean-configs:
+  file.absent:
+    - name: /etc/nginx/sites-enabled/default
+
 nginx-config-dummy:
   file.managed:
     - name: /etc/nginx/conf.d/empty.saltstack
