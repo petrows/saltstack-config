@@ -5,11 +5,9 @@ roles:
   - nginx
   - gitlab
 
-jenkins:
-  version: 2.235.5
+gitlab:
+  version: 12.1.3-ce.0
   data_dir: /srv/gitlab-data
-  dirs:
-    - /srv/gitlab-data
 
 proxy_vhosts:
   gitlab:

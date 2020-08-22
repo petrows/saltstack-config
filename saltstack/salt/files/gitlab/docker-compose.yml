@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  app:
+    image: gitlab/gitlab-ce:{{ pillar.gitlab.version }}
+    ports:
+      - '{{ pillar.static.proxy_ports.gitlab_http }}:80'
+      - '{{ pillar.static.proxy_ports.gitlab_ssh }}:22'
+    volumes:
+      - {{ pillar.gitlab.data_dir }}/data:/var/opt/gitlab
+      - {{ pillar.gitlab.data_dir }}/logs:/var/log/gitlab
+      - {{ pillar.gitlab.data_dir }}/config:/etc/gitlab
+    restart: always

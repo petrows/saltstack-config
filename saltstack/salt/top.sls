@@ -37,6 +37,9 @@ base:
   'roles:jenkins':
     - match: pillar
     - services.jenkins
+  'roles:gitlab':
+    - match: pillar
+    - services.gitlab
 
   'pws-pve*':
     - pws.pve

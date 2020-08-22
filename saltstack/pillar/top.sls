@@ -43,11 +43,13 @@ base:
     - services.wiki
     - services.nextcloud
     - services.jenkins
+    - services.gitlab
 
   'pws-web-vm':
     - services.wiki-prod
     - services.nextcloud-prod
     - services.jenkins-prod
+    - services.gitlab-prod
     - pws.web-vm-prod
 
   'pws-backup*':
