@@ -8,7 +8,7 @@ services:
     links:
       - db
     volumes:
-      - /opt/nextcloud-data/data:/var/www/html
+      - {{ pillar.nextcloud.data_dir }}/data:/var/www/html
     restart: always
     environment:
       NEXTCLOUD_TRUSTED_DOMAINS: {{ pillar.proxy_vhosts.nextcloud.domain }}
@@ -24,7 +24,7 @@ services:
     image: mariadb:{{ pillar.nextcloud.version_db }}
     restart: always
     volumes:
-      - /opt/nextcloud-data/db:/var/lib/mysql
+      - {{ pillar.nextcloud.data_dir }}/db:/var/lib/mysql
     environment:
       MYSQL_DATABASE: nextcloud
       MYSQL_USER: nextcloud

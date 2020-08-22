@@ -20,12 +20,12 @@ fish_git_packages:
 {% endif %}
 
 # Loop over allowed users on this server
-
-{% for user_id, user in pillar.get('users', {}).items() %}
+{% for user_id, user in salt.pillar.get('users', {}).items() %}
 user_{{user_id}}_group:
   group.present:
     - name: {{ user_id }}
     - gid: {{ user.uid }}
+
 user_{{user_id}}_config:
   user.present:
     - name: {{ user_id }}
@@ -42,8 +42,15 @@ user_{{user_id}}_fish_local:
         touch {{ user.home }}/.profile_local.fish
     - creates: {{ user.home }}/.profile_local.fish
 
-# Powerline
+# SSH access
+{% for ssh_key in salt.pillar.get('ssh:keys', []) %}
+user_{{user_id}}_ssh_{{ ssh_key }}:
+  ssh_auth.present:
+    - user: {{ user_id }}
+    - name: {{ ssh_key }}
+{% endfor %}
 
+# Powerline
 user_{{user_id}}_fish_profile:
   file.managed:
     - name: {{user.home}}/.profile_common.fish
@@ -59,6 +66,16 @@ user_{{user_id}}_fish_powerline:
     - template: jinja
     - user: {{user_id}}
     - group: {{user_id}}
+
+{% if not salt['file.file_exists'](user.home + '/.config/fish/fish_variables') %}
+user_{{user_id}}_fish_vars_config:
+  file.managed:
+    - name: {{user.home}}/.config/fish/fish_variables
+    - source: salt://files/linux-config/fish_variables
+    - makedirs: True
+    - user: {{user_id}}
+    - group: {{user_id}}
+{% endif %}
 
 # FZF install
 user_{{user_id}}_fzf_src:
@@ -111,7 +128,7 @@ user_{{user_id}}_vim_plug:
 
 # Git configuration
 
-{% for config_key, config_value in pillar.get('git_config', {}).items() %}
+{% for config_key, config_value in salt.pillar.get('git_config', {}).items() %}
 user_{{user_id}}_git_{{config_key}}:
   git.config_set:
     - name: {{config_key}}

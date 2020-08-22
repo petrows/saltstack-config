@@ -3,29 +3,29 @@ version: '2'
 
 services:
   app:
-    image: mediawiki
+    image: mediawiki:{{ pillar.wiki.version }}
     restart: always
     ports:
       - {{ pillar.static.proxy_ports.wiki_http }}:80
     links:
       - db
     volumes:
-      - /opt/wiki-data/images:/var/www/html/images
+      - {{ pillar.wiki.data_dir }}/images:/var/www/html/images
       # Extensions
-      - /opt/wiki-data/extensions/TinyMCE:/var/www/html/extensions/TinyMCE
+      - {{ pillar.wiki.data_dir }}/extensions/TinyMCE:/var/www/html/extensions/TinyMCE
       # PHP config
-      - /opt/wiki-data/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
+      - {{ pillar.wiki.data_dir }}/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
       # After initial setup, download LocalSettings.php to the same directory as
       # this yaml and uncomment the following line and use compose to restart
       # the mediawiki service
-      {% if salt['file.file_exists']('/opt/wiki/LocalSettings.php') %}
-      - /opt/wiki-data/LocalSettings.php:/var/www/html/LocalSettings.php
+      {% if salt['file.file_exists'](pillar.wiki.data_dir + '/LocalSettings.php') %}
+      - {{ pillar.wiki.data_dir }}/LocalSettings.php:/var/www/html/LocalSettings.php
       {% endif %}
   db:
-    image: mariadb:10.4
+    image: mariadb:{{ pillar.wiki.version_db }}
     restart: always
     volumes:
-      - /opt/wiki-data/mysql:/var/lib/mysql
+      - {{ pillar.wiki.data_dir }}/mysql:/var/lib/mysql
     environment:
       # @see https://phabricator.wikimedia.org/source/mediawiki/browse/master/includes/DefaultSettings.php
       MYSQL_DATABASE: wiki

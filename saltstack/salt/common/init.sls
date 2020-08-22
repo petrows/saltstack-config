@@ -21,6 +21,11 @@ default-timezone:
   timezone.system:
     - name: Europe/Berlin
 
+ban-packages:
+  pkg.purged:
+    - pkgs:
+      - cloud-init
+
 {% if salt.pillar.get('maintainer_email', '') != '' %}
 mail_alias_maintainer:
   file.managed:

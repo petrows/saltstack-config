@@ -10,6 +10,11 @@ powerline_git_pkg: ''
 # If check-mk used, we can install additional plugins to monitor it
 check_mk_plugins: {}
 
+# Docker-compose config
+docker_compose:
+  url: https://github.com/docker/compose/releases/download/1.26.2/docker-compose-Linux-x86_64
+  sha256: 13e50875393decdb047993c3c0192b0a3825613e6dfc0fa271efed4f5dbdd6eb
+
 # Values to ge set as git config for all users passed in 'users' role
 git_config:
   core.whitespace: fix, trailing-space
@@ -30,6 +35,11 @@ git_config:
   alias.co: checkout
   alias.unstage: reset HEAD
   alias.undo: checkout --
+
+# SSH keys for all users to be installed
+ssh:
+  keys:
+    - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCZdDx+dLw8B7cu/OQRMA+R/o1pnlGN7WSAsiN87Ek//lr8nHociMbNWFk/e6eCWUZnJiWuDQjmFUyt/Ri7RdDCffCMbu2g6xpLCVxL3x1FE0D8rYrXFkEPNspNz9hHHpEt3WeolJenUf45ppNBTcHkUyDpQd/iTCDmiiz6I6K34QbkyAhlCEWwmlKusn85XXZiwJXEMUcLTQnmH+T1LvbZnuog8WRIDarN1smV2Sr4qa4t6MdV9cD4RuQovZQvLjmbHz/Jxl+5o6vjuXXI8Myke3r4ykXstbezdE6cqrh83AyK7YYNEypGMRx4CXUKHHfKYi46IeRMvtF6HcsLCgSZ petro@petro.ws'
 
 # Force generate new dhparm keys for Nginx (required for external servers)
 nginx:

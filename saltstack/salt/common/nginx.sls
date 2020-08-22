@@ -23,7 +23,7 @@ nginx-ssl-dummy:
     - contents: ''
 
 # Hosts config
-{%- for conf_id, conf in (salt['pillar.get']('proxy_vhosts', {})).items() %}
+{%- for conf_id, conf in (salt.pillar.get('proxy_vhosts', {})).items() %}
 
 # Prepare SSL config
 {% set ssl_type = conf['ssl']|default(None) %}
@@ -32,7 +32,7 @@ nginx-ssl-dummy:
 
 {% if ssl_type == 'external' and salt['file.file_exists']('/etc/letsencrypt/live/'+conf.domain+'/fullchain.pem') %}
   {% set ssl_cert = '/etc/letsencrypt/live/'+conf.domain+'/fullchain.pem' %}
-  {% set ssl_key = '/etc/letsencrypt/live/'+conf.domain+'/fullchain.pem' %}
+  {% set ssl_key = '/etc/letsencrypt/live/'+conf.domain+'/privkey.pem' %}
 {% endif %} # / external
 
 {% if ssl_type == 'internal' %}
@@ -56,7 +56,7 @@ nginx-ssl-iternal-key-{{ conf_id }}:
 {% endif %} # / internal
 
 # Fallback
-{% if not ssl_type %}
+{% if not ssl_cert and ssl_type %}
   {% set ssl_cert = '/etc/ssl/certs/ssl-selfsigned.crt' %}
   {% set ssl_key = '/etc/ssl/certs/ssl-selfsigned.key' %}
 {% endif %}

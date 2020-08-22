@@ -11,3 +11,5 @@ proxy_ports:
   wiki_http:        7001
   openhab_http:     7002
   nextcloud_http:   7003
+  jenkins_http:     7004
+  jenkins_agent:    7005

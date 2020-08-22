@@ -2,10 +2,10 @@
 # Common folders
 pve-export-web:
   file.directory:
-    - name:  /srv/hdd2/web
-    - user:  1000
-    - group:  1000
-    - mode:  755
+    - name:  /srv/hdd2/web/nextcloud-data
+    - user:  {{ salt.pillar.get('static:uids:www-data') }}
+    - group:  {{ salt.pillar.get('static:uids:www-data') }}
+    - mode:  775
 
 # Export NFS folders
 pve-exports:

@@ -3,13 +3,8 @@ roles:
 
 mounts:
   nextcloud-data:
-    name: /opt/nextcloud-data
-    device: pve.pws:/srv/hdd2/web/nextcloud
-    type: nfs
-    opts: defaults
-  wiki-data:
-    name: /opt/wiki-data
-    device: pve.pws:/srv/hdd2/web/wiki
+    name: /srv/nextcloud-data/data
+    device: pve.pws:/srv/hdd2/web/nextcloud-data
     type: nfs
     opts: defaults
 

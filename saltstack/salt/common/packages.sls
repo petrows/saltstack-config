@@ -21,7 +21,7 @@ linux-autoupgrade-packages:
     - pkgs:
       - unattended-upgrades
 
-{% for pkg in pillar.get('packages', []) %}
+{% for pkg in salt.pillar.get('packages', []) %}
 linux-add-package-{{ pkg }}:
   pkg.installed:
     - name: {{ pkg }}

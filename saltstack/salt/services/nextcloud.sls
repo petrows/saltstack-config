@@ -7,13 +7,13 @@ nextcloud-rootdir:
     - group:  root
     - mode:  755
 
-{% for dir in pillar.get('nextcloud:dirs', []) %}
+{% for dir in salt.pillar.get('nextcloud:dirs', []) %}
 nextcloud-dir-{{ dir }}:
   file.directory:
     - name:  {{ dir }}
     - makedirs: True
-    - user:  {{ pillar.static.uids.www-data }}
-    - group:  {{ pillar.static.uids.www-data }}
+    - user:  {{ salt.pillar.get('static:uids:www-data') }}
+    - group:  {{ salt.pillar.get('static:uids:www-data') }}
     - mode:  755
 {% endfor %}
 

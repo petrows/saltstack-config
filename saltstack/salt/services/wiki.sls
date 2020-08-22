@@ -8,13 +8,13 @@ wiki-rootdir:
     - group:  root
     - mode:  755
 
-{% for dir in pillar.get('wiki:dirs', []) %}
+{% for dir in salt.pillar.get('wiki:dirs', []) %}
 wiki-dir-{{ dir }}:
   file.directory:
     - name:  {{ dir }}
     - makedirs: True
-    - user:  {{ pillar.static.uids.www-data }}
-    - group:  {{ pillar.static.uids.www-data }}
+    - user:  {{ salt.pillar.get('static:uids:www-data') }}
+    - group:  {{ salt.pillar.get('static:uids:www-data') }}
     - mode:  755
 {% endfor %}
 
@@ -22,13 +22,13 @@ wiki-ext-tinyMCE:
   git.latest:
     - user: root
     - name: https://gerrit.wikimedia.org/r/mediawiki/extensions/TinyMCE.git
-    - target: /opt/wiki-data/extensions/TinyMCE
+    - target: {{ pillar.wiki.data_dir }}/extensions/TinyMCE
     - force_fetch: True
     - force_reset: True
 
 wiki-dir-mysql:
   file.directory:
-    - name:  /opt/wiki/mysql
+    - name:  {{ pillar.wiki.data_dir }}/mysql
     - user:  999
     - group:  999
     - mode:  700
@@ -44,7 +44,7 @@ wiki-compose:
 
 wiki-upload-config:
   file.managed:
-    - name: /opt/wiki-data/uploads.ini
+    - name: {{ pillar.wiki.data_dir }}/uploads.ini
     - source: salt://files/wiki/uploads.ini
     - template: jinja
     - user: root

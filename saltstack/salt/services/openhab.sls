@@ -7,7 +7,7 @@ openhab-rootdir:
     - group:  root
     - mode:  755
 
-{% for dir in pillar.get('openhab:dirs', []) %}
+{% for dir in salt.pillar.get('openhab:dirs', []) %}
 openhab-dir-{{ dir }}:
   file.directory:
     - name:  {{ dir }}

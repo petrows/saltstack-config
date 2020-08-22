@@ -1,5 +1,5 @@
 # Server mounts
-{% for mount_id, mount in pillar.get('mounts', {}).items() %}
+{% for mount_id, mount in salt.pillar.get('mounts', {}).items() %}
 mounts-{{ mount_id }}:
   mount.mounted:
     - name: {{ mount.name }}

@@ -6,11 +6,12 @@ roles:
   - wiki
 
 wiki:
-  version: 1.34.1
+  version: 1.34.2
+  version_db: 10.4
+  data_dir: /srv/wiki-data
   dirs:
-    - /opt/wiki-data/images
-    - /opt/wiki-data/extensions
-    - /opt/wiki-data/uploads
+    - /srv/wiki-data/images
+    - /srv/wiki-data/extensions
 
 proxy_vhosts:
   wiki:

@@ -8,9 +8,10 @@ roles:
 nextcloud:
   version: 19.0.1-apache
   version_db: 10.5
+  data_dir: /srv/nextcloud-data
   dirs:
-    - /opt/nextcloud-data/data
-    - /opt/nextcloud-data/db
+    - /srv/nextcloud-data/data
+    - /srv/nextcloud-data/db
 
 proxy_vhosts:
   nextcloud:
