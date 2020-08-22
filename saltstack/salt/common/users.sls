@@ -6,11 +6,13 @@ fish_packages:
       - fish
       - powerline
 
+{% if grains['os'] != 'Raspbian' %}
 vim_packages:
   pkg.installed:
     - pkgs:
       - vim-nox
       - vim-youcompleteme
+{% endif %}
 
 {% if pillar['powerline_git_pkg'] %}
 fish_git_packages:
