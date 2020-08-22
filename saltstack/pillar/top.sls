@@ -22,10 +22,12 @@ base:
 
 # Separate hosts config
   'pws-pve*':
+    - common.server-dedicated
     - pws.pve
     - pws.powerline-gitstatus
 
   'pws-system*':
+    - common.server-dedicated
     - common.mail-relay
     - pws.system
     - users.master
@@ -36,7 +38,12 @@ base:
     - common.mail-relay
     - users.master
 
+  'pws-octoprint*':
+    - common.server-dedicated
+    - common.mail-relay
+
   'pws-web-vm*':
+    - common.server-dedicated
     - common.mail-relay
     - pws.web-vm
     - users.www
