@@ -31,6 +31,9 @@ base:
   'roles:nextcloud':
     - match: pillar
     - services.nextcloud
+  'roles:jenkins':
+    - match: pillar
+    - services.jenkins
 
   'pws-pve*':
     - pws.pve

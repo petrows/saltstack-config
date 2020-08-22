@@ -40,10 +40,12 @@ base:
     - users.www
     - services.wiki
     - services.nextcloud
+    - services.jenkins
 
   'pws-web-vm':
     - services.wiki-prod
     - services.nextcloud-prod
+    - services.jenkins-prod
     - pws.web-vm-prod
 
   'pws-backup*':

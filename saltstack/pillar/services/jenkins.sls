@@ -8,6 +8,8 @@ roles:
 jenkins:
   version: 2.204.2
   data_dir: /srv/jenkins-data
+  dirs:
+    - /srv/jenkins-data
   agent_port: {{ static.proxy_ports.jenkins_agent }}
 
 proxy_vhosts:
