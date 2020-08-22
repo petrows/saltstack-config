@@ -24,3 +24,13 @@ check_mk_plugin_nginx_status_cfg:
     - group: root
     - mode: 755
 {% endif %}
+
+{% if 'mk_logwatch' in salt.pillar.get('check_mk_plugins', []) %}
+check_mk_plugin_logwatch_cfg:
+  file.managed:
+    - name: /etc/check_mk/logwatch.cfg
+    - source: salt://files/check-mk/configs/logwatch.cfg
+    - user: root
+    - group: root
+    - mode: 755
+{% endif %}
