@@ -7,3 +7,5 @@ pillar_roots:
     - /opt/salt/saltstack/pillar
 
 pillar_merge_lists: True
+
+gather_job_timeout: 60
