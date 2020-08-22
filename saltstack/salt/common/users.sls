@@ -1,5 +1,16 @@
-# Required packages
+# Remove MOTD spam
+motd-news.service:
+  service.masked
+motd-news.timer:
+  service.masked
 
+{% for clean_file in [ '/etc/update-motd.d/10-help-text', '/etc/update-motd.d/50-motd-news', '/etc/default/motd-news' ] %}
+cleanup-files-{{ clean_file }}:
+  file.absent:
+    - name: {{ clean_file }}
+{% endfor %}
+
+# Required packages
 fish_packages:
   pkg.installed:
     - pkgs:
