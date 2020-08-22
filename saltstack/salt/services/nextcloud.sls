@@ -1,27 +1,27 @@
-
-nextcloud-rootdir:
-  file.directory:
-    - name:  /opt/nextcloud
-    - makedirs: True
-    - user:  root
-    - group:  root
-    - mode:  755
-
 {% for dir in salt.pillar.get('nextcloud:dirs', []) %}
 nextcloud-dir-{{ dir }}:
   file.directory:
-    - name:  {{ dir }}
+    - name: {{ dir }}
     - makedirs: True
-    - user:  {{ salt.pillar.get('static:uids:www-data') }}
-    - group:  {{ salt.pillar.get('static:uids:www-data') }}
-    - mode:  755
+    - user: {{ salt.pillar.get('static:uids:www-data') }}
+    - group: {{ salt.pillar.get('static:uids:www-data') }}
+    - mode: 755
 {% endfor %}
+
+nextcloud-dir-db:
+  file.directory:
+    - name: {{ pillar.nextcloud.data_dir }}/db
+    - makedirs: True
+    - user: 999
+    - group: 999
+    - mode: 755
 
 nextcloud-compose:
   file.managed:
     - name: /opt/nextcloud/docker-compose.yml
     - source: salt://files/nextcloud/docker-compose.yml
     - template: jinja
+    - makedirs: True
     - user: root
     - group: root
     - mode: 644
