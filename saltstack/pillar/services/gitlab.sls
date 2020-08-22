@@ -6,7 +6,9 @@ roles:
   - gitlab
 
 gitlab:
-  version: 12.1.3-ce.0
+  # IMPORTANT: https://docs.gitlab.com/ee/policy/maintenance.html#upgrade-recommendations
+  # Check background-imgrations: gitlab-rails runner -e production 'puts Gitlab::BackgroundMigration.remaining'
+  version: 13.3.0-ce.1
   data_dir: /srv/gitlab-data
 
 proxy_vhosts:

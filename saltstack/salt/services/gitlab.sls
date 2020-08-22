@@ -19,8 +19,8 @@ gitlab-dir-logs:
   file.directory:
     - name: {{ pillar.gitlab.data_dir }}/logs
     - makedirs: True
-    - user: 998
-    - group: 998
+    - user: root
+    - group: root
     - mode: 755
 
 gitlab-compose:
