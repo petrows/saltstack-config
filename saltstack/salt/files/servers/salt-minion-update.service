@@ -6,5 +6,5 @@ After=salt-minion.service
 [Service]
 Type=oneshot
 RemainAfterExit=no
-ExecStart=bash -c 'apt update && apt install -y salt-minion'
+ExecStart=/bin/bash -c 'apt update && apt install -y salt-minion'
 TimeoutStartSec=0
