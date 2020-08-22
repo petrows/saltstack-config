@@ -7,7 +7,7 @@ roles:
 
 wiki:
   version: 1.34.2
-  version_db: 10.4
+  version_db: 10.5
   data_dir: /srv/wiki-data
   dirs:
     - /srv/wiki-data/images
