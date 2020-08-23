@@ -7,3 +7,7 @@ proxy_vhosts:
     domain: stat.home.pws
     ssl: internal
     ssl_name: home
+  static:
+    domain: static.home.pws
+    ssl: internal
+    ssl_name: home

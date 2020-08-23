@@ -14,8 +14,14 @@ proxy_vhosts:
     ssl: internal
     ssl_name: local
   stats:
-    domain: stat-dev.local.pws
+    domain: home-stat-dev.local.pws
     port: 3000
+    ssl: internal
+    ssl_name: local
+  static:
+    domain: home-static-dev.local.pws
+    type: folder
+    root: /srv/static
     ssl: internal
     ssl_name: local
 

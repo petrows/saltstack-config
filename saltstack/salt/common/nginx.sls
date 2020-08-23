@@ -29,6 +29,9 @@ nginx-ssl-dummy:
 # Hosts config
 {%- for conf_id, conf in (salt.pillar.get('proxy_vhosts', {})).items() %}
 
+# Conf type
+{% set conf_type = conf['type']|default('proxy') %}
+
 # Prepare SSL config
 {% set ssl_type = conf['ssl']|default(None) %}
 {% set ssl_cert = None %}
@@ -68,13 +71,14 @@ nginx-ssl-iternal-key-{{ conf_id }}:
 nginx-proxy-conf-{{ conf_id }}:
   file.managed:
     - name: /etc/nginx/conf.d/{{ conf_id }}.conf
-    - source: salt://files/nginx/proxy.conf
+    - source: salt://files/nginx/vhost.conf
     - template: jinja
     - user: root
     - group: root
     - mode: 644
     - context:
       conf_id: {{ conf_id }}
+      conf_type: {{ conf_type }}
       conf: {{ conf|yaml }}
       ssl_type: {{ ssl_type }}
       ssl_cert: {{ ssl_cert }}

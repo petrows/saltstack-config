@@ -35,3 +35,11 @@ grafana-package:
 grafana-server.service:
   service.running:
     - enable: True
+
+# Static content folder
+openhab-static-content:
+  file.directory:
+    - name: /srv/static
+    - user: openhab
+    - group: openhab
+    - mode: 755
