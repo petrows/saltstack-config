@@ -64,7 +64,6 @@ base:
     - users.master
 
   'pws-home*':
-    - users.master
     - pws.home
   'pws-home':
     - pws.home-prod
