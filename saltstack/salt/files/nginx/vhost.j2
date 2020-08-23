@@ -3,6 +3,8 @@
 # vhost: {{ conf_id }}
 # type: {{ conf_type }}
 
+{%- set force_ssl = conf.ssl_force|default(True) %}
+{% if force_ssl %}
 # HTTP must redirect to HTTPS
 server {
     listen 80;
@@ -15,9 +17,15 @@ server {
     access_log  /var/log/nginx/{{ conf_id }}.access.log;
     error_log   /var/log/nginx/{{ conf_id }}.error.log;
 }
+{%- endif %}
 
 server {
     listen 443 ssl;
+{%- if not force_ssl %}
+    # SSL is not forced for this vhost, we can allow http connections
+    listen 80;
+{%- endif %}
+
     server_name {{ conf.domain }};
 
     root {{ conf.root|default('/var/www/html') }};
@@ -25,17 +33,13 @@ server {
     access_log  /var/log/nginx/{{ conf_id }}.access.log;
     error_log   /var/log/nginx/{{ conf_id }}.error.log;
 
+{% if force_ssl %}
     # Add headers to serve security related headers
     # Before enabling Strict-Transport-Security headers please read into this
     # topic first.
     add_header Strict-Transport-Security "max-age=15768000; includeSubDomains; preload;" always;
+{%- endif %}
 
-    #
-    # WARNING: Only add the preload option once you read about
-    # the consequences in https://hstspreload.org/. This option
-    # will add the domain to a hardcoded list that is shipped
-    # in all major browsers and getting removed from this list
-    # could take several months.
     add_header Referrer-Policy "no-referrer";
     add_header X-Content-Type-Options "nosniff";
     add_header X-Frame-Options "SAMEORIGIN";
@@ -46,7 +50,7 @@ server {
     # Remove X-Powered-By, which is an information leak
     add_header X-Powered-By DENY;
 
-{% if conf_type == 'proxy' %}
+{%- if conf_type == 'proxy' %}
     location / {
         client_max_body_size    0;
         gzip                    off;
@@ -63,25 +67,25 @@ server {
         proxy_pass http://127.0.0.1:{{ conf.port }};
         proxy_redirect default;
     }
-{% endif %}
-{% if conf_type == 'folder' %}
+{%- endif %}
+{%- if conf_type == 'folder' %}
     location / {
         autoindex on;
         autoindex_exact_size off;
         autoindex_format html;
         autoindex_localtime on;
     }
-{% endif %}
+{%- endif %}
 
     # SSL configuration
-{% if ssl_type == 'external' %}
+{%- if ssl_type == 'external' %}
     # Config defined as 'external' - try to use Letsencrypt
     include acme.conf;
-{% endif %}
-{% if ssl_cert %}
+{%- endif %}
+{%- if ssl_cert %}
     ssl_certificate {{ ssl_cert }};
-{% endif %}
-{% if ssl_key %}
+{%- endif %}
+{%- if ssl_key %}
     ssl_certificate_key {{ ssl_key }};
-{% endif %}
+{%- endif %}
 }

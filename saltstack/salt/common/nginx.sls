@@ -71,7 +71,7 @@ nginx-ssl-iternal-key-{{ conf_id }}:
 nginx-proxy-conf-{{ conf_id }}:
   file.managed:
     - name: /etc/nginx/conf.d/{{ conf_id }}.conf
-    - source: salt://files/nginx/vhost.conf
+    - source: salt://files/nginx/vhost.j2
     - template: jinja
     - user: root
     - group: root

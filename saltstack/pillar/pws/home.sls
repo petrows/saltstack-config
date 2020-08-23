@@ -23,6 +23,7 @@ proxy_vhosts:
     type: folder
     root: /srv/static
     ssl: internal
+    ssl_force: False
     ssl_name: local
 
 users:
