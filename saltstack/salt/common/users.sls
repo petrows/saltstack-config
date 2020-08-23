@@ -104,8 +104,8 @@ user_{{user_id}}_fzf_config:
     - name: "{{user.home}}/.fzf/install --all"
     - cwd: {{user.home}}
     - runas: {{user_id}}
-    - creates:
-      - {{user.home}}/.fzf.bash
+    - onchanges:
+      - git: user_{{user_id}}_fzf_src
 
 user_{{user_id}}_vim_config:
   file.managed:
