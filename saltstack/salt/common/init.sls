@@ -42,3 +42,24 @@ mail_alias_maintainer_db:
       - pkg:
         - mail-tools
 {% endif %}
+
+{% if salt.pillar.get('swap_size_mb', 0) %}
+coreutils:
+  pkg.installed
+# Swap file itself
+/swap.img:
+  cmd.run:
+    - name: |
+        [ -f /swapfile ] || dd if=/dev/zero of=/swap.img bs=1M count={{ pillar.swap_size_mb }}
+        chmod 0600 /swap.img
+        mkswap /swap.img
+        swapon -a
+    - unless:
+      - file /swap.img 2>&1 | grep -q "Linux/i386 swap"
+  mount.swap:
+    - persist: true
+# Configure less aggressive swap usage
+vm.swappiness:
+  sysctl.present:
+    - value: 10
+{% endif %}

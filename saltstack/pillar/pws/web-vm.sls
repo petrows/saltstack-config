@@ -10,3 +10,5 @@ packages:
 roles:
   - docker
   - nginx
+
+swap_size_mb: {{ 4 * 1024 }}
