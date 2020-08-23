@@ -23,9 +23,10 @@ pve-exports:
 {% for cfg_vm_id, cfg_vm_data in salt.pillar.get('pve_vms_config', {}).items() %}
 {% for cfg_vm_value in cfg_vm_data %}
 'pve-cfg-{{ cfg_vm_id }}-{{ cfg_vm_value }}':
-  file.line:
+  file.replace:
     - name: /etc/pve/lxc/{{ cfg_vm_id }}.conf
-    - content: '{{ cfg_vm_value }}'
-    - mode: ensure
+    - pattern: '{{ cfg_vm_value | regex_escape }}'
+    - repl: '{{ cfg_vm_value }}'
+    - append_if_not_found: True
 {% endfor %}
 {% endfor %}
