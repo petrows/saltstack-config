@@ -18,6 +18,10 @@ users:
   openhab:
     uid: False
     home: /var/lib/openhab2
+    groups:
+      - tty
+      - dialout
+      - audio
 
 mounts:
   openhab-sys:

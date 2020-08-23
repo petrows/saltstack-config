@@ -48,9 +48,11 @@ user_{{user_id}}_config:
     - home: {{ user.home }}
 {% if user.uid %}
     - uid: {{ user.uid }}
+    - gid: {{ user.uid }}
 {% endif %}
-    - groups:
-      - {{ user_id }}
+{% if user.groups|default([]) %}
+    - groups: {{ user.groups }}
+{% endif %}
     - shell: /usr/bin/fish
   require:
     - pkg: fish_packages
