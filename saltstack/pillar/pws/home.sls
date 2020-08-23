@@ -13,6 +13,11 @@ proxy_vhosts:
     port: 8080
     ssl: internal
     ssl_name: local
+  stats:
+    domain: stat-dev.local.pws
+    port: 3000
+    ssl: internal
+    ssl_name: local
 
 users:
   openhab:

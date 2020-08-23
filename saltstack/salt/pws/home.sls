@@ -18,3 +18,20 @@ openhab-package:
 openhab2.service:
   service.running:
     - enable: True
+
+grafana-repository:
+  pkgrepo.managed:
+    - name: deb https://packages.grafana.com/oss/deb stable main
+    - file: /etc/apt/sources.list.d/grafana.list
+    - keyid: 4E40DDF6D76E284A4A6780E48C8C34C524098CB6
+    - keyserver: https://packages.grafana.com/gpg.key
+
+grafana-package:
+  pkg.installed:
+    - install_recommends: True
+    - pkgs:
+      - grafana
+
+grafana-server.service:
+  service.running:
+    - enable: True
