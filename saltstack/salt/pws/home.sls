@@ -11,9 +11,9 @@ openhab-package:
   pkg.installed:
     - install_recommends: True
     - pkgs:
-      - openhab2: 2.5.2*
+      - openhab2: {{ pillar.openhab.version }}
       - mosquitto
-      - openjdk-8-jre-headless
+      - openjdk-11-jre-headless
 
 openhab2.service:
   service.running:

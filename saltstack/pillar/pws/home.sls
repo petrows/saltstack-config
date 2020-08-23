@@ -7,6 +7,9 @@ roles:
 check_mk_plugins:
   - nginx_status
 
+openhab:
+  version: 2.5.2-1
+
 proxy_vhosts:
   home:
     domain: home-dev.local.pws
