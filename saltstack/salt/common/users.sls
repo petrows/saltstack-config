@@ -34,17 +34,23 @@ fish_git_packages:
 
 # Loop over allowed users on this server
 {% for user_id, user in salt.pillar.get('users', {}).items() %}
+
 user_{{user_id}}_group:
   group.present:
     - name: {{ user_id }}
+{% if user.uid %}
     - gid: {{ user.uid }}
+{% endif %}
 
 user_{{user_id}}_config:
   user.present:
     - name: {{ user_id }}
     - home: {{ user.home }}
+{% if user.uid %}
     - uid: {{ user.uid }}
-    - gid: {{ user.uid }}
+{% endif %}
+    - groups:
+      - {{ user_id }}
     - shell: /usr/bin/fish
   require:
     - pkg: fish_packages

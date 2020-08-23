@@ -46,3 +46,13 @@ NTP is not used. Used systemd (linux default)
 systemctl status systemd-timesyncd
 timedatectl
 ```
+
+# Services update
+Section for update services
+## Openhab
+After package update, call
+```
+service openhab2 stop
+rm -rf /var/lib/openhab2/{cache,tmp}/*
+service openhab2 restart
+```

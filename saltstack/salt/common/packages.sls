@@ -1,6 +1,7 @@
 linux-base-packages:
   pkg.installed:
     - pkgs:
+      - software-properties-common
       - ack
       - htop
       - strace

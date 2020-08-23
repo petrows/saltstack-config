@@ -14,6 +14,11 @@ proxy_vhosts:
     ssl: internal
     ssl_name: local
 
+users:
+  openhab:
+    uid: False
+    home: /var/lib/openhab2
+
 mounts:
   openhab-sys:
     name: /srv/openhab2-sys

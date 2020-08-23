@@ -26,6 +26,18 @@ ban-packages:
     - pkgs:
       - cloud-init
 
+# PWS root CA
+pws-root-ca:
+  file.managed:
+    - name: /usr/local/share/ca-certificates/pws.ca.crt
+    - source: salt://files/pws.ca.crt
+
+system-ca-update:
+  cmd.run:
+    - name: update-ca-certificates
+    - onchanges:
+      - file: /usr/local/share/ca-certificates/*
+
 {% if salt.pillar.get('maintainer_email', '') != '' %}
 mail_alias_maintainer:
   file.managed:
