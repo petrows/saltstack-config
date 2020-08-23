@@ -92,12 +92,12 @@ user_{{user_id}}_fish_vars_config:
 
 # FZF install
 user_{{user_id}}_fzf_src:
-  git.latest:
+  git.detached:
     - user: {{user_id}}
     - name: https://github.com/junegunn/fzf.git
+    - rev: {{ pillar.fzf_version_tag }}
     - target: {{user.home}}/.fzf
-    - force_fetch: True
-    - force_reset: True
+    - hard_reset: True
 
 user_{{user_id}}_fzf_config:
   cmd.run:
