@@ -7,5 +7,7 @@ services:
       - {{ pillar.static.proxy_ports.jenkins_http }}:8080
       - {{ pillar.static.proxy_ports.jenkins_agent }}:{{ pillar.static.proxy_ports.jenkins_agent }}
     volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
       - {{ pillar.jenkins.data_dir }}:/var/jenkins_home
     restart: always

@@ -24,6 +24,8 @@ services:
     image: mariadb:{{ pillar.nextcloud.version_db }}
     restart: always
     volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
       - {{ pillar.nextcloud.data_dir }}/db:/var/lib/mysql
     environment:
       MYSQL_DATABASE: nextcloud
