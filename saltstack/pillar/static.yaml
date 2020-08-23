@@ -15,3 +15,11 @@ proxy_ports:
   jenkins_agent:    7005
   gitlab_http:      7006
   gitlab_ssh:       2022
+
+vm_ids:
+  media:            100
+  fabian:           101
+  home:             103
+  backup:           107
+  system:           106
+  web-vm:           108

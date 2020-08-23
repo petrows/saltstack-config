@@ -50,6 +50,9 @@ base:
   'pws-backup*':
     - pws.backup
 
+  'pws-home*':
+    - pws.home
+
 # Local host config
   'petro-pc':
     - common.users

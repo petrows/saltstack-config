@@ -63,9 +63,9 @@ base:
     - common.mail-relay
     - users.master
 
-  'pws-home-dev':
+  'pws-home*':
     - users.master
-    - services.openhab
+    - pws.home
 
 # Local PC config
   'petro-pc':

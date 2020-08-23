@@ -18,3 +18,14 @@ pve-exports:
           - async
           - no_subtree_check
           - no_root_squash
+
+# Special configs for VM's
+{% for cfg_vm_id, cfg_vm_data in salt.pillar.get('pve_vms_config', {}).items() %}
+{% for cfg_vm_value in cfg_vm_data %}
+pve-cfg-{{ cfg_vm_id }}-{{ cfg_vm_value }}:
+  file.line:
+    - name: /etc/pve/lxc/{{ cfg_vm_id }}.conf
+    - content: {{ cfg_vm_value }}
+    - mode: ensure
+{% endfor %}
+{% endfor %}
