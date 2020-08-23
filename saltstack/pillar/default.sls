@@ -7,8 +7,6 @@ packages: []
 powerline_git_plugin: 'powerline.segments.common.vcs.branch'
 powerline_git_pkg: ''
 
-fzf_version_tag: 0.22.0
-
 # If check-mk used, we can install additional plugins to monitor it
 check_mk_plugins: {}
 
