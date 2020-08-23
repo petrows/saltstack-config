@@ -7,7 +7,12 @@ roles:
 check_mk_plugins:
   - nginx_status
 
-swap_size_mb: {{ 4 * 1024 }}
+proxy_vhosts:
+  home:
+    domain: home-dev.local.pws
+    port: 8080
+    ssl: internal
+    ssl_name: local
 
 mounts:
   openhab-sys:

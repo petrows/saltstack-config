@@ -66,6 +66,8 @@ base:
   'pws-home*':
     - users.master
     - pws.home
+  'pws-home':
+    - pws.home-prod
 
 # Local PC config
   'petro-pc':

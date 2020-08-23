@@ -13,3 +13,8 @@ openhab-package:
     - pkgs:
       - openhab2: 2.5.2*
       - mosquitto
+      - openjdk-8-jre-headless
+
+openhab2.service:
+  service.running:
+    - enable: True
