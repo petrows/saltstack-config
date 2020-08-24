@@ -25,6 +25,7 @@ git_config:
   alias.l: "log --graph --decorate --pretty=format:'%C(yellow)%h%Creset %s %C(green)(%cr)%Creset' --abbrev-commit --date=relative"
   alias.s: status --short
   alias.checkout-pr: "!f() { git fetch origin pull/$1/head:pr-$1 && git checkout pr-$1; }; f"
+  alias.cln: "!f() { git submodule update; git clean -fd; git checkout .; }; f"
   alias.ch: "!f() { git fetch; git checkout -f --recursive-submodules $1; }; f"
   alias.pb: push --set-upstream origin HEAD
   alias.pf: push --force
