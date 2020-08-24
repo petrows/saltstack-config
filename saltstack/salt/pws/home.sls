@@ -43,3 +43,72 @@ openhab-static-content:
     - user: openhab
     - group: openhab
     - mode: 755
+
+# Zigbee2mqtt
+
+z2mqtt-node-repository:
+  pkgrepo.managed:
+    - name: deb https://deb.nodesource.com/node_12.x {{ grains.oscodename|lower }} main
+    - file: /etc/apt/sources.list.d/nodesource.list
+    - keyid: 9FD3B784BC1C6FC31A8A0A1C1655A0AB68576280
+    - keyserver: hkp://p80.pool.sks-keyservers.net:80
+
+z2mqtt-node-pkg:
+  pkg.installed:
+    - pkgs:
+      - nodejs
+      - git
+      - make
+      - g++
+      - gcc
+    - install_recommends: True
+    - refresh: True
+    - require:
+      - pkgrepo: z2mqtt-node-repository
+
+z2mqtt-dir-data:
+  file.directory:
+    - name: /srv/zigbee2mqtt-data
+    - user: openhab
+    - group: openhab
+    - mode: 755
+
+z2mqtt-dir-app:
+  file.directory:
+    - name: /opt/zigbee2mqtt
+    - user: openhab
+    - group: openhab
+    - mode: 755
+
+z2mqtt-app:
+  git.latest:
+    - user: openhab
+    - name: https://github.com/Koenkk/zigbee2mqtt.git
+    - branch: master
+    - target: /opt/zigbee2mqtt
+    - force_fetch: True
+    - force_reset: True
+    - require:
+      - pkg: z2mqtt-node-pkg
+
+z2mqtt-app-install:
+  cmd.run:
+    - name: npm ci
+    - cwd: /opt/zigbee2mqtt
+    - runas: openhab
+    - onchanges:
+      - git: z2mqtt-app
+
+zigbee2mqtt.service:
+  file.managed:
+    - name: /etc/systemd/system/zigbee2mqtt.service
+    - source: salt://files/home/zigbee2mqtt.service
+    - template: jinja
+    - user: root
+    - group: root
+    - context:
+      compose_path: /opt/zigbee2mqtt/
+  service.running:
+    - enable: True
+    - watch:
+      - git: z2mqtt-app
