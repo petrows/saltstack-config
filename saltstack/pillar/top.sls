@@ -75,6 +75,7 @@ base:
     - common.server-dedicated
     - common.server-public
     - common.server-external
+    - services.nginx
     - users.root
     - pws.mail-redirect
 
