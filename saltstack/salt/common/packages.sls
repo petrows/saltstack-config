@@ -6,6 +6,7 @@ linux-base-packages:
       - htop
       - strace
       - vim
+      - ethtool
       - net-tools
       - mailutils
       - git
