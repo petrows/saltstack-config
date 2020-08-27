@@ -2,14 +2,17 @@ base:
 
   '*':
     - common
-
-  'pws-*':
-    - common.monitoring
     - common.users
 
   'roles:server':
     - match: pillar
     - roles.server
+
+  'pws-* and I@roles:server':
+    - match: compound
+    # Auto install check_mk available only in intranet
+    - common.monitoring
+
   'roles:mounts':
     - match: pillar
     - roles.mounts

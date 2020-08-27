@@ -2,7 +2,10 @@ linux-base-packages:
   pkg.installed:
     - pkgs:
       - software-properties-common
+      {% if grains.osfinger != 'Debian-8' %}
       - ack
+      - python3-git
+      {% endif %}
       - htop
       - strace
       - vim
@@ -13,7 +16,6 @@ linux-base-packages:
       - python2.7
       - python3
       - python3-pip
-      - python3-git
       - curl
       - wget
       - screen

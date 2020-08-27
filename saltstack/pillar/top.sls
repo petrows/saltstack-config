@@ -68,6 +68,11 @@ base:
   'pws-home':
     - pws.home-prod
 
+  'eu.petro.ws':
+    - users.root
+    - pws.mail-redirect
+    - common.server
+
 # Local PC config
   'petro-pc':
     - common.tmp-ramdisk
