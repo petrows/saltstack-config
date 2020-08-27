@@ -28,6 +28,7 @@ base:
 
   'pws-system*':
     - common.server-dedicated
+    - common.server-public
     - common.mail-relay
     - pws.system
     - users.master
@@ -44,6 +45,7 @@ base:
 
   'pws-web-vm*':
     - common.server-dedicated
+    - common.server-public
     - common.mail-relay
     - pws.web-vm
     - users.www
@@ -69,9 +71,12 @@ base:
     - pws.home-prod
 
   'eu.petro.ws':
+    - common.server
+    - common.server-dedicated
+    - common.server-public
+    - common.server-external
     - users.root
     - pws.mail-redirect
-    - common.server
 
 # Local PC config
   'petro-pc':

@@ -1,7 +1,11 @@
+# SLS to install and configure check_mk
+
+{% if pillar.check_mk.url %}
 install_check_mk:
   pkg.installed:
     - sources:
-      - check-mk-agent: http://cmk.system.pws/cmk/check_mk/agents/check-mk-agent_1.6.0p10-1_all.deb
+      - check-mk-agent: {{ pillar.check_mk.url }}
+{% endif %}
 
 # Install plugins?
 {% for plugin_id in salt.pillar.get('check_mk_plugins', []) %}
