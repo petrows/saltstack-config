@@ -3,6 +3,8 @@ postfix_packages:
   pkg.installed:
     - pkgs:
       - postfix
+      - libsasl2-2
+      - libsasl2-modules
       - mailutils
 
 postfix_sasl:
@@ -30,11 +32,25 @@ postfix_postmap:
     - watch:
       - file: /etc/postfix/sasl_passwd
 
+# Postfix virtual maps
+# This will force ALL @domain to be sent to one address
+# https://serverfault.com/questions/144325/how-to-redirect-all-postfix-emails-to-one-external-email-address
+{% set minion_hostname = salt['cmd.shell']('cat /etc/hostname') %}
+postfix_virtal_map:
+  file.managed:
+    - name: /etc/postfix/virtual-regexp
+    - contents: |
+        /.+@{{ minion_hostname }}/ {{ pillar.maintainer_email }}
+  cmd.run:
+    - name: postmap /etc/postfix/virtual-regexp
+    - watch:
+      - file: /etc/postfix/virtual-regexp
+
 postfix_reload:
   service.running:
     - name: postfix
     - enable: True
     - reload: True
     - watch:
-      - file: /etc/postfix/sasl_passwd
-      - file: /etc/postfix/main.cf
+      - file: /etc/postfix/*
+      - pkg: postfix_packages

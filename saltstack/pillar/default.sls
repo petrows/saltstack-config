@@ -10,6 +10,9 @@ powerline_git_pkg: ''
 # If check-mk used, we can install additional plugins to monitor it
 check_mk_plugins: {}
 
+# All local emails will be delivered to this one
+maintainer_email: petro@petro.ws
+
 # Docker-compose config
 docker_compose:
   url: https://github.com/docker/compose/releases/download/1.26.2/docker-compose-Linux-x86_64

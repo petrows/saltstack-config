@@ -9,8 +9,6 @@ base:
 # All PWS servers should have at least advanced config for root
   'pws-*':
     - users.root
-# Redirect local email to mine
-    - pws.mail-redirect
 # Mount /tmp into RAM
     - common.tmp-ramdisk
 # Generic server role
@@ -29,24 +27,20 @@ base:
   'pws-system*':
     - common.server-dedicated
     - common.server-public
-    - common.mail-relay
     - pws.system
     - users.master
   'pws-system-dev':
     - pws.system-dev
 
   'pws-fabian*':
-    - common.mail-relay
     - users.master
 
   'pws-octoprint*':
     - common.server-dedicated
-    - common.mail-relay
 
   'pws-web-vm*':
     - common.server-dedicated
     - common.server-public
-    - common.mail-relay
     - pws.web-vm
     - users.www
     - services.wiki
@@ -62,7 +56,6 @@ base:
     - pws.web-vm-prod
 
   'pws-backup*':
-    - common.mail-relay
     - users.master
 
   'pws-home*':
@@ -77,7 +70,6 @@ base:
     - common.server-external
     - services.nginx
     - users.root
-    - pws.mail-redirect
 
 # Local PC config
   'petro-pc':
@@ -87,5 +79,4 @@ base:
     - users.petro
     - pws.secrets-default
     - pws.secrets
-    - pws.mail-redirect
     - pws.powerline-gitstatus
