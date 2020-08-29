@@ -41,7 +41,7 @@ postfix_virtal_map:
     - name: /etc/postfix/virtual-regexp
     - contents: |
         /.+@{{ minion_hostname }}/ {{ pillar.maintainer_email }}
-  cmd.run:
+  cmd.wait:
     - name: postmap /etc/postfix/virtual-regexp
     - watch:
       - file: /etc/postfix/virtual-regexp

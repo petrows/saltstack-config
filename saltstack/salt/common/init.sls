@@ -38,23 +38,6 @@ system-ca-update:
     - onchanges:
       - file: /usr/local/share/ca-certificates/*
 
-{% if salt.pillar.get('maintainer_email', '') != '' %}
-mail_alias_maintainer:
-  file.managed:
-    - name: /etc/aliases
-    - source: salt://files/mail-aliases
-    - template: jinja
-
-mail_alias_maintainer_db:
-  cmd.run:
-    - name: newaliases
-    - onchanges:
-      - file: /etc/aliases
-    - requre:
-      - pkg:
-        - mail-tools
-{% endif %}
-
 {% if salt.pillar.get('swap_size_mb', 0) %}
 coreutils:
   pkg.installed
