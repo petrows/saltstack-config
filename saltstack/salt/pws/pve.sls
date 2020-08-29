@@ -32,3 +32,10 @@ pve-exports:
 #     - append_if_not_found: True
 # {% endfor %}
 # {% endfor %}
+
+# Load overlay module to allow run docker in CT
+pve-modules:
+  kmod.present:
+    - persist: True
+    - mods:
+      - overlay
