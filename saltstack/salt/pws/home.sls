@@ -14,6 +14,13 @@ openhab-package:
       - openhab2
       - mosquitto
       - openjdk-11-jre-headless
+      - python3-pip
+
+openhab-package-pip:
+  pip.installed:
+    - bin_env: /usr/bin/pip3
+    - pkgs:
+      - paho-mqtt
 
 openhab2.service:
   service.running:
@@ -31,6 +38,8 @@ grafana-package:
     - install_recommends: True
     - pkgs:
       - grafana
+    - require:
+      - pkgrepo: grafana-repository
 
 grafana-server.service:
   service.running:
@@ -112,3 +121,20 @@ zigbee2mqtt.service:
     - enable: True
     - watch:
       - git: z2mqtt-app
+
+# Openhab cron jobs
+openhab-hourly.service:
+  file.managed:
+    - name: /etc/systemd/system/openhab-hourly.service
+    - source: salt://files/home/openhab-hourly.service
+  service.enabled:
+    - enable: True
+
+openhab-hourly.timer:
+  file.managed:
+    - name: /etc/systemd/system/openhab-hourly.timer
+    - source: salt://files/home/openhab-hourly.timer
+  service.running:
+    - enable: True
+    - watch:
+      - file: /etc/systemd/system/openhab-hourly.*

@@ -1,0 +1,9 @@
+[Unit]
+Description=Openhab hourly script timer
+
+[Timer]
+OnCalendar=hourly
+Unit=openhab-hourly.service
+
+[Install]
+WantedBy=timers.target
