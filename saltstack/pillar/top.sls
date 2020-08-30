@@ -30,6 +30,8 @@ base:
     - pws.system
     - users.master
     - services.salt-master
+    - services.cmk-server
+    - services.cmk-server-prod
   'pws-system-dev':
     - pws.system-dev
 

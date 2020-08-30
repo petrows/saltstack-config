@@ -8,13 +8,14 @@ uids:
 
 # Services proxy ports
 proxy_ports:
+  gitlab_ssh:       2022
+  cmk_http:         5000
   wiki_http:        7001
   openhab_http:     7002
   nextcloud_http:   7003
   jenkins_http:     7004
   jenkins_agent:    7005
   gitlab_http:      7006
-  gitlab_ssh:       2022
 
 vm_ids:
   media:            100

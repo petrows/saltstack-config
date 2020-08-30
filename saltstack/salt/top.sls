@@ -42,6 +42,9 @@ base:
   'roles:gitlab':
     - match: pillar
     - services.gitlab
+  'roles:cmk-server':
+    - match: pillar
+    - services.cmk-server
 
   # Hosts configs
   'pws-pve*':
