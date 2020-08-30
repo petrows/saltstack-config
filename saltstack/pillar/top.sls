@@ -29,6 +29,7 @@ base:
     - common.server-public
     - pws.system
     - users.master
+    - services.salt-master
   'pws-system-dev':
     - pws.system-dev
 
@@ -41,6 +42,7 @@ base:
   'pws-web-vm*':
     - common.server-dedicated
     - common.server-public
+    - common.server-vm
     - pws.web-vm
     - users.www
     - services.wiki

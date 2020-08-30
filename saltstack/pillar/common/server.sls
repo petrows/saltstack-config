@@ -8,4 +8,4 @@ roles:
 
 # Monitoring agent (local site)
 check_mk:
-  url: http://cmk.system.pws/cmk/check_mk/agents/check-mk-agent_1.6.0p10-1_all.deb
+  url: http://cmk.system.pws/cmk/check_mk/agents/check-mk-agent_1.6.0p16-1_all.deb

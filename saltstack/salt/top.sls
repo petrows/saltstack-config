@@ -3,28 +3,30 @@ base:
   '*':
     - common
     - common.users
+    - common.mounts
+    - common.mount-folders
 
+  # Roles (optional features)
   'roles:server':
     - match: pillar
     - roles.server
   'roles:monitoring':
     - match: pillar
     - roles.monitoring
-  'roles:mounts':
-    - match: pillar
-    - roles.mounts
   'roles:tmp-ramdisk':
     - match: pillar
-    - common.tmp-ramdisk
+    - roles.tmp-ramdisk
   'roles:mail-relay':
     - match: pillar
-    - common.mail-relay
+    - roles.mail-relay
   'roles:docker':
     - match: pillar
-    - common.docker
+    - roles.docker
   'roles:nginx':
     - match: pillar
-    - common.nginx
+    - roles.nginx
+
+  # Services
   'roles:openhab':
     - match: pillar
     - services.openhab
@@ -41,6 +43,7 @@ base:
     - match: pillar
     - services.gitlab
 
+  # Hosts configs
   'pws-pve*':
     - pws.pve
 
