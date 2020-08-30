@@ -1,10 +1,10 @@
 file_roots:
   base:
-    - /opt/salt/saltstack/salt
+    - /srv/salt-config/saltstack/salt
 
 pillar_roots:
   base:
-    - /opt/salt/saltstack/pillar
+    - /srv/salt-config/saltstack/pillar
 
 pillar_merge_lists: True
 

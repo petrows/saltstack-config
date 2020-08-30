@@ -10,6 +10,7 @@ mount-folder-{{ mount_id }}:
   mount.mounted:
     - name: {{ mount.name }}
     - device: {{ mount.device }}
-    - fstype: bind
+    - fstype: none
+    - opts: bind
     - mkmnt: True
 {% endfor %}
