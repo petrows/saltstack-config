@@ -25,7 +25,6 @@ base:
     - pws.powerline-gitstatus
 
   'pws-system*':
-    - common.server-dedicated
     - common.server-public
     - pws.system
     - users.master

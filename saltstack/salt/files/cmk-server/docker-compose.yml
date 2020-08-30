@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  check_mk:
+    image: checkmk/check-mk-raw:{{ pillar.check_mk_server.version }}
+    environment:
+      - MAIL_RELAY_HOST=system.pws
+    ports:
+      - '{{ pillar.static.proxy_ports.cmk_http }}:5000'
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - {{ pillar.check_mk_server.data_dir }}:/omd/sites
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
+    hostname: {{ pillar.proxy_vhosts.cmk.domain }}
