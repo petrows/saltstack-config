@@ -1,7 +1,8 @@
 version: '3'
 
 services:
-  app:
+  jenkins:
+    container_name: jenkins-app
     image: jenkins/jenkins:{{ pillar.jenkins.version }}
     ports:
       - {{ pillar.static.proxy_ports.jenkins_http }}:8080

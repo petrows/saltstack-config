@@ -12,12 +12,13 @@ proxy_ports:
   gitlab_ssh:       2022
 
   wiki_http:        7001
-  openhab_http:     7002
-  nextcloud_http:   7003
-  jenkins_http:     7004
-  jenkins_agent:    7005
-  gitlab_http:      7006
-  cmk_http:         7007
+  nextcloud_http:   7002
+  jenkins_http:     7003
+  jenkins_agent:    7004
+  gitlab_http:      7005
+  cmk_http:         7006
+  openhab_http:     7007
+  openhab_grafana:  7008
 
 vm_ids:
   media:            100

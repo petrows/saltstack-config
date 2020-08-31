@@ -1,7 +1,8 @@
 version: '3'
 
 services:
-  check_mk:
+  app:
+    container_name: cmk-server
     image: checkmk/check-mk-raw:{{ pillar.check_mk_server.version }}
     environment:
       - MAIL_RELAY_HOST=system.pws

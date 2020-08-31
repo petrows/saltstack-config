@@ -3,6 +3,7 @@ domain: web-vm.pws
 check_mk_plugins:
   - nginx_status
   - mk_logwatch
+  - mk_docker.py
 
 packages:
   - nfs-common

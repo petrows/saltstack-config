@@ -2,6 +2,7 @@ version: '2'
 
 services:
   app:
+    container_name: nextcloud-app
     image: nextcloud:{{ pillar.nextcloud.version }}
     ports:
       - {{ pillar.static.proxy_ports.nextcloud_http }}:80
@@ -21,6 +22,7 @@ services:
       MAIL_FROM_ADDRESS: {{ pillar.pws_secrets.mail_marinakopf.from }}
       MAIL_DOMAIN: {{ pillar.pws_secrets.mail_marinakopf.from_domain }}
   db:
+    container_name: nextcloud-db
     image: mariadb:{{ pillar.nextcloud.version_db }}
     restart: always
     volumes:

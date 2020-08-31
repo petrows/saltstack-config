@@ -38,3 +38,18 @@ check_mk_plugin_logwatch_cfg:
     - group: root
     - mode: 755
 {% endif %}
+
+{% if 'mk_docker.py' in salt.pillar.get('check_mk_plugins', []) %}
+check_mk_plugin_docker_cfg:
+  file.managed:
+    - name: /etc/check_mk/docker.cfg
+    - source: salt://files/check-mk/configs/docker.cfg
+    - user: root
+    - group: root
+    - mode: 755
+docker-monitoring-pip-pkgs:
+  pip.installed:
+    - names:
+      - docker
+    - bin_env: '/usr/local/bin/pip2'
+{% endif %}

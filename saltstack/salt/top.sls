@@ -6,6 +6,11 @@ base:
     - common.mounts
     - common.mount-folders
 
+  # Install python2 pip for some requiremts
+  'check_mk_plugins:mk_docker.py':
+    - match: pillar
+    - common.python2-pip
+
   # Roles (optional features)
   'roles:server':
     - match: pillar

@@ -3,6 +3,7 @@ version: '2'
 
 services:
   app:
+    container_name: wiki-app
     image: mediawiki:{{ pillar.wiki.version }}
     restart: always
     ports:
@@ -24,6 +25,7 @@ services:
       - {{ pillar.wiki.data_dir }}/LocalSettings.php:/var/www/html/LocalSettings.php
       {% endif %}
   db:
+    container_name: wiki-db
     image: mariadb:{{ pillar.wiki.version_db }}
     restart: always
     volumes:
