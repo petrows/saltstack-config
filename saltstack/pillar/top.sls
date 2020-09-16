@@ -75,6 +75,7 @@ base:
     - common.server-external
     - services.nginx
     - users.root
+    - pws.eu-petrows
 
 # Local PC config
   'petro-pc':
