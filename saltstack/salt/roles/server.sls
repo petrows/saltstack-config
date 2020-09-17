@@ -1,6 +1,6 @@
 salt-minion-config:
   file.managed:
-    - name: /etc/salt/minion
+    - name: /etc/salt/minion.d/99-pws.conf
     - source: salt://files/servers/salt/minion.yml
 
 salt-minion-update.service:
