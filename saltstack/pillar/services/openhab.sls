@@ -6,6 +6,7 @@ roles:
   - openhab
 
 openhab:
+  id: Openhab-dev
   version: 2.5.8
   data_dir: /srv/openhab-data
   dirs:
@@ -17,6 +18,7 @@ openhab:
     - /srv/openhab-data/java
 
   zigbee2mqtt:
+    id: Openhab-zigbee2mqtt-dev
     version: 1.14.3
     device: ''
     data_dir: /srv/zigbee2mqtt-data
@@ -24,6 +26,7 @@ openhab:
       - /srv/zigbee2mqtt-data
 
   mosquitto:
+    id: Openhab-mosquitto-dev
     version: 1.4.10 # 1.6.12
     data_dir: /srv/mosquitto-data
     dirs:
@@ -32,12 +35,14 @@ openhab:
       - /srv/mosquitto-data/log
 
   influxdb:
+    id: Openhab-influxdb-dev
     version: 1.0.2 # 1.8.1
     data_dir: /srv/influxdb-data
     dirs:
       - /srv/influxdb-data
 
   grafana:
+    id: Openhab-grafana-dev
     version: 7.1.4 # 1.8.1
     data_dir: /srv/grafana-data
     dirs:

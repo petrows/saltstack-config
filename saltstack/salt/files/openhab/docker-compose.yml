@@ -4,13 +4,12 @@ version: '3'
 services:
 
   openhab:
+    container_name: {{ pillar.openhab.id }}
     image: openhab/openhab:{{ pillar.openhab.version }}
-    links:
-      - mosquitto
-      - influxdb
+    network_mode: host
     restart: always
     ports:
-      - {{ pillar.static.proxy_ports.openhab_http }}:8080
+      - '8080:8080'
     environment:
       - USER_ID={{ pillar.static.uids.master }}
       - GROUP_ID={{ pillar.static.uids.master }}
@@ -20,13 +19,11 @@ services:
       - {{ pillar.openhab.data_dir }}/conf:/openhab/conf
       - {{ pillar.openhab.data_dir }}/userdata:/openhab/userdata
       - {{ pillar.openhab.data_dir }}/addons:/openhab/addons
-      - {{ pillar.openhab.data_dir }}/logs:/openhab/logs
       - {{ pillar.openhab.data_dir }}/java:/openhab/.java
 
   zigbee2mqtt:
+    container_name: {{ pillar.openhab.zigbee2mqtt.id }}
     image: koenkk/zigbee2mqtt:{{ pillar.openhab.zigbee2mqtt.version }}
-    links:
-      - mosquitto
     restart: always
     volumes:
       - /etc/localtime:/etc/localtime:ro
@@ -38,6 +35,7 @@ services:
     {% endif %}
 
   mosquitto:
+    container_name: {{ pillar.openhab.mosquitto.id }}
     image: eclipse-mosquitto:{{ pillar.openhab.mosquitto.version }}
     restart: always
     ports:
@@ -51,19 +49,22 @@ services:
       - {{ pillar.openhab.mosquitto.data_dir }}/log:/mosquitto/log
 
   influxdb:
+    container_name: {{ pillar.openhab.influxdb.id }}
     image: influxdb:{{ pillar.openhab.influxdb.version }}
+    restart: always
     ports:
-      - '8086:8086'
+      - '127.0.0.1:8086:8086'
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
       - {{ pillar.openhab.influxdb.data_dir }}:/var/lib/influxdb
 
   grafana:
+    container_name: {{ pillar.openhab.grafana.id }}
     image: grafana/grafana:{{ pillar.openhab.grafana.version }}
     restart: always
     ports:
-      - '{{ pillar.static.proxy_ports.openhab_grafana }}:3000'
+      - '127.0.0.1:3000:3000'
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro

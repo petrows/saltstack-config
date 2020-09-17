@@ -63,8 +63,8 @@ base:
 
   'pws-home*':
     - pws.home
-  #  - users.master
-  #  - services.openhab
+    - users.master
+    - services.openhab
   # 'pws-home':
   #   - pws.home-prod
 
