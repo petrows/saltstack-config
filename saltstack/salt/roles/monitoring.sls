@@ -5,6 +5,10 @@ install_check_mk:
   pkg.installed:
     - sources:
       - check-mk-agent: {{ pillar.check_mk.url }}
+install_check_mk_deps:
+  pkg.installed:
+    - pkgs:
+      - python2.7
 {% endif %}
 
 # Install plugins?
