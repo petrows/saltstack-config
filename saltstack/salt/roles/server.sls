@@ -1,3 +1,8 @@
+salt-minion-config:
+  file.managed:
+    - name: /etc/salt/minion
+    - source: salt://files/servers/salt/minion.yml
+
 salt-minion-update.service:
   file.managed:
     - name: /etc/systemd/system/salt-minion-update.service

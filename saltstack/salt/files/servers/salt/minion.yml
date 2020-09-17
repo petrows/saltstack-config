@@ -1,0 +1,6 @@
+# Config salt-minion for servers
+
+# Apply state on startup
+startup_states: highstate
+# Enable some logging for watch
+log_level: info
