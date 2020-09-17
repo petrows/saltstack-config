@@ -51,9 +51,10 @@ check_mk_plugin_docker_cfg:
     - user: root
     - group: root
     - mode: 755
+{% set pip2_location = salt['cmd.shell']('which pip2') %}
 docker-monitoring-pip-pkgs:
   pip.installed:
     - names:
       - docker
-    - bin_env: '/usr/local/bin/pip2'
+    - bin_env: {{ pip2_location }}
 {% endif %}
