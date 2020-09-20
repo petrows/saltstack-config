@@ -73,8 +73,7 @@ openhab-hourly.service:
   file.managed:
     - name: /etc/systemd/system/openhab-hourly.service
     - source: salt://files/openhab/openhab-hourly.service
-  service.enabled:
-    - enable: True
+  service.disabled: []
 
 openhab-hourly.timer:
   file.managed:
