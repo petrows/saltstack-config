@@ -4,6 +4,7 @@
 # type: {{ conf_type }}
 
 {%- set force_ssl = conf.ssl_force|default(True) %}
+{%- set enable_frame = conf.enable_frame|default(False) %}
 {% if force_ssl %}
 # HTTP must redirect to HTTPS
 server {
@@ -42,7 +43,9 @@ server {
 
     add_header Referrer-Policy "no-referrer";
     add_header X-Content-Type-Options "nosniff";
+{%- if not enable_frame %}
     add_header X-Frame-Options "SAMEORIGIN";
+{%- endif %}
     add_header X-Permitted-Cross-Domain-Policies "none";
     add_header X-Robots-Tag "none";
     add_header X-XSS-Protection "1; mode=block";

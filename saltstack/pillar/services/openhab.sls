@@ -59,3 +59,4 @@ proxy_vhosts:
     port: {{ static.proxy_ports.openhab_grafana }}
     ssl: internal
     ssl_name: local
+    enable_frame: True
