@@ -37,6 +37,13 @@ zigbee2mqtt-dir-data:
     - group:  {{ pillar.static.uids.master }}
     - mode:  755
 
+openhab-deps:
+  pkg.installed:
+    - pkgs:
+      - mosquitto-clients
+      - python3-lxml
+      - python3-paho-mqtt
+
 openhab-compose:
   file.managed:
     - name: /opt/openhab/docker-compose.yml
