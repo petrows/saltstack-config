@@ -63,10 +63,10 @@ base:
 
   'pws-home*':
     - pws.home
-  #  - users.master
-  #  - services.openhab
-  # 'pws-home':
-  #   - pws.home-prod
+    - users.master
+    - services.openhab
+  'pws-home':
+    - services.openhab-prod
 
   'eu.petro.ws':
     - common.server

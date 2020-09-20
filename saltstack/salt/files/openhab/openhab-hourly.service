@@ -3,10 +3,10 @@ Description=Openhab hourly script
 After=network.target
 
 [Service]
-User=openhab
-Group=openhab
-WorkingDirectory=/srv/openhab2-conf
-ExecStart=/srv/openhab2-conf/bin/cron-hourly.sh
+User=master
+Group=master
+WorkingDirectory=/srv/openhab-data/conf/
+ExecStart=/srv/openhab-data/conf/bin/cron-hourly.sh
 
 [Install]
 WantedBy=multi-user.target
