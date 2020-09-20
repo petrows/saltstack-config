@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -e
+
+#HDD_DEVICE=/dev/disk/by-id/ata-TOSHIBA_DT01ACA300_Z2O51GXGS
+HDD_DEVICE=/dev/mapper/backup_vg-pws--backup
+
+echo "Mounting backup HDD"
+mkdir -p /srv/backup
+
+# Mount backup hdd
+mount $HDD_DEVICE /srv/backup
+
+# Wait 10 seconds to HDD start up
+sleep 10
+
+exit 0
+

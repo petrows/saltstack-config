@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -e
+
+VMZ_BACKUP="--all"
+VMZ_EXCLUDE="--exclude 102,104"
+
+DIR_BACKUP=/srv/hdd2/backup/vz
+DIR_TMP=/srv/hdd2/backup/tmp
+
+cd $DIR_BACKUP
+
+for vz in $VMZ_BACKUP ; do
+	
+	echo "Backung up VZ $vz"
+	
+	vzdump $vz $VMZ_EXCLUDE -compress lzo -mailto root -dumpdir ./ -tmpdir $DIR_TMP -maxfiles 2
+done
+

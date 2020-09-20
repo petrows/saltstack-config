@@ -1,0 +1,8 @@
+[Unit]
+Description=Backup PVE service
+
+[Service]
+Type=oneshot
+RemainAfterExit=no
+ExecStart=/opt/backup/bin/backup
+TimeoutStartSec=0

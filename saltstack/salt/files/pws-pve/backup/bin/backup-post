@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -e
+
+echo "Free space info"
+
+df -hT /srv/backup
+
+echo "Umounting backup HDD"
+
+umount /srv/backup
+
+echo "Set drive to sleep"
+
+# hdparm -Y /dev/disk/by-id/ata-TOSHIBA_DT01ACA300_Z2O51GXGS
+
+exit 0
+

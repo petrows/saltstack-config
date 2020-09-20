@@ -1,0 +1,140 @@
+#!/usr/bin/python3
+
+# Backup system
+# This script should be run every day at night (03:00)
+
+import syslog
+import time
+import os
+import argparse
+import sys
+import subprocess
+import fcntl
+from datetime import date
+from datetime import datetime
+
+class PetroBackup:
+
+	force_weekly = False
+	force_monthly = False
+
+	def __init__(self):
+		syslog.openlog(ident="backup")
+		self.today = date.today()
+		self.root_path = os.path.realpath(os.path.dirname(__file__) + "/..")
+
+		parser = argparse.ArgumentParser()
+		parser.add_argument('-w', help='Force weekly task', action='store_true')
+		parser.add_argument('-m', help='Force monthly task', action='store_true')
+		args = parser.parse_args()
+
+		self.force_weekly = args.w
+		self.force_monthly = args.m
+
+	def log(self, msg):
+		print(datetime.today().isoformat() + ": " + msg)
+		syslog.syslog(msg)
+
+	def log_erorr(self, msg):
+		print(datetime.today().isoformat() + ": " + msg, file=sys.stderr)
+		syslog.syslog(syslog.LOG_ERR, msg)
+
+	def exec(self, command):
+		command_base = os.path.basename(command[0])
+		p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+		fl = fcntl.fcntl(p.stdout, fcntl.F_GETFL)
+		fcntl.fcntl(p.stdout, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+
+		fl = fcntl.fcntl(p.stderr, fcntl.F_GETFL)
+		fcntl.fcntl(p.stderr, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+
+		while None == p.poll():
+			try:
+				line = p.stdout.readline()
+				if line :
+					self.log(command_base + ": " + line.decode('utf-8').strip())
+			except OSError:
+				pass
+
+			try:
+				line = p.stderr.readline()
+				if line :
+					self.log_erorr(command_base + "! " + line.decode('utf-8').strip())
+			except OSError:
+				pass
+
+		p.wait()
+		if 0 != p.returncode:
+			self.log_erorr("Command '" + ' '.join(command) + "' return code " + "{0}".format(p.returncode))
+
+		return 0 == p.returncode
+
+	def exec_if_exists(self, command):
+		command_path = self.root_path + "/bin/" + command
+		if os.path.isfile(command_path) and os.access(command_path, os.X_OK):
+			self.log("Exec: " + command)
+			self.exec(['/bin/bash', command_path])
+
+	def rsnapshot_run_parts(self, config, daytype):
+		rsnapshot_config_path = self.root_path + "/rsnapshot/" + config + ".conf"
+		if os.path.isfile(rsnapshot_config_path):
+			self.log("Rsnapshot, config " + config + ", rotate period " + daytype)
+			ret = self.exec(["rsnapshot", "-c", rsnapshot_config_path, daytype])
+			if not ret:
+				self.log("Error running rsnapshot!")
+				raise Exception('Rsnapshot', 'Error run rsnapshot!')
+
+	def run(self):
+		self.exec_if_exists("backup-pre")
+		ret_code = 0
+
+		try:
+			# What run every day
+			if True:
+				self.daily()
+
+			# What run on monday
+			if self.force_weekly or 0 == self.today.weekday():
+				self.weekly()
+
+			# What run on 1st month day
+			if self.force_monthly or 1 == self.today.day:
+				self.monthly()
+
+		except Exception as err:
+			self.log("Run parts error: " + str(err))
+			ret_code = 5
+		else:
+			self.log("Backup tasks complete")
+
+		self.exec_if_exists("backup-post")
+		self.log("Exit code: " + str(ret_code))
+
+		exit(ret_code)
+
+# Run parts:
+	def daily(self):
+		self.log("DAILY")
+		self.exec_if_exists("daily-pre")
+		self.rsnapshot_run_parts('daily', 'daily')
+		self.exec_if_exists("daily-post")
+
+	def weekly(self):
+		self.log("WEEKLY")
+		self.rsnapshot_run_parts('daily', 'weekly')
+		self.exec_if_exists("weekly-pre")
+		self.rsnapshot_run_parts('weekly', 'weekly')
+		self.exec_if_exists("weekly-post")
+
+	def monthly(self):
+		self.log("MONTHLY")
+		self.rsnapshot_run_parts('daily', 'monthly')
+		self.rsnapshot_run_parts('weekly', 'monthly')
+		self.exec_if_exists("monthly-pre")
+		self.rsnapshot_run_parts('monthly', 'monthly')
+		self.exec_if_exists("monthly-post")
+
+obj = PetroBackup()
+obj.run()
+

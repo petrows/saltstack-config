@@ -39,3 +39,31 @@ pve-modules:
     - persist: True
     - mods:
       - overlay
+
+# Backup system
+pve-backup-deps:
+  pkg.installed:
+    - pkgs:
+      - python3
+      - rsnapshot
+      - hdparm
+
+pve-backup.service:
+  file.managed:
+    - name: /etc/systemd/system/pve-backup.service
+    - source: salt://files/pws-pve/pve-backup.service
+  service.enabled:
+    - enable: True
+
+pve-backup.timer:
+  file.managed:
+    - name: /etc/systemd/system/pve-backup.timer
+    - source: salt://files/pws-pve/pve-backup.timer
+  service.running:
+    - enable: True
+
+pve-backup-code:
+  file.recurse:
+    - name: /opt/backup
+    - source: salt://files/pws-pve/backup
+    - file_mode: keep
