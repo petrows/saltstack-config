@@ -10,10 +10,8 @@ openhab:
   version: 2.5.8
   data_dir: /srv/openhab-data
   dirs:
-    - /srv/openhab-data/sys
     - /srv/openhab-data/conf
     - /srv/openhab-data/userdata
-    - /srv/openhab-data/logs
     - /srv/openhab-data/addons
     - /srv/openhab-data/java
 
