@@ -50,6 +50,9 @@ base:
   'roles:cmk-server':
     - match: pillar
     - services.cmk-server
+  'roles:samba':
+    - match: pillar
+    - services.samba
 
   # Hosts configs
   'pws-pve*':

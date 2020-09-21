@@ -68,6 +68,12 @@ base:
   'pws-home':
     - services.openhab-prod
 
+  'pws-media*':
+    - users.master
+    - services.samba
+  #'pws-media':
+  #  - services.openhab-prod
+
   'eu.petro.ws':
     - common.server
     - common.server-dedicated

@@ -63,6 +63,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ["pws-backup-dev", "#{net_ip}.15", os_ram, os_u18],
     ["pws-u20-dev", "#{net_ip}.16", os_ram, os_u20],
     ["pws-home-dev", "#{net_ip}.17", os_ram, os_u20],
+    ["pws-media-dev", "#{net_ip}.18", os_ram, os_u20],
   ].each do |vmname, ip, mem, os|
     config.vm.define "#{vmname}" do |minion_config|
       minion_config.vm.provider "virtualbox" do |vb|

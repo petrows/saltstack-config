@@ -31,6 +31,7 @@ sh bootstrap-salt.sh -x python3 stable
 vagrant up master
 vagrant up pws-web-vm-dev
 vagrant ssh master -- sudo salt --force-color 'pws-web-vm-dev' state.apply
+vagrant ssh master -- sudo salt --force-color --state-verbose=True 'pws-web-vm-dev' state.apply
 ```
 
 # Nginx config
