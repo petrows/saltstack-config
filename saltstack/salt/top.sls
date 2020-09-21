@@ -53,6 +53,9 @@ base:
   'roles:samba':
     - match: pillar
     - services.samba
+  'roles:plex':
+    - match: pillar
+    - services.plex
 
   # Hosts configs
   'pws-pve*':

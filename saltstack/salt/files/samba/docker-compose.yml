@@ -20,7 +20,11 @@ services:
     stdin_open: true
     tty: true
     volumes:
-      - {{ pillar.samba.data_dir }}/etc:/etc/samba:ro
-      - {{ pillar.samba.data_dir }}/lib:/var/lib/samba
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - /etc/passwd:/etc/passwd:ro
       - /etc/shadow:/etc/shadow:ro
+      - /etc/group:/etc/group:ro
+      - {{ pillar.samba.data_dir }}/etc:/etc/samba:ro
+      - {{ pillar.samba.data_dir }}/lib:/var/lib/samba
+      - /srv/share:/srv/share

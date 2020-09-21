@@ -77,6 +77,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       minion_config.vm.hostname = "#{vmname}"
       minion_config.vm.network "private_network", ip: "#{ip}"
 
+      if File.directory?(File.expand_path("test/srv/#{vmname}"))
+        minion_config.vm.synced_folder "test/srv/#{vmname}", "/srv", type: "rsync", rsync__auto: false, rsync__chown: false, rsync__args: ['--verbose', '-r', '-z', '--copy-links']
+      end
+
       minion_config.vm.provision :shell, run: "once", path: "test/set-dns.sh", args: net_dns_ip
 
       minion_config.vm.provision :salt do |salt|

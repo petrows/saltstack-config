@@ -1,0 +1,20 @@
+# PLEX media server
+version: '3'
+
+services:
+  samba:
+    image: linuxserver/plex:{{ pillar.plex.version }}
+    container_name: {{ pillar.plex.id }}
+    network_mode: host
+    environment:
+      - PUID={{ pillar.static.uids.master }}
+      - PGID={{ pillar.static.uids.master }}
+      - VERSION=docker
+      - UMASK_SET=022
+    # Uncomment this and restart plex-media server to login to your account
+    # To have claim token visit https://www.plex.tv/claim/
+    #  - PLEX_CLAIM=<token>
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - {{ pillar.plex.data_dir }}:/config

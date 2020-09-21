@@ -71,6 +71,7 @@ base:
   'pws-media*':
     - users.master
     - services.samba
+    - services.plex
   #'pws-media':
   #  - services.openhab-prod
 
