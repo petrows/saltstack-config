@@ -1,9 +1,16 @@
-{% for dir in ['/etc','/lib', '/lib/private'] %}
+{% for dir in ['/lib', '/lib/private'] %}
 samba-dir-{{ dir }}:
   file.directory:
     - name:  {{ pillar.samba.data_dir + dir }}
     - makedirs: True
 {% endfor %}
+
+samba-config:
+  file.managed:
+    - name: /opt/samba/smb.conf
+    - source: salt://files/samba/smb.conf.j2
+    - template: jinja
+    - makedirs: True
 
 samba-compose:
   file.managed:

@@ -1,35 +1,32 @@
 [global]
-
 log level = 3
 workgroup = TESTWG
 netbios name = MEDIA-DEV
 wins support = yes
 server string = pws-media-dev
-
 dns proxy = yes
-
 smb ports = 139 445
-
 server role = standalone server
-
 passdb backend = tdbsam
-obey pam restrictions = no
 unix password sync = no
 map to guest = Bad user
 security = user
 force user = master
 force group = master
-
 write list = master
 
-[share]
-    comment = Public share
+client min protocol = SMB3
+
+{% for share_id, share in salt.pillar.get('samba:shares', {}).items() %}
+[{{ share_id }}]
+    comment = {{ share.comment|default('Share: ' + share_id) }}
     read only = no
     writable = yes
-    path = /srv/share
+    path = {{ share.path }}
     create mode = 0644
     directory mode = 2755
     guest ok = yes
     force user = master
     force group = master
     guest only = yes
+{% endfor %}

@@ -6,7 +6,7 @@ RUN apk add --update \
     samba-server \
     && rm -rf /var/cache/apk/*
 
-VOLUME ["/etc/samba", "/var/lib/samba", "/var/log/samba", "/var/cache/samba" ]
+VOLUME ["/var/lib/samba", "/var/log/samba", "/var/cache/samba" ]
 
 ENTRYPOINT ["smbd", "--foreground", "--log-stdout", "--no-process-group"]
 CMD []

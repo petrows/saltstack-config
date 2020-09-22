@@ -74,6 +74,8 @@ base:
     - services.plex
   #'pws-media':
   #  - services.openhab-prod
+  'pws-media-dev':
+    - services.samba-dev
 
   'eu.petro.ws':
     - common.server
