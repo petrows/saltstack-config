@@ -50,9 +50,13 @@ openhab-compose:
     - source: salt://files/openhab/docker-compose.yml
     - template: jinja
     - makedirs: True
-    - user: root
-    - group: root
-    - mode: 644
+
+openhab-dockerfile:
+  file.managed:
+    - name: /opt/openhab/Dockerfile
+    - source: salt://files/openhab/Dockerfile
+    - template: jinja
+    - makedirs: True
 
 openhab.service:
   file.managed:

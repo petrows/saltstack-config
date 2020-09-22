@@ -5,7 +5,7 @@ services:
 
   openhab:
     container_name: {{ pillar.openhab.id }}
-    image: openhab/openhab:{{ pillar.openhab.version }}
+    build: .
     network_mode: host
     restart: always
     ports:
