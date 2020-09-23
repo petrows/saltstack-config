@@ -44,38 +44,8 @@ openhab-deps:
       - python3-lxml
       - python3-paho-mqtt
 
-openhab-compose:
-  file.managed:
-    - name: /opt/openhab/docker-compose.yml
-    - source: salt://files/openhab/docker-compose.yml
-    - template: jinja
-    - makedirs: True
-
-openhab-dockerfile:
-  file.managed:
-    - name: /opt/openhab/Dockerfile
-    - source: salt://files/openhab/Dockerfile
-    - template: jinja
-    - makedirs: True
-
-openhab-compose-build:
-  cmd.run:
-    - name: docker-compose build
-    - cwd: /opt/openhab/
-    - onchanges:
-      - file: /opt/openhab/*
-
-openhab.service:
-  file.managed:
-    - name: /etc/systemd/system/openhab.service
-    - source: salt://files/docker-compose/systemd.service
-    - template: jinja
-    - context:
-      compose_path: /opt/openhab/
-  service.running:
-    - enable: True
-    - watch:
-      - file: /opt/openhab/*
+{% import "roles/docker-compose-macro.sls" as compose %}
+{{ compose.service('openhab') }}
 
 # Openhab cron jobs
 openhab-hourly.service:
