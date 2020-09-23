@@ -58,13 +58,18 @@ openhab-dockerfile:
     - template: jinja
     - makedirs: True
 
+openhab-compose-build:
+  cmd.run:
+    - name: docker-compose build
+    - cwd: /opt/openhab/
+    - onchanges:
+      - file: /opt/openhab/*
+
 openhab.service:
   file.managed:
     - name: /etc/systemd/system/openhab.service
     - source: salt://files/docker-compose/systemd.service
     - template: jinja
-    - user: root
-    - group: root
     - context:
       compose_path: /opt/openhab/
   service.running:
