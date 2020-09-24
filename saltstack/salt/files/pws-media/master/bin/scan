@@ -1,0 +1,53 @@
+#!/bin/bash -e
+
+MODE=$1
+OUTPUT="/srv/storage/common/archive/$(date +%Y)/scan-$(date +%s).pdf"
+OPTS=""
+TMP="/tmp"
+
+if [[ -z "$MODE" ]] ; then
+    echo "Mode: adf duplex page page-add"
+    exit 1
+fi
+
+if [[ "adf" == "$MODE" ]] ; then
+    OPTS="--adf"
+fi
+
+if [[ "duplex" == "$MODE" ]] ; then
+    OPTS="--adf --duplex"
+fi
+
+rm -rf /tmp/hpscan*
+rm -rf $TMP/scan-raw.pdf
+
+echo "Run: hp-scan --mode=color --dest=file --size=a4 --compression=none  --resolution=300 $OPTS --output=/tmp/scan-raw.pdf"
+hp-scan --mode=color --dest=file --size=a4 --compression=none  --resolution=300 $OPTS --output=/tmp/scan-raw.pdf
+
+if [[ ! -f $TMP/scan-raw.pdf ]] ; then
+    echo "Scan result not found"
+    exit 1
+fi
+
+if [[ "page-add" == "$MODE" ]] ; then
+    echo "Copy prev document for page add"
+    cp $TMP/scan-last.pdf $TMP/scan-prev.pdf
+fi
+
+ps2pdf $TMP/scan-raw.pdf $TMP/scan-last.pdf
+rm -rf $TMP/scan-raw.pdf
+
+if [[ "page-add" == "$MODE" ]] ; then
+
+    mv $TMP/scan-last.pdf $TMP/scan-prev-pg.pdf
+
+    pdfunite $TMP/scan-prev.pdf $TMP/scan-prev-pg.pdf $TMP/scan-last.pdf
+
+    rm -rf $TMP/scan-prev.pdf
+    rm -rf $TMP/scan-prev-pg.pdf
+fi
+
+echo "Output: $OUTPUT"
+
+echo $OUTPUT > $TMP/scan-output.txt
+cp $TMP/scan-last.pdf $OUTPUT

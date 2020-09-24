@@ -70,6 +70,9 @@ base:
   'pws-home*':
     - pws.home
 
+  'pws-media*':
+    - pws.media
+
 # Local host config
   'petro-pc':
     - common.users
