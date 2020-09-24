@@ -75,8 +75,8 @@ base:
     - services.plex
     - services.rslsync
     - pws.media
-  #'pws-media':
-  #  - services.openhab-prod
+  'pws-media':
+    - services.samba-prod
   'pws-media-dev':
     - services.samba-dev
 

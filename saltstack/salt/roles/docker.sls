@@ -21,6 +21,12 @@ docker-config:
     - name: /etc/docker/daemon.json
     - source: salt://files/docker-compose/daemon.json
 
+docker.service:
+  service.running:
+    - enable: True
+    - watch:
+      - file: /etc/docker/*
+
 # We will remove (potentially outdated) package and install it from official source
 docker-compose-pkg-clean:
   pkg.purged:

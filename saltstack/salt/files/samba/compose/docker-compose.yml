@@ -5,21 +5,16 @@ services:
   samba:
     build: .
     container_name: {{ pillar.samba.id }}
-    network_mode: host
-    # networks:
-    #   - default
-    # ports:
-    #   - "137:137/udp"
-    #   - "138:138/udp"
-    #   - "139:139/tcp"
-    #   - "445:445/tcp"
+    ports:
+      - "137:137/udp"
+      - "138:138/udp"
+      - "139:139/tcp"
+      - "445:445/tcp"
     read_only: true
     tmpfs:
       - /tmp
       - /run/samba
     restart: unless-stopped
-    stdin_open: true
-    tty: true
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
@@ -28,6 +23,8 @@ services:
       - /etc/group:/etc/group:ro
       - /opt/samba/smb.conf:/etc/samba/smb.conf:ro
       - {{ pillar.samba.data_dir }}/lib:/var/lib/samba
-      {%- for share_id, share in salt.pillar.get('samba:shares', {}).items() %}
+      {%- set shared_folders = [] %}
+      {%- for share_id, share in salt.pillar.get('samba:shares', {}).items() if share.path not in shared_folders %}
+        {%- do shared_folders.append(share.path) %}
       - {{ share.path }}:{{ share.path }}
       {%- endfor %}

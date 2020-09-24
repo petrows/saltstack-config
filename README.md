@@ -53,7 +53,7 @@ Section for services-specific
 ## Logging
 To see log from container via journald, use:
 ```
-journalctl CONTAINER_NAME=Plex-dev
+journalctl -f -n 100 CONTAINER_NAME=Plex-dev
 ```
 
 ## Openhab
@@ -68,4 +68,15 @@ To force new version run, call
 ```
 salt pws-media cmd.run 'rm -rf /opt/rslsync'
 salt pws-media state.apply
+```
+## Samba
+To use Samba from Windows 10, apply registry file:
+```
+Windows Registry Editor Version 5.00
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters]
+"AllowInsecureGuestAuth"=dword:1
+```
+Add user to shares:
+```
+docker exec -it Samba smbpasswd -a master
 ```
