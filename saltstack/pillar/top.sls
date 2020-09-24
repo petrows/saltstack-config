@@ -73,6 +73,7 @@ base:
     - users.master
     - services.samba
     - services.plex
+    - services.rslsync
     - pws.media
   #'pws-media':
   #  - services.openhab-prod

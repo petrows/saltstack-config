@@ -56,6 +56,9 @@ base:
   'roles:plex':
     - match: pillar
     - services.plex
+  'roles:rslsync':
+    - match: pillar
+    - services.rslsync
 
   # Hosts configs
   'pws-pve*':

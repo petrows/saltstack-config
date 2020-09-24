@@ -1,0 +1,12 @@
+[Unit]
+Description=Resillio sync
+After=network.target
+
+[Service]
+User={{ pillar.rslsync.user }}
+Group={{ pillar.rslsync.user }}
+WorkingDirectory=/opt/rslsync
+ExecStart=/opt/rslsync/rslsync --nodaemon --webui.listen 0.0.0.0:8888 --storage {{ pillar.rslsync.data_dir }}
+
+[Install]
+WantedBy=multi-user.target

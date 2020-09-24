@@ -51,9 +51,15 @@ timedatectl
 # Services update
 Section for update services
 ## Openhab
-After package update, call
+After docker update, call
 ```
 service openhab2 stop
-rm -rf /var/lib/openhab2/{cache,tmp}/*
+rm -rf /srv/openhab-data/userdata/{cache,tmp}/*
 service openhab2 restart
+```
+## Resillio Sync
+To force new version run, call
+```
+salt pws-media cmd.run 'rm -rf /opt/rslsync'
+salt pws-media state.apply
 ```
