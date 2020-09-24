@@ -48,14 +48,20 @@ systemctl status systemd-timesyncd
 timedatectl
 ```
 
-# Services update
-Section for update services
+# Services
+Section for services-specific
+## Logging
+To see log from container via journald, use:
+```
+journalctl CONTAINER_NAME=Plex-dev
+```
+
 ## Openhab
 After docker update, call
 ```
-service openhab2 stop
+systemctl stop openhab.service
 rm -rf /srv/openhab-data/userdata/{cache,tmp}/*
-service openhab2 restart
+systemctl start openhab.service
 ```
 ## Resillio Sync
 To force new version run, call

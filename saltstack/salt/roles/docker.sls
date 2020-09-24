@@ -16,6 +16,11 @@ docker-pkg:
     - require:
       - pkgrepo: docker-repository
 
+docker-config:
+  file.managed:
+    - name: /etc/docker/daemon.json
+    - source: salt://files/docker-compose/daemon.json
+
 # We will remove (potentially outdated) package and install it from official source
 docker-compose-pkg-clean:
   pkg.purged:
