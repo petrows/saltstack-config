@@ -1,6 +1,8 @@
 # Config salt-minion for servers
 
+{% if pillar.salt_auto_apply %}
 # Apply state on startup
 startup_states: highstate
+{%- endif %}
 # Enable some logging for watch
 log_level: info

@@ -17,6 +17,7 @@ base:
 # All dev servers should have virtual user config
   '*-dev':
     - users.vagrant
+    - common.server-dev
 
 # Separate hosts config
   'pws-pve*':

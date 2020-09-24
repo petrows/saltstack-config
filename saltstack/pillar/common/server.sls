@@ -6,6 +6,9 @@ roles:
   # Redirect local emails to external one
   - mail-relay
 
+# Server will update config on connect
+salt_auto_apply: True
+
 # Physical machines should check their logs
 check_mk_plugins:
   - mk_logwatch

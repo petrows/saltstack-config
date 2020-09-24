@@ -10,6 +10,9 @@ powerline_git_pkg: ''
 # If check-mk used, we can install additional plugins to monitor it
 check_mk_plugins: {}
 
+# If set, salt will be armed to auto-apply on connect (default for servers)
+salt_auto_apply: False
+
 # All local emails will be delivered to this one
 maintainer_email: petro@petro.ws
 
