@@ -5,6 +5,7 @@ uids:
   www-data: 33
   master: 2017
   www: 2018
+  share_root: 2019
 
 # Services proxy ports
 proxy_ports:

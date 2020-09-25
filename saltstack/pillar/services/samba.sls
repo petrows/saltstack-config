@@ -1,3 +1,5 @@
+{% import_yaml 'static.yaml' as static %}
+
 roles:
   - docker
   - samba
@@ -10,3 +12,5 @@ samba:
   name: MEDIA-DEV
   workgroup: TESTWG
   shares: {}
+  smb_users:
+    share-root: {{ static.uids.share_root }}
