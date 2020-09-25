@@ -99,3 +99,5 @@ base:
     - pws.secrets-default
     - pws.secrets
     - pws.powerline-gitstatus
+    - services.rslsync
+    - services.rslsync-petro-pc
