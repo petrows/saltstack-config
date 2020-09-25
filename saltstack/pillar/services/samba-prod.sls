@@ -1,4 +1,5 @@
 samba:
+  id: Samba
   name: MEDIA
   workgroup: PETROWS
   shares:
