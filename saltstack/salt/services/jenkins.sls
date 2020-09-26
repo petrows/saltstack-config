@@ -8,26 +8,5 @@ jenkins-dir-{{ dir }}:
     - mode:  755
 {% endfor %}
 
-jenkins-compose:
-  file.managed:
-    - name: /opt/jenkins/docker-compose.yml
-    - source: salt://files/jenkins/docker-compose.yml
-    - template: jinja
-    - makedirs: True
-    - user: root
-    - group: root
-    - mode: 644
-
-jenkins.service:
-  file.managed:
-    - name: /etc/systemd/system/jenkins.service
-    - source: salt://files/docker-compose/systemd.service
-    - template: jinja
-    - user: root
-    - group: root
-    - context:
-      compose_path: /opt/jenkins/
-  service.running:
-    - enable: True
-    - watch:
-      - file: /opt/jenkins/*
+{% import "roles/docker-compose-macro.sls" as compose %}
+{{ compose.service('jenkins') }}

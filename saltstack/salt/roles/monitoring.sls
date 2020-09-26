@@ -17,8 +17,7 @@ check_mk_plugin_{{plugin_id}}:
   file.managed:
     - name: /usr/lib/check_mk_agent/plugins/{{plugin_id}}
     - source: salt://files/check-mk/plugins/{{plugin_id}}
-    - user: root
-    - group: root
+    - makedirs: True
     - mode: 755
 {% endfor %}
 
@@ -28,8 +27,7 @@ check_mk_plugin_nginx_status_cfg:
   file.managed:
     - name: /etc/check_mk/nginx_status.cfg
     - source: salt://files/check-mk/configs/nginx_status.cfg
-    - user: root
-    - group: root
+    - makedirs: True
     - mode: 755
 {% endif %}
 
@@ -38,8 +36,7 @@ check_mk_plugin_logwatch_cfg:
   file.managed:
     - name: /etc/check_mk/logwatch.cfg
     - source: salt://files/check-mk/configs/logwatch.cfg
-    - user: root
-    - group: root
+    - makedirs: True
     - mode: 755
 {% endif %}
 
@@ -48,8 +45,7 @@ check_mk_plugin_docker_cfg:
   file.managed:
     - name: /etc/check_mk/docker.cfg
     - source: salt://files/check-mk/configs/docker.cfg
-    - user: root
-    - group: root
+    - makedirs: True
     - mode: 755
 {% set pip2_location = salt['cmd.shell']('which pip2') %}
 docker-monitoring-pip-pkgs:

@@ -6,7 +6,7 @@ roles:
   - jenkins
 
 jenkins:
-  version: 2.235.5
+  version: 2.249.1
   data_dir: /srv/jenkins-data
   dirs:
     - /srv/jenkins-data
