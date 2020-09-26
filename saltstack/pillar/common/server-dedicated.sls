@@ -1,1 +1,2 @@
-# No config yet
+roles:
+  - server-dedicated

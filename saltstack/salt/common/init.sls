@@ -53,6 +53,9 @@ coreutils:
       - file /swap.img 2>&1 | grep -q "Linux/i386 swap"
   mount.swap:
     - persist: true
+{% endif %}
+
+{% if salt.pillar.get('roles:server-dedicated', False) or salt.pillar.get('swap_size_mb', 0) %}
 # Configure less aggressive swap usage
 vm.swappiness:
   sysctl.present:
