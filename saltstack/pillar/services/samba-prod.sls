@@ -19,6 +19,7 @@ samba:
     common:
       path: /srv/storage/common
       comment: Documents
+      rw: True
     common-old:
       path: /srv/storage-old
       comment: Documents (old)
