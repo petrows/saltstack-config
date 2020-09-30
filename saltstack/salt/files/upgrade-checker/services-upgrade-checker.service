@@ -1,0 +1,12 @@
+[Unit]
+Description=Updates-checker script
+After=network.target
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/srv/salt-config/
+ExecStart=/srv/salt-config/saltstack/salt/files/upgrade-checker/upgrade-checker.py
+
+[Install]
+WantedBy=multi-user.target

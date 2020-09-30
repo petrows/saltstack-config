@@ -1,0 +1,9 @@
+[Unit]
+Description=Updates-checker script timer
+
+[Timer]
+OnCalendar=weekly
+Unit=services-upgrade-checker.service
+
+[Install]
+WantedBy=timers.target

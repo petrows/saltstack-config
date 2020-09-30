@@ -13,3 +13,6 @@
 
 # End of https://www.gitignore.io/api/vagrant
 saltstack/pillar/pws/secrets.sls
+
+.vscode
+
