@@ -54,3 +54,21 @@ postfix_reload:
     - watch:
       - file: /etc/postfix/*
       - pkg: postfix_packages
+
+# This maps will redirect local mailbox emails,
+# eq sent to root@localhost
+
+mail_alias_maintainer:
+  file.managed:
+    - name: /etc/aliases
+    - source: salt://files/mail-aliases
+    - template: jinja
+
+mail_alias_maintainer_db:
+  cmd.run:
+    - name: newaliases
+    - onchanges:
+      - file: /etc/aliases
+    - requre:
+      - pkg:
+        - mail-tools
