@@ -79,3 +79,4 @@ base:
 # Local host config
   'petro-pc':
     - common.users
+    - pws.local-pc

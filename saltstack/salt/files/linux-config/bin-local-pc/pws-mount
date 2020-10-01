@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# nmcli c up pws-home
+
+nmcli c up pws-l2tp
+
+sshfs -o uid=1000 -o gid=1000  master@192.168.80.3:/srv /home/pws

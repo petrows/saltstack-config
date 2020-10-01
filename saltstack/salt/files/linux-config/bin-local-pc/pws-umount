@@ -1,0 +1,11 @@
+#!/bin/bash
+
+sudo umount /home/pws
+sudo umount -f /home/pws
+sudo umount -f /home/pws
+
+nmcli c down pws-l2tp
+
+sudo umount -f /home/pws
+sudo umount -f /home/pws
+

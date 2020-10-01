@@ -1,0 +1,10 @@
+#!/bin/bash
+
+HOST=$1
+HOST_IPS=$(dig +short $1)
+
+ssh-keygen -R "$1"
+
+for IP in $HOST_IPS; do
+    ssh-keygen -R "$IP"
+done

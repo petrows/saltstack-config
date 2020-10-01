@@ -61,3 +61,11 @@ vm.swappiness:
   sysctl.present:
     - value: 10
 {% endif %}
+
+# Additional scripts
+system-custom-bin:
+  file.recurse:
+    - name: /usr/local/sbin
+    - source: salt://files/linux-config/sbin
+    - template: jinja
+    - file_mode: 755
