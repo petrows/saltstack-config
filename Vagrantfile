@@ -57,7 +57,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Salt minion config
 
   [
-    ["pws-system-dev", "#{net_ip}.12", os_ram, os_u18],
+    ["pws-system-dev", "#{net_ip}.12", os_ram, os_u20],
     ["pws-pve-dev", "#{net_ip}.13", os_ram, "debian/buster64"],
     ["pws-web-vm-dev", "#{net_ip}.14", 8192, os_u20],
     ["pws-backup-dev", "#{net_ip}.15", os_ram, os_u18],
