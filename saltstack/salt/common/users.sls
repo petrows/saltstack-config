@@ -98,22 +98,26 @@ user_{{user_id}}_fish_vars_config:
     - group: {{user_id}}
 {% endif %}
 
-# FZF install
-user_{{user_id}}_fzf_src:
-  git.latest:
-    - user: {{user_id}}
-    - name: https://github.com/junegunn/fzf.git
-    - target: {{user.home}}/.fzf
-    - force_fetch: True
-    - force_reset: True
+# FZF uninstall old pkg
+fzf-clean-old-app-{{user_id}}:
+  file.absent:
+    - name: {{user.home}}/.fzf
+fzf-clean-old-bindings-{{user_id}}:
+  file.absent:
+    - name: {{user.home}}/.config/fish/functions/fish_user_key_bindings.fish
 
-user_{{user_id}}_fzf_config:
-  cmd.run:
-    - name: "{{user.home}}/.fzf/install --all"
-    - cwd: {{user.home}}
-    - runas: {{user_id}}
-    - onchanges:
-      - git: user_{{user_id}}_fzf_src
+# FZF install bash (new pkg)
+fzf-app-install-bash-{{user_id}}:
+  file.append:
+    - name: {{user.home}}/.bashrc
+    - text: '[ -f ~/.fzf.bash ] && source ~/.fzf.bash'
+fzf-app-install-bash-{{user_id}}-launcher:
+  file.managed:
+    - name: {{user.home}}/.fzf.bash
+    - source: salt://files/linux-config/home/.fzf.bash
+    - user: {{user_id}}
+    - group: {{user_id}}
+    - mode: 755
 
 user_{{user_id}}_vim_config:
   file.managed:

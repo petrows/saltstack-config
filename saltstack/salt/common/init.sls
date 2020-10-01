@@ -1,5 +1,6 @@
 include:
   - common.packages
+  - common.fzf
 
 locale-us:
   locale.present:
