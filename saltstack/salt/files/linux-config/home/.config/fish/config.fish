@@ -10,7 +10,10 @@ if test -d /opt/fzf
     set fish_function_path $fish_function_path "/opt/fzf/shell/key-bindings.fish"
     set PATH $PATH /opt/fzf/bin
     source /opt/fzf/shell/key-bindings.fish
-    fzf_key_bindings
+    # This must be wrapped with function to be activated later
+    function fish_user_key_bindings
+        fzf_key_bindings
+    end
 end
 
 # User config
