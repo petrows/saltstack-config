@@ -87,7 +87,9 @@ base:
     - common.server-public
     - common.server-external
     - services.nginx
+    - services.jenkins-node
     - users.root
+    - users.www_eu
     - pws.eu-petrows
 
 # Local PC config
