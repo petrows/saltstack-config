@@ -9,3 +9,6 @@ proxy_vhosts:
     domain: eu.petro.ws
     force_ssl: false
     ssl: external
+
+packages:
+  - openjdk-7-jre-headless
