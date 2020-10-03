@@ -6,6 +6,7 @@ uids:
   master: 2017
   www: 2018
   share_root: 2019
+  share: 2020
 
 # Services proxy ports
 proxy_ports:

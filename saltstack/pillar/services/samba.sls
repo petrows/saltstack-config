@@ -14,3 +14,4 @@ samba:
   shares: {}
   smb_users:
     share-root: {{ static.uids.share_root }}
+    share: {{ static.uids.share }}
