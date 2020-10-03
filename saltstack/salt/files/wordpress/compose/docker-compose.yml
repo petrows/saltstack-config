@@ -1,0 +1,27 @@
+# Samba server
+version: '3'
+
+services:
+  wordpress:
+    image: wordpress:{{ pillar.wordpress.version }}
+    container_name: {{ pillar.wordpress.id }}
+    ports:
+      - "{{ pillar.static.proxy_ports.pws_blog_http }}:80"
+    restart: unless-stopped
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: exampleuser
+      WORDPRESS_DB_PASSWORD: examplepass
+      WORDPRESS_DB_NAME: exampledb
+    volumes:
+      - {{ pillar.wordpress.data_dir }}/html:/var/www/html
+  db:
+    image: mysql:{{ pillar.wordpress.version_mysql }}
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - {{ pillar.wordpress.data_dir }}/db:/var/lib/mysql
