@@ -10,6 +10,7 @@ samba:
     media-rw:
       path: /srv/media
       comment: Media R/W
+      user: master
       rw: True
     share:
       path: /srv/share
@@ -19,6 +20,7 @@ samba:
     common:
       path: /srv/storage/common
       comment: Documents
+      user: master
       rw: True
     common-old:
       path: /srv/storage-old
@@ -31,3 +33,4 @@ samba:
       path: /srv/storage/home/marina
       comment: Marina private
       rw: True
+      user: master
