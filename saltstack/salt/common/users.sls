@@ -53,7 +53,7 @@ user_{{user_id}}_config:
 {% if user.groups|default([]) %}
     - groups: {{ user.groups }}
 {% endif %}
-    - shell: /usr/bin/fish
+    - shell: {{ user.shell|default('/usr/bin/fish') }}
   require:
     - pkg: fish_packages
 
