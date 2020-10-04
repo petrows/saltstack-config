@@ -9,5 +9,13 @@ if [[ -z "$VM" ]]; then
 fi
 
 vagrant up master $VM
+
+# Clean all keys
+vagrant ssh master -- sudo salt-key -yd '*'
+
+# Reload - if there were already up VM's to force reconnect
+vagrant ssh master -- sudo service salt-master restart
+
+vagrant up $VM
 sleep 5
 vagrant ssh master -- sudo salt --force-color $VM state.apply
