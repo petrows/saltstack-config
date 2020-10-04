@@ -76,6 +76,9 @@ base:
   'pws-media*':
     - pws.media
 
+  'eu.petro.ws*':
+    - pws.eu-petrows
+
 # Local host config
   'petro-pc':
     - common.users
