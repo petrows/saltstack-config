@@ -85,6 +85,24 @@ nginx-proxy-conf-{{ conf_id }}:
       ssl_key: {{ ssl_key }}
 {% endfor %}
 
+# PHP config deploy
+{% if pillar.nginx.php %}
+nginx-php-pkg:
+  pkg.installed:
+    - pkgs:
+      - {{ pillar.nginx.php_pkg }}
+{% set php_sock_location = salt['cmd.shell']('find /var/run/php -name \'php*-fpm.sock\'') %}
+nginx-php:
+  file.managed:
+    - name: /etc/nginx/php.conf
+    - source: salt://files/nginx/php.conf
+    - template: jinja
+    - context:
+      php_sock: '{{ pillar.nginx.php_sock }}'
+    - required:
+      pkg: nginx-php-pkg
+{% endif %}
+
 {% if pillar.nginx.dhparam %}
 nginx-dh:
   cmd.run:
@@ -138,6 +156,6 @@ nginx-config-test:
     - name: nginx.configtest
     - watch:
       - file: /etc/nginx/conf.d/*
-      - file: /etc/nginx/nginx.conf
+      - file: /etc/nginx/*
       - file: /etc/ssl/certs/*
 

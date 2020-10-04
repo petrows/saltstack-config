@@ -51,9 +51,14 @@ ssh:
   keys:
     - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCZdDx+dLw8B7cu/OQRMA+R/o1pnlGN7WSAsiN87Ek//lr8nHociMbNWFk/e6eCWUZnJiWuDQjmFUyt/Ri7RdDCffCMbu2g6xpLCVxL3x1FE0D8rYrXFkEPNspNz9hHHpEt3WeolJenUf45ppNBTcHkUyDpQd/iTCDmiiz6I6K34QbkyAhlCEWwmlKusn85XXZiwJXEMUcLTQnmH+T1LvbZnuog8WRIDarN1smV2Sr4qa4t6MdV9cD4RuQovZQvLjmbHz/Jxl+5o6vjuXXI8Myke3r4ykXstbezdE6cqrh83AyK7YYNEypGMRx4CXUKHHfKYi46IeRMvtF6HcsLCgSZ petro@petro.ws'
 
-# Force generate new dhparm keys for Nginx (required for external servers)
 nginx:
+  # Force generate new dhparm keys for Nginx (required for external servers)
   dhparam: False
+  # Enable PHP processing
+  php: False
+  # PHP version
+  php_pkg: 'php7.0-fpm'
+  php_sock: '/var/run/php/php7.0-fpm.sock'
 
 # Export static registry as pillar to be used in SLS
 {% import_yaml 'static.yaml' as static %}

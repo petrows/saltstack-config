@@ -81,7 +81,7 @@ base:
   'pws-media-dev':
     - services.samba-dev
 
-  'eu.petro.ws':
+  'eu.petro.ws*':
     - common.server
     - common.server-dedicated
     - common.server-public
@@ -91,6 +91,8 @@ base:
     - users.root
     - users.www_eu
     - pws.eu-petrows
+  'eu.petro.ws-dev':
+    - pws.eu-petrows-dev
 
 # Local PC config
   'petro-pc':

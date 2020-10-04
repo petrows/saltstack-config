@@ -53,6 +53,10 @@ server {
     # Remove X-Powered-By, which is an information leak
     add_header X-Powered-By DENY;
 
+    location ~ /\.pws.* {
+        deny all;
+    }
+
 {%- if conf_type == 'proxy' %}
     location / {
         client_max_body_size    0;
@@ -78,6 +82,14 @@ server {
         autoindex_format html;
         autoindex_localtime on;
     }
+{%- endif %}
+
+{%- if conf_type == 'php' %}
+    index index.php;
+    location / {
+		try_files $uri $uri/ /index.php?q=$uri&$args;
+	}
+	location ~ \.php$ { include php.conf; }
 {%- endif %}
 
     # SSL configuration
