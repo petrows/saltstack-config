@@ -83,6 +83,10 @@ nginx-proxy-conf-{{ conf_id }}:
       ssl_type: {{ ssl_type }}
       ssl_cert: {{ ssl_cert }}
       ssl_key: {{ ssl_key }}
+    - required:
+    {% if "php" == conf_type %}
+      pkg: php-fpm-nginx-conf
+    {% endif %}
 {% endfor %}
 
 # PHP config deploy
