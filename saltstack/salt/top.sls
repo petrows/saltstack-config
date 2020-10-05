@@ -30,6 +30,9 @@ base:
   'roles:nginx':
     - match: pillar
     - roles.nginx
+  'roles:php-fpm':
+    - match: pillar
+    - roles.php-fpm
 
   # Services
   'roles:openhab':

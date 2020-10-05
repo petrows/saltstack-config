@@ -1,9 +1,6 @@
 # Force generate new dhparm keys for Nginx (required for external servers)
 nginx:
   dhparam: True
-  php: True
-  php_pkg: 'php7.0-fpm'
-  php_sock: '/var/run/php/php7.0-fpm.sock'
 
 proxy_vhosts:
   eu-petrows-default:

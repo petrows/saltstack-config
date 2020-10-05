@@ -9,7 +9,7 @@ nginx:
     - installed
   service.running:
     - enable: True
-    - required:
+    - require:
       - pkg: nginx
 
 nginx-clean-configs:
@@ -83,29 +83,11 @@ nginx-proxy-conf-{{ conf_id }}:
       ssl_type: {{ ssl_type }}
       ssl_cert: {{ ssl_cert }}
       ssl_key: {{ ssl_key }}
-    - required:
-    {% if "php" == conf_type %}
-      pkg: php-fpm-nginx-conf
+    {% if 'php' == conf_type %}
+    - require:
+      - file: php-fpm-nginx-conf
     {% endif %}
 {% endfor %}
-
-# PHP config deploy
-{% if pillar.nginx.php %}
-nginx-php-pkg:
-  pkg.installed:
-    - pkgs:
-      - {{ pillar.nginx.php_pkg }}
-{% set php_sock_location = salt['cmd.shell']('find /var/run/php -name \'php*-fpm.sock\'') %}
-nginx-php:
-  file.managed:
-    - name: /etc/nginx/php.conf
-    - source: salt://files/nginx/php.conf
-    - template: jinja
-    - context:
-      php_sock: '{{ pillar.nginx.php_sock }}'
-    - required:
-      pkg: nginx-php-pkg
-{% endif %}
 
 {% if pillar.nginx.dhparam %}
 nginx-dh:

@@ -54,11 +54,14 @@ ssh:
 nginx:
   # Force generate new dhparm keys for Nginx (required for external servers)
   dhparam: False
-  # Enable PHP processing
-  php: False
-  # PHP version
-  php_pkg: 'php7.0-fpm'
-  php_sock: '/var/run/php/php7.0-fpm.sock'
+
+php:
+  # PHP version avaliable in packages, to be replaced by grains-driven pillar
+  version: 7.3
+  # User to run pool under
+  user: www-data
+  # Pool filename in /etc/php/<version>/fpm/pool.d/
+  pool_name: www
 
 # Export static registry as pillar to be used in SLS
 {% import_yaml 'static.yaml' as static %}

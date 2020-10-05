@@ -6,6 +6,12 @@ base:
 {% if salt['pillar.file_exists']('pws/secrets.sls') %}
     - pws.secrets
 {% endif %}
+
+# Load grains-based info
+  'G@oscodename:buster':
+    - match: compound
+    - grains.debian-10
+
 # All PWS servers should have at least advanced config for root
   'pws-*':
     - users.root
@@ -87,6 +93,7 @@ base:
     - common.server-public
     - common.server-external
     - services.nginx
+    - services.php-fpm
     - services.jenkins-node
     - users.root
     - users.www_eu
