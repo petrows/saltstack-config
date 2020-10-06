@@ -1,5 +1,7 @@
 # Default pillar values
 
+timezone: Europe/Berlin
+
 # Additional software
 packages: []
 

@@ -29,7 +29,11 @@ server {
 
     server_name {{ conf.domain }};
 
+{% if conf_type == 'php' %}
+    root {{ conf.root }}/web;
+{%- else %}
     root {{ conf.root|default('/var/www/html') }};
+{%- endif %}
 
     access_log  /var/log/nginx/{{ conf_id }}.access.log;
     error_log   /var/log/nginx/{{ conf_id }}.error.log;
@@ -89,7 +93,12 @@ server {
     location / {
 		try_files $uri $uri/ /index.php?q=$uri&$args;
 	}
-	location ~ \.php$ { include php.conf; }
+	location ~ \.php$ {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME /web/$fastcgi_script_name;
+        fastcgi_pass unix:/var/run/php/{{ conf_id }}-{{ pillar.php.version }}-fpm.sock;
+        fastcgi_index index.php;
+    }
 {%- endif %}
 
     # SSL configuration

@@ -20,7 +20,7 @@ locale-default:
 
 default-timezone:
   timezone.system:
-    - name: Europe/Berlin
+    - name: {{ pillar.timezone }}
 
 ban-packages:
   pkg.purged:
