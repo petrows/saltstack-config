@@ -59,7 +59,11 @@ php:
   # PHP version avaliable in packages, to be replaced by grains-driven pillar
   version: 7.3
   # User to run pool under
-  user: www-data
+  user_sock: www-data
+  # User to own process (but NOT socket)
+  user: www
+  # chroot base dir
+  home: /home/www
   # Pool filename in /etc/php/<version>/fpm/pool.d/
   pool_name: www
 
