@@ -88,7 +88,7 @@ user_{{user_id}}_fish_powerline:
     - user: {{user_id}}
     - group: {{user_id}}
 
-{% if not salt['file.file_exists'](user.home + '/.config/fish/fish_variables') %}
+{% if not salt['file.file_exists'](user.home + '/.config/fish/fish_variables') or pillar.force_user_update|default(False) %}
 user_{{user_id}}_fish_vars_config:
   file.managed:
     - name: {{user.home}}/.config/fish/fish_variables
