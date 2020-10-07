@@ -33,6 +33,9 @@ base:
   'roles:php-fpm':
     - match: pillar
     - roles.php-fpm
+  'roles:jenkins-node':
+    - match: pillar
+    - roles.jenkins-node
 
   # Services
   'roles:openhab':
@@ -47,9 +50,6 @@ base:
   'roles:jenkins':
     - match: pillar
     - services.jenkins
-  'roles:jenkins-node':
-    - match: pillar
-    - services.jenkins-node
   'roles:gitlab':
     - match: pillar
     - services.gitlab

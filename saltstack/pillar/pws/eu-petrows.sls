@@ -26,3 +26,8 @@ proxy_vhosts:
     root: /home/www/petro.ws/tools
     domain: tools.petro.ws
     ssl: external
+  marinakopf-site:
+    type: php
+    root: /home/www/marinakopf
+    domain: marinakopf.eu
+    ssl: external
