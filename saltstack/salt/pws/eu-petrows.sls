@@ -1,25 +1,32 @@
 # Config for Aruba VM
 
-# Does not work...
-# Can be fixed with
-# deb http://archive.debian.org/debian/ jessie-backports main contrib non-free
-# deb-src http://archive.debian.org/debian/ jessie-backports main contrib non-free
-# echo 'Acquire::Check-Valid-Until no;' > /etc/apt/apt.conf.d/99no-check-valid-until
-# apt install ca-certificates-java=20161107~bpo8+1
-# openjdk-8-jre-headless
+trs-update.timer:
+  file.managed:
+    - name: /etc/systemd/system/trs-update.timer
+    - contents: |
+        [Unit]
+        Description=TRS feed update
+        [Timer]
+        OnCalendar=*-*-* *:00/5:00
+        [Install]
+        WantedBy=timers.target
+  service.enabled:
+    - enabled: True
 
-# eu-soft:
-#   pkg.installed:
-#     - pkgs:
-#       - dirmngr
+trs-update.service:
+  file.managed:
+    - name: /etc/systemd/system/trs-update.service
+    - contents: |
+        [Unit]
+        Description=Updates-checker script
+        After=network.target
+        [Service]
+        User=root
+        Group=root
+        WorkingDirectory=/home/www/petro.ws/trs
+        ExecStart=/usr/bin/php update.php
+        [Install]
+        WantedBy=multi-user.target
+  service.enabled:
+    - enabled: True
 
-# eu-java:
-#   pkgrepo.managed:
-#     - name: deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main
-#     - file: /etc/apt/sources.list.d/java.list
-#     - keyid: C2518248EEA14886
-#     - keyserver: keyserver.ubuntu.com
-#   pkg.installed:
-#     - pkgs:
-#       - openjdk-8-jre-headless
-#     - refresh: True

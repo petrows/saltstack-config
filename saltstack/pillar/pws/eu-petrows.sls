@@ -14,6 +14,7 @@ proxy_vhosts:
     root: /home/www/petro.ws/blog
     domain: petro.ws
     ssl: external
+  # Warning: this service requires cron task
   petrows-trs:
     type: php
     root: /home/www/petro.ws/trs

@@ -58,7 +58,13 @@ php-fpm-{{ conf_id }}-tmp:
     - makedirs: True
 
 # Chroot stuff
-{%- for php_mount in ['/usr', '/bin', '/etc', '/lib', '/lib64', '/lib32', '/dev'] %}
+{%- for php_mount in [
+  '/usr', '/bin', '/lib', '/lib64', '/lib32',
+  '/dev',
+  '/usr/share/zoneinfo',
+  '/etc',
+  '/var/spool/postfix',
+  ] %}
 php-fpm-{{ conf_id }}-mount-{{ php_mount }}:
   mount.mounted:
     - name: {{ conf.root }}{{ php_mount }}
@@ -67,6 +73,21 @@ php-fpm-{{ conf_id }}-mount-{{ php_mount }}:
     - fstype: none
     - mkmnt: True
     - persist: False
+{% endfor %}
+
+{%- for php_link in [
+  '/etc/localtime',
+  '/etc/aliases',
+  '/etc/hosts',
+  '/etc/nsswitch.conf',
+  '/etc/resolv.conf',
+  '/dev/random', '/dev/urandom', '/dev/null',
+  ] %}
+# php-fpm-{{ conf_id }}-link-{{ php_link }}:
+#   file.hardlink:
+#     - name: {{ conf.root }}{{ php_link }}
+#     - target: {{ php_link }}
+#     - makedirs: True
 {% endfor %}
 
 {% endfor %} # / vhost
