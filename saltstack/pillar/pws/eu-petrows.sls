@@ -21,6 +21,7 @@ proxy_vhosts:
     ssl: external
   petrows-tools:
     type: php
+    php_rewrite_rule: /index.php?url=$uri&$args
     root: /home/www/petro.ws/tools
     domain: tools.petro.ws
     ssl: external

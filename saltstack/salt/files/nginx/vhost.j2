@@ -91,7 +91,7 @@ server {
 {%- if conf_type == 'php' %}
     index index.php;
     location / {
-		try_files $uri $uri/ /index.php?q=$uri&$args;
+		try_files $uri $uri/ {{ conf.php_rewrite_rule|default('/index.php?q=$uri&$args') }};
 	}
 	location ~ \.php$ {
         include fastcgi_params;
