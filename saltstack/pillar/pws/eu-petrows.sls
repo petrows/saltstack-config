@@ -19,3 +19,8 @@ proxy_vhosts:
     root: /home/www/petro.ws/trs
     domain: trs.petro.ws
     ssl: external
+  petrows-tools:
+    type: php
+    root: /home/www/petro.ws/tools
+    domain: tools.petro.ws
+    ssl: external
