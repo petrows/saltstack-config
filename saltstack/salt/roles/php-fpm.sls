@@ -16,6 +16,7 @@ php-fpm-pkg:
       - php-curl
       - php-imagick
       - php-zip
+      - php-intl
     - require:
       - pkgrepo: php-pm-repo
 
