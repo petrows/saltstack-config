@@ -39,7 +39,7 @@ php-fpm-{{ conf_id }}-pool-conf:
         pm.min_spare_servers = 1
         pm.max_spare_servers = 3
         chroot = {{ conf.root }}
-        php_admin_value[session.save_path] = {{ conf.root }}/tmp
+        php_admin_value[session.save_path] = /tmp
     - require:
       - pkg: php-fpm-pkg
 
