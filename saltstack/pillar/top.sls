@@ -68,7 +68,7 @@ base:
   'pws-backup*':
     - users.master
 
-  'pws-linux-build*':
+  'pws-build-linux*':
     - users.master
     - services.docker
     - services.jenkins-node
