@@ -8,6 +8,7 @@ uids:
   share_root: 2019
   share: 2020
   www_eu: 1000
+  jenkins: 2021
 
 # Services proxy ports
 proxy_ports:
