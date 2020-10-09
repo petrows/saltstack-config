@@ -5,4 +5,3 @@ check_mk_plugins:
 roles:
   - nginx
   - docker
-

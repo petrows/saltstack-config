@@ -46,3 +46,14 @@ docker-compose-bin-symlink:
   file.symlink:
     - name: /usr/bin/docker-compose
     - target: /usr/local/bin/docker-compose
+
+# Add users to docker
+{% for user_id in salt.pillar.get('docker:users', []) %}
+docker-user-{{user_id}}:
+  group.present:
+    - name: docker
+    - addusers:
+      - {{ user_id }}
+    - require:
+      - user: user_{{user_id}}_config
+{% endfor %}

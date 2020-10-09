@@ -69,6 +69,7 @@ base:
     - users.master
 
   'pws-build-linux*':
+    - pws.build-linux
     - users.master
     - services.docker
     - services.jenkins-node

@@ -66,6 +66,7 @@ master_config.vm.box = "#{os_u20}"
     ["pws-home-dev", "#{net_ip}.17", os_ram, os_u20],
     ["pws-media-dev", "#{net_ip}.18", os_ram, os_u20],
     ["eu.petro.ws-dev", "#{net_ip}.19", os_ram, os_d10],
+    ["pws-build-linux-dev", "#{net_ip}.20", os_ram, os_u20],
   ].each do |vmname, ip, mem, os|
     config.vm.define "#{vmname}" do |minion_config|
       minion_config.vm.provider "virtualbox" do |vb|
