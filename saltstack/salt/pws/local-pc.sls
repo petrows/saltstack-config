@@ -13,3 +13,4 @@ local-pc-soft:
       - udiskie
       - rofi
       - network-manager-gnome
+      - numlockx
