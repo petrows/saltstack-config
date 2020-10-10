@@ -5,3 +5,9 @@ local-pc-custom-bin:
     - source: salt://files/linux-config/bin-local-pc
     - template: jinja
     - file_mode: 755
+
+local-pc-soft:
+  pkg.latest:
+    - i3
+    - udiskie
+    - rofi
