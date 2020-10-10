@@ -1,0 +1,9 @@
+configuration {
+ modi: "window,drun,ssh,combi";
+ theme: "Arc-Dark";
+ font: "hack 16";
+ combi-modi: "window,drun,ssh,run";
+ sorting-method: "fzf";
+ sort: true;
+}
+

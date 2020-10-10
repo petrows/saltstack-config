@@ -8,6 +8,7 @@ local-pc-custom-bin:
 
 local-pc-soft:
   pkg.latest:
-    - i3
-    - udiskie
-    - rofi
+    - pkgs:
+      - i3
+      - udiskie
+      - rofi
