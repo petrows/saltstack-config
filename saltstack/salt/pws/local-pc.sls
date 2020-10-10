@@ -12,3 +12,4 @@ local-pc-soft:
       - i3
       - udiskie
       - rofi
+      - network-manager-gnome

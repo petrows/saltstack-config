@@ -171,11 +171,23 @@ bar {
         status_command i3status
 }
 
-exec --no-startup-id google-chrome
-exec --no-startup-id Telegram/Telegram
+# Apps
+exec --no-startup-id i3-msg 'workspace $ws2; exec --no-startup-id google-chrome;'
+exec --no-startup-id i3-msg 'workspace $ws2; exec --no-startup-id Telegram/Telegram;'
 exec --no-startup-id nagstamon
+
+# Set random wallpaper from dir
 exec --no-startup-id feh --randomize --bg-fill ~/Pictures/wp/*
+# Auto mount USB
 exec --no-startup-id udiskie -ans &
+# Network status applet
+exec --no-startup-id nm-applet
+# Caps lock toggle
+exec --no-startup-id setxkbmap us,ru -option 'grp:caps_lock_toggle'
+# Composite
+exec --no-startup-id compton -b
+# Private startup
 exec --no-startup-id ~/bin/autorun
+
 bindsym $mod+o exec xdg-open ~
 

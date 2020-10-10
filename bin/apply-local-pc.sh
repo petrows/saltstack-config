@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 if [[ -z "$1" ]]; then
     echo "Usage: $0 <machine-id>"
@@ -14,4 +14,4 @@ PC_ID=$1
 
 shift
 
-sudo salt-call --id="$PC_ID" --file-root saltstack/salt --pillar-root saltstack/pillar --local state.apply $@
+sudo salt-call --id="$PC_ID" --state-verbose=False --file-root saltstack/salt --pillar-root saltstack/pillar --local state.apply $@
