@@ -189,7 +189,7 @@ exec --no-startup-id setxkbmap -layout 'us,ru' -variant 'winkeys' -option 'grp:c
 # Num lock on
 exec --no-startup-id numlockx on
 # Composite
-exec --no-startup-id compton -b
+exec --no-startup-id compton -b --config ~/.config/compton/compton.conf
 # Private startup
 exec --no-startup-id ~/bin/autorun
 
