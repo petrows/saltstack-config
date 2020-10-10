@@ -80,7 +80,7 @@ user_{{user_id}}_fish_profile:
     - user: {{user_id}}
     - group: {{user_id}}
 
-user_{{user_id}}_fish_powerline:
+user_{{user_id}}_config_dir:
   file.recurse:
     - name: {{user.home}}/.config
     - source: salt://files/linux-config/home/.config
@@ -130,6 +130,13 @@ user_{{user_id}}_vim_autoload:
   file.directory:
     - name: {{user.home}}/.vim/autoload
     - makedirs: True
+    - user: {{user_id}}
+    - group: {{user_id}}
+
+user_{{user_id}}_xsession:
+  file.managed:
+    - name: {{user.home}}/.xsessionrc
+    - source: salt://files/linux-config/home/sessionrc.sh
     - user: {{user_id}}
     - group: {{user_id}}
 
