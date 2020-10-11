@@ -1,0 +1,38 @@
+# This is an example (nonsense) configuration file for udiskie.
+
+program_options:
+  # Configure defaults for command line options
+
+  tray:             auto    # [bool] Enable the tray icon. "auto"
+                            # means auto-hide the tray icon when
+                            # there are no handled devices.
+
+  menu:             flat    # ["flat" | "nested"] Set the
+                            # systray menu behaviour.
+
+  automount:        true    # [bool] Enable automatic mounting.
+
+  notify:           true    # [bool] Enable notifications.
+
+  password_cache:   30      # [int] Password cache in minutes. Caching is
+                            # disabled by default. It can be disabled
+                            # explicitly by setting it to false
+
+  file_manager:     xdg-open
+    # [string] Set program to open directories. It will be invoked
+    # with the folder path as its last command line argument.
+
+device_config:
+
+  # List of device option rules. Each item can match any combination of device
+  # attributes. Additionally, it defines the resulting action (see below).
+  # Any rule can contain multiple filters (AND) and multiple actions.
+  # Only the first matching rule that defines a given action is used.
+  # The rules defined here are simply prepended to the builtin device rules,
+  # so that it is possible to completely overwrite the defaults by specifying
+  # a catch-all rule (i.e. a rule without device attributes).
+
+  # udiskie: ignore snapd loop mounts
+  - id_type: squashfs         # [filter] match file system type
+    ignore:  true             # [action] ignore all FAT devices
+
