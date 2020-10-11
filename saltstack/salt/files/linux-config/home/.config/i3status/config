@@ -1,0 +1,53 @@
+general {
+    output_format = "i3bar"
+    colors = true
+    interval = 5
+}
+
+
+order += "run_watch CIN"
+order += "path_exists VPN"
+order += "ethernet enp4s0"
+order += "cpu_temperature 0"
+order += "disk /"
+order += "memory"
+order += "load"
+order += "tztime local"
+
+run_watch CIN {
+    # file containing the PID of a vpnc process
+    pidfile = "/var/run/NetworkManager/nm-vpnc-d6f36c9c-daba-4781-a7d3-62be9bc3aaab.pid"
+}
+
+path_exists VPN {
+    # path exists when a VPN tunnel launched by nmcli/nm-applet is active
+    path = "/proc/sys/net/ipv4/conf/tun0"
+}
+
+ethernet enp4s0 {
+    format_up = "E: %ip (%speed)"
+    format_down = "E: down"
+}
+
+load {
+    format = "LA %5min"
+}
+
+cpu_temperature 0 {
+    format = "T: %degrees °C"
+    path = "/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp1_input"
+}
+
+memory {
+    format = "%used"
+    threshold_degraded = "10%"
+    format_degraded = "MEMORY: %free"
+}
+
+disk "/" {
+    format = "/ %free"
+}
+
+tztime local {
+    format = "%Y-%m-%d %H:%M:%S"
+}
