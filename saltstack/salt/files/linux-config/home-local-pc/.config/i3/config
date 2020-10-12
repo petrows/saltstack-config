@@ -179,21 +179,13 @@ bar {
     font pango:DejaVu Sans Mono 10
 }
 
-# Basic config
-# Check monitors: xrandr --current
-# Primary (left)
-set $mon_1 "DP-2"
-# Secondary (right)
-set $mon_2 "DP-4"
+# Petro config
 
-# Workspaces
-workspace $ws1 output $mon_1
-workspace $ws2 output $mon_2
+# Display config
+{{ pillar.i3.display }}
 
-# Apps
-exec --no-startup-id i3-msg 'workspace $ws2; exec --no-startup-id google-chrome;'
-exec --no-startup-id i3-msg 'workspace $ws2; exec --no-startup-id Telegram/Telegram;'
-exec --no-startup-id nagstamon
+# Startup config
+{{ pillar.i3.startup }}
 
 # Set random wallpaper from dir
 exec --no-startup-id feh --randomize --bg-fill ~/Pictures/wp/*
