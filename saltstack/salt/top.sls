@@ -86,6 +86,6 @@ base:
     - pws.eu-petrows
 
 # Local host config
-  'petro-pc':
+  'pc-*':
     - common.users
     - pws.local-pc

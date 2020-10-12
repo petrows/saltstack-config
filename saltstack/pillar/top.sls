@@ -109,13 +109,20 @@ base:
     - pws.eu-petrows-dev
 
 # Local PC config
-  'petro-pc':
+  'pc-*':
     - common.tmp-ramdisk
     - common.mail-relay
     - users.root
-    - users.petro
     - pws.secrets-default
     - pws.secrets
     - pws.powerline-gitstatus
     - services.rslsync
+    
+  'pc-home':
+    - users.petro
     - services.rslsync-petro-pc
+
+# Work PC config
+  'pc-work':
+    - users.pgolovachev
+    - pws.pc-work
