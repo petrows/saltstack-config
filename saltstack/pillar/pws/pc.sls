@@ -14,8 +14,4 @@ i3:
       workspace $ws1 output $mon_1
       workspace $ws2 output $mon_2
   startup: |
-      exec --no-startup-id i3-msg 'workspace $ws2; append_layout ~/.config/i3/layout-home-w2.json;'
-      exec --no-startup-id google-chrome
-      exec --no-startup-id Telegram/Telegram
-      exec --no-startup-id spotify
-      exec --no-startup-id nagstamon
+      exec --no-startup-id i3-msg 'workspace $ws2; append_layout ~/.config/i3/layout-home-w2.json; exec --no-startup-id google-chrome; exec --no-startup-id Telegram/Telegram; exec --no-startup-id spotify; exec --no-startup-id nagstamon;'
