@@ -13,5 +13,6 @@ local-pc-soft:
       - compton
       - udiskie
       - rofi
+      - feh
       - network-manager-gnome
       - numlockx
