@@ -10,6 +10,7 @@ local-pc-soft:
   pkg.latest:
     - pkgs:
       - i3
+      - compton
       - udiskie
       - rofi
       - network-manager-gnome
