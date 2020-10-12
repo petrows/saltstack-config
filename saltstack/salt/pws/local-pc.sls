@@ -16,3 +16,14 @@ local-pc-soft:
       - feh
       - network-manager-gnome
       - numlockx
+
+# Loop over allowed users on this server
+{% for user_id, user in salt.pillar.get('users', {}).items() %}
+local-pc-configs-{{ user_id }}:
+  file.recurse:
+    - name: {{user.home}}/.config
+    - source: salt://files/linux-config/home-local-pc/.config
+    - template: jinja
+    - user: {{user_id}}
+    - group: {{user_id}}
+{% endfor %}

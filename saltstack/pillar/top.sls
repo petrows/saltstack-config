@@ -117,10 +117,10 @@ base:
     - pws.secrets
     - pws.powerline-gitstatus
     - services.rslsync
-    
+    - pws.pc
+
   'pc-home':
     - users.petro
-    - services.rslsync-petro-pc
 
 # Work PC config
   'pc-work':
