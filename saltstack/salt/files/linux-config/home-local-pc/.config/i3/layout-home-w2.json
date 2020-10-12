@@ -29,16 +29,6 @@
                 }
             ],
             "type": "con"
-        },
-        {
-            "name": "Spotify",
-            "percent": 0.5,
-            "swallows": [
-                {
-                    "class": "^Spotify$"
-                }
-            ],
-            "type": "con"
         }
     ]
 }
