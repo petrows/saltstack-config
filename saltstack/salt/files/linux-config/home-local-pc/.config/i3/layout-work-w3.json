@@ -1,0 +1,63 @@
+{
+    // tabbed split container
+    "border": "normal",
+    "floating": "auto_off",
+    "layout": "tabbed",
+    "percent": 1,
+    "type": "con",
+    "nodes": [
+        {
+            "border": "normal",
+            "current_border_width": 2,
+            "floating": "auto_off",
+            "name": "Browser",
+            "percent": 0.25,
+            "swallows": [
+                {
+                    "instance": "^google\\-chrome$"
+                }
+            ],
+            "type": "con"
+        },
+        {
+            "border": "none",
+            "current_border_width": 2,
+            "floating": "auto_off",
+            "name": "Evolution",
+            "percent": 0.25,
+            "swallows": [
+                {
+                    "instance": "^evolution$"
+                }
+            ],
+            "type": "con"
+        },
+        {
+            "border": "none",
+            "current_border_width": 2,
+            "floating": "auto_off",
+            "name": "Microsoft Teams",
+            "percent": 0.25,
+            "swallows": [
+                {
+                    "instance": "^microsoft\\ teams",
+                    "window_role": "^browser\\-window$"
+                }
+            ],
+            "type": "con"
+        },
+        {
+            "border": "none",
+            "current_border_width": 2,
+            "floating": "auto_off",
+            "name": "Telegram",
+            "percent": 0.25,
+            "swallows": [
+                {
+                    "instance": "^Telegram$"
+                }
+            ],
+            "type": "con"
+        }
+    ]
+}
