@@ -19,7 +19,6 @@ i3:
   startup: |
       exec --no-startup-id i3-msg 'workspace $ws3; append_layout ~/.config/i3/layout-work-w3.json;'
       exec --no-startup-id google-chrome
-      exec --no-startup-id Telegram/Telegram
       exec --no-startup-id teams
       exec --no-startup-id evolution
 
