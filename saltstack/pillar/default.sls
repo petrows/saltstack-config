@@ -25,6 +25,9 @@ docker_compose:
   # Services to be auto-added to run
   services: {}
 
+# This option forces to update bash / fish profile
+force_user_update: False
+
 # Values to ge set as git config for all users passed in 'users' role
 git_config:
   core.whitespace: fix, trailing-space
