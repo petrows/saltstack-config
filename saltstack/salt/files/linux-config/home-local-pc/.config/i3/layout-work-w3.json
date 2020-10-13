@@ -45,19 +45,19 @@
                 }
             ],
             "type": "con"
-        },
-        {
-            "border": "none",
-            "current_border_width": 2,
-            "floating": "auto_off",
-            "name": "Telegram",
-            "percent": 0.25,
-            "swallows": [
-                {
-                    "instance": "^Telegram$"
-                }
-            ],
-            "type": "con"
         }
+        // {
+        //     "border": "none",
+        //     "current_border_width": 2,
+        //     "floating": "auto_off",
+        //     "name": "Telegram",
+        //     "percent": 0.25,
+        //     "swallows": [
+        //         {
+        //             "instance": "^Telegram$"
+        //         }
+        //     ],
+        //     "type": "con"
+        // }
     ]
 }
