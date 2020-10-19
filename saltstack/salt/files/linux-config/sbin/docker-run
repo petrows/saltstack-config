@@ -1,0 +1,20 @@
+#!/bin/bash -x
+
+trim() {
+    local var="$*"
+    # remove leading whitespace characters
+    var="${var#"${var%%[![:space:]]*}"}"
+    # remove trailing whitespace characters
+    var="${var%"${var##*[![:space:]]}"}"
+    printf '%s' "$var"
+}
+
+DOCKER_IMAGE=$1
+
+shift
+
+# Detect home dir
+HOME_DIR=$(docker run -it --rm -u $(id -u):$(id -g) $DOCKER_IMAGE sh -c 'echo $HOME')
+HOME_DIR=$(trim "$HOME_DIR")
+
+docker run -it --rm -u $(id -u):$(id -g) -v $PWD:$PWD -v $HOME/.bash_history:/$HOME_DIR/.bash_history -w $PWD $DOCKER_IMAGE $@
