@@ -22,3 +22,6 @@ i3:
       exec --no-startup-id teams
       exec --no-startup-id evolution
 
+# At work i have normal display
+xsession:
+  gtk_scale: 1.0

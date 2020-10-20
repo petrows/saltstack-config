@@ -137,6 +137,7 @@ user_{{user_id}}_xsession:
   file.managed:
     - name: {{user.home}}/.xsessionrc
     - source: salt://files/linux-config/home/sessionrc.sh
+    - template: jinja
     - user: {{user_id}}
     - group: {{user_id}}
 

@@ -72,6 +72,9 @@ php:
   # Pool filename in /etc/php/<version>/fpm/pool.d/
   pool_name: www
 
+xsession:
+  gtk_scale: 1.0
+
 # Export static registry as pillar to be used in SLS
 {% import_yaml 'static.yaml' as static %}
 static: {{ static|yaml }}

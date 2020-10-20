@@ -20,3 +20,7 @@ i3:
       exec --no-startup-id Telegram/Telegram
       # exec --no-startup-id spotify
       exec --no-startup-id nagstamon
+
+# At home i have 4 disK
+xsession:
+  gtk_scale: 1.5
