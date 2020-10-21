@@ -1,2 +1,2 @@
-export QT_QPA_PLATFORMTHEME=kde
+export QT_QPA_PLATFORMTHEME=qt5ct
 export GDK_DPI_SCALE={{ pillar.xsession.gtk_scale }}

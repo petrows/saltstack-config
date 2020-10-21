@@ -16,6 +16,7 @@ local-pc-soft:
       - feh
       - network-manager-gnome
       - numlockx
+      - qt5ct
 
 # Loop over allowed users on this server
 {% for user_id, user in salt.pillar.get('users', {}).items() %}
