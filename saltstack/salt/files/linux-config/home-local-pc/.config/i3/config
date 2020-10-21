@@ -197,6 +197,8 @@ exec --no-startup-id nm-applet
 exec --no-startup-id setxkbmap -layout 'us,ru' -variant 'winkeys' -option 'grp:caps_toggle,grp_led:caps,compose:ralt,terminate:ctrl_alt_bksp'
 # Num lock on
 exec --no-startup-id numlockx on
+# Klipboard manager
+exec --no-startup-id klipper
 # Composite
 exec --no-startup-id compton -b --config ~/.config/compton/compton.conf
 # Private startup

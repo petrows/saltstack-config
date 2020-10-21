@@ -6,6 +6,6 @@ SERVER_DIR="/tmp/$SERVER"
 echo "Mount $SERVER -> $SERVER_DIR"
 
 mkdir -p "$SERVER_DIR"
-sshfs -o idmap=user $SERVER:/ "$SERVER_DIR"
+nohup sshfs -o idmap=user $SERVER:/ "$SERVER_DIR" &
 
 xdg-open "$SERVER_DIR"
