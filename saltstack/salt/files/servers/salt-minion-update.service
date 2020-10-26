@@ -6,5 +6,5 @@ After=salt-minion.service
 [Service]
 Type=oneshot
 RemainAfterExit=no
-ExecStart=/bin/bash -c 'apt update && apt install -y salt-minion'
+ExecStart=/bin/bash -c 'apt-get update && apt-get install --only-upgrade -y -q -o DPkg::Options::="--force-confold" --no-install-recommends salt-minion'
 TimeoutStartSec=0
