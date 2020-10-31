@@ -5,6 +5,7 @@ rslsync:
 
 # i3 config options
 i3:
+  bar_font_size: 10
   display: |
       # Primary (left)
       set $mon_1 "DP-2"
@@ -20,6 +21,8 @@ i3:
       exec --no-startup-id Telegram/Telegram
       # exec --no-startup-id spotify
       exec --no-startup-id nagstamon
+      # Klipboard manager
+      exec --no-startup-id klipper
 
 # At home i have 4 disK
 xsession:

@@ -5,6 +5,7 @@ rslsync:
 
 # i3 config options
 i3:
+  bar_font_size: 10
   display: |
       # Secondary (left)
       set $mon_1 "DP-4"
@@ -21,6 +22,8 @@ i3:
       exec --no-startup-id google-chrome
       exec --no-startup-id teams
       exec --no-startup-id evolution
+      # Klipboard manager
+      exec --no-startup-id klipper
 
 # At work i have normal display
 xsession:

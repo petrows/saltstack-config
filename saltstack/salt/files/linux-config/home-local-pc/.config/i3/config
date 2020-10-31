@@ -176,7 +176,7 @@ bindsym Print exec --no-startup-id spectacle
 bar {
     status_command i3status
     tray_output primary
-    font pango:DejaVu Sans Mono 10
+    font pango:DejaVu Sans Mono {{ pillar.i3.bar_font_size }}
 }
 
 # Petro config
