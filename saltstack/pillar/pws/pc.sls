@@ -5,7 +5,7 @@ rslsync:
 
 # i3 config options
 i3:
-  bar_font_size: 10
+  bar_font_size: 14
   display: |
       # Primary (left)
       set $mon_1 "DP-2"
