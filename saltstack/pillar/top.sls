@@ -126,3 +126,6 @@ base:
   'pc-work':
     - users.pgolovachev
     - pws.pc-work
+  'pc-work-nb':
+    - users.pgolovachev
+    - pws.pc-work-nb
