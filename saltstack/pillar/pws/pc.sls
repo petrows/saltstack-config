@@ -21,8 +21,6 @@ i3:
       exec --no-startup-id Telegram/Telegram
       # exec --no-startup-id spotify
       exec --no-startup-id nagstamon
-      # Klipboard manager
-      exec --no-startup-id klipper
 
 # At home i have 4 disK
 xsession:

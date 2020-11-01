@@ -21,8 +21,6 @@ i3:
       exec --no-startup-id google-chrome
       exec --no-startup-id teams
       exec --no-startup-id evolution
-      # Klipboard manager
-      exec --no-startup-id klipper
 
 # At work i have normal display
 xsession:
