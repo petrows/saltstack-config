@@ -16,7 +16,12 @@ local-pc-soft:
       - feh
       - network-manager-gnome
       - numlockx
+      # Set default QT-Driven apps
       - qt5ct
+      # Set default GTK-Driven apps
+      - gtk-chtheme
+      # GTK Front for Libreoffice
+      - libreoffice-gtk3
 
 # Loop over allowed users on this server
 {% for user_id, user in salt.pillar.get('users', {}).items() %}
