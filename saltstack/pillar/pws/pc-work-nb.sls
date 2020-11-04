@@ -5,7 +5,6 @@ rslsync:
 
 # i3 config options
 i3:
-  bar_font_size: 14
   display: |
       # Display config
       # Left
@@ -27,5 +26,5 @@ xsession:
   gtk_scale: 1.5
   script: |
       xrandr --output eDP-1 --off
-      xrandr --output HDMI-1 --mode 3840x2160 --pos 3840x0
-      xrandr --output DP-2-3 --mode 3840x2160 --pos 0x0 --primary
+      xrandr --output HDMI-1 --mode 3840x2160 --dpi 138 --pos 3840x0
+      xrandr --output DP-2-3 --mode 3840x2160 --dpi 138 --pos 0x0 --primary
