@@ -121,6 +121,7 @@ base:
 
   'pc-home':
     - users.petro
+    - pws.pc-home
 
 # Work PC config
   'pc-work':
