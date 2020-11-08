@@ -18,5 +18,5 @@ vagrant ssh master -- sudo service salt-master restart
 
 vagrant halt $VM
 vagrant up $VM
-sleep 5
+sleep 15
 vagrant ssh master -- sudo salt --force-color $VM state.apply
