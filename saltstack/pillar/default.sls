@@ -5,6 +5,9 @@ timezone: Europe/Berlin
 # Additional software
 packages: []
 
+# PIP3 location
+pip3_bin: /usr/bin/pip3
+
 # Use 'powerline.segments.common.vcs.branch' for old systems
 powerline_git_plugin: 'powerline.segments.common.vcs.branch'
 powerline_git_pkg: ''

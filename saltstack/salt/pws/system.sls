@@ -7,15 +7,13 @@ system-salt-masterconf:
     - group: root
     - mode: 644
 
-{% set pip3_location = salt['cmd.shell']('which pip3') %}
-
 services-upgrade-checker-deps:
   pip.installed:
     - pkgs:
       - docker
       - objectpath
       - packaging
-    - bin_env: {{ pip3_location }}
+    - bin_env: {{ pillar.pip3_bin }}
 
 # Updates-checker script
 services-upgrade-checker.service:
