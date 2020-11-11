@@ -5,6 +5,8 @@ OUTPUT="/srv/storage/common/archive/$(date +%Y)/scan-$(date +%s).pdf"
 OPTS=""
 TMP="/tmp"
 
+DEVICE="hpaio:/net/officejet_pro_6970?ip=192.168.80.30&queue=false"
+
 if [[ -z "$MODE" ]] ; then
     echo "Mode: adf duplex page page-add"
     exit 1
@@ -21,8 +23,8 @@ fi
 rm -rf /tmp/hpscan*
 rm -rf $TMP/scan-raw.pdf
 
-echo "Run: hp-scan --mode=color --dest=file --size=a4 --compression=none  --resolution=300 $OPTS --output=/tmp/scan-raw.pdf"
-hp-scan --mode=color --dest=file --size=a4 --compression=none  --resolution=300 $OPTS --output=/tmp/scan-raw.pdf
+echo "Run: hp-scan --device=$DEVICE --mode=color --dest=file --size=a4 --compression=none  --resolution=300 $OPTS --output=/tmp/scan-raw.pdf"
+hp-scan --device=$DEVICE --mode=color --dest=file --size=a4 --compression=none  --resolution=300 $OPTS --output=/tmp/scan-raw.pdf
 
 if [[ ! -f $TMP/scan-raw.pdf ]] ; then
     echo "Scan result not found"
