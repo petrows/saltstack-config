@@ -7,7 +7,7 @@ roles:
 
 graylog:
   # Graylog: https://hub.docker.com/r/graylog/graylog/
-  version: 3.3
+  version: 4.0
   # Elasticsearch: https://www.elastic.co/guide/en/elasticsearch/reference/6.x/docker.html
   version_elasticsearch: 6.8.10
   data_dir: /srv/graylog-data

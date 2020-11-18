@@ -6,6 +6,8 @@ services:
     container_name: graylog-mongo
     image: mongo:3
     volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
       - {{ pillar.graylog.data_dir }}/mongo:/data/db
     networks:
       - graylog
@@ -14,16 +16,18 @@ services:
     container_name: graylog-elastic
     image: docker.elastic.co/elasticsearch/elasticsearch-oss:{{ pillar.graylog.version_elasticsearch }}
     volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
       - {{ pillar.graylog.data_dir }}/elastic:/usr/share/elasticsearch/data
     environment:
       - http.host=0.0.0.0
       - transport.host=localhost
       - network.host=0.0.0.0
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
+    # ulimits:
+    #   memlock:
+    #     soft: -1
+    #     hard: -1
     # deploy:
     #   resources:
     #     limits:
@@ -35,6 +39,8 @@ services:
     container_name: graylog-app
     image: graylog/graylog:{{ pillar.graylog.version }}
     volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
       - {{ pillar.graylog.data_dir }}/app:/usr/share/graylog/data
     environment:
       # CHANGE ME (must be at least 16 characters)!

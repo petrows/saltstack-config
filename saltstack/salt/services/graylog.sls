@@ -1,4 +1,4 @@
-{% for dir,uid in {'app':1100,'mongo':999,'elastic':3}.items() %}
+{% for dir,uid in {'app':1100,'mongo':999,'elastic':1000}.items() %}
 graylog-dir-{{ dir }}:
   file.directory:
     - name: {{ pillar.graylog.data_dir }}/{{ dir }}

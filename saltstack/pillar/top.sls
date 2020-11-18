@@ -41,6 +41,7 @@ base:
   'pws-system':
     - services.salt-master-prod
     - services.cmk-server-prod
+    - services.graylog-prod
   'pws-system-dev':
     - pws.system-dev
 
