@@ -21,6 +21,7 @@ proxy_ports:
   jenkins_agent:    7004
   gitlab_http:      7005
   cmk_http:         7006
+  graylog_http:     7007
 
   # Note: non-changeable with network=host
   openhab_http:     8080
