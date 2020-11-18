@@ -13,6 +13,9 @@ pws_secrets:
     from: mail
     from_domain: example.com
   db_password: test-password
+  graylog:
+    admin_sha2: 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
+    secret: somepasswordpepper
 
   # Local cert for testing, signed for *.local.pws
   ssl_pws_local:

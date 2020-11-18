@@ -60,6 +60,9 @@ base:
   'roles:rslsync':
     - match: pillar
     - services.rslsync
+  'roles:graylog':
+    - match: pillar
+    - services.graylog
 
   # Hosts configs
   'pws-pve*':

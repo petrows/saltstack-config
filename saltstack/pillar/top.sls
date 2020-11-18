@@ -37,10 +37,10 @@ base:
     - users.master
     - services.salt-master
     - services.cmk-server
+    - services.graylog
   'pws-system':
     - services.salt-master-prod
     - services.cmk-server-prod
-    - services.graylog
   'pws-system-dev':
     - pws.system-dev
 

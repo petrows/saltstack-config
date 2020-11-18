@@ -1,12 +1,20 @@
+version: '3'
+
 services:
   # MongoDB: https://hub.docker.com/_/mongo/
   mongo:
+    container_name: graylog-mongo
     image: mongo:3
+    volumes:
+      - {{ pillar.graylog.data_dir }}/mongo:/data/db
     networks:
       - graylog
   # Elasticsearch: https://www.elastic.co/guide/en/elasticsearch/reference/6.x/docker.html
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.8.10
+    container_name: graylog-elastic
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:{{ pillar.graylog.version_elasticsearch }}
+    volumes:
+      - {{ pillar.graylog.data_dir }}/elastic:/usr/share/elasticsearch/data
     environment:
       - http.host=0.0.0.0
       - transport.host=localhost
@@ -16,21 +24,25 @@ services:
       memlock:
         soft: -1
         hard: -1
-    deploy:
-      resources:
-        limits:
-          memory: 1g
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 1g
     networks:
       - graylog
   # Graylog: https://hub.docker.com/r/graylog/graylog/
   graylog:
-    image: graylog/graylog:3.3
+    container_name: graylog-app
+    image: graylog/graylog:{{ pillar.graylog.version }}
+    volumes:
+      - {{ pillar.graylog.data_dir }}/app:/usr/share/graylog/data
     environment:
       # CHANGE ME (must be at least 16 characters)!
-      - GRAYLOG_PASSWORD_SECRET=somepasswordpepper
+      - GRAYLOG_PASSWORD_SECRET={{ pillar.pws_secrets.graylog.secret }}
       # Password: admin
-      - GRAYLOG_ROOT_PASSWORD_SHA2=8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
-      - GRAYLOG_HTTP_EXTERNAL_URI=http://127.0.0.1:9000/
+      - GRAYLOG_ROOT_PASSWORD_SHA2={{ pillar.pws_secrets.graylog.admin_sha2 }}
+      - GRAYLOG_HTTP_EXTERNAL_URI=https://{{ pillar.proxy_vhosts.graylog.domain }}/
+      #- GRAYLOG_HTTP_EXTERNAL_URI=http://127.0.0.1:9000
     networks:
       - graylog
     depends_on:
