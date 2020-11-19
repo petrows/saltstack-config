@@ -17,8 +17,6 @@ plugin ("pip install docker").
 This plugin it will be called by the agent without any arguments.
 """
 
-__version__ = "2.0.0i2"
-
 # N O T E:
 # docker is available for python versions from 2.6 / 3.3
 
@@ -35,6 +33,7 @@ import functools
 import multiprocessing
 import logging
 
+__version__ = "2.0.0i2"
 
 def which(prg):
     for path in os.environ["PATH"].split(os.pathsep):
