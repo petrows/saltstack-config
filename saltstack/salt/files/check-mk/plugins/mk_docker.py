@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # Copyright (C) 2019 tribe29 GmbH - License: GNU General Public License v2
 # This file is part of Checkmk (https://checkmk.com). It is subject to the terms and
@@ -17,8 +17,6 @@ plugin ("pip install docker").
 This plugin it will be called by the agent without any arguments.
 """
 
-__version__ = "2.0.0i2"
-
 # N O T E:
 # docker is available for python versions from 2.6 / 3.3
 
@@ -35,6 +33,7 @@ import functools
 import multiprocessing
 import logging
 
+__version__ = "2.0.0i2"
 
 def which(prg):
     for path in os.environ["PATH"].split(os.pathsep):
