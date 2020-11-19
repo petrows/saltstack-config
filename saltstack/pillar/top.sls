@@ -11,6 +11,9 @@ base:
   'G@oscodename:buster':
     - match: compound
     - grains.debian-10
+  'G@oscodename:focal':
+    - match: compound
+    - grains.ubuntu-20
 
 # All PWS servers should have at least advanced config for root
   'pws-*':
