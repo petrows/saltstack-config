@@ -3,3 +3,5 @@ users:
   jenkins:
     home: /home/jenkins
     uid: {{ static.uids.jenkins }}
+    groups:
+      - docker
