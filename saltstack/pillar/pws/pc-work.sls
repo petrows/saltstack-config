@@ -7,22 +7,22 @@ rslsync:
 i3:
   bar_font_size: 10
   display: |
-      # Secondary (left)
+      # Primary (left)
       set $mon_1 "DP-4"
-      # Primary (center)
-      set $mon_2 "DP-2"
       # Secondary (right)
-      set $mon_3 "DP-0"
+      set $mon_2 "DP-2"
       # Workspaces
       workspace $ws1 output $mon_1
       workspace $ws2 output $mon_2
-      workspace $ws3 output $mon_3
   startup: |
-      exec --no-startup-id i3-msg 'workspace $ws3; append_layout ~/.config/i3/layout-work-w3.json;'
+      exec --no-startup-id i3-msg 'workspace $ws2; append_layout ~/.config/i3/layout-work-w3.json;'
       exec --no-startup-id google-chrome
       exec --no-startup-id teams
       exec --no-startup-id evolution
 
-# At work i have normal display
+# At work i have 4Л display
 xsession:
-  gtk_scale: 1.0
+  gtk_scale: 1.5
+  script: |
+      xrandr --output DP-4 --mode 3840x2160 --dpi 138 --pos 0x0 --primary
+      xrandr --output DP-2 --mode 3840x2160 --dpi 138 --right-of DP-4
