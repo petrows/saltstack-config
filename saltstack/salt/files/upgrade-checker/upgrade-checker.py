@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 
-import docker
-import objectpath
 import logging
-import yaml
+import os
 import re
 import smtplib
 import sys
 from email.message import EmailMessage
-from packaging import version
 from pprint import pprint
+
+import docker
+import objectpath
+import yaml
+from packaging import version
 
 logging.basicConfig(level=logging.INFO)
 
@@ -168,3 +170,6 @@ if updates:
     s.quit()
 else:
     logging.info(f"All services are up-to-date")
+
+# Cleanup
+os.system('docker system prune -af')
