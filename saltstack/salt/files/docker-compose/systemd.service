@@ -1,7 +1,7 @@
 [Unit]
 Description=Docker-Compose Service for {{ compose_path }}
 Requires=docker.service
-After=docker.service
+BindsTo=docker.service
 
 [Service]
 Type=oneshot
@@ -12,4 +12,5 @@ ExecStop=/usr/bin/docker-compose down
 TimeoutStartSec=0
 
 [Install]
+WantedBy=docker.service
 WantedBy=multi-user.target

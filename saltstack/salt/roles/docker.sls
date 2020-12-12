@@ -25,6 +25,7 @@ docker.service:
   service.running:
     - enable: True
     - watch:
+      - pkg: docker-pkg
       - file: /etc/docker/*
 
 # We will remove (potentially outdated) package and install it from official source
