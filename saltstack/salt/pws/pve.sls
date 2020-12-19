@@ -48,6 +48,11 @@ pve-backup-deps:
       - rsnapshot
       - hdparm
 
+pve-udev:
+  file.managed:
+    - name: /etc/udev/rules.d/10-local.rules
+    - source: salt://files/pws-pve/udev-10-local.rules
+
 pve-backup.service:
   file.managed:
     - name: /etc/systemd/system/pve-backup.service
