@@ -7,7 +7,7 @@ roles:
 
 openhab:
   id: Openhab-dev
-  version: 2.5.10
+  version: 3.0.0
   data_dir: /srv/openhab-data
   dirs:
     - /srv/openhab-data/conf
