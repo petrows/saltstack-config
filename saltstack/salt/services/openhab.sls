@@ -43,6 +43,7 @@ openhab-deps:
       - mosquitto-clients
       - python3-lxml
       - python3-paho-mqtt
+      - python3-dateparser
 
 {% import "roles/docker-compose-macro.sls" as compose %}
 {{ compose.service('openhab') }}
@@ -62,3 +63,18 @@ openhab-hourly.timer:
     - enable: True
     - watch:
       - file: /etc/systemd/system/openhab-hourly.*
+
+openhab-minute.service:
+  file.managed:
+    - name: /etc/systemd/system/openhab-minute.service
+    - source: salt://files/openhab/openhab-minute.service
+  service.disabled: []
+
+openhab-minute.timer:
+  file.managed:
+    - name: /etc/systemd/system/openhab-minute.timer
+    - source: salt://files/openhab/openhab-minute.timer
+  service.running:
+    - enable: True
+    - watch:
+      - file: /etc/systemd/system/openhab-minute.*

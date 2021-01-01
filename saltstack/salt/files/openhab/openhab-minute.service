@@ -1,0 +1,12 @@
+[Unit]
+Description=Openhab in-minute script
+After=network.target
+
+[Service]
+User=master
+Group=master
+WorkingDirectory=/srv/openhab-data/conf/
+ExecStart=/srv/openhab-data/conf/bin/cron-minute.sh
+
+[Install]
+WantedBy=multi-user.target

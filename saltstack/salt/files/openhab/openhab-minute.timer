@@ -1,0 +1,9 @@
+[Unit]
+Description=Openhab in-minute script timer
+
+[Timer]
+OnCalendar=*:*
+Unit=openhab-minute.service
+
+[Install]
+WantedBy=timers.target
