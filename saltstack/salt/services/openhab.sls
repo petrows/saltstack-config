@@ -45,6 +45,12 @@ openhab-deps:
       - python3-paho-mqtt
       - python3-dateparser
 
+openhab-deps-pip:
+  pip.installed:
+    - pkgs:
+      - diskcache
+    - bin_env: {{ pillar.pip3_bin }}
+
 {% import "roles/docker-compose-macro.sls" as compose %}
 {{ compose.service('openhab') }}
 
