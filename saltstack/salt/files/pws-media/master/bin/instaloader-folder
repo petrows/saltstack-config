@@ -1,0 +1,14 @@
+#!/bin/bash
+
+#
+
+WORKPATH=$1
+
+cd $WORKPATH
+
+source instaloader-config.sh
+ 
+for TARGET in $TARGETS; do
+    echo "Processing $TARGET"
+    instaloader --login $LOGIN --fast-update --stories --highlights --tagged --igtv $TARGET
+done
