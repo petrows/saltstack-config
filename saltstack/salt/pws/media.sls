@@ -41,7 +41,7 @@ instaloader-petro.timer:
         [Timer]
         Unit=instaloader-petro.service
         OnBootSec=1min
-        OnCalendar=*-*-* *:*:00
+        OnCalendar=*:0/15
         [Install]
         WantedBy=timers.target
   service.running:

@@ -1,14 +1,22 @@
 #!/bin/bash
 
-#
-
 WORKPATH=$1
 
 cd $WORKPATH
 
 source instaloader-config.sh
- 
-for TARGET in $TARGETS; do
-    echo "Processing $TARGET"
-    instaloader --login $LOGIN --fast-update --stories --highlights --tagged --igtv $TARGET
-done
+
+# Weekly - update also highlights
+WEEK_CURRENT=$(date +%V)
+WEEK_LAST=$(cat last-week.txt || echo "")
+OPTS=""
+
+# Weekly shit?
+if [[ "$WEEK_CURRENT" != "$WEEK_LAST" ]]; then
+    echo "$WEEK_CURRENT" > last-week.txt
+
+    echo "New week -> download hightlights"
+    OPTS="$OPTS --highlights"
+fi
+
+instaloader --login $LOGIN --fast-update $OPTS --stories --tagged --igtv $TARGETS
