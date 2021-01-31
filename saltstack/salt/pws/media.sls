@@ -40,8 +40,8 @@ instaloader-petro.timer:
         Description=Instaloader petro timer
         [Timer]
         Unit=instaloader-petro.service
-        OnBootSec=1min
-        OnCalendar=*:0/15
+        OnCalendar=6,16,23:00:00
+        RandomizedDelaySec=3600
         [Install]
         WantedBy=timers.target
   service.running:
