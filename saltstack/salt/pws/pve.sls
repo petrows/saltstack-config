@@ -1,3 +1,8 @@
+# This option is required for nested CT from Proxmox 6.3-3
+# https://forum.proxmox.com/threads/docker-in-lxc-l%C3%A4uft-nicht-mehr.83651/
+net.ipv4.ip_forward:
+  sysctl.present:
+    - value: 1
 
 # Common folders
 pve-export-web:
