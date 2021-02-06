@@ -27,8 +27,6 @@ instaloader-petro.service:
         Group=master
         WorkingDirectory=/
         ExecStart=/home/master/bin/instaloader-folder /srv/storage/home/petro/instaloader
-        [Install]
-        WantedBy=multi-user.target
   service.enabled:
     - enable: True # dummy value
 
