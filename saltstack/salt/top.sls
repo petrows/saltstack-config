@@ -31,6 +31,9 @@ base:
   'roles:jenkins-node':
     - match: pillar
     - roles.jenkins-node
+  'roles:unattended-upgrades':
+    - match: pillar
+    - roles.unattended-upgrades
 
   # Services
   'roles:openhab':
