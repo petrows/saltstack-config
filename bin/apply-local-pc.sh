@@ -14,4 +14,4 @@ PC_ID=$1
 
 shift
 
-sudo salt-call --id="$PC_ID" --state-verbose=False --file-root saltstack/salt --pillar-root saltstack/pillar --local state.apply $@
+sudo salt-call --id="$PC_ID" --state-verbose=False --config-dir local --file-root saltstack/salt --pillar-root saltstack/pillar --local state.apply $@

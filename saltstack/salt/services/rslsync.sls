@@ -5,19 +5,32 @@ rslsync-extract:
     - skip_verify: True
     - enforce_toplevel: False
 
-rslsync-dir-config:
-  file.directory:
-    - name: {{ pillar.rslsync.data_dir }}
-    - makedirs: True
-    - user: {{ pillar.rslsync.user }}
-    - group: {{ pillar.rslsync.user }}
+# Instances config
+{%- for conf_id, conf in (salt.pillar.get('rslsync:instances', {})).items() %}
 
-rslsync.service:
+rslsync-{{conf_id}}-dir-config:
+  file.directory:
+    - name: {{ conf.data_dir }}
+    - makedirs: True
+    - user: {{ conf.user }}
+    - group: {{ conf.user }}
+
+rslsync-{{conf_id}}.service:
   file.managed:
-    - name: /etc/systemd/system/rslsync.service
-    - source: salt://files/rslsync/rslsync.service
-    - template: jinja
+    - name: /etc/systemd/system/rslsync-{{conf_id}}.service
+    - contents: |
+        [Unit]
+        Description=Resillio sync {{conf_id}}
+        After=network.target
+        [Service]
+        User={{ conf.user }}
+        Group={{ conf.user }}
+        WorkingDirectory=/opt/rslsync
+        ExecStart=/opt/rslsync/rslsync --nodaemon --webui.listen 0.0.0.0:{{ conf.port|default('8888') }} --storage {{ conf.data_dir }}
+        [Install]
+        WantedBy=multi-user.target
   service.running:
     - enable: True
     - watch:
       - archive: rslsync-extract
+{% endfor %}

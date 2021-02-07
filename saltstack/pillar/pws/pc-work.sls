@@ -1,7 +1,8 @@
-
 rslsync:
-  data_dir: /home/pgolovachev/btsync
-  user: pgolovachev
+  instances:
+    petro:
+      data_dir: /home/pgolovachev/btsync
+      user: pgolovachev
 
 # i3 config options
 i3:
