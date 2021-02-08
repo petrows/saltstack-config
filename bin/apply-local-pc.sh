@@ -1,7 +1,7 @@
 #!/bin/bash -x
 
 if [[ -z "$1" ]]; then
-    echo "Usage: $0 <machine-id>"
+    echo "Usage: $0 <machine-id> state.apply test=true"
     exit 1
 fi
 
@@ -14,4 +14,4 @@ PC_ID=$1
 
 shift
 
-sudo salt-call --id="$PC_ID" --state-verbose=False --config-dir local --file-root saltstack/salt --pillar-root saltstack/pillar --local state.apply $@
+sudo salt-call --id="$PC_ID" --state-verbose=False --config-dir local --file-root saltstack/salt --pillar-root saltstack/pillar --local $@

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# This script calls remote host from fish
+
+ssh $@ -t fish
