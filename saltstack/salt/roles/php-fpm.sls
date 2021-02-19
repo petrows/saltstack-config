@@ -5,32 +5,35 @@ php-pm-repo:
     - file: /etc/apt/sources.list.d/php.list
     - key_url: https://packages.sury.org/php/apt.gpg
 
+{% set php_pkg = ['fpm','mysql','gd','mbstring','xml','curl','imagick','zip','intl'] %}
+
 php-fpm-pkg:
   pkg.latest:
     - pkgs:
-      - php-fpm
-      - php-mysql
-      - php-gd
-      - php-mbstring
-      - php-xml
-      - php-curl
-      - php-imagick
-      - php-zip
-      - php-intl
+    {%- for pkg in php_pkg %}
+      - php{{ pillar.php.version }}-{{ pkg }}
+    {%- endfor %}
     - require:
       - pkgrepo: php-pm-repo
 
-# Hosts config
-{%- for conf_id, conf in (salt.pillar.get('proxy_vhosts', {})).items() if conf.type == 'php' %}
-# Config pool for website
-php-fpm-{{ conf_id }}-pool-conf:
+# Pool root
+php-fpm-conf:
   file.managed:
-    - name: /etc/php/{{ pillar.php.version }}/fpm/pool.d/{{ conf_id }}.conf
+    - name: /etc/php/{{ pillar.php.version }}/fpm/php-fpm.conf
+    - source: salt://files/php/php-fpm.conf
+    - template: jinja
+    - require:
+      - pkg: php-fpm-pkg
+
+# Config pool for websites
+php-fpm-pool-conf:
+  file.managed:
+    - name: /etc/php/{{ pillar.php.version }}/fpm/pool.d/{{ pillar.php.user }}.conf
     - contents: |
-        [{{ conf_id }}]
+        [{{ pillar.php.user }}]
         user = {{ pillar.php.user }}
         group = {{ pillar.php.user }}
-        listen = /var/run/php/{{ conf_id }}-{{ pillar.php.version }}-fpm.sock
+        listen = /var/run/php/{{ pillar.php.user }}-{{ pillar.php.version }}-fpm.sock
         listen.owner = {{ pillar.php.user_sock }}
         listen.group = {{ pillar.php.user_sock }}
         pm = dynamic
@@ -38,58 +41,25 @@ php-fpm-{{ conf_id }}-pool-conf:
         pm.start_servers = 2
         pm.min_spare_servers = 1
         pm.max_spare_servers = 3
-        chroot = {{ conf.root }}
-        php_admin_value[session.save_path] = /tmp
+        php_admin_value[session.save_path] = /tmp/php-fpm
     - require:
       - pkg: php-fpm-pkg
 
-# PHP preps
+php-fpm-tmp:
+  file.directory:
+    - name: "/tmp/php-fpm"
+    - user: {{ pillar.php.user }}
+    - group: {{ pillar.php.user }}
+    - makedirs: True
+
+# Hosts config
+{%- for conf_id, conf in (salt.pillar.get('proxy_vhosts', {})).items() if conf.type == 'php' %}
 php-fpm-{{ conf_id }}-web:
   file.directory:
     - name: "{{ conf.root }}/web"
     - user: {{ pillar.php.user }}
     - group: {{ pillar.php.user }}
     - makedirs: True
-php-fpm-{{ conf_id }}-tmp:
-  file.directory:
-    - name: "{{ conf.root }}/tmp"
-    - user: {{ pillar.php.user }}
-    - group: {{ pillar.php.user }}
-    - makedirs: True
-
-# Chroot stuff
-{%- for php_mount in [
-  '/usr', '/bin', '/lib', '/lib64', '/lib32',
-  '/dev',
-  '/usr/share/zoneinfo',
-  '/etc',
-  '/var/spool/postfix',
-  ] %}
-php-fpm-{{ conf_id }}-mount-{{ php_mount }}:
-  mount.mounted:
-    - name: {{ conf.root }}{{ php_mount }}
-    - device: {{ php_mount }}
-    - opts: bind
-    - fstype: none
-    - mkmnt: True
-    - persist: False
-{% endfor %}
-
-{%- for php_link in [
-  '/etc/localtime',
-  '/etc/aliases',
-  '/etc/hosts',
-  '/etc/nsswitch.conf',
-  '/etc/resolv.conf',
-  '/dev/random', '/dev/urandom', '/dev/null',
-  ] %}
-# php-fpm-{{ conf_id }}-link-{{ php_link }}:
-#   file.hardlink:
-#     - name: {{ conf.root }}{{ php_link }}
-#     - target: {{ php_link }}
-#     - makedirs: True
-{% endfor %}
-
 {% endfor %} # / vhost
 
 # PHP config
@@ -111,6 +81,8 @@ php-fpm-ini:
         session.save_path = "N;{{ pillar.php.home }}/tmp/php"
         session.use_only_cookies = 1
         session.cookie_httponly = 1
+    - require:
+      - pkg: php-fpm-pkg
 
 # Common NGINX php config (for default system pool)
 php-fpm-nginx-conf:
@@ -127,6 +99,5 @@ php{{ pillar.php.version }}-fpm.service:
     - enable: True
     - reload: True
     - watch:
-      - file: php-fpm-ini
-      - file: /etc/php/{{ pillar.php.version }}/fpm/pool.d/*
+      - file: /etc/php/{{ pillar.php.version }}/*
       - pkg: php-fpm-pkg

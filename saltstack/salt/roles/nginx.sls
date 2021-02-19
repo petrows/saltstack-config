@@ -85,7 +85,7 @@ nginx-proxy-conf-{{ conf_id }}:
       ssl_key: {{ ssl_key }}
     {% if 'php' == conf_type %}
     - require:
-      - file: php-fpm-{{ conf_id }}-pool-conf
+      - file: php-fpm-pool-conf
     {% endif %}
 {% endfor %}
 

@@ -87,18 +87,12 @@ server {
         autoindex_localtime on;
     }
 {%- endif %}
-
 {%- if conf_type == 'php' %}
     index index.php;
     location / {
 		try_files $uri $uri/ {{ conf.php_rewrite_rule|default('/index.php?q=$uri&$args') }};
 	}
-	location ~ \.php$ {
-        include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME /web/$fastcgi_script_name;
-        fastcgi_pass unix:/var/run/php/{{ conf_id }}-{{ pillar.php.version }}-fpm.sock;
-        fastcgi_index index.php;
-    }
+	location ~ \.php$ { include php.conf; }
 {%- endif %}
 
     # SSL configuration
