@@ -27,11 +27,7 @@
     "type": "con",
     "nodes": [
         {
-            "border": "none",
-            "current_border_width": 2,
-            "floating": "auto_off",
             "name": "Evolution",
-            "percent": 0.5,
             "swallows": [
                 {
                     "instance": "^evolution$"
@@ -40,15 +36,20 @@
             "type": "con"
         },
         {
-            "border": "none",
-            "current_border_width": 2,
-            "floating": "auto_off",
             "name": "Microsoft Teams",
-            "percent": 0.5,
             "swallows": [
                 {
                     "instance": "^microsoft\\ teams",
                     "window_role": "^browser\\-window$"
+                }
+            ],
+            "type": "con"
+        },
+        {
+            "name": "Telegram",
+            "swallows": [
+                {
+                    "instance": "^Telegram$"
                 }
             ],
             "type": "con"
