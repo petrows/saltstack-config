@@ -20,7 +20,7 @@ i3:
       for_window [class="Spotify"] move to workspace $ws2
       exec --no-startup-id i3-msg 'workspace $ws2; append_layout ~/.config/i3/layout-home-w2.json;'
       exec --no-startup-id google-chrome
-      exec --no-startup-id Telegram/Telegram
+      exec --no-startup-id telegram-desktop
       # exec --no-startup-id spotify
       exec --no-startup-id nagstamon
 

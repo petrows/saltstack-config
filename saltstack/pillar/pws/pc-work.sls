@@ -20,6 +20,7 @@ i3:
       exec --no-startup-id google-chrome
       exec --no-startup-id teams
       exec --no-startup-id evolution
+      exec --no-startup-id telegram-desktop
 
 # At work i have 4Л display
 xsession:

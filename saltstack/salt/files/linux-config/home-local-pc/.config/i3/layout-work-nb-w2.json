@@ -49,7 +49,7 @@
             "name": "Telegram",
             "swallows": [
                 {
-                    "instance": "^Telegram$"
+                    "instance": "^telegram-desktop$"
                 }
             ],
             "type": "con"
