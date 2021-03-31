@@ -182,8 +182,8 @@ bar {
 # Petro config
 
 # Assigns
-for_window [class="Skype"] floating enable
-for_window [class="Skype-bin"] floating enable
+#for_window [class="Skype"] floating enable
+#for_window [class="Skype-bin"] floating enable
 for_window [title="^Android Emulator -"] floating enable
 
 # Display config
