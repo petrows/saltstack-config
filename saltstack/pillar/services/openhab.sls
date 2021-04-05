@@ -7,7 +7,7 @@ roles:
 
 openhab:
   id: Openhab-dev
-  version: 3.0.0
+  version: 3.1.0.M3
   data_dir: /srv/openhab-data
   dirs:
     - /srv/openhab-data/conf
@@ -17,7 +17,7 @@ openhab:
 
   zigbee2mqtt:
     id: Openhab-zigbee2mqtt-dev
-    version: 1.18.0
+    version: 1.18.2
     device: ''
     data_dir: /srv/zigbee2mqtt-data
     dirs:
@@ -41,7 +41,7 @@ openhab:
 
   grafana:
     id: Openhab-grafana-dev
-    version: 7.2.0
+    version: 7.5.2
     data_dir: /srv/grafana-data
     dirs:
       - /srv/grafana-data
