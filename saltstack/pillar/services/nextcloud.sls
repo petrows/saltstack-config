@@ -6,7 +6,7 @@ roles:
   - nextcloud
 
 nextcloud:
-  version: 20.0.8-apache
+  version: 21.0.0-apache
   version_db: 10.5
   data_dir: /srv/nextcloud-data
   dirs:
