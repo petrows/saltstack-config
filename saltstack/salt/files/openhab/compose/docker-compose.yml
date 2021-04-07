@@ -25,6 +25,8 @@ services:
     container_name: {{ pillar.openhab.zigbee2mqtt.id }}
     image: koenkk/zigbee2mqtt:{{ pillar.openhab.zigbee2mqtt.version }}
     restart: always
+    ports:
+      - '127.0.0.1:3001:3001'
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro

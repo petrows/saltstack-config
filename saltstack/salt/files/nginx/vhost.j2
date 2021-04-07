@@ -5,6 +5,8 @@
 
 {%- set force_ssl = conf.ssl_force|default(True) %}
 {%- set enable_frame = conf.enable_frame|default(False) %}
+{%- set enable_http2 = conf.enable_http2|default(False) %}
+{%- set custom_config = conf.custom_config|default('') %}
 {% if force_ssl %}
 # HTTP must redirect to HTTPS
 server {
@@ -21,7 +23,7 @@ server {
 {%- endif %}
 
 server {
-    listen 443 ssl;
+    listen 443 ssl{% if enable_http2 %} http2{% endif %};
 {%- if not force_ssl %}
     # SSL is not forced for this vhost, we can allow http connections
     listen 80;
@@ -106,4 +108,5 @@ server {
 {%- if ssl_key %}
     ssl_certificate_key {{ ssl_key }};
 {%- endif %}
+{{ custom_config|indent(4, True) }}
 }

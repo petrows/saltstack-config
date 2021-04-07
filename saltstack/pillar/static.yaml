@@ -24,8 +24,9 @@ proxy_ports:
   graylog_http:     7007
 
   # Note: non-changeable with network=host
-  openhab_http:     8080
-  openhab_grafana:  3000
+  openhab_http:        8080
+  openhab_grafana:     3000
+  openhab_zigbee2mqtt: 3001
 
 vm_ids:
   media:            100
