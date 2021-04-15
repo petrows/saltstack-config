@@ -4,6 +4,7 @@ services:
   app:
     container_name: cmk-server
     image: checkmk/check-mk-raw:{{ pillar.check_mk_server.version }}
+    restart: always
     environment:
       - MAIL_RELAY_HOST=system.pws
     ports:

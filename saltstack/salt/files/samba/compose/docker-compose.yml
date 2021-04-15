@@ -3,8 +3,9 @@ version: '3'
 
 services:
   samba:
-    build: .
     container_name: {{ pillar.samba.id }}
+    build: .
+    restart: always
     ports:
       - "137:137/udp"
       - "138:138/udp"

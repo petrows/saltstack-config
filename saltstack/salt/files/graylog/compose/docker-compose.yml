@@ -5,6 +5,7 @@ services:
   mongo:
     container_name: graylog-mongo
     image: mongo:3
+    restart: always
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
@@ -15,6 +16,7 @@ services:
   elasticsearch:
     container_name: graylog-elastic
     image: docker.elastic.co/elasticsearch/elasticsearch-oss:{{ pillar.graylog.version_elasticsearch }}
+    restart: always
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
@@ -38,6 +40,7 @@ services:
   graylog:
     container_name: graylog-app
     image: graylog/graylog:{{ pillar.graylog.version }}
+    restart: always
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
