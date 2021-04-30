@@ -17,4 +17,4 @@ shift
 HOME_DIR=$(docker run -it --rm -u $(id -u):$(id -g) $DOCKER_IMAGE sh -c 'echo $HOME')
 HOME_DIR=$(trim "$HOME_DIR")
 
-docker run -it --rm -u $(id -u):$(id -g) -v $PWD:$PWD -v $HOME/.bash_history:/$HOME_DIR/.bash_history -w $PWD $DOCKER_IMAGE $@
+docker run -it --rm --network host -u $(id -u):$(id -g) -v $PWD:$PWD -v $HOME/.bash_history:/$HOME_DIR/.bash_history -w $PWD $DOCKER_IMAGE $@
