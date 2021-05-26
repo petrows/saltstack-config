@@ -1,2 +1,2 @@
 php:
-  version: 8.0 # Custom repo
+  version: 7.4 # Custom repo
