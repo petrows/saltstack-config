@@ -5,7 +5,7 @@ php-pm-repo:
     - file: /etc/apt/sources.list.d/php.list
     - key_url: https://packages.sury.org/php/apt.gpg
 
-{% set php_pkg = ['fpm','mysql','gd','mbstring','xml','curl','imagick','zip','intl'] %}
+{% set php_pkg = ['fpm','mysql','gd','mbstring','xml','curl','imagick','zip','intl','geoip'] %}
 
 php-fpm-pkg:
   pkg.latest:
