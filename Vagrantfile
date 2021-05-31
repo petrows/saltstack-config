@@ -61,7 +61,7 @@ master_config.vm.box = "#{os_u20}"
     ["pws-system-dev", "#{net_ip}.12", os_ram, os_u20],
     ["pws-pve-dev", "#{net_ip}.13", os_ram, "debian/buster64"],
     ["pws-web-vm-dev", "#{net_ip}.14", 8192, os_u20],
-    ["pws-backup-dev", "#{net_ip}.15", os_ram, os_u18],
+    ["pws-backup-dev", "#{net_ip}.15", os_ram, os_u20],
     ["pws-u20-dev", "#{net_ip}.16", os_ram, os_u20],
     ["pws-home-dev", "#{net_ip}.17", os_ram, os_u20],
     ["pws-media-dev", "#{net_ip}.18", os_ram, os_u20],

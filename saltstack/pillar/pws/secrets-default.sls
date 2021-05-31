@@ -16,6 +16,8 @@ pws_secrets:
   graylog:
     admin_sha2: 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
     secret: somepasswordpepper
+  crashplan:
+    vnc_password: test-password
 
   # Local cert for testing, signed for *.local.pws
   ssl_pws_local:

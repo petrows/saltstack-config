@@ -66,6 +66,9 @@ base:
   'roles:graylog':
     - match: pillar
     - services.graylog
+  'roles:crashplan':
+    - match: pillar
+    - services.crashplan
 
   # Hosts configs
   'pws-pve*':

@@ -73,7 +73,9 @@ base:
     - pws.web-vm-prod
 
   'pws-backup*':
-    - users.master
+    - services.crashplan
+  'pws-backup':
+    - services.crashplan-prod
 
   'pws-build-linux*':
     - pws.build-linux

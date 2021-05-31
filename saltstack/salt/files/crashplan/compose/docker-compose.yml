@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  # https://hub.docker.com/r/jlesage/crashplan-pro/
+  crashplan:
+    container_name: crashplan-app
+    image: jlesage/crashplan-pro:{{ pillar.crashplan.version }}
+    restart: always
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      # Backup volumes
+      {% for mount in pillar.crashplan.mounts %}
+      - {{ mount }}:/mnt{{ mount }}
+      {% endfor %}
+    environment:
+      # When set to 1, the application will be automatically restarted if it crashes or if a user quits it.
+      - KEEP_APP_RUNNING=1
+      # Password needed to connect to the application's GUI.
+      - VNC_PASSWORD={{ pillar.pws_secrets.crashplan.vnc_password }}
+      # Screen fake
+      - DISPLAY_WIDTH=1920
+      - DISPLAY_HEIGHT=1080
+    ports:
+      # HTTP-VNC
+      - {{ pillar.static.proxy_ports.crashplan_http }}:5800
