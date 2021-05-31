@@ -24,6 +24,10 @@ proxy_ports:
   graylog_http:     7007
   crashplan_http:   7008
 
+  # Resillio sync
+  rslsync_petro:    8888
+  rslsync_marina:   8889
+
   # Note: non-changeable with network=host
   openhab_http:        8080
   openhab_grafana:     3000

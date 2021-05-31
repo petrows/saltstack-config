@@ -98,6 +98,7 @@ base:
     - services.rslsync
     - pws.media
   'pws-media':
+    - pws.media-prod
     - services.plex-prod
     - services.samba-prod
   'pws-media-dev':
