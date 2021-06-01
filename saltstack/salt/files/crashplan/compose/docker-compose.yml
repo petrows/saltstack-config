@@ -21,6 +21,8 @@ services:
       # Screen fake
       - DISPLAY_WIDTH=1920
       - DISPLAY_HEIGHT=1080
+      # Max memory
+      - CRASHPLAN_SRV_MAX_MEM=8G
     ports:
       # HTTP-VNC
       - {{ pillar.static.proxy_ports.crashplan_http }}:5800
