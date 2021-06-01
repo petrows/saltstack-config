@@ -4,6 +4,7 @@ timezone: Europe/Berlin
 
 # Additional software
 packages: []
+packages_pip3: []
 
 # PIP3 location
 pip3_bin: /usr/bin/pip3

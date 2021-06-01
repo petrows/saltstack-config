@@ -15,5 +15,6 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 RUN pip3 install --no-cache-dir \
     yeecli \
+    telegram-send \
     && \
     chmod -R 777 $VIRTUAL_ENV

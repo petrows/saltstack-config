@@ -18,6 +18,9 @@ pws_secrets:
     secret: somepasswordpepper
   crashplan:
     vnc_password: test-password
+  telegram_notification_bot:
+    token: test-token
+    chat_id: 1024
 
   # Local cert for testing, signed for *.local.pws
   ssl_pws_local:
