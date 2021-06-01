@@ -17,10 +17,14 @@ i3:
       workspace $ws2 output $mon_2
   startup: |
       exec --no-startup-id i3-msg 'workspace $ws2; append_layout ~/.config/i3/layout-work-nb-w2.json;'
+      exec --no-startup-id i3-msg 'workspace $ws1; append_layout ~/.config/i3/layout-work-nb-w1.json;'
       exec --no-startup-id google-chrome
       exec --no-startup-id teams
       exec --no-startup-id evolution
       exec --no-startup-id telegram-desktop
+      exec --no-startup-id doublecmd
+      exec --no-startup-id code
+      exec --no-startup-id konsole
 
 # At work i have 4Л display
 xsession:
