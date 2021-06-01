@@ -9,10 +9,12 @@ services:
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
+      # Config
+      - {{ pillar.crashplan.data_dir }}:/config:rw
       # Backup volumes
-      {% for mount in pillar.crashplan.mounts %}
-      - {{ mount }}:/mnt{{ mount }}
-      {% endfor %}
+      {%- for mount in pillar.crashplan.mounts %}
+      - {{ mount }}:/mnt{{ mount }}:ro
+      {%- endfor %}
     environment:
       # When set to 1, the application will be automatically restarted if it crashes or if a user quits it.
       - KEEP_APP_RUNNING=1
