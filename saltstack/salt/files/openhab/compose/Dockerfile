@@ -18,3 +18,5 @@ RUN pip3 install --no-cache-dir \
     telegram-send \
     && \
     chmod -R 777 $VIRTUAL_ENV
+
+RUN echo -n "[telegram]\ntoken = {{ pillar.pws_secrets.telegram_notification_bot.token }}\nchat_id = {{ pillar.pws_secrets.telegram_notification_bot.chat_id }}" > /etc/telegram-send.conf
