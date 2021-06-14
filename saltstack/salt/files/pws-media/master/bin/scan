@@ -1,9 +1,19 @@
 #!/bin/bash -e
 
 MODE=$1
-OUTPUT="/srv/storage/common/archive/$(date +%Y)/scan-$(date +%s).pdf"
+FNAME=$2
+if [[ -z "$FNAME" ]]; then
+    FNAME="scan-$(date +%s)"
+fi
+
+OUTPUT="/srv/storage/common/archive/$(date +%Y)/$FNAME.pdf"
 OPTS=""
 TMP="/tmp"
+
+if [[ -f $OUTPUT ]] && [[ "page-add" != "$MODE" ]] ; then
+    echo "Error: file already exists: $OUTPUT"
+    exit 1
+fi
 
 DEVICE="hpaio:/net/officejet_pro_6970?ip=192.168.80.30&queue=false"
 
