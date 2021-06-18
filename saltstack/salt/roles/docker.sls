@@ -12,6 +12,7 @@ docker-pkg:
       - docker-ce
       - docker-ce-cli
       - containerd.io
+      - ctop
     - refresh: True
     - require:
       - pkgrepo: docker-repository
