@@ -22,6 +22,7 @@ i3:
       exec --no-startup-id teams
       exec --no-startup-id evolution
       exec --no-startup-id telegram-desktop
+      exec --no-startup-id nagstamon
 
 # At work i have normal display
 xsession:

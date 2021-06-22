@@ -25,6 +25,7 @@ i3:
       exec --no-startup-id doublecmd
       exec --no-startup-id code
       exec --no-startup-id konsole
+      exec --no-startup-id nagstamon
 
 # At work i have 4Л display
 xsession:
