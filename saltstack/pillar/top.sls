@@ -134,9 +134,8 @@ base:
     - pws.pc-home
 
 # Work PC config
-  'pc-work':
+  'pc-work*':
     - users.pgolovachev
     - pws.pc-work
   'pc-work-nb':
-    - users.pgolovachev
     - pws.pc-work-nb
