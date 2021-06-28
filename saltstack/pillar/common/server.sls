@@ -15,7 +15,7 @@ check_mk_plugins:
 
 # Monitoring agent (local site)
 check_mk:
-  url: http://cmk.system.pws/cmk/check_mk/agents/check-mk-agent_1.6.0p16-1_all.deb
+  url: https://cmk.system.pws/cmk/check_mk/agents/check-mk-agent_2.0.0p6-1_all.deb
 
 # Default pip3 packages for notifications
 packages_pip3:

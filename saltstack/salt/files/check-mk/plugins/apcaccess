@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# source https://github.com/HeinleinSupport/check_mk_extensions/blob/cmk2.0/apcaccess/agents/plugins/apcaccess
+# plugin: https://github.com/HeinleinSupport/check_mk_extensions/raw/cmk2.0/apcaccess/apcaccess-4.4.mkp
+
 APCACCESS=$(which apcaccess)
 
 if [ -x "$APCACCESS" ]; then
