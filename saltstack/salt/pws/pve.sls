@@ -77,3 +77,17 @@ pve-backup-code:
     - name: /opt/backup
     - source: salt://files/pws-pve/backup
     - file_mode: keep
+
+systemd-timesyncd.service:
+  service.masked: []
+
+pve-ntp-packages:
+  pkg.installed:
+    - pkgs:
+      - ntp
+
+ntp.service:
+  service.running:
+    - enable: True
+    - require:
+      - pkg: pve-ntp-packages
