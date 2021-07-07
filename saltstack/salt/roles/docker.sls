@@ -2,9 +2,7 @@
 docker-repository:
   pkgrepo.managed:
     - name: deb [arch={{ grains.osarch }}] https://download.docker.com/linux/{{ grains.os|lower }} {{ grains['oscodename'] }} stable
-    - file: /etc/apt/sources.list.d/docker.list
-    - keyid: 7EA0A9C3F273FCD8
-    - keyserver: hkp://p80.pool.sks-keyservers.net:80
+    - key_url: https://download.docker.com/linux/{{ grains.os|lower }}/gpg
 
 docker-pkg:
   pkg.installed:
@@ -21,6 +19,7 @@ docker-config:
   file.managed:
     - name: /etc/docker/daemon.json
     - source: salt://files/docker-compose/daemon.json
+    - template: jinja
 
 docker.service:
   service.running:

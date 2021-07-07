@@ -1,6 +1,14 @@
 {
     "log-driver": "journald",
     "log-opts": {
-        "tag": "{{.Name}}"
-    }
+        "tag": {% raw %}"{{.Name}}"{% endraw %}
+    },
+    "ipv6": true,
+    "fixed-cidr-v6": "{{ pillar.docker.ipv6_cidr }}",
+    "default-address-pools": [
+        {
+            "base": "{{ pillar.docker.subnet }}",
+            "size": {{ pillar.docker.subnet_size }}
+        }
+    ]
 }

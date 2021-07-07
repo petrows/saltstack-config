@@ -29,6 +29,11 @@ docker_compose:
   # Services to be auto-added to run
   services: {}
 
+docker:
+  subnet: 172.16.0.0/12
+  subnet_size: 24
+  ipv6_cidr: fdfd:8b2c:086d:ecbd::/64
+
 # This option forces to update bash / fish profile
 force_user_update: False
 
