@@ -10,7 +10,7 @@ nextcloud:
   version_db: 10.5
   data_dir: /srv/nextcloud-data
   dirs:
-    - /srv/nextcloud-data/data
+    - data
 
 proxy_vhosts:
   nextcloud:

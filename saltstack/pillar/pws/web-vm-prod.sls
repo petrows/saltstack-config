@@ -1,11 +1,12 @@
 roles:
   - mounts
 
+# Mount external data storage for DMZ host
 mounts:
-  nextcloud-data:
-    name: /srv/nextcloud-data/data
-    device: pve.pws:/srv/hdd2/web/nextcloud-data
-    type: nfs
+  web_data:
+    name: /mnt/data
+    device: /dev/mapper/data--vg-data--lv
+    type: ext4
     opts: defaults
 
 # Force generate new dhparm keys for Nginx (required for external servers)
