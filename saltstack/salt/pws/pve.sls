@@ -24,6 +24,20 @@ pve-exports:
           - no_subtree_check
           - no_root_squash
 
+# Network config
+pve-net-deps:
+  kmod.present:
+    - persist: True
+    - mods:
+      - 8021q
+  file.managed:
+    - name: /etc/network/interfaces
+    - source: salt://files/pws-pve/interfaces
+
+/etc/resolv.conf:
+  file.managed:
+    - source: salt://files/pws-pve/resolv.conf
+
 # Disabled due to bug in Salt: https://github.com/saltstack/salt/issues/54075
 
 # Special configs for VM's
