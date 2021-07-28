@@ -61,10 +61,19 @@ git_config:
   alias.undo: checkout --
 
 # SSH keys for all users to be installed
+# ssh:
+#  keys:
+#    <key-id>: # Name of key
+#      type: <type:ssh-ed25519> # Type, same as in .pub
+#      key: ...
 ssh:
   keys:
-    - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCZdDx+dLw8B7cu/OQRMA+R/o1pnlGN7WSAsiN87Ek//lr8nHociMbNWFk/e6eCWUZnJiWuDQjmFUyt/Ri7RdDCffCMbu2g6xpLCVxL3x1FE0D8rYrXFkEPNspNz9hHHpEt3WeolJenUf45ppNBTcHkUyDpQd/iTCDmiiz6I6K34QbkyAhlCEWwmlKusn85XXZiwJXEMUcLTQnmH+T1LvbZnuog8WRIDarN1smV2Sr4qa4t6MdV9cD4RuQovZQvLjmbHz/Jxl+5o6vjuXXI8Myke3r4ykXstbezdE6cqrh83AyK7YYNEypGMRx4CXUKHHfKYi46IeRMvtF6HcsLCgSZ petro@petro.ws'
-    - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC857drdwoS/R5M2Z2DvuvGzaYhd71V9j3wbmoJkNy8ZFY2j0zlbX7EsWccGJBHBIgeH3F3A3a00M4gVAMwmDm5tSE7uiq5592Wf+nr6uwAyAeT+YW/4nzbqkCV0eEhDLQ7VcErsktbNkbFi71hc5C/v9+vu+toSs6O3C0j2W8auEYBb8vXAMLtAoIbtkbwDy18dpJIdLaRiHYZJ2s6r6chFHY0NT1x6ALNAWGYBwL9Rgsm2njLcH6cRd1e2+F3V5JfoXsc0dywVX7wyCoAdwQH6jkw2a0GDmSy4bHkdbIJu7E+kqRLoOJZpSo0PCrRgu8zbMBOJ4MwT9GtnVDyWW9V petro@work'
+    petro@petro.ws:
+      enc: ssh-rsa
+      key: AAAAB3NzaC1yc2EAAAADAQABAAABAQCZdDx+dLw8B7cu/OQRMA+R/o1pnlGN7WSAsiN87Ek//lr8nHociMbNWFk/e6eCWUZnJiWuDQjmFUyt/Ri7RdDCffCMbu2g6xpLCVxL3x1FE0D8rYrXFkEPNspNz9hHHpEt3WeolJenUf45ppNBTcHkUyDpQd/iTCDmiiz6I6K34QbkyAhlCEWwmlKusn85XXZiwJXEMUcLTQnmH+T1LvbZnuog8WRIDarN1smV2Sr4qa4t6MdV9cD4RuQovZQvLjmbHz/Jxl+5o6vjuXXI8Myke3r4ykXstbezdE6cqrh83AyK7YYNEypGMRx4CXUKHHfKYi46IeRMvtF6HcsLCgSZ
+    petro@work:
+      enc: ssh-ed25519
+      key: AAAAC3NzaC1lZDI1NTE5AAAAIAUb4j91LRd0dBXMj+QE9uhC1MaKZXz5s5u64ld3uTay
 
 nginx:
   # Force generate new dhparm keys for Nginx (required for external servers)

@@ -64,11 +64,13 @@ user_{{user_id}}_fish_local:
     - creates: {{ user.home }}/.profile_local.fish
 
 # SSH access
-{% for ssh_key in salt.pillar.get('ssh:keys', []) %}
-user_{{user_id}}_ssh_{{ ssh_key }}:
-  ssh_auth.present:
+# Find keys to install
+user_{{user_id}}_ssh_auth:
+  ssh_auth.manage:
     - user: {{ user_id }}
-    - name: {{ ssh_key }}
+    - ssh_keys:
+{% for id, key in salt.pillar.get('ssh:keys').items() %}
+      - "{{ key.enc }} {{ key.key }} {{ id }} (saltstack)"
 {% endfor %}
 
 # Powerline
