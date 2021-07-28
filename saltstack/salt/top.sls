@@ -71,22 +71,22 @@ base:
     - services.crashplan
 
   # Hosts configs
-  'pws-pve*':
+  'pve.*':
     - pws.pve
 
-  'pws-system*':
+  'system.*':
     - pws.system
 
-  'pws-backup*':
+  'backup.*':
     - pws.backup
 
-  'pws-home*':
+  'home.*':
     - pws.home
 
-  'pws-media*':
+  'media.*':
     - pws.media
 
-  'eu.petro.ws*':
+  'eu.petro.*':
     - pws.eu-petrows
 
 # Local host config

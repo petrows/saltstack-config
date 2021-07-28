@@ -7,7 +7,7 @@ roles:
   - mail-relay
 
 # Server will update config on connect
-salt_auto_apply: True
+salt_auto_apply: False
 
 # Physical machines should check their logs
 check_mk_plugins:

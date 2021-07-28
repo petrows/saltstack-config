@@ -58,15 +58,14 @@ master_config.vm.box = "#{os_u20}"
   # Salt minion config
 
   [
-    ["pws-system-dev", "#{net_ip}.12", os_ram, os_u20],
-    ["pws-pve-dev", "#{net_ip}.13", os_ram, "debian/buster64"],
-    ["pws-web-vm-dev", "#{net_ip}.14", 8192, os_u20],
-    ["pws-backup-dev", "#{net_ip}.15", os_ram, os_u20],
-    ["pws-u20-dev", "#{net_ip}.16", os_ram, os_u20],
-    ["pws-home-dev", "#{net_ip}.17", os_ram, os_u20],
-    ["pws-media-dev", "#{net_ip}.18", os_ram, os_u20],
-    ["eu.petro.ws-dev", "#{net_ip}.19", os_ram, os_d10],
-    ["pws-build-linux-dev", "#{net_ip}.20", os_ram, os_u20],
+    ["system.dev", "#{net_ip}.12", os_ram, os_u20],
+    ["pve.dev", "#{net_ip}.13", os_ram, "debian/buster64"],
+    ["web-vm.dev", "#{net_ip}.14", 8192, os_u20],
+    ["backup.dev", "#{net_ip}.15", os_ram, os_u20],
+    ["home.dev", "#{net_ip}.17", os_ram, os_u20],
+    ["media.dev", "#{net_ip}.18", os_ram, os_u20],
+    ["eu.petro.dev", "#{net_ip}.19", os_ram, os_d10],
+    ["build-linux.dev", "#{net_ip}.20", os_ram, os_u20],
   ].each do |vmname, ip, mem, os|
     config.vm.define "#{vmname}" do |minion_config|
       minion_config.vm.provider "virtualbox" do |vb|

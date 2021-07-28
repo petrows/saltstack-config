@@ -16,7 +16,8 @@ base:
     - grains.ubuntu-20
 
 # All PWS servers should have at least advanced config for root
-  'pws-*':
+  '*.pws or *.dev':
+    - match: compound
     - users.root
 # Mount /tmp into RAM
     - common.tmp-ramdisk
@@ -24,37 +25,37 @@ base:
     - common.server
 
 # All dev servers should have virtual user config
-  '*-dev':
+  '*.dev':
     - users.vagrant
     - common.server-dev
 
 # Separate hosts config
-  'pws-pve*':
+  'pve.*':
     - common.server-dedicated
     - pws.pve
     - pws.powerline-gitstatus
 
-  'pws-system*':
+  'system.*':
     - common.server-public
     - pws.system
     - users.master
     - services.salt-master
     - services.cmk-server
     - services.graylog
-  'pws-system':
+  'system.pws':
     - services.salt-master-prod
     - services.cmk-server-prod
     - services.graylog-prod
-  'pws-system-dev':
+  'system.dev':
     - pws.system-dev
 
-  'pws-fabian*':
+  'fabian.pws':
     - users.master
 
-  'pws-octoprint*':
+  'octoprint.pws':
     - common.server-dedicated
 
-  'pws-web-vm*':
+  'web-vm.*':
     - common.server-dedicated
     - common.server-public
     - common.server-vm
@@ -65,46 +66,44 @@ base:
     - services.jenkins
     - services.gitlab
 
-  'pws-web-vm':
+  'web-vm.pws':
     - services.wiki-prod
     - services.nextcloud-prod
     - services.jenkins-prod
     - services.gitlab-prod
     - pws.web-vm-prod
 
-  'pws-backup*':
+  'backup.*':
     - services.crashplan
-  'pws-backup':
     - services.crashplan-prod
 
-  'pws-build-linux*':
+  'build-linux.*':
     - pws.build-linux
     - users.master
     - users.jenkins
     - services.docker
     - services.jenkins-node
 
-  'pws-home*':
+  'home.*':
     - pws.home
     - users.master
     - services.openhab
-  'pws-home':
     - services.openhab-prod
 
-  'pws-media*':
+  'media.*':
     - users.master
     - services.samba
     - services.plex
     - services.rslsync
     - pws.media
-  'pws-media':
+  'media.pws':
     - pws.media-prod
     - services.plex-prod
     - services.samba-prod
-  'pws-media-dev':
+  'media.dev':
     - services.samba-dev
 
-  'eu.petro.ws*':
+  'eu.petro.*':
     - common.server
     - common.server-dedicated
     - common.server-public
@@ -115,7 +114,7 @@ base:
     - users.root
     - users.www_eu
     - pws.eu-petrows
-  'eu.petro.ws-dev':
+  'eu.petro.dev':
     - pws.eu-petrows-dev
 
 # Local PC config
