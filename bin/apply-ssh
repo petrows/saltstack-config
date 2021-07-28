@@ -1,0 +1,112 @@
+#!/bin/env python3
+"""
+Apply config to remove host via SSH
+"""
+
+import argparse
+import logging
+from os import environ
+import time
+import yaml
+import sys
+import socket
+import subprocess
+from pathlib import Path
+from pprint import pprint
+
+root = Path(__file__).parents[1]
+now = time.time()
+cache_max_time = now - 3600
+
+def call_raw(cmd):
+    p = subprocess.Popen(cmd, stderr=sys.stderr, stdout=sys.stdout)
+    p.communicate()
+
+parser = argparse.ArgumentParser(
+    description='Apply config to remove host via SSH')
+
+parser.add_argument(
+    'host',
+    type=str,
+    action='store',
+    help='host name',
+)
+
+parser.add_argument(
+    '-l', '--log',
+    choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
+    help='set log level',
+)
+
+# Read rest of command line
+parser.add_argument(
+    "args",
+    nargs=argparse.REMAINDER,
+    help='arguments passed to salt-ssh. Example: state.apply --state_verbose=True test=true'
+)
+
+args = parser.parse_args()
+
+log_level = args.log
+logging.basicConfig(level=log_level)
+
+host = args.host
+
+Path(root / 'tmp').mkdir(exist_ok=True)
+Path(root / 'salt-ssh').mkdir(exist_ok=True)
+
+# Update config from remote machine
+remote_cache_file = Path(root / f"tmp/{host}-remote-minion.yml")
+
+# Local roster
+roster_local = Path(root / f"tmp/{host}-roster.yml")
+
+if not roster_local.exists() or roster_local.stat().st_mtime < cache_max_time:
+    # Resolve remote machine IP
+    host_ip = socket.gethostbyname(host)
+
+    # Prepare user@host
+    host_ssh = f"{args.user}@{host_ip}"
+
+    # Grains for this machine? (custom)
+    host_grains = {}
+
+    # Fetch minion config (if present)
+    # Machine is salt-ssh registered?
+    saltmaster_pillar = yaml.load(
+        open(Path(root / "saltstack/pillar/salt-ssh.sls"), 'r'),
+        Loader=yaml.BaseLoader
+    )
+    saltmaster_roster = saltmaster_pillar["salt"]["roster_hosts"]
+
+    if host in saltmaster_roster:
+        logging.info("Host seems to be salt-ssh registered, grains data will be used from roster config")
+        if "grains" in saltmaster_roster[host]:
+            host_grains = saltmaster_roster[host]["grains"]
+
+    logging.debug(f"Grains data used: {host_grains}")
+
+    # Generate local roster file
+    roster_data = {
+        host : {
+            'host': host_ip,
+            'user': args.user,
+            'grains': host_grains,
+        },
+    }
+
+    yaml.dump(roster_data, open(roster_local, 'w'))
+
+# Call SALT-SSH
+
+call_raw(
+    [
+        'salt-ssh',
+        '-l', str(logging.getLevelName(logging.root.level)).lower(),
+        '--roster-file', str(roster_local),
+        '-c', str(root / "salt-ssh"),
+        '--ignore-host-keys',
+        '--priv', args.ssh_key,
+        host,
+    ] + args.args
+)
