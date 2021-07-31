@@ -32,6 +32,31 @@ fish_git_packages:
       - {{ pillar['powerline_git_pkg'] }}
 {% endif %}
 
+# Sudo control
+/etc/sudoers:
+  file.managed:
+    - contents: |
+        # This file is managed by SALT
+        Defaults        env_reset
+        Defaults        mail_badpass
+        Defaults        secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+        # User privilege specification
+        root    ALL=(ALL:ALL) ALL
+        # Members of the admin group may gain root privileges
+        %admin ALL=(ALL) ALL
+        # Allow members of group sudo to execute any command
+        %sudo   ALL=(ALL:ALL) ALL
+        #includedir /etc/sudoers.d
+        {%- for user_id, user in salt.pillar.get('users', {}).items() %}
+        {%- if user.sudo|default(False) %}
+        {{ user_id }} ALL=(ALL) {% if user.sudo_nopassword|default(False) %}NOPASSWD{% endif %}:ALL
+        {%- endif %}
+        {%- endfor %}
+
+{# sudoers-d-remove:
+  file.absent:
+    - name: /etc/sudoers.d #}
+
 # Loop over allowed users on this server
 {% for user_id, user in salt.pillar.get('users', {}).items() %}
 
@@ -42,9 +67,9 @@ fish_git_packages:
 {% set ns.groups = ns.groups.append('sudoers') %}
 {% endif %} #}
 {% set user_groups = user.groups|default([]) %}
-{% if user.sudo|default(False) %}
+{# {% if user.sudo|default(False) %}
 {% set user_groups = user_groups + ['sudoers'] %}
-{% endif %}
+{% endif %} #}
 
 user_{{user_id}}_group:
   group.present:
@@ -71,12 +96,21 @@ user_{{user_id}}_config:
 # SSH access
 # Find keys to install
 user_{{user_id}}_ssh_auth:
+{% if pillar.ssh.force_manage %}
   ssh_auth.manage:
     - user: {{ user_id }}
     - ssh_keys:
 {% for id, key in salt.pillar.get('ssh:keys').items() %}
       - "{{ key.enc }} {{ key.key }} {{ id }} (saltstack)"
 {% endfor %}
+{% else %} # pillar.ssh.force_manage
+  ssh_auth.present:
+    - user: {{ user_id }}
+    - names:
+{% for id, key in salt.pillar.get('ssh:keys').items() %}
+      - "{{ key.enc }} {{ key.key }} {{ id }} (saltstack)"
+{% endfor %}
+{% endif %} # pillar.ssh.force_manage
 
 {% if user.install_profile|default(True) %}
 

@@ -67,10 +67,11 @@ git_config:
 #      type: <type:ssh-ed25519> # Type, same as in .pub
 #      key: ...
 ssh:
+  force_manage: True # Erase keys not exists?
   keys:
     petro@petro.ws:
-      enc: ssh-rsa
-      key: AAAAB3NzaC1yc2EAAAADAQABAAABAQCZdDx+dLw8B7cu/OQRMA+R/o1pnlGN7WSAsiN87Ek//lr8nHociMbNWFk/e6eCWUZnJiWuDQjmFUyt/Ri7RdDCffCMbu2g6xpLCVxL3x1FE0D8rYrXFkEPNspNz9hHHpEt3WeolJenUf45ppNBTcHkUyDpQd/iTCDmiiz6I6K34QbkyAhlCEWwmlKusn85XXZiwJXEMUcLTQnmH+T1LvbZnuog8WRIDarN1smV2Sr4qa4t6MdV9cD4RuQovZQvLjmbHz/Jxl+5o6vjuXXI8Myke3r4ykXstbezdE6cqrh83AyK7YYNEypGMRx4CXUKHHfKYi46IeRMvtF6HcsLCgSZ
+      enc: ssh-ed25519
+      key: AAAAC3NzaC1lZDI1NTE5AAAAIDuBa7ob9ADp3XvpLKFW8tEkoD0gK+Fg0JKzTX36yndl
     petro@work:
       enc: ssh-ed25519
       key: AAAAC3NzaC1lZDI1NTE5AAAAIAUb4j91LRd0dBXMj+QE9uhC1MaKZXz5s5u64ld3uTay

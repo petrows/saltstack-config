@@ -45,7 +45,7 @@ master_config.vm.box = "#{os_u20}"
       salt.minion_key = "test/keys/master_minion.pem"
       salt.minion_pub = "test/keys/master_minion.pub"
       salt.install_type = "stable"
-      salt.version = "3001.1"
+      salt.version = "3003.1"
       salt.install_master = true
       salt.no_minion = true
       salt.verbose = true
@@ -87,7 +87,7 @@ master_config.vm.box = "#{os_u20}"
 
       minion_config.vm.provision :salt do |salt|
         salt.install_type = "stable"
-        salt.version = "3001.1"
+        salt.version = "3003.1"
         salt.verbose = true
         salt.colorize = true
         salt.bootstrap_options = "-x python3 -P -c /tmp -A #{net_ip}.10 -i #{vmname}"
