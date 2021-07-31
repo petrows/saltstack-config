@@ -37,13 +37,13 @@ fish_git_packages:
   file.managed:
     - contents: |
         # This file is managed by SALT
-        Defaults        env_reset
-        Defaults        mail_badpass
-        Defaults        secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+        Defaults env_reset
+        Defaults mail_badpass
+        Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
         # User privilege specification
         root    ALL=(ALL:ALL) ALL
         # Members of the admin group may gain root privileges
-        %admin ALL=(ALL) ALL
+        %admin  ALL=(ALL) ALL
         # Allow members of group sudo to execute any command
         %sudo   ALL=(ALL:ALL) ALL
         #includedir /etc/sudoers.d
