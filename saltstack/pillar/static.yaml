@@ -7,6 +7,7 @@ uids:
   www: 2018
   share_root: 2019
   share: 2020
+  salt: 2021
   www_eu: 1000
   jenkins: 2021
 

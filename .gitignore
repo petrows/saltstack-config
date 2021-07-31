@@ -16,3 +16,5 @@ saltstack/pillar/pws/secrets.sls
 
 .vscode
 
+# Salt-ssh dirs
+tmp

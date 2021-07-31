@@ -19,6 +19,7 @@ base:
   '*.pws or *.dev':
     - match: compound
     - users.root
+    - users.salt
 # Mount /tmp into RAM
     - common.tmp-ramdisk
 # Generic server role

@@ -35,6 +35,17 @@ fish_git_packages:
 # Loop over allowed users on this server
 {% for user_id, user in salt.pillar.get('users', {}).items() %}
 
+# User vars
+{# {% set ns = namespace() %}
+{% set ns.groups = user.groups|default([]) %}
+{% if user.sudo|default(False) %}
+{% set ns.groups = ns.groups.append('sudoers') %}
+{% endif %} #}
+{% set user_groups = user.groups|default([]) %}
+{% if user.sudo|default(False) %}
+{% set user_groups = user_groups + ['sudoers'] %}
+{% endif %}
+
 user_{{user_id}}_group:
   group.present:
     - name: {{ user_id }}
@@ -50,18 +61,12 @@ user_{{user_id}}_config:
     - uid: {{ user.uid }}
     - gid: {{ user.uid }}
 {% endif %}
-{% if user.groups|default([]) %}
-    - groups: {{ user.groups }}
+{% if user_groups %}
+    - groups: {{ user_groups }}
 {% endif %}
     - shell: {{ user.shell|default('/usr/bin/fish') }}
   require:
     - pkg: fish_packages
-
-user_{{user_id}}_fish_local:
-  cmd.run:
-    - name: |
-        touch {{ user.home }}/.profile_local.fish
-    - creates: {{ user.home }}/.profile_local.fish
 
 # SSH access
 # Find keys to install
@@ -72,6 +77,14 @@ user_{{user_id}}_ssh_auth:
 {% for id, key in salt.pillar.get('ssh:keys').items() %}
       - "{{ key.enc }} {{ key.key }} {{ id }} (saltstack)"
 {% endfor %}
+
+{% if user.install_profile|default(True) %}
+
+user_{{user_id}}_fish_local:
+  cmd.run:
+    - name: |
+        touch {{ user.home }}/.profile_local.fish
+    - creates: {{ user.home }}/.profile_local.fish
 
 # Powerline
 user_{{user_id}}_fish_profile:
@@ -172,5 +185,7 @@ user_{{user_id}}_git_{{config_key}}:
     - user: {{user_id}}
 # Git config
 {% endfor %}
+
+{% endif %} # if user.install_profile
 
 {% endfor %}

@@ -6,6 +6,7 @@ Apply config to remove host via SSH
 import argparse
 import logging
 from os import environ
+import glob
 import time
 import yaml
 import sys
@@ -38,6 +39,20 @@ parser.add_argument(
     help='set log level',
 )
 
+parser.add_argument(
+    '-u', '--user',
+    action='store',
+    default='salt',
+    help='set user to login',
+)
+
+parser.add_argument(
+    '-s', '--ssh-key',
+    action='store',
+    default=None,
+    help='priv key to use',
+)
+
 # Read rest of command line
 parser.add_argument(
     "args",
@@ -52,7 +67,16 @@ logging.basicConfig(level=log_level)
 
 host = args.host
 
+# Detect key?
+if not args.ssh_key and 'SALT_SSH_KEY' in environ and environ['SALT_SSH_KEY']:
+    args.ssh_key = environ['SALT_SSH_KEY']
+if not args.ssh_key:
+    # No key, search and find first
+    keys_list = [f for f in glob.glob(str(Path(environ['HOME']) / ".ssh" / "id_*"))]
+    print(keys_list)
+
 Path(root / 'tmp').mkdir(exist_ok=True)
+Path(root / 'tmp' / "ssh.log").unlink(missing_ok=True)
 Path(root / 'salt-ssh').mkdir(exist_ok=True)
 
 # Update config from remote machine
@@ -106,6 +130,8 @@ call_raw(
         '--roster-file', str(roster_local),
         '-c', str(root / "salt-ssh"),
         '--ignore-host-keys',
+        '--log-file', str(root / "tmp" / "ssh.log"),
+        '--log-file-level', 'debug',
         '--priv', args.ssh_key,
         host,
     ] + args.args
