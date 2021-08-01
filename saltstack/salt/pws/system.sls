@@ -1,12 +1,3 @@
-system-salt-masterconf:
-  file.managed:
-    - name: /etc/salt/master
-    - source: salt://files/pws-system/salt-master.yml
-    - template: jinja
-    - user: root
-    - group: root
-    - mode: 644
-
 services-upgrade-checker-deps:
   pip.installed:
     - pkgs:

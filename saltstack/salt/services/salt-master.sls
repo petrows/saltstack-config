@@ -2,6 +2,65 @@
 
 /etc/salt/master:
   file.serialize:
-    formatter: yaml
-    dataset_pillar: salt.master
+    - formatter: yaml
+    - dataset_pillar: salt:master
 
+/etc/salt/roster:
+  file.serialize:
+    - formatter: yaml
+    - dataset_pillar: salt:roster_hosts
+
+/etc/salt/salt-ssh/id_ed25519:
+  file.managed:
+    - contents_pillar: pws_secrets:ssh_salt_private:private
+    - makedirs: True
+    - mode: 600
+
+/etc/salt/salt-ssh/id_ed25519.pub:
+  file.managed:
+    - contents_pillar: pws_secrets:ssh_salt_private:public
+    - makedirs: True
+    - mode: 600
+
+# Salt-sync service
+
+/usr/sbin/saltstack-sync:
+  file.managed:
+    - mode: 755
+    - contents: |
+        #!/bin/bash -xe
+        cd /srv/salt-config/
+        git pull
+        salt '*' state.apply
+        salt-ssh '*' state.apply
+
+saltstack-sync.service:
+  file.managed:
+    - name: /etc/systemd/system/saltstack-sync.service
+    - contents: |
+        [Unit]
+        Description=Saltstack sync
+        After=network.target
+        [Service]
+        User=root
+        Group=root
+        WorkingDirectory=/srv/salt-config/
+        ExecStart=/usr/sbin/saltstack-sync
+        [Install]
+        WantedBy=multi-user.target
+  service.enabled:
+    - enable: True
+
+saltstack-sync.timer:
+  file.managed:
+    - name: /etc/systemd/system/saltstack-sync.timer
+    - contents: |
+        [Unit]
+        Description=Saltstack sync timer
+        [Timer]
+        OnCalendar=*-*-* 4:00:00
+        Unit=saltstack-sync.service
+        [Install]
+        WantedBy=timers.target
+  service.running:
+    - enable: True

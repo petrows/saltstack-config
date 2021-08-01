@@ -117,7 +117,7 @@ if (not roster_local.exists() or roster_local.stat().st_mtime < cache_max_time) 
     # Fetch minion config (if present)
     # Machine is salt-ssh registered?
     saltmaster_pillar = yaml.load(
-        open(Path(root / "saltstack/pillar/salt-ssh.sls"), 'r'),
+        open(Path(root / "saltstack/pillar/services/salt-master.sls"), 'r'),
         Loader=yaml.BaseLoader
     )
     saltmaster_roster = saltmaster_pillar["salt"]["roster_hosts"]

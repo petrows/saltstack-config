@@ -75,6 +75,10 @@ ssh:
     petro@work:
       enc: ssh-ed25519
       key: AAAAC3NzaC1lZDI1NTE5AAAAIAUb4j91LRd0dBXMj+QE9uhC1MaKZXz5s5u64ld3uTay
+    salt@pws: # See saltstack/pillar/pws/secrets.sls
+      user: ^salt$
+      enc: ssh-ed25519
+      key: AAAAC3NzaC1lZDI1NTE5AAAAINvleX9wOOd2C5M7Wy3sv2XSCXRvYG8iY+U4ONZBueYi
 
 nginx:
   # Force generate new dhparm keys for Nginx (required for external servers)

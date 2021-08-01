@@ -61,8 +61,8 @@ fish_git_packages:
 {% for user_id, user in salt['pillar.get']('users', {}).items() %}
 
 # User vars
-{# {% set ns = namespace() %}
-{% set ns.groups = user.groups|default([]) %}
+{% set ns = namespace() %}
+{#{% set ns.groups = user.groups|default([]) %}
 {% if user.sudo|default(False) %}
 {% set ns.groups = ns.groups.append('sudoers') %}
 {% endif %} #}
@@ -93,6 +93,16 @@ user_{{user_id}}_config:
   require:
     - pkg: fish_packages
 
+# Filter keys related to user
+# key.user is a regexp for user(s) only for this key
+{% set ns.ssh_keys = {} %}
+{% for id, key in salt['pillar.get']('ssh:keys').items() %}
+  {% set user_filter = key.user|default(False) %}
+  {% if not user_filter or user_id is match(user_filter) %}
+    {% do ns.ssh_keys.update({id: key}) %}
+  {% endif %}
+{% endfor %}
+
 # SSH access
 # Find keys to install
 user_{{user_id}}_ssh_auth:
@@ -100,14 +110,14 @@ user_{{user_id}}_ssh_auth:
   ssh_auth.manage:
     - user: {{ user_id }}
     - ssh_keys:
-{% for id, key in salt['pillar.get']('ssh:keys').items() %}
+{% for id, key in ns.ssh_keys.items() %}
       - "{{ key.enc }} {{ key.key }} {{ id }} (saltstack)"
 {% endfor %}
 {% else %} # pillar.ssh.force_manage
   ssh_auth.present:
     - user: {{ user_id }}
     - names:
-{% for id, key in salt['pillar.get']('ssh:keys').items() %}
+{% for id, key in ns.ssh_keys.items() %}
       - "{{ key.enc }} {{ key.key }} {{ id }} (saltstack)"
 {% endfor %}
 {% endif %} # pillar.ssh.force_manage

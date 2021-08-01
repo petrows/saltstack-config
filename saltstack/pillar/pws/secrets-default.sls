@@ -74,3 +74,6 @@ pws_secrets:
         Tlm+ixBclW3XjfJsNiyaCdtVV5Y1d59ypu+OoTTDeHupCnYlXPrjtlYNjBU4fs8f
         5KISKscynKdvOZ1TMXWU+rUOGzumT6HfJML6qdBHaGo7PmTaock=
         -----END RSA PRIVATE KEY-----
+  ssh_salt_private:
+    public: ''
+    private: ''
