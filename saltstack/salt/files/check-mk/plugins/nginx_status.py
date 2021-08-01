@@ -1,30 +1,12 @@
-#!/usr/bin/env python2.7
-# -*- encoding: utf-8; py-indent-offset: 4 -*-
-# +------------------------------------------------------------------+
-# |             ____ _               _        __  __ _  __           |
-# |            / ___| |__   ___  ___| | __   |  \/  | |/ /           |
-# |           | |   | '_ \ / _ \/ __| |/ /   | |\/| | ' /            |
-# |           | |___| | | |  __/ (__|   <    | |  | | . \            |
-# |            \____|_| |_|\___|\___|_|\_\___|_|  |_|_|\_\           |
-# |                                                                  |
-# | Copyright Mathias Kettner 2014             mk@mathias-kettner.de |
-# +------------------------------------------------------------------+
-#
-# This file is part of Check_MK.
-# The official homepage is at http://mathias-kettner.de/check_mk.
-#
-# check_mk is free software;  you can redistribute it and/or modify it
-# under the  terms of the  GNU General Public License  as published by
-# the Free Software Foundation in version 2.  check_mk is  distributed
-# in the hope that it will be useful, but WITHOUT ANY WARRANTY;  with-
-# out even the implied warranty of  MERCHANTABILITY  or  FITNESS FOR A
-# PARTICULAR PURPOSE. See the  GNU General Public License for more de-
-# tails. You should have  received  a copy of the  GNU  General Public
-# License along with GNU Make; see the file  COPYING.  If  not,  write
-# to the Free Software Foundation, Inc., 51 Franklin St,  Fifth Floor,
-# Boston, MA 02110-1301 USA.
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# Copyright (C) 2019 tribe29 GmbH - License: GNU General Public License v2
+# This file is part of Checkmk (https://checkmk.com). It is subject to the terms and
+# conditions defined in the file COPYING, which is part of this source code package.
 
-# Check_MK-Agent-Plugin - Nginx Server Status
+__version__ = "2.0.0p6"
+
+# Checkmk-Agent-Plugin - Nginx Server Status
 #
 # Fetches the stub nginx_status page from detected or configured nginx
 # processes to gather status information about this process.
@@ -40,10 +22,53 @@
 import os
 import re
 import sys
-import urllib2
 
-# tell urllib2 not to honour "http(s)_proxy" env variables
-urllib2.getproxies = lambda: {}
+if sys.version_info < (2, 6):
+    sys.stderr.write("ERROR: Python 2.5 is not supported. Please use Python 2.6 or newer.\n")
+    sys.exit(1)
+
+if sys.version_info[0] == 2:
+    from urllib2 import Request, urlopen  # pylint: disable=import-error
+    from urllib2 import URLError, HTTPError  # pylint: disable=import-error
+    import urllib2  # pylint: disable=import-error
+    urllib2.getproxies = lambda: {}
+else:
+    from urllib.request import Request, urlopen  # pylint: disable=import-error,no-name-in-module
+    from urllib.error import URLError, HTTPError  # pylint: disable=import-error,no-name-in-module
+    import urllib
+    urllib.getproxies = lambda: {}  # type: ignore[attr-defined]
+
+PY2 = sys.version_info[0] == 2
+PY3 = sys.version_info[0] == 3
+
+if PY3:
+    text_type = str
+    binary_type = bytes
+else:
+    text_type = unicode  # pylint: disable=undefined-variable
+    binary_type = str
+
+
+# Borrowed from six
+def ensure_str(s, encoding='utf-8', errors='strict'):
+    """Coerce *s* to `str`.
+
+    For Python 2:
+      - `unicode` -> encoded to `str`
+      - `str` -> `str`
+
+    For Python 3:
+      - `str` -> `str`
+      - `bytes` -> decoded to `str`
+    """
+    if not isinstance(s, (text_type, binary_type)):
+        raise TypeError("not expecting type '%s'" % type(s))
+    if PY2 and isinstance(s, text_type):
+        s = s.encode(encoding, errors)
+    elif PY3 and isinstance(s, binary_type):
+        s = s.decode(encoding, errors)
+    return s
+
 
 config_dir = os.getenv("MK_CONFDIR", "/etc/check_mk")
 config_file = config_dir + "/nginx_status.cfg"
@@ -56,7 +81,7 @@ ssl_ports = [
 ]
 
 if os.path.exists(config_file):
-    execfile(config_file)
+    exec(open(config_file).read())
 
 
 def try_detect_servers():
@@ -88,8 +113,8 @@ def try_detect_servers():
         pids.append(pid)
 
         server_proto = 'http'
-        server_address, server_port = parts[3].rsplit(':', 1)
-        server_port = int(server_port)
+        server_address, _server_port = parts[3].rsplit(':', 1)
+        server_port = int(_server_port)
 
         # Use localhost when listening globally
         if server_address == '0.0.0.0':
@@ -128,26 +153,26 @@ for server in servers:
         url = '%s://%s:%s/%s' % (proto, address, port, page)
         # Try to fetch the status page for each server
         try:
-            request = urllib2.Request(url, headers={"Accept": "text/plain"})
-            fd = urllib2.urlopen(request)
-        except urllib2.URLError, e:
+            request = Request(url, headers={"Accept": "text/plain"})
+            fd = urlopen(request)
+        except URLError as e:
             if 'SSL23_GET_SERVER_HELLO:unknown protocol' in str(e):
                 # HACK: workaround misconfigurations where port 443 is used for
                 # serving non ssl secured http
                 url = 'http://%s:%s/%s' % (address, port, page)
-                fd = urllib2.urlopen(url)
+                fd = urlopen(url)
             else:
                 raise
 
-        for line in fd.read().split('\n'):
+        for line in ensure_str(fd.read()).split('\n'):
             if not line.strip():
                 continue
             if line.lstrip()[0] == '<':
                 # seems to be html output. Skip this server.
                 break
             sys.stdout.write("%s %s %s\n" % (address, port, line))
-    except urllib2.HTTPError, e:
+    except HTTPError as e:
         sys.stderr.write('HTTP-Error (%s:%d): %s %s\n' % (address, port, e.code, e))
 
-    except Exception, e:
+    except Exception as e:
         sys.stderr.write('Exception (%s:%d): %s\n' % (address, port, e))

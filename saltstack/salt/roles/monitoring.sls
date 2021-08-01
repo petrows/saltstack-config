@@ -22,7 +22,7 @@ check_mk_plugin_{{plugin_id}}:
 {% endfor %}
 
 # Configs
-{% if 'nginx_status' in salt.pillar.get('check_mk_plugins', []) %}
+{% if 'nginx_status.py' in salt.pillar.get('check_mk_plugins', []) %}
 check_mk_plugin_nginx_status_cfg:
   file.managed:
     - name: /etc/check_mk/nginx_status.cfg
@@ -31,7 +31,7 @@ check_mk_plugin_nginx_status_cfg:
     - mode: 755
 {% endif %}
 
-{% if 'mk_logwatch' in salt.pillar.get('check_mk_plugins', []) %}
+{% if 'mk_logwatch.py' in salt.pillar.get('check_mk_plugins', []) %}
 check_mk_plugin_logwatch_cfg:
   file.managed:
     - name: /etc/check_mk/logwatch.cfg
@@ -47,3 +47,9 @@ check_mk_plugin_docker_cfg:
     - source: salt://files/check-mk/configs/docker.cfg
     - makedirs: True
     - mode: 755
+docker-monitoring-pip-pkgs:
+  pip.installed:
+    - names:
+      - docker
+    - bin_env: {{ pillar.pip3_bin }}
+{% endif %}

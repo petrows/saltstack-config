@@ -1,8 +1,8 @@
 domain: web-vm.pws
 
 check_mk_plugins:
-  - nginx_status
-  - mk_logwatch
+  - nginx_status.py
+  - mk_logwatch.py
   - mk_docker.py
 
 packages:
