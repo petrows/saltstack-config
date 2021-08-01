@@ -36,6 +36,9 @@ base:
     - roles.unattended-upgrades
 
   # Services
+  'roles:salt-master':
+    - match: pillar
+    - services.salt-master
   'roles:openhab':
     - match: pillar
     - services.openhab
