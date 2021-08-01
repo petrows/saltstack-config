@@ -16,6 +16,13 @@ powerline_git_pkg: ''
 # If check-mk used, we can install additional plugins to monitor it
 check_mk_plugins: {}
 
+# check-mk settings
+check_mk_agent:
+  install: False
+  base: https://cmk.system.pws/cmk/check_mk/agents/
+  filename: check-mk-agent_2.0.0p8-1_all.deb
+  checksum: f12174dc6ad643943f5c140c89390bc6
+
 # If set, salt will be armed to auto-apply on connect (default for servers)
 salt_auto_apply: False
 

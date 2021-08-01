@@ -15,8 +15,8 @@ check_mk_plugins:
   - mk_logwatch.py
 
 # Monitoring agent (local site)
-check_mk:
-  url: https://cmk.system.pws/cmk/check_mk/agents/check-mk-agent_2.0.0p6-1_all.deb
+check_mk_agent:
+  install: True
 
 packages:
   - sudo
