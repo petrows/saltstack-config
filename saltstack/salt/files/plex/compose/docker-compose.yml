@@ -19,7 +19,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - {{ pillar.plex.data_dir }}:/config
       {%- set shared_folders = [] %}
-      {%- for share in salt.pillar.get('plex:mounts', []) if share not in shared_folders %}
+      {%- for share in salt['pillar.get']('plex:mounts', []) if share not in shared_folders %}
         {%- do shared_folders.append(share) %}
       - {{ share }}:{{ share }}
       {%- endfor %}

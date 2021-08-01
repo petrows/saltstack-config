@@ -27,7 +27,7 @@ nginx-ssl-dummy:
     - contents: ''
 
 # Hosts config
-{%- for conf_id, conf in (salt.pillar.get('proxy_vhosts', {})).items() %}
+{%- for conf_id, conf in (salt['pillar.get']('proxy_vhosts', {})).items() %}
 
 # Conf type
 {% set conf_type = conf['type']|default('proxy') %}

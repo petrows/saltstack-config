@@ -53,7 +53,7 @@ php-fpm-tmp:
     - makedirs: True
 
 # Hosts config
-{%- for conf_id, conf in (salt.pillar.get('proxy_vhosts', {})).items() if conf.type == 'php' %}
+{%- for conf_id, conf in (salt['pillar.get']('proxy_vhosts', {})).items() if conf.type == 'php' %}
 php-fpm-{{ conf_id }}-web:
   file.directory:
     - name: "{{ conf.root }}/web"

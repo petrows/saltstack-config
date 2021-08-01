@@ -115,6 +115,7 @@ if not roster_local.exists() or roster_local.stat().st_mtime < cache_max_time:
         host : {
             'host': host_ip,
             'user': args.user,
+            'sudo': True,
             'grains': host_grains,
         },
     }

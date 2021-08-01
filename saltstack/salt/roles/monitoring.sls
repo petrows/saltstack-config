@@ -12,7 +12,7 @@ install_check_mk_deps:
 {% endif %}
 
 # Install plugins?
-{% for plugin_id in salt.pillar.get('check_mk_plugins', []) %}
+{% for plugin_id in salt['pillar.get']('check_mk_plugins', []) %}
 check_mk_plugin_{{plugin_id}}:
   file.managed:
     - name: /usr/lib/check_mk_agent/plugins/{{plugin_id}}
@@ -22,7 +22,7 @@ check_mk_plugin_{{plugin_id}}:
 {% endfor %}
 
 # Configs
-{% if 'nginx_status.py' in salt.pillar.get('check_mk_plugins', []) %}
+{% if 'nginx_status.py' in salt['pillar.get']('check_mk_plugins', []) %}
 check_mk_plugin_nginx_status_cfg:
   file.managed:
     - name: /etc/check_mk/nginx_status.cfg
@@ -31,7 +31,7 @@ check_mk_plugin_nginx_status_cfg:
     - mode: 755
 {% endif %}
 
-{% if 'mk_logwatch.py' in salt.pillar.get('check_mk_plugins', []) %}
+{% if 'mk_logwatch.py' in salt['pillar.get']('check_mk_plugins', []) %}
 check_mk_plugin_logwatch_cfg:
   file.managed:
     - name: /etc/check_mk/logwatch.cfg
@@ -40,7 +40,7 @@ check_mk_plugin_logwatch_cfg:
     - mode: 755
 {% endif %}
 
-{% if 'mk_docker.py' in salt.pillar.get('check_mk_plugins', []) %}
+{% if 'mk_docker.py' in salt['pillar.get']('check_mk_plugins', []) %}
 check_mk_plugin_docker_cfg:
   file.managed:
     - name: /etc/check_mk/docker.cfg

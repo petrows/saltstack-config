@@ -1,4 +1,4 @@
-{% for dir in salt.pillar.get('jenkins:dirs', []) %}
+{% for dir in salt['pillar.get']('jenkins:dirs', []) %}
 jenkins-dir-{{ dir }}:
   file.directory:
     - name:  {{ dir }}

@@ -24,7 +24,7 @@ local-pc-soft:
       - libreoffice-gtk3
 
 # Loop over allowed users on this server
-{% for user_id, user in salt.pillar.get('users', {}).items() %}
+{% for user_id, user in salt['pillar.get']('users', {}).items() %}
 local-pc-configs-{{ user_id }}:
   file.recurse:
     - name: {{user.home}}/.config

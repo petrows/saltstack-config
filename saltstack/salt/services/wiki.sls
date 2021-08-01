@@ -8,13 +8,13 @@ wiki-rootdir:
     - group:  root
     - mode:  755
 
-{% for dir in salt.pillar.get('wiki:dirs', []) %}
+{% for dir in salt['pillar.get']('wiki:dirs', []) %}
 wiki-dir-{{ dir }}:
   file.directory:
     - name:  {{ dir }}
     - makedirs: True
-    - user:  {{ salt.pillar.get('static:uids:www-data') }}
-    - group:  {{ salt.pillar.get('static:uids:www-data') }}
+    - user:  {{ salt['pillar.get']('static:uids:www-data') }}
+    - group:  {{ salt['pillar.get']('static:uids:www-data') }}
     - mode:  755
 {% endfor %}
 

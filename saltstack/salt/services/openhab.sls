@@ -1,5 +1,5 @@
 
-{% for dir in salt.pillar.get('openhab:dirs', []) + salt.pillar.get('openhab:zigbee2mqtt:dirs', []) + salt.pillar.get('openhab:influxdb:dirs', []) %}
+{% for dir in salt['pillar.get']('openhab:dirs', []) + salt['pillar.get']('openhab:zigbee2mqtt:dirs', []) + salt['pillar.get']('openhab:influxdb:dirs', []) %}
 openhab-dir-{{ dir }}:
   file.directory:
     - name:  {{ dir }}
@@ -9,7 +9,7 @@ openhab-dir-{{ dir }}:
     - mode:  755
 {% endfor %}
 
-{% for dir in salt.pillar.get('openhab:mosquitto:dirs', []) %}
+{% for dir in salt['pillar.get']('openhab:mosquitto:dirs', []) %}
 openhab-dir-mosquitto-{{ dir }}:
   file.directory:
     - name:  {{ dir }}
@@ -19,7 +19,7 @@ openhab-dir-mosquitto-{{ dir }}:
     - mode:  755
 {% endfor %}
 
-{% for dir in salt.pillar.get('openhab:grafana:dirs', []) %}
+{% for dir in salt['pillar.get']('openhab:grafana:dirs', []) %}
 openhab-dir-mosquitto-{{ dir }}:
   file.directory:
     - name:  {{ dir }}

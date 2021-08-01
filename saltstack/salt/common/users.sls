@@ -47,7 +47,7 @@ fish_git_packages:
         # Allow members of group sudo to execute any command
         %sudo   ALL=(ALL:ALL) ALL
         #includedir /etc/sudoers.d
-        {%- for user_id, user in salt.pillar.get('users', {}).items() %}
+        {%- for user_id, user in salt['pillar.get']('users', {}).items() %}
         {%- if user.sudo|default(False) %}
         {{ user_id }} ALL=(ALL) {% if user.sudo_nopassword|default(False) %}NOPASSWD{% endif %}:ALL
         {%- endif %}
@@ -58,7 +58,7 @@ fish_git_packages:
     - name: /etc/sudoers.d #}
 
 # Loop over allowed users on this server
-{% for user_id, user in salt.pillar.get('users', {}).items() %}
+{% for user_id, user in salt['pillar.get']('users', {}).items() %}
 
 # User vars
 {# {% set ns = namespace() %}
@@ -100,14 +100,14 @@ user_{{user_id}}_ssh_auth:
   ssh_auth.manage:
     - user: {{ user_id }}
     - ssh_keys:
-{% for id, key in salt.pillar.get('ssh:keys').items() %}
+{% for id, key in salt['pillar.get']('ssh:keys').items() %}
       - "{{ key.enc }} {{ key.key }} {{ id }} (saltstack)"
 {% endfor %}
 {% else %} # pillar.ssh.force_manage
   ssh_auth.present:
     - user: {{ user_id }}
     - names:
-{% for id, key in salt.pillar.get('ssh:keys').items() %}
+{% for id, key in salt['pillar.get']('ssh:keys').items() %}
       - "{{ key.enc }} {{ key.key }} {{ id }} (saltstack)"
 {% endfor %}
 {% endif %} # pillar.ssh.force_manage
@@ -210,7 +210,7 @@ user_{{user_id}}_vim_plug:
 
 # Git configuration
 
-{% for config_key, config_value in salt.pillar.get('git_config', {}).items() %}
+{% for config_key, config_value in salt['pillar.get']('git_config', {}).items() %}
 user_{{user_id}}_git_{{config_key}}:
   git.config_set:
     - name: {{config_key}}

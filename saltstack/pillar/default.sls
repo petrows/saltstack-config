@@ -95,6 +95,8 @@ php:
 xsession:
   gtk_scale: 1.0
 
+swap_size_mb: 0
+
 # Export static registry as pillar to be used in SLS
 {% import_yaml 'static.yaml' as static %}
 static: {{ static|yaml }}

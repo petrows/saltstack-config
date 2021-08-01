@@ -25,7 +25,7 @@ services:
       - /opt/samba/smb.conf:/etc/samba/smb.conf:ro
       - {{ pillar.samba.data_dir }}/lib:/var/lib/samba
       {%- set shared_folders = [] %}
-      {%- for share_id, share in salt.pillar.get('samba:shares', {}).items() if share.path not in shared_folders %}
+      {%- for share_id, share in salt['pillar.get']('samba:shares', {}).items() if share.path not in shared_folders %}
         {%- do shared_folders.append(share.path) %}
       - {{ share.path }}:{{ share.path }}
       {%- endfor %}

@@ -6,7 +6,7 @@ rslsync-extract:
     - enforce_toplevel: False
 
 # Instances config
-{%- for conf_id, conf in (salt.pillar.get('rslsync:instances', {})).items() %}
+{%- for conf_id, conf in (salt['pillar.get']('rslsync:instances', {})).items() %}
 
 rslsync-{{conf_id}}-dir-config:
   file.directory:

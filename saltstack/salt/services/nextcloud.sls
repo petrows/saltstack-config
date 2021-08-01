@@ -1,10 +1,10 @@
-{% for dir in salt.pillar.get('nextcloud:dirs', []) %}
+{% for dir in salt['pillar.get']('nextcloud:dirs', []) %}
 nextcloud-dir-{{ dir }}:
   file.directory:
     - name: {{ pillar.nextcloud.data_dir }}/{{ dir }}
     - makedirs: True
-    - user: {{ salt.pillar.get('static:uids:www-data') }}
-    - group: {{ salt.pillar.get('static:uids:www-data') }}
+    - user: {{ salt['pillar.get']('static:uids:www-data') }}
+    - group: {{ salt['pillar.get']('static:uids:www-data') }}
     - mode: 755
 {% endfor %}
 

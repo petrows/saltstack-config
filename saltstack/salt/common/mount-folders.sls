@@ -1,5 +1,5 @@
 # Server mounts
-{% for mount_id, mount in salt.pillar.get('mount-folders', {}).items() %}
+{% for mount_id, mount in salt['pillar.get']('mount-folders', {}).items() %}
 mount-folder-{{ mount_id }}-target:
   file.directory:
     - name:  {{ mount.device }}
