@@ -40,11 +40,30 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    '--no-cache',
+    action='store_true',
+)
+
+parser.add_argument(
     '-u', '--user',
     action='store',
     default='salt',
     help='set user to login',
 )
+
+parser.add_argument(
+    '--sudo',
+    dest='sudo',
+    action='store_true',
+)
+
+parser.add_argument(
+    '--no-sudo',
+    dest='sudo',
+    action='store_false',
+)
+
+parser.set_defaults(sudo=True)
 
 parser.add_argument(
     '-s', '--ssh-key',
@@ -85,7 +104,7 @@ remote_cache_file = Path(root / f"tmp/{host}-remote-minion.yml")
 # Local roster
 roster_local = Path(root / f"tmp/{host}-roster.yml")
 
-if not roster_local.exists() or roster_local.stat().st_mtime < cache_max_time:
+if (not roster_local.exists() or roster_local.stat().st_mtime < cache_max_time) or args.no_cache:
     # Resolve remote machine IP
     host_ip = socket.gethostbyname(host)
 
@@ -115,7 +134,7 @@ if not roster_local.exists() or roster_local.stat().st_mtime < cache_max_time:
         host : {
             'host': host_ip,
             'user': args.user,
-            'sudo': True,
+            'sudo': args.sudo,
             'grains': host_grains,
         },
     }

@@ -113,6 +113,7 @@ base:
     - services.php-fpm
     - services.jenkins-node
     - users.root
+    - users.salt
     - users.www_eu
     - pws.eu-petrows
   'eu.petro.dev':

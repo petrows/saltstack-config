@@ -18,6 +18,9 @@ check_mk_plugins:
 check_mk:
   url: https://cmk.system.pws/cmk/check_mk/agents/check-mk-agent_2.0.0p6-1_all.deb
 
+packages:
+  - sudo
+
 # Default pip3 packages for notifications
 packages_pip3:
   - telegram-send

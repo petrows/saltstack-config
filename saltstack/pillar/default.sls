@@ -97,6 +97,12 @@ xsession:
 
 swap_size_mb: 0
 
+network:
+  ntp: '192.168.80.1'
+  dns: '192.168.80.1'
+
+users: {}
+
 # Export static registry as pillar to be used in SLS
 {% import_yaml 'static.yaml' as static %}
 static: {{ static|yaml }}
