@@ -194,7 +194,7 @@ user_{{user_id}}_xsession:
 user_{{user_id}}_vim_plug_deploy:
   file.managed:
     - name: {{user.home}}/.vim/autoload/plug.vim
-    - source: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    - source: https://raw.githubusercontent.com/junegunn/vim-plug/0.10.0/plug.vim
     - skip_verify: True
     - user: {{user_id}}
     - group: {{user_id}}

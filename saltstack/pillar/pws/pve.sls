@@ -4,7 +4,7 @@ check_mk_plugins:
   - smart
   - lvm
   - apcaccess
-  - mk_logwatch
+  - mk_logwatch.py
 
 swap_size_mb: {{ 4 * 1024 }}
 
