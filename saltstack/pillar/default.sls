@@ -102,8 +102,8 @@ xsession:
 swap_size_mb: 0
 
 network:
-  ntp: '192.168.80.1'
-  dns: '192.168.80.1'
+  ntp: False
+  dns: False
 
 users: {}
 

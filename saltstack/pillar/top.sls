@@ -30,6 +30,29 @@ base:
     - users.vagrant
     - common.server-dev
 
+# Config by-network
+  '192.168.80.0/24':
+    - match: ipcidr
+    - grains.network-lan
+  '10.80.1.0/24':
+    - match: ipcidr
+    - grains.network-dmz
+
+# Config by-type
+# CT machines
+  'G@virtual:LXC':
+    - match: compound
+    - grains.host-ct
+# VM machines
+  'G@virtual:kvm or G@virtual:VMware':
+    - match: compound
+    - grains.host-vm
+# Real machines
+  'G@virtual:physical':
+    - match: compound
+    - grains.host-physical
+
+
 # Separate hosts config
   'pve.*':
     - common.server-dedicated
@@ -105,6 +128,7 @@ base:
     - services.samba-dev
 
   'eu.petro.*':
+    - grains.network-dmz
     - common.server
     - common.server-dedicated
     - common.server-public
