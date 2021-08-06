@@ -25,6 +25,8 @@ salt:
     state_verbose: False
     # Salt-ssh options
     roster_defaults:
+      minion_opts:
+        pillar_merge_lists: True
       user: salt
       sudo: True
       priv: /etc/salt/salt-ssh/id_ed25519
