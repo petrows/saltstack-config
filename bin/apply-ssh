@@ -136,6 +136,9 @@ if (not roster_local.exists() or roster_local.stat().st_mtime < cache_max_time) 
             'user': args.user,
             'sudo': args.sudo,
             'grains': host_grains,
+            'minion_opts': {
+                'pillar_merge_lists':True,
+            }
         },
     }
 

@@ -1,10 +1,10 @@
 # SLS to install and configure check_mk
 
-{% if pillar.check_mk.url %}
+{% if pillar.check_mk_agent.install %}
 install_check_mk:
   pkg.installed:
     - sources:
-      - check-mk-agent: {{ pillar.check_mk.url }}
+      - check-mk-agent: {{ pillar.check_mk_agent.base }}{{ pillar.check_mk_agent.filename }}
 install_check_mk_deps:
   pkg.installed:
     - pkgs:

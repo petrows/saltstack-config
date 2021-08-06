@@ -22,6 +22,13 @@
     - makedirs: True
     - mode: 600
 
+# Install cached copy of check-mk agent
+/srv/salt-config/saltstack/salt/packages/{{ pillar.check_mk_agent.filename }}:
+  file.managed:
+    - source: {{ pillar.check_mk_agent.base }}{{ pillar.check_mk_agent.filename }}
+    - source_hash: {{ pillar.check_mk_agent.checksum }}
+    - makedirs: True
+
 # Salt-sync service
 
 /usr/sbin/saltstack-sync:
