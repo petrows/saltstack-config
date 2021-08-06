@@ -52,15 +52,12 @@ base:
     - match: compound
     - grains.host-physical
 
-
 # Separate hosts config
   'pve.*':
-    - common.server-dedicated
     - pws.pve
     - pws.powerline-gitstatus
 
   'system.*':
-    - common.server-public
     - pws.system
     - users.master
     - services.salt-master
@@ -76,13 +73,7 @@ base:
   'fabian.pws':
     - users.master
 
-  'octoprint.pws':
-    - common.server-dedicated
-
   'web-vm.*':
-    - common.server-dedicated
-    - common.server-public
-    - common.server-vm
     - pws.web-vm
     - users.www
     - services.wiki
@@ -128,11 +119,6 @@ base:
     - services.samba-dev
 
   'eu.petro.*':
-    - grains.network-dmz
-    - common.server
-    - common.server-dedicated
-    - common.server-public
-    - common.server-external
     - services.nginx
     - services.php-fpm
     - services.jenkins-node
@@ -142,6 +128,8 @@ base:
     - pws.eu-petrows
   'eu.petro.dev':
     - pws.eu-petrows-dev
+  'eu.petro.ws':
+    - grains.network-dmz
 
 # Local PC config
   'pc-*':
