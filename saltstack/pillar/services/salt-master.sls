@@ -8,6 +8,7 @@ salt:
   roster_hosts:
     # DMZ
     web-vm.pws: {}
+    build-linux.pws: {}
     # External
     eu.petro.ws: {}
   master:
