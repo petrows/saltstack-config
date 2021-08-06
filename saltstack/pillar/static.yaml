@@ -8,8 +8,8 @@ uids:
   share_root: 2019
   share: 2020
   salt: 2021
+  jenkins: 2022
   www_eu: 1000
-  jenkins: 2021
 
 # Services proxy ports
 proxy_ports:

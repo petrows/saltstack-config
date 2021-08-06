@@ -109,6 +109,7 @@ xsession:
 swap_size_mb: 0
 
 network:
+  type: unknown
   ntp: False
   dns: False
 

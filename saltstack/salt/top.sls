@@ -6,6 +6,11 @@ base:
     - common.mounts
     - common.mount-folders
 
+  # Network-based
+  'network:lan':
+    - match: pillar
+    - roles.server-lan
+
   # Roles (optional features)
   'roles:server':
     - match: pillar
