@@ -31,3 +31,11 @@ proxy_vhosts:
     root: /home/www/marinakopf
     domain: marinakopf.eu
     ssl: external
+
+# SSH key for backup service
+ssh:
+  keys:
+    root@pve.pws:
+      user: root
+      key: AAAAC3NzaC1lZDI1NTE5AAAAILO4R2eYkW2YUGB1VBu5XlNRdNlJwceBDEJrNfRtKz/8
+      enc: ssh-ed25519
