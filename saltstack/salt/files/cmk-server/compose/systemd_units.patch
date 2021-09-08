@@ -1,0 +1,13 @@
+diff --git a/checks/systemd_units b/checks/systemd_units
+index a7b14a15be..1da7f59091 100644
+--- a/checks/systemd_units
++++ b/checks/systemd_units
+@@ -86,7 +86,7 @@ def parse_systemd_units(info):
+             "UnitEntry", ['name', 'type', 'load', 'active', 'sub', 'description', 'state'])
+ 
+         for row in iter_info:
+-            if row[0] == '*':
++            if row[0] in {'●', '*'}:
+                 row.pop(0)
+             line = ' '.join(row)
+             for unit_marker in _SYSTEMD_UNITS:
