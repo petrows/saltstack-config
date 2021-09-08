@@ -5,6 +5,7 @@ base:
     - common.users
     - common.mounts
     - common.mount-folders
+    - roles.docker-compose-macro
 
   # Network-based
   'network:lan':
