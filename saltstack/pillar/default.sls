@@ -20,8 +20,8 @@ check_mk_plugins: {}
 check_mk_agent:
   install: False
   base: https://cmk.system.pws/cmk/check_mk/agents/
-  filename: check-mk-agent_2.0.0p8-1_all.deb
-  checksum: f12174dc6ad643943f5c140c89390bc6
+  filename: check-mk-agent_2.0.0p9-1_all.deb
+  checksum: 319a73e06057a792d22cc429e099fd46
 
 # If set, salt will be armed to auto-apply on connect (default for servers)
 salt_auto_apply: False
