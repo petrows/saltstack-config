@@ -2,7 +2,7 @@
 {% for mount_id, mount in salt['pillar.get']('mount-folders', {}).items() %}
 mount-folder-{{ mount_id }}-target:
   file.directory:
-    - name:  {{ mount.device }}
+    - name:  {{ mount.name }}
     - user:  {{ mount.user|default('root') }}
     - group:  {{ mount.group|default('root') }}
     - mode:  {{ mount.mode|default(755) }}
