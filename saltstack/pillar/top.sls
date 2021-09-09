@@ -110,11 +110,13 @@ base:
     - services.samba
     - services.plex
     - services.rslsync
+    - services.photoprism
     - pws.media
   'media.pws':
     - pws.media-prod
     - services.plex-prod
     - services.samba-prod
+    - services.photoprism-prod
   'media.dev':
     - services.samba-dev
 

@@ -21,6 +21,8 @@ pws_secrets:
   telegram_notification_bot:
     token: test-token
     chat_id: 1024
+  photoprism:
+    password: testpassword
 
   # Local cert for testing, signed for *.local.pws
   ssl_pws_local:

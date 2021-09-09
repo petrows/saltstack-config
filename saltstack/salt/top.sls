@@ -78,6 +78,9 @@ base:
   'roles:crashplan':
     - match: pillar
     - services.crashplan
+  'roles:photoprism':
+    - match: pillar
+    - services.photoprism
 
   # Hosts configs
   'pve.*':

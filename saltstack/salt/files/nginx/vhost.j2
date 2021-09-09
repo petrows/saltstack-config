@@ -7,6 +7,7 @@
 {%- set enable_frame = conf.enable_frame|default(False) %}
 {%- set enable_http2 = conf.enable_http2|default(False) %}
 {%- set custom_config = conf.custom_config|default('') %}
+{%- set custom_config_proxy = conf.custom_config_proxy|default('') %}
 {% if force_ssl %}
 # HTTP must redirect to HTTPS
 server {
@@ -79,6 +80,7 @@ server {
         proxy_set_header    X-Forwarded-Proto   $scheme;
         proxy_pass http://127.0.0.1:{{ conf.port }};
         proxy_redirect default;
+{{ custom_config_proxy|indent(8, True) }}
     }
 {%- endif %}
 {%- if conf_type == 'folder' %}
