@@ -70,3 +70,10 @@ system-custom-bin:
     - source: salt://files/linux-config/sbin
     - template: jinja
     - file_mode: 755
+
+# Sysctl magic
+{% for name, value in salt['pillar.get']('sysctl', {}).items() %}
+{{ name }}:
+  sysctl.present:
+    - value: {{ value }}
+{% endfor %}
