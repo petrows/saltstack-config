@@ -91,7 +91,7 @@ services:
 
   mariadb:
     image: mariadb:{{ pillar.photoprism.mariadb.version }}
-    container_name: mariadb
+    container_name: {{ pillar.photoprism.id }}-db
     restart: unless-stopped
     security_opt:
       - seccomp:unconfined
