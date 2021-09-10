@@ -1,0 +1,7 @@
+#!/bin/bash -xe
+
+# Sync fotos from temp p2p folders to permanent Archive
+
+RETAIN_DAYS=30
+
+/home/master/bin/exif-sort --older $RETAIN_DAYS --out '/srv/storage/common/photo/photos/%Y/%Y - Mobile Petro/%Y-%m/' '/srv/storage/home/petro/mobile-photos/Camera/'

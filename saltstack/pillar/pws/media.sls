@@ -11,6 +11,9 @@ packages:
   - ghostscript
   - hplip
 
+packages_pip3:
+  - exifread
+
 rslsync:
   instances:
     petro:

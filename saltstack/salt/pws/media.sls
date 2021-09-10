@@ -44,3 +44,36 @@ instaloader-petro.timer:
         WantedBy=timers.target
   service.running:
     - enable: True # dummy value
+
+sync-fotos.service:
+  file.managed:
+    - name: /etc/systemd/system/sync-fotos.service
+    - contents: |
+        [Unit]
+        Description=Sync fotos
+        After=network.target
+        [Service]
+        Type=oneshot
+        RemainAfterExit=no
+        User=master
+        Group=master
+        WorkingDirectory=/
+        ExecStart=/home/master/bin/sync-fotos
+  service.enabled:
+    - enable: True # dummy value
+
+sync-fotos.timer:
+  file.managed:
+    - name: /etc/systemd/system/sync-fotos.timer
+    - contents: |
+        [Unit]
+        Description=Sync fotos timer
+        [Timer]
+        Unit=sync-fotos.service
+        OnCalendar=06:00:00
+        RandomizedDelaySec=3600
+        [Install]
+        WantedBy=timers.target
+  service.running:
+    - enable: True # dummy value
+

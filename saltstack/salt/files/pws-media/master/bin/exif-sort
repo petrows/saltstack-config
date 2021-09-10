@@ -1,0 +1,110 @@
+#!/usr/bin/env python3
+import datetime
+import shutil
+import exifread
+import argparse
+from pathlib import Path
+
+
+parser = argparse.ArgumentParser(
+    description='Sort file according to EXIF',
+)
+
+parser.add_argument(
+    '--out',
+    action='store',
+    type=str,
+    required=True,
+    help='out folder, use %Y, %m, %d placeholders for Yer, Month and Day from file as part of path',
+)
+
+parser.add_argument(
+    '--older',
+    action='store',
+    type=int,
+    help='process files older than X (days)',
+)
+
+parser.add_argument(
+    '-d', '--dry-run',
+    action='store_true',
+    help='dry run',
+)
+
+parser.add_argument(
+    'file',
+    type=str,
+    nargs=argparse.ONE_OR_MORE
+)
+
+args = parser.parse_args()
+
+def scanDir(pn: Path):
+    ret = []
+    if pn.name.startswith('.'):
+        print(f"Warning: {pn} skipped")
+        return ret
+    if pn.is_file():
+        return [pn]
+    if pn.is_dir():
+        for path in Path(pn).rglob('*'):
+            ret = ret + scanDir(path)
+
+    return ret
+
+def detectFileDate(file: Path) -> datetime.datetime:
+    # Try to read exif
+    try:
+        fn = open(file, 'rb')
+        tags = exifread.process_file(fh, stop_tag="EXIF DateTimeOriginal")
+        dateTaken = tags["EXIF DateTimeOriginal"]
+        imageDate = datetime.time.strptime(dateTaken, "%Y:%m:%d %H:%M:%S")
+        return imageDate
+    except:
+        pass
+    # No exif -> use file modified time
+    return datetime.datetime.fromtimestamp(file.stat().st_mtime)
+
+# Find all files
+
+files = []
+
+for pattern in args.file:
+    p = Path(pattern)
+    files = files + scanDir(p)
+
+files = list(set(files))
+
+print(f"Found {len(files)} files")
+
+for file in files:
+    # Get date
+    file_dt = detectFileDate(file)
+    if args.older:
+        time_between = datetime.datetime.now() - file_dt
+        if time_between.days < args.older:
+            continue
+
+    # Check placeholders in out path
+    out_path_tpl = args.out
+    out_path_tpl = out_path_tpl.replace('%Y', file_dt.strftime("%Y"))
+    out_path_tpl = out_path_tpl.replace('%m', file_dt.strftime("%m"))
+    out_path_tpl = out_path_tpl.replace('%d', file_dt.strftime("%d"))
+
+    out_path = Path(out_path_tpl) / file.name
+
+    print(f"{file_dt}, {file} -> {out_path}")
+
+    if args.dry_run:
+        # Do nothing
+        pass
+    else:
+        # Move file
+        if out_path.exists():
+            print(f"Warning: {out_path} already exists, skipping")
+        else:
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            shutil.move(file, out_path)
+
+
+print("Finished")
