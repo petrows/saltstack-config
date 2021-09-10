@@ -55,13 +55,14 @@ def scanDir(pn: Path):
 def detectFileDate(file: Path) -> datetime.datetime:
     # Try to read exif
     try:
-        fn = open(file, 'rb')
-        tags = exifread.process_file(fh, stop_tag="EXIF DateTimeOriginal")
-        dateTaken = tags["EXIF DateTimeOriginal"]
-        imageDate = datetime.time.strptime(dateTaken, "%Y:%m:%d %H:%M:%S")
+        fh = open(file, 'rb')
+        tag = 'EXIF DateTimeOriginal'
+        tags = exifread.process_file(fh, stop_tag=tag)
+        dateTaken = str(tags[tag])
+        imageDate = datetime.datetime.strptime(dateTaken, "%Y:%m:%d %H:%M:%S")
         return imageDate
     except:
-        pass
+        print(f"Warning: no EXIF loaded for {file}")
     # No exif -> use file modified time
     return datetime.datetime.fromtimestamp(file.stat().st_mtime)
 
