@@ -33,15 +33,6 @@ wiki-dir-mysql:
     - group:  999
     - mode:  700
 
-wiki-compose:
-  file.managed:
-    - name: /opt/wiki/docker-compose.yml
-    - source: salt://files/wiki/docker-compose.yml
-    - template: jinja
-    - user: root
-    - group: root
-    - mode: 644
-
 wiki-upload-config:
   file.managed:
     - name: {{ pillar.wiki.data_dir }}/uploads.ini
@@ -51,16 +42,5 @@ wiki-upload-config:
     - group: root
     - mode: 644
 
-wiki.service:
-  file.managed:
-    - name: /etc/systemd/system/wiki.service
-    - source: salt://files/docker-compose/systemd.service
-    - template: jinja
-    - user: root
-    - group: root
-    - context:
-      compose_path: /opt/wiki/
-  service.running:
-    - enable: True
-    - watch:
-      - file: /opt/wiki/*
+{% import "roles/docker-compose-macro.sls" as compose %}
+{{ compose.service('wiki') }}

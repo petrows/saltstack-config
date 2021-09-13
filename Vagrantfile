@@ -38,6 +38,11 @@ master_config.vm.box = "#{os_u20}"
 
     master_config.vm.provision :shell, run: "once", path: "test/set-dns.sh", args: net_dns_ip
 
+    # Do not update VBox additions (VBox only) - speedup of machine creation
+    if Vagrant.has_plugin?("vagrant-vbguest")
+      master_config.vbguest.auto_update = false
+    end
+
     master_config.vm.provision :salt do |salt|
       salt.master_config = "test/etc/master"
       salt.master_key = "test/keys/master_minion.pem"
@@ -78,6 +83,11 @@ master_config.vm.box = "#{os_u20}"
       minion_config.vm.box = "#{os}"
       minion_config.vm.hostname = "#{vmname}"
       minion_config.vm.network "private_network", ip: "#{ip}"
+
+      # Do not update VBox additions (VBox only) - speedup of machine creation
+      if Vagrant.has_plugin?("vagrant-vbguest")
+        minion_config.vbguest.auto_update = false
+      end
 
       if File.directory?(File.expand_path("test/srv/#{vmname}"))
         minion_config.vm.synced_folder "test/srv/#{vmname}", "/srv", type: "rsync", rsync__auto: false, rsync__chown: false, rsync__args: ['--verbose', '-r', '-z', '--copy-links']

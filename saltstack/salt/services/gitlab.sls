@@ -23,26 +23,5 @@ gitlab-dir-logs:
     - group: root
     - mode: 755
 
-gitlab-compose:
-  file.managed:
-    - name: /opt/gitlab/docker-compose.yml
-    - source: salt://files/gitlab/docker-compose.yml
-    - template: jinja
-    - makedirs: True
-    - user: root
-    - group: root
-    - mode: 644
-
-gitlab.service:
-  file.managed:
-    - name: /etc/systemd/system/gitlab.service
-    - source: salt://files/docker-compose/systemd.service
-    - template: jinja
-    - user: root
-    - group: root
-    - context:
-      compose_path: /opt/gitlab/
-  service.running:
-    - enable: True
-    - watch:
-      - file: /opt/gitlab/*
+{% import "roles/docker-compose-macro.sls" as compose %}
+{{ compose.service('graylog') }}
