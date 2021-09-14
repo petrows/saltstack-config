@@ -1,5 +1,8 @@
 {% import_yaml 'static.yaml' as static %}
 
+roles:
+  - mounts
+
 check_mk_plugins:
   - smart
   - lvm
@@ -25,3 +28,22 @@ pve_vms_config:
   {{ static.vm_ids.backup }}:
     - 'mp0: /srv/pws-data,mp=/mnt/pws-data'
     - 'mp1: /srv/hdd2,mp=/mnt/hdd2'
+
+
+# Mount external data storage for DMZ host
+mounts:
+  pws_data:
+    name: /srv/pws-data
+    device: /dev/mapper/data_vg-pws--data
+    type: ext4
+    opts: defaults
+  pws_cache:
+    name: /srv/pws-cache
+    device: /dev/mapper/cache_vg-pws--cache
+    type: ext4
+    opts: defaults
+  pws_hdd2:
+    name: /srv/hdd2
+    device: /dev/disk/by-id/ata-WDC_WD40EFRX-68N32N0_WD-WCC7K1VYRZPA-part1
+    type: ext4
+    opts: defaults
