@@ -10,8 +10,15 @@ photoprism:
   version: 20210523
   data_dir: /srv/photoprism-data/app
   volumes:
-    import: /tmp/import
-    originals: /tmp/originals
+    cache:
+      path: /tmp/cache
+      mode: rw
+    import:
+      path: /tmp/import
+      mode: ro
+    originals:
+      path: /tmp/originals
+      mode: ro
 
   mariadb:
     id: Photoprism-db-dev

@@ -1,8 +1,12 @@
 photoprism:
   id: Photoprism
   volumes:
-    import: /srv/photoprism-data/import
-    originals: /srv/photoprism-data/originals
+    cache:
+      path: /srv/cache/photoprism/cache
+    import:
+      path: /srv/photoprism-data/import
+    originals:
+      path: /srv/photoprism-data/originals
 
   mariadb:
     id: Photoprism-db-dev

@@ -67,6 +67,10 @@ services:
       PHOTOPRISM_SITE_CAPTION: "Browse Your Life"
       PHOTOPRISM_SITE_DESCRIPTION: ""
       PHOTOPRISM_SITE_AUTHOR: ""
+
+      # External mount for caches
+      PHOTOPRISM_CACHE_PATH: "/photoprism/cache"
+
       # You may optionally set a user / group id using environment variables if your Docker version or NAS does not
       # support this natively (see next example):
       # UID: 1000
@@ -85,8 +89,8 @@ services:
       # Permanent storage for settings, index & sidecar files (DON'T REMOVE):
       - "{{ pillar.photoprism.data_dir }}:/photoprism/storage"
       # Other volumes
-      {%- for id, path in pillar.photoprism.volumes.items() %}
-      - "{{ path }}:/photoprism/{{ id }}:ro"
+      {%- for id, item in pillar.photoprism.volumes.items() %}
+      - "{{ item.path }}:/photoprism/{{ id }}:{{ item.mode|default('ro') }}"
       {%- endfor %}
 
   mariadb:

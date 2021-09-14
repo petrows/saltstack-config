@@ -1,5 +1,5 @@
-{% for id, dir in salt['pillar.get']('photoprism:volumes', {}).items() %}
-{{ dir }}:
+{% for id, item in salt['pillar.get']('photoprism:volumes', {}).items() %}
+{{ item.path }}:
   file.directory:
     - makedirs: True
     - user: {{ salt['pillar.get']('static:uids:master') }}
