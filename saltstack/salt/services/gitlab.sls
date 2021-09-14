@@ -24,4 +24,4 @@ gitlab-dir-logs:
     - mode: 755
 
 {% import "roles/docker-compose-macro.sls" as compose %}
-{{ compose.service('graylog') }}
+{{ compose.service('gitlab') }}
