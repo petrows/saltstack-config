@@ -36,23 +36,38 @@ def detect_indexer_running():
     for line in reversed(logs):
         s = line.decode("utf-8")
         if "index:" in s:
-            print (f"Last indexer message: {s}")
+            #print (f"Last indexer message: {s}")
             message = dict(token.split('=') for token in shlex.split(s))
             message_time = message['time']
-            message_time = message_time.replace('Z', '+00:00')
-            message_time = datetime.datetime.fromisoformat(
-                message_time)
-            message_time = message_time.replace(tzinfo=datetime.timezone.utc)
-            message_time = message_time.astimezone()
-            #message_time_naive = message_time.replace(tzinfo=None)
-            print(message_time)
-            #print(datetime.datetime.now() - message_time)
-            print(datetime.datetime.now(datetime.timezone.utc) - message_time)
+            # Convert UTC time to local datetime object
+            message_time = datetime.datetime.fromtimestamp(datetime.datetime.strptime(
+                message_time, "%Y-%m-%dT%H:%M:%S%z").timestamp())
+            message_diff = (datetime.datetime.now() -
+                            message_time).total_seconds()
+
+            logging.info(
+                "Last indexer activiy detected %d seconds ago" % message_diff)
+
+            if message_diff < 30:
+                return True
             break
-    return True
+
+    return False
 
 def start_indexer():
     logging.info("Indexer started")
+    client = docker.from_env()
+    container = client.containers.get(args.container)
+    stream = container.exec_run(
+        cmd='photoprism index',
+        #cmd='ls -lah /',
+        stream=True
+    )
+    for data in stream.output:
+        for line in data.decode('utf-8').strip().split('\n'):
+            logging.info(line)
+
+    logging.info("Indexer finished")
 
 def indexer_function():
     while running:
