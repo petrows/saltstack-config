@@ -13,6 +13,8 @@ packages:
 
 packages_pip3:
   - exifread
+  - docker
+  - watchdog
 
 rslsync:
   instances:

@@ -1,4 +1,8 @@
+#!/usr/bin/env python3
+
 import time
+import shlex
+import datetime
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import threading
@@ -33,6 +37,17 @@ def detect_indexer_running():
         s = line.decode("utf-8")
         if "index:" in s:
             print (f"Last indexer message: {s}")
+            message = dict(token.split('=') for token in shlex.split(s))
+            message_time = message['time']
+            message_time = message_time.replace('Z', '+00:00')
+            message_time = datetime.datetime.fromisoformat(
+                message_time)
+            message_time = message_time.replace(tzinfo=datetime.timezone.utc)
+            message_time = message_time.astimezone()
+            #message_time_naive = message_time.replace(tzinfo=None)
+            print(message_time)
+            #print(datetime.datetime.now() - message_time)
+            print(datetime.datetime.now(datetime.timezone.utc) - message_time)
             break
     return True
 
