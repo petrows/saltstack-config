@@ -106,6 +106,14 @@ php:
 xsession:
   gtk_scale: 1.0
 
+# i3 config options
+i3:
+  bar_font_size: 12
+  display: ''
+  startup: ''
+  # Where to read CPU package temperature
+  temp_read: /sys/devices/platform/coretemp.0/hwmon/hwmon1/temp1_input
+
 swap_size_mb: 0
 
 network:

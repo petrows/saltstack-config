@@ -23,6 +23,7 @@ i3:
       exec --no-startup-id telegram-desktop
       # exec --no-startup-id spotify
       exec --no-startup-id nagstamon
+  temp_read: /sys/devices/platform/coretemp.0/hwmon/hwmon2/temp1_input
 
 # At home i have 4 disK
 xsession:
