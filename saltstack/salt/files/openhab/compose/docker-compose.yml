@@ -55,7 +55,7 @@ services:
     image: influxdb:{{ pillar.openhab.influxdb.version }}
     restart: always
     ports:
-      - '127.0.0.1:8086:8086'
+      - '8086:8086'
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
