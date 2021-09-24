@@ -41,7 +41,7 @@ openhab:
 
   grafana:
     id: Openhab-grafana-dev
-    version: 7.5.9
+    version: 8.1.5
     data_dir: /srv/grafana-data
     dirs:
       - /srv/grafana-data
