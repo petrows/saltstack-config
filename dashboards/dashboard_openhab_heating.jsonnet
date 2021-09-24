@@ -15,6 +15,7 @@ dashboard.new(
     uid='openhab_heating',
     tags=['openhab'],
     editable=true,
+    time_from='now-24h',
 )
 .addTemplate(
   grafana.template.datasource(
@@ -31,6 +32,7 @@ dashboard.new(
       'Temperature',
       span=12,
       datasource='openhab_home',
+      legend_current=true,
       format='°C',
     )
     .addTargets(
@@ -52,6 +54,7 @@ dashboard.new(
       'Thermostat',
       span=12,
       datasource='openhab_home',
+      legend_current=true,
       format='°C',
     )
     .addTargets(
@@ -74,6 +77,7 @@ dashboard.new(
       'Valve',
       span=12,
       datasource='openhab_home',
+      legend_current=true,
       format='%',
     )
     .addTargets(
@@ -89,6 +93,3 @@ dashboard.new(
     )
   )
 )
-
-# Climate
-

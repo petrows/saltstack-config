@@ -8,13 +8,14 @@ local template = grafana.template;
 
 local openhab = import 'openhab.jsonnet';
 
-# Heating status
+# Climate
 
 dashboard.new(
     'Climate',
     uid='openhab_climate',
     tags=['openhab'],
     editable=true,
+    time_from='now-24h',
 )
 .addTemplate(
   grafana.template.datasource(
@@ -31,6 +32,7 @@ dashboard.new(
       'Temperature',
       span=12,
       datasource='openhab_home',
+      legend_current=true,
       format='°C',
     )
     .addTargets(
@@ -52,8 +54,8 @@ dashboard.new(
       'Humidity',
       span=12,
       datasource='openhab_home',
-      format='%',
       legend_current=true,
+      format='%',
     )
     .addTargets(
         [
@@ -74,6 +76,7 @@ dashboard.new(
       'Climate',
       span=12,
       datasource='openhab_home',
+      legend_current=true,
       formatY1='°C',
       labelY1='Temperature',
       formatY2='%',
@@ -105,6 +108,58 @@ dashboard.new(
     )
   )
 )
-
-# Climate
-
+.addRow(
+  row.new()
+  .addPanel(
+    graphPanel.new(
+      'Pressure',
+      span=12,
+      datasource='openhab_home',
+      legend_current=true,
+      format='hPa',
+    )
+    .addTargets(
+      [
+        influxdb.target(
+          measurement='%(id)s_climate_pressure' % item,
+          alias='%(title)s' % item.title,
+        )
+        .selectField('value').addConverter('mean')
+        for item in openhab.rooms
+      ],
+    )
+  )
+)
+.addRow(
+  row.new()
+  .addPanel(
+    graphPanel.new(
+      'Wind & Rain',
+      span=12,
+      datasource='openhab_home',
+      legend_current=true,
+      formatY1='mm/h',
+      formatY2='m/s',
+    )
+    .addTarget(
+      influxdb.target(
+        measurement='weather_ext_precip',
+        alias='Rain',
+      )
+      .selectField('value').addConverter('mean')
+    )
+    .addTarget(
+      influxdb.target(
+        measurement='weather_ext_wind_speed',
+        alias='Wind',
+      )
+      .selectField('value').addConverter('mean')
+    )
+    .addSeriesOverride( # Set right y-axis for second taget for grafonnet
+      {
+        'alias': "Wind",
+        'yaxis': 2,
+      }
+    )
+  )
+)
