@@ -74,10 +74,10 @@ dashboard.new(
       'Climate',
       span=12,
       datasource='openhab_home',
-      format='°C',
-      #label='Temperature',
-      #formatY2='%',
-      #labelY2='Humidity',
+      formatY1='°C',
+      labelY1='Temperature',
+      formatY2='%',
+      labelY2='Humidity',
       aliasColors={
         'Temperature': 'light-red',
         'Humidity': 'light-blue',
@@ -90,15 +90,18 @@ dashboard.new(
         )
         .selectField('value').addConverter('mean')
     )
-    .addYaxis(
-        format='%',
-    )
     .addTarget(
         influxdb.target(
             measurement='ext_climate_humidity',
             alias='Humidity',
         )
         .selectField('value').addConverter('mean')
+    )
+    .addSeriesOverride( # Set right y-axis for second taget for grafonnet
+      {
+        'alias': "Humidity",
+        'yaxis': 2,
+      }
     )
   )
 )
