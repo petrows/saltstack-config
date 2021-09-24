@@ -20,3 +20,4 @@ saltstack/salt/packages
 # Salt-ssh dirs
 tmp
 
+# Dashboards
