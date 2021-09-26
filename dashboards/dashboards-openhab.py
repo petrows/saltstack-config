@@ -72,13 +72,13 @@ def item_last(item: str, name=None):
     return targets
 
 # Return set of Targets to display time-based graph for items group
-def group_graph(items, fill='previous'):
+def group_graph(items, fill='previous', function='mean'):
     devices = group_items(items)
     targets = []
     for k, v in devices.items():
         targets.append(
             InfluxDBTarget(
-                query=f'SELECT mean("value") FROM "{k}" WHERE $timeFilter GROUP BY time($__interval) fill({fill})',
+                query=f'SELECT {function}("value") FROM "{k}" WHERE $timeFilter GROUP BY time($__interval) fill({fill})',
                 alias=v,
             )
         )
@@ -230,7 +230,7 @@ dashboard = grafana.Dashboard(
                 dataSource=common.GRAFANA_SOURCE_OPENHAB,
                 targets=group_graph('g_battery_level', fill='none'),
                 fill=False,
-                lineWidth=1,
+                lineWidth=common.GRAFANA_LINE_WIDTH,
                 yAxes=grafana.single_y_axis(min=None, format='%'),
             ),
         ]),
@@ -240,8 +240,18 @@ dashboard = grafana.Dashboard(
                 dataSource=common.GRAFANA_SOURCE_OPENHAB,
                 targets=group_graph('g_battery_voltage', fill='none'),
                 fill=False,
-                lineWidth=1,
+                lineWidth=common.GRAFANA_LINE_WIDTH,
                 yAxes=grafana.single_y_axis(min=None, format='V'),
+            ),
+        ]),
+        grafana.Row(panels=[
+            grafana.Graph(
+                title="Battery low signal",
+                dataSource=common.GRAFANA_SOURCE_OPENHAB,
+                targets=group_graph('g_battery_low', fill='none', function='last'),
+                fill=False,
+                lineWidth=common.GRAFANA_LINE_WIDTH,
+                yAxes=grafana.single_y_axis(min=0, max=1),
             ),
         ]),
     ],
