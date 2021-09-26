@@ -1,3 +1,0 @@
-[submodule "dashboards/grafonnet-lib"]
-	path = dashboards/grafonnet-lib
-	url = git@github.com:grafana/grafonnet-lib.git

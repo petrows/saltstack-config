@@ -10,13 +10,6 @@ from grafanalib.influxdb import InfluxDBTarget
 base_url = 'https://home.pws/rest'
 openhab = OpenHAB(base_url)
 
-# Define some local defaults
-GRAFANA_LINE_WIDTH=1
-GRAFANA_TIME = grafana.Time('now-24h', 'now'),
-GRAFANA_TIMEZONE = 'browser'
-GRAFANA_SOURCE = 'openhab_home'
-GRAFANA_YAXES_AUTO = grafana.YAxes(left=grafana.YAxis(min=None), right=grafana.YAxis(min=None))
-
 # What rooms we have (for common loops)
 rooms = [
     {'id': 'kg', 'title': 'KG'},
@@ -58,6 +51,21 @@ def item_graph(item: str, name=None, fill='previous'):
         targets.append(
             InfluxDBTarget(
                 query=f'SELECT mean("value") FROM "{item_id}" WHERE $timeFilter GROUP BY time($__interval) fill({fill})',
+                alias=name,
+            )
+        )
+    return targets
+
+# Return item's last value
+def item_last(item: str, name=None):
+    item_id, item_name = get_item(item)
+    if not name:
+        name = item_name
+    targets = []
+    if item_id:
+        targets.append(
+            InfluxDBTarget(
+                query=f'SELECT last("value") FROM "{item_id}" ORDER BY time DESC LIMIT 1 SLIMIT 1',
                 alias=name,
             )
         )
@@ -105,41 +113,32 @@ dashboard = grafana.Dashboard(
     title="Climate",
     uid='openhab_climate',
     tags=['openhab'],
-    timezone="browser",
-    time=grafana.Time('now-24h', 'now'),
+    timezone=common.GRAFANA_TIMEZONE,
+    time=common.GRAFANA_TIME,
     rows=[
         grafana.Row(panels=[
             grafana.Graph(
                 title="Temperature",
-                dataSource=GRAFANA_SOURCE,
-                lineWidth=GRAFANA_LINE_WIDTH,
-                yAxes=GRAFANA_YAXES_AUTO,
+                dataSource=common.GRAFANA_SOURCE_OPENHAB,
+                lineWidth=common.GRAFANA_LINE_WIDTH,
+                yAxes=grafana.single_y_axis(min=None, format='°C'),
                 targets=rooms_temperature,
             ),
         ]),
         grafana.Row(panels=[
             grafana.Graph(
                 title="Humidity",
-                dataSource=GRAFANA_SOURCE,
-                lineWidth=GRAFANA_LINE_WIDTH,
-                yAxes=GRAFANA_YAXES_AUTO,
+                dataSource=common.GRAFANA_SOURCE_OPENHAB,
+                lineWidth=common.GRAFANA_LINE_WIDTH,
+                yAxes=grafana.single_y_axis(min=None, format='%'),
                 targets=rooms_humidity,
             ),
         ]),
         grafana.Row(panels=[
             grafana.Graph(
-                title="Pressure",
-                dataSource=GRAFANA_SOURCE,
-                lineWidth=GRAFANA_LINE_WIDTH,
-                yAxes=GRAFANA_YAXES_AUTO,
-                targets=rooms_pressure,
-            ),
-        ]),
-        grafana.Row(panels=[
-            grafana.Graph(
                 title="Climate",
-                dataSource=GRAFANA_SOURCE,
-                lineWidth=GRAFANA_LINE_WIDTH,
+                dataSource=common.GRAFANA_SOURCE_OPENHAB,
+                lineWidth=common.GRAFANA_LINE_WIDTH,
                 yAxes=grafana.YAxes(
                     left=grafana.YAxis(min=None, format='°C'),
                     right=grafana.YAxis(min=None, format='%'),
@@ -151,12 +150,12 @@ dashboard = grafana.Dashboard(
                 seriesOverrides = [
                     {
                         'alias': "Temperature",
-                        'color': 'red',
+                        'color': '#bf1b00',
                         'yaxis': 1,
                     },
                     {
                         'alias': "Humidity",
-                        'color': 'blue',
+                        'color': '#65c5db',
                         'yaxis': 2,
                     },
                 ],
@@ -164,9 +163,18 @@ dashboard = grafana.Dashboard(
         ]),
         grafana.Row(panels=[
             grafana.Graph(
+                title="Pressure",
+                dataSource=common.GRAFANA_SOURCE_OPENHAB,
+                lineWidth=common.GRAFANA_LINE_WIDTH,
+                yAxes=grafana.single_y_axis(min=None, format='hPa'),
+                targets=rooms_pressure,
+            ),
+        ]),
+        grafana.Row(panels=[
+            grafana.Graph(
                 title="Wind & Rain",
-                dataSource=GRAFANA_SOURCE,
-                lineWidth=GRAFANA_LINE_WIDTH,
+                dataSource=common.GRAFANA_SOURCE_OPENHAB,
+                lineWidth=common.GRAFANA_LINE_WIDTH,
                 yAxes=grafana.YAxes(
                     left=grafana.YAxis(min=None, format='mm/h'),
                     right=grafana.YAxis(min=None, format='m/s'),
@@ -178,7 +186,7 @@ dashboard = grafana.Dashboard(
                 seriesOverrides = [
                     {
                         'alias': "Rain",
-                        'color': 'blue',
+                        'color': '#65c5db',
                         'yaxis': 1,
                     },
                     {
@@ -200,14 +208,15 @@ dashboard = grafana.Dashboard(
     title="Battery status",
     uid='openhab_batt',
     tags=['openhab'],
-    timezone="browser",
-    time=grafana.Time('now-24h', 'now'),
+    timezone=common.GRAFANA_TIMEZONE,
+    time=common.GRAFANA_TIME,
     rows=[
         grafana.Row(panels=[
             grafana.GaugePanel(
                 title="Battery levels status",
-                dataSource='openhab_home',
+                dataSource=common.GRAFANA_SOURCE_OPENHAB,
                 targets=group_status('g_battery_level'),
+                format='%',
                 thresholds=[
                     {'color': 'red', 'value': 0},
                     {'color': 'yellow', 'value': 20},
@@ -218,21 +227,117 @@ dashboard = grafana.Dashboard(
         grafana.Row(panels=[
             grafana.Graph(
                 title="Battery levels",
-                dataSource='openhab_home',
+                dataSource=common.GRAFANA_SOURCE_OPENHAB,
                 targets=group_graph('g_battery_level', fill='none'),
                 fill=False,
                 lineWidth=1,
-                yAxes=GRAFANA_YAXES_AUTO,
+                yAxes=grafana.single_y_axis(min=None, format='%'),
             ),
         ]),
         grafana.Row(panels=[
             grafana.Graph(
                 title="Battery voltage",
-                dataSource='openhab_home',
+                dataSource=common.GRAFANA_SOURCE_OPENHAB,
                 targets=group_graph('g_battery_voltage', fill='none'),
                 fill=False,
                 lineWidth=1,
-                yAxes=GRAFANA_YAXES_AUTO,
+                yAxes=grafana.single_y_axis(min=None, format='V'),
+            ),
+        ]),
+    ],
+).auto_panel_ids()
+
+common.upload_to_grafana(dashboard)
+
+# Heating
+
+rooms_temperature_current = []
+rooms_thermostat_current = []
+rooms_valve_current = []
+rooms_thermostat = []
+rooms_valve = []
+for room in rooms:
+    room_id = room['id']
+    room_title = room['title']
+    rooms_temperature_current += item_last(f"{room_id}_climate_temperature", name=room_title)
+    rooms_thermostat_current  += item_last(f"{room_id}_heating_thermostat", name=room_title)
+    rooms_valve_current       += item_last(f"{room_id}_heating_position", name=room_title)
+    rooms_thermostat          += item_graph(f"{room_id}_heating_thermostat", name=room_title)
+    rooms_valve               += item_graph(f"{room_id}_heating_position", name=room_title)
+
+dashboard = grafana.Dashboard(
+    title="Heating",
+    uid='openhab_heating',
+    tags=['openhab'],
+    timezone=common.GRAFANA_TIMEZONE,
+    time=common.GRAFANA_TIME,
+    rows=[
+        grafana.Row(panels=[
+            grafana.GaugePanel(
+                title="Setting",
+                dataSource=common.GRAFANA_SOURCE_OPENHAB,
+                targets=rooms_thermostat_current,
+                format='°C',
+                min=5,
+                max=35,
+                thresholds=[
+                    {'color': 'blue', 'value': 5},
+                    {'color': 'green', 'value': 20},
+                    {'color': 'red', 'value': 25},
+                ],
+            ),
+            grafana.GaugePanel(
+                title="Valve",
+                dataSource=common.GRAFANA_SOURCE_OPENHAB,
+                targets=rooms_valve_current,
+                format='%',
+                min=0,
+                max=100,
+                thresholds=[
+                    {'color': 'green', 'value': 0},
+                    {'color': 'yellow', 'value': 33},
+                    {'color': 'red', 'value': 66},
+                ],
+            ),
+            grafana.GaugePanel(
+                title="Current temperature",
+                dataSource=common.GRAFANA_SOURCE_OPENHAB,
+                targets=rooms_temperature_current,
+                format='°C',
+                min=5,
+                max=35,
+                thresholds=[
+                    {'color': 'blue', 'value': 5},
+                    {'color': 'green', 'value': 20},
+                    {'color': 'red', 'value': 25},
+                ],
+            ),
+        ]),
+        grafana.Row(panels=[
+            grafana.Graph(
+                title="Temperature",
+                dataSource=common.GRAFANA_SOURCE_OPENHAB,
+                lineWidth=common.GRAFANA_LINE_WIDTH,
+                yAxes=grafana.single_y_axis(min=None, format='°C'),
+                targets=rooms_temperature,
+            ),
+        ]),
+        grafana.Row(panels=[
+            grafana.Graph(
+                title="Thermostat",
+                dataSource=common.GRAFANA_SOURCE_OPENHAB,
+                lineWidth=common.GRAFANA_LINE_WIDTH,
+                yAxes=grafana.single_y_axis(min=None, format='°C'),
+                targets=rooms_thermostat,
+            ),
+        ]),
+        grafana.Row(panels=[
+            grafana.Graph(
+                title="Valve",
+                dataSource=common.GRAFANA_SOURCE_OPENHAB,
+                lineWidth=common.GRAFANA_LINE_WIDTH,
+                yAxes=grafana.single_y_axis(min=None, format='%'),
+                targets=rooms_valve,
             ),
         ]),
     ],

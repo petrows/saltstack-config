@@ -1,9 +1,15 @@
-from grafanalib.core import Dashboard
+import grafanalib.core as grafana
 from grafanalib._gen import DashboardEncoder
 import json
 import requests
 from urllib.parse import urlparse, parse_qs
 from os import getenv
+
+# Define some local defaults
+GRAFANA_LINE_WIDTH = 1
+GRAFANA_TIME = grafana.Time('now-24h', 'now')
+GRAFANA_TIMEZONE = 'browser'
+GRAFANA_SOURCE_OPENHAB = 'openhab_home'
 
 def get_dashboard_json(dashboard):
     '''
