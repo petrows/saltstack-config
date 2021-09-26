@@ -169,8 +169,6 @@ dashboard = grafana.Dashboard(
                 yAxes=grafana.single_y_axis(min=None, format='hPa'),
                 targets=rooms_pressure,
             ),
-        ]),
-        grafana.Row(panels=[
             grafana.Graph(
                 title="Wind & Rain",
                 dataSource=common.GRAFANA_SOURCE_OPENHAB,
@@ -195,6 +193,22 @@ dashboard = grafana.Dashboard(
                         'yaxis': 2,
                     },
                 ],
+            ),
+        ]),
+        grafana.Row(panels=[
+            grafana.Graph(
+                title="Air Quality",
+                dataSource=common.GRAFANA_SOURCE_OPENHAB,
+                lineWidth=common.GRAFANA_LINE_WIDTH,
+                yAxes=grafana.single_y_axis(min=None),
+                targets=item_graph('Aqi_Level', name='Quality'),
+            ),
+            grafana.Graph(
+                title="Radiation level",
+                dataSource=common.GRAFANA_SOURCE_OPENHAB,
+                lineWidth=common.GRAFANA_LINE_WIDTH,
+                yAxes=grafana.single_y_axis(min=None, format='µSv/h', decimals=3),
+                targets=item_graph('weather_radiation', name='Radiation'),
             ),
         ]),
     ],
