@@ -10,6 +10,11 @@ import logging
 import argparse
 import random
 import docker
+import sys
+import systemd.daemon
+
+running = True
+exit_code = 0
 
 class Handler(FileSystemEventHandler):
 
@@ -24,13 +29,16 @@ class Handler(FileSystemEventHandler):
             update_event.set()
 
 def detect_indexer_running():
-    # running = bool(random.getrandbits(1))
-    # if running:
-    #     logging.info("Indexer is running, wait")
-    # return running
-    client = docker.from_env()
-    container = client.containers.get(args.container)
-    logs = container.logs().splitlines()
+    global running, exit_code
+    try:
+        client = docker.from_env()
+        container = client.containers.get(args.container)
+        logs = container.logs().splitlines()
+    except:
+        logging.error("Unable to get container object")
+        running = False
+        exit_code = 32
+        return False
 
     # Find last line with "indexer"
     for line in reversed(logs):
@@ -56,22 +64,31 @@ def detect_indexer_running():
 
 def start_indexer():
     logging.info("Indexer started")
-    client = docker.from_env()
-    container = client.containers.get(args.container)
-    stream = container.exec_run(
-        cmd='photoprism index',
-        #cmd='ls -lah /',
-        stream=True
-    )
+    try:
+        client = docker.from_env()
+        container = client.containers.get(args.container)
+        stream = container.exec_run(
+            cmd='photoprism index',
+            #cmd='ls -lah /',
+            stream=True
+        )
+    except:
+        logging.error("Unable to call container object")
+        return False
+
     for data in stream.output:
         for line in data.decode('utf-8').strip().split('\n'):
             logging.info(line)
 
     logging.info("Indexer finished")
+    return True
 
 def indexer_function():
+    global running, exit_code
     while running:
         flag = update_event.wait(3600)
+        if not running:
+            return
         if flag:
             update_event.clear()
             logging.info("Update scheduled")
@@ -81,7 +98,11 @@ def indexer_function():
                 time.sleep(10)
             if not running:
                 return
-            start_indexer()
+            if not start_indexer():
+                logging.error("Unable to start indexer")
+                running = False
+                exit_code = 32
+                return
 
 
 parser = argparse.ArgumentParser(
@@ -114,7 +135,6 @@ log_level = args.log
 logging.basicConfig(level=log_level)
 
 update_event = threading.Event()
-running = True
 observer = Observer()
 indexer = threading.Thread(target=indexer_function)
 indexer.start()
@@ -132,8 +152,10 @@ observer.start()
 
 update_event.set()
 
+systemd.daemon.notify('READY=1')
+
 try:
-    while True:
+    while running:
         time.sleep(5)
 except:
     observer.stop()
@@ -144,3 +166,5 @@ running = False
 update_event.set()
 
 observer.join()
+
+sys.exit(exit_code)
