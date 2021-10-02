@@ -21,3 +21,8 @@ mount-folders:
     name: /srv/photoprism-data/originals/mobile-petro
     user: {{ static.uids.master }}
     group: {{ static.uids.master }}
+  photoprism-photos-sync-marina:
+    device: '/srv/storage/home/marina/Телефон-Mi11/Camera'
+    name: /srv/photoprism-data/originals/mobile-marina-mi11
+    user: {{ static.uids.master }}
+    group: {{ static.uids.master }}
