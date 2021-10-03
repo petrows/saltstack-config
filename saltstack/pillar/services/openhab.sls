@@ -17,7 +17,7 @@ openhab:
 
   zigbee2mqtt:
     id: Openhab-zigbee2mqtt-dev
-    version: 1.21.1
+    version: 1.21.2
     device: ''
     data_dir: /srv/zigbee2mqtt-data
     dirs:
