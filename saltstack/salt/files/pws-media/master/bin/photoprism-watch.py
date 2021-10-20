@@ -36,8 +36,6 @@ def detect_indexer_running():
         logs = container.logs().splitlines()
     except:
         logging.error("Unable to get container object")
-        running = False
-        exit_code = 32
         return False
 
     # Find last line with "indexer"
@@ -85,6 +83,7 @@ def start_indexer():
 
 def indexer_function():
     global running, exit_code
+    errors_count = 0
     while running:
         flag = update_event.wait(3600)
         if not running:
@@ -100,9 +99,14 @@ def indexer_function():
                 return
             if not start_indexer():
                 logging.error("Unable to start indexer")
-                running = False
-                exit_code = 32
-                return
+                errors_count += 1
+                if errors_count > 10:
+                    logging.error("Too many errors reached")
+                    running = False
+                    exit_code = 32
+                    return
+            else:
+                errors_count = 0
 
 
 parser = argparse.ArgumentParser(
@@ -136,8 +140,6 @@ logging.basicConfig(level=log_level)
 
 update_event = threading.Event()
 observer = Observer()
-indexer = threading.Thread(target=indexer_function)
-indexer.start()
 
 directory_to_watch = args.folder
 
@@ -155,16 +157,15 @@ update_event.set()
 systemd.daemon.notify('READY=1')
 
 try:
-    while running:
-        time.sleep(5)
+    indexer_function()
 except:
-    observer.stop()
-    #logging.info("")
+    pass
 
 logging.info("Exitting")
 running = False
 update_event.set()
 
+observer.stop()
 observer.join()
 
 sys.exit(exit_code)
