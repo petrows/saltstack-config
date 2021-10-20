@@ -7,7 +7,7 @@ roles:
 
 photoprism:
   id: Photoprism-dev
-  version: 20210523
+  version: 20211018
   data_dir: /srv/photoprism-data/app
   volumes:
     cache:
