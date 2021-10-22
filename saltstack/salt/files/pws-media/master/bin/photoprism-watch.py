@@ -158,8 +158,9 @@ systemd.daemon.notify('READY=1')
 
 try:
     indexer_function()
-except:
-    pass
+except Exception as e:
+    exit_code = 1
+    logging.error(e)
 
 logging.info("Exitting")
 running = False
