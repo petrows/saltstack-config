@@ -63,10 +63,12 @@ base:
     - services.salt-master
     - services.cmk-server
     - services.graylog
+    - services.metrics
   'system.pws':
     - services.salt-master-prod
     - services.cmk-server-prod
     - services.graylog-prod
+    - services.metrics-prod
   'system.dev':
     - pws.system-dev
 
