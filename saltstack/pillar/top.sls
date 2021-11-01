@@ -133,6 +133,9 @@ base:
   'eu.petro.ws':
     - grains.network-dmz
 
+  'metrics.dev':
+    - services.metrics
+
 # Local PC config
   'pc-*':
     - common.tmp-ramdisk

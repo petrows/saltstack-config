@@ -81,6 +81,9 @@ base:
   'roles:photoprism':
     - match: pillar
     - services.photoprism
+  'roles:metrics':
+    - match: pillar
+    - services.metrics
 
   # Hosts configs
   'pve.*':

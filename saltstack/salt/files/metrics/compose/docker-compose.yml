@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  victoriametrics:
+    container_name: metrics-victoriametrics
+    image: victoriametrics/victoria-metrics:{{ pillar.metrics.victoriametrics.version }}
+    restart: always
+    ports:
+      - 8428:8428
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - {{ pillar.metrics.data_dir }}/victoriametrics:/victoria-metrics-data
+  grafana:
+    container_name: metrics-grafana
+    image: grafana/grafana:{{ pillar.metrics.grafana.version }}
+    restart: always
+    ports:
+      - '127.0.0.1:{{ pillar.static.proxy_ports.grafana_http }}:3000'
+    environment:
+      - "GF_PATHS_CONFIG=/var/lib/grafana/grafana.ini"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - {{ pillar.metrics.data_dir }}/grafana:/var/lib/grafana
+  telegraf:
+    container_name: metrics-telegraf
+    image: telegraf:{{ pillar.metrics.telegraf.version }}
+    restart: always
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - {{ pillar.metrics.data_dir }}/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+
