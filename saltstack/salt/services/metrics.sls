@@ -26,7 +26,7 @@ metrics-dir-{{ dir }}:
           urls = ["http://metrics-victoriametrics:8428"]
 
         [[inputs.snmp]]
-        agents = [ "root.office.pws:161" ]
+        agents = [ "root.pws:161", "root.office.pws:161" ]
 
           # System
           [[inputs.snmp.field]]
