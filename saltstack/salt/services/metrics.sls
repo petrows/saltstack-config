@@ -159,13 +159,10 @@ metrics-dir-{{ dir }}:
           [[inputs.snmp.table]]
             name = "snmp-wireless-clients"
             inherit_tags = ["hostname"]
+            index_as_tag = true
             [[inputs.snmp.table.field]]
               name = "radio-name"
               oid = ".1.3.6.1.4.1.14988.1.1.1.2.1.20"
-              is_tag = true
-            [[inputs.snmp.field]]
-              oid = "RFC1213-MIB::sysName.0"
-              name = "source"
               is_tag = true
             [[inputs.snmp.table.field]]
               name = "signal-to-noise"
@@ -173,6 +170,12 @@ metrics-dir-{{ dir }}:
             [[inputs.snmp.table.field]]
               name = "signal-strength"
               oid = ".1.3.6.1.4.1.14988.1.1.1.2.1.3"
+            [[inputs.snmp.table.field]]
+              name = "tx-rate"
+              oid = ".1.3.6.1.4.1.14988.1.1.1.2.1.8"
+            [[inputs.snmp.table.field]]
+              name = "rx-rate"
+              oid = ".1.3.6.1.4.1.14988.1.1.1.2.1.9"
 
 
           # Memory usage (storage/RAM)
