@@ -26,7 +26,7 @@ metrics-dir-{{ dir }}:
           urls = ["http://metrics-victoriametrics:8428"]
 
         [[inputs.snmp]]
-        agents = [ "tcp://root.office.pws:161" ] # Replace this with your router(s) IP/port
+        agents = [ "root.office.pws:161" ]
 
           # System
           [[inputs.snmp.field]]
@@ -119,6 +119,61 @@ metrics-dir-{{ dir }}:
             [[inputs.snmp.table.field]]
               name= "errors-out"
               oid= ".1.3.6.1.2.1.2.2.1.20"
+
+          # Wireless interfaces
+          [[inputs.snmp.table]]
+            name = "snmp-wireless-interfaces"
+            inherit_tags = ["hostname"]
+            [[inputs.snmp.table.field]]
+              name = "ssid"
+              oid = ".1.3.6.1.4.1.14988.1.1.1.3.1.4"
+              is_tag = true
+            [[inputs.snmp.table.field]]
+              name = "bssid"
+              oid = ".1.3.6.1.4.1.14988.1.1.1.3.1.5"
+              is_tag = true
+
+            [[inputs.snmp.table.field]]
+              name = "tx-rate"
+              oid = ".1.3.6.1.4.1.14988.1.1.1.3.1.2"
+            [[inputs.snmp.table.field]]
+              name = "rx-rate"
+              oid = ".1.3.6.1.4.1.14988.1.1.1.3.1.3"
+            [[inputs.snmp.table.field]]
+              name = "client-count"
+              oid = ".1.3.6.1.4.1.14988.1.1.1.3.1.6"
+            [[inputs.snmp.table.field]]
+              name = "frequency"
+              oid = ".1.3.6.1.4.1.14988.1.1.1.3.1.7"
+            [[inputs.snmp.table.field]]
+              name = "band"
+              oid = ".1.3.6.1.4.1.14988.1.1.1.3.1.8"
+            [[inputs.snmp.table.field]]
+              name = "noise-floor"
+              oid = ".1.3.6.1.4.1.14988.1.1.1.3.1.9"
+            [[inputs.snmp.table.field]]
+              name = "overall-ccq"
+              oid = ".1.3.6.1.4.1.14988.1.1.1.3.1.10"
+
+          # Wireless clients
+          [[inputs.snmp.table]]
+            name = "snmp-wireless-clients"
+            inherit_tags = ["hostname"]
+            [[inputs.snmp.table.field]]
+              name = "radio-name"
+              oid = ".1.3.6.1.4.1.14988.1.1.1.2.1.20"
+              is_tag = true
+            [[inputs.snmp.field]]
+              oid = "RFC1213-MIB::sysName.0"
+              name = "source"
+              is_tag = true
+            [[inputs.snmp.table.field]]
+              name = "signal-to-noise"
+              oid = ".1.3.6.1.4.1.14988.1.1.1.2.1.12"
+            [[inputs.snmp.table.field]]
+              name = "signal-strength"
+              oid = ".1.3.6.1.4.1.14988.1.1.1.2.1.3"
+
 
           # Memory usage (storage/RAM)
           [[inputs.snmp.table]]
