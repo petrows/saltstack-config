@@ -40,7 +40,11 @@ def detect_indexer_running():
 
     # Find last line with "indexer"
     for line in reversed(logs):
-        s = line.decode("utf-8")
+        s = ''
+        try:
+            s = line.decode("utf-8")
+        except:
+            logging.info("Error decoding line")
         if "index:" in s:
             #print (f"Last indexer message: {s}")
             message = dict(token.split('=') for token in shlex.split(s))
@@ -75,7 +79,12 @@ def start_indexer():
         return False
 
     for data in stream.output:
-        for line in data.decode('utf-8').strip().split('\n'):
+        str_data = []
+        try:
+            str_data = data.decode('utf-8').strip().split('\n')
+        except:
+            logging.info("Error decoding line")
+        for line in str_data:
             logging.info(line)
 
     logging.info("Indexer finished")
