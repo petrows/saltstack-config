@@ -37,44 +37,44 @@ config.append({
     },
 })
 
-config.append({
-    "id": "zigbee2mqtt",
-    "current": {
-        "mode": "pillar",
-        "pillar": {
-            "file": "saltstack/pillar/services/openhab.sls",
-            "attr": "$.openhab.zigbee2mqtt.version",
-        },
-    },
-    "discovery": {
-        "mode": "docker",
-        "docker": {
-            "image": "koenkk/zigbee2mqtt:latest",
-            "exec": ['npm', 'version'],
-        },
-        "regexp": 'zigbee2mqtt: \'(.*?)\''
-    },
-})
+# config.append({
+#     "id": "zigbee2mqtt",
+#     "current": {
+#         "mode": "pillar",
+#         "pillar": {
+#             "file": "saltstack/pillar/services/openhab.sls",
+#             "attr": "$.openhab.zigbee2mqtt.version",
+#         },
+#     },
+#     "discovery": {
+#         "mode": "docker",
+#         "docker": {
+#             "image": "koenkk/zigbee2mqtt:latest",
+#             "exec": ['npm', 'version'],
+#         },
+#         "regexp": 'zigbee2mqtt: \'(.*?)\''
+#     },
+# })
 
-config.append({
-    "id": "plex",
-    "current": {
-        "mode": "pillar",
-        "pillar": {
-            "file": "saltstack/pillar/services/plex.sls",
-            "attr": "$.plex.version",
-        },
-        "regexp": '(.*?)-'
-    },
-    "discovery": {
-        "mode": "docker",
-        "docker": {
-            "image": "linuxserver/plex:latest",
-            "attr": '$.Config.Labels."build_version"',
-        },
-        "regexp": 'Linuxserver.io version:- (.*?)-'
-    },
-})
+# config.append({
+#     "id": "plex",
+#     "current": {
+#         "mode": "pillar",
+#         "pillar": {
+#             "file": "saltstack/pillar/services/plex.sls",
+#             "attr": "$.plex.version",
+#         },
+#         "regexp": '(.*?)-'
+#     },
+#     "discovery": {
+#         "mode": "docker",
+#         "docker": {
+#             "image": "linuxserver/plex:latest",
+#             "attr": '$.Config.Labels."build_version"',
+#         },
+#         "regexp": 'Linuxserver.io version:- (.*?)-'
+#     },
+# })
 
 updates = []
 
