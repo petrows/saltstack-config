@@ -47,3 +47,14 @@ mounts:
     device: /dev/disk/by-id/ata-WDC_WD40EFRX-68N32N0_WD-WCC7K1VYRZPA-part1
     type: ext4
     opts: defaults
+
+nfs-exports:
+  media:
+    path: /srv/hdd2/media/video
+    hosts: '192.168.80.12'
+    opts:
+     - ro
+     - sync
+     - insecure
+     - no_root_squash
+     - no_subtree_check

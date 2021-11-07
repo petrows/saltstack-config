@@ -123,6 +123,10 @@ network:
 
 users: {}
 
+mount-folders: {}
+
+nfs-exports: {}
+
 # Export static registry as pillar to be used in SLS
 {% import_yaml 'static.yaml' as static %}
 static: {{ static|yaml }}

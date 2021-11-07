@@ -77,3 +77,23 @@ system-custom-bin:
   sysctl.present:
     - value: {{ value }}
 {% endfor %}
+
+# NFS exports
+{% if salt['pillar.get']('nfs-exports', {}) %}
+nfs-packages:
+  pkg.installed:
+    - pkgs:
+      - nfs-kernel-server
+{% endif %}
+{% for id, export in salt['pillar.get']('nfs-exports', {}).items() %}
+nfs-export-{{ id }}:
+  nfs_export.present:
+    - name: {{ export.path }}
+    - hosts: {{ export.hosts }}
+    - options:
+    {% for opt in export.opts %}
+      - {{ opt }}
+    {% endfor %}
+    - require:
+      - pkg: nfs-packages
+{% endfor %}
