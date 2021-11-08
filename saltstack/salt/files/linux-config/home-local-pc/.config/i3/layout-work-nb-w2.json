@@ -39,8 +39,7 @@
             "name": "Microsoft Teams",
             "swallows": [
                 {
-                    "instance": "^microsoft\\ teams",
-                    "window_role": "^browser\\-window$"
+                    "title": "\\ \\|\\ Microsoft\\ Teams$"
                 }
             ],
             "type": "con"
