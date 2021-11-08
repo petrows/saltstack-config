@@ -55,7 +55,7 @@ git_config:
   alias.l: "log --graph --decorate --pretty=format:'%C(yellow)%h%Creset %s %C(green)(%cr)%Creset' --abbrev-commit --date=relative"
   alias.s: status --short
   alias.checkout-pr: "!f() { git fetch origin pull/$1/head:pr-$1 && git checkout pr-$1; }; f"
-  alias.cln: "!f() { git submodule update; git clean -fd; git checkout .; }; f"
+  alias.cln: "!f() { git submodule update; git submodule sync; git reset --hard --recurse-submodule; git clean -fd; }; f"
   alias.ch: "!f() { git fetch; git checkout -f --recursive-submodules $1; }; f"
   alias.pb: push --set-upstream origin HEAD
   alias.pf: push --force
@@ -66,6 +66,7 @@ git_config:
   alias.co: checkout
   alias.unstage: reset HEAD
   alias.undo: checkout --
+  alias.sub-clean: "!f() { git submodule foreach rm -rf .git *; }; f"
 
 # SSH keys for all users to be installed
 # ssh:
