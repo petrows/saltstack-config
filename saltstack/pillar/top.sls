@@ -126,6 +126,7 @@ base:
     - services.metrics
 
   'eu.petro.*':
+    - common.server
     - services.nginx
     - services.php-fpm
     - services.jenkins-node

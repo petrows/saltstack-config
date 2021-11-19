@@ -110,15 +110,31 @@ user_{{user_id}}_ssh_auth:
   ssh_auth.manage:
     - user: {{ user_id }}
     - ssh_keys:
-{% for id, key in ns.ssh_keys.items() %}
-      - "{{ key.enc }} {{ key.key }} {{ id }} (saltstack)"
+{%- for id, key in ns.ssh_keys.items() %}
+  {%- set key_data = [] %}
+  {%- if key.opts|default([]) %}
+    {%- set _=key_data.append(key.opts|join(',')) %}
+  {%- endif %}
+  {%- set _=key_data.append(key.enc) %}
+  {%- set _=key_data.append(key.key) %}
+  {%- set _=key_data.append(id) %}
+  {%- set _=key_data.append("(saltstack)") %}
+      - {{ key_data|join(' ') }}
 {% endfor %}
 {% else %} # pillar.ssh.force_manage
   ssh_auth.present:
     - user: {{ user_id }}
     - names:
 {% for id, key in ns.ssh_keys.items() %}
-      - "{{ key.enc }} {{ key.key }} {{ id }} (saltstack)"
+  {%- set key_data = [] %}
+  {%- if key.opts|default([]) %}
+    {%- set _=key_data.append(key.opts|join(',')) %}
+  {%- endif %}
+  {%- set _=key_data.append(key.enc) %}
+  {%- set _=key_data.append(key.key) %}
+  {%- set _=key_data.append(id) %}
+  {%- set _=key_data.append("(saltstack)") %}
+      - {{ key_data|join(' ') }}
 {% endfor %}
 {% endif %} # pillar.ssh.force_manage
 

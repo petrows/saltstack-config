@@ -17,6 +17,7 @@ check_mk_plugins:
 # Monitoring agent (local site)
 check_mk_agent:
   install: True
+  ssh: False
 
 packages:
   - sudo

@@ -16,6 +16,14 @@ cmk-server-notifications:
     - template: jinja
     - file_mode: 775
 
+cmk-server-key:
+  file.managed:
+    - name: /srv/cmk-data/cmk_ssh
+    - contents_pillar: pws_secrets:ssh_cmk_private:private
+    - makedirs: True
+    - user: 1000
+    - group: 1000
+    - mode: 600
 
 {% import "roles/docker-compose-macro.sls" as compose %}
 {{ compose.service('cmk-server') }}

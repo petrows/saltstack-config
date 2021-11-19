@@ -79,3 +79,8 @@ pws_secrets:
   ssh_salt_private:
     public: ''
     private: ''
+  ssh_cmk_private:
+    public:
+      enc: ''
+      key: ''
+    private: ''

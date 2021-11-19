@@ -16,4 +16,14 @@ network:
   dns: '8.8.8.8 8.8.4.4'
 
 check_mk_agent:
+  ssh: True
   base: salt://packages/
+
+ssh:
+  keys:
+    cmk@pws:
+      user: root
+      enc: ssh-ed25519
+      key: AAAAC3NzaC1lZDI1NTE5AAAAIM2VATkbpNf60uNLhDq7BfibGpeaYdTr22VKPXFXMhR9
+      opts:
+        - command="/usr/bin/check_mk_agent"
