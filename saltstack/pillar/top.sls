@@ -122,6 +122,9 @@ base:
   'media.dev':
     - services.samba-dev
 
+  'metrics.dev':
+    - services.metrics
+
   'eu.petro.*':
     - services.nginx
     - services.php-fpm
@@ -135,8 +138,9 @@ base:
   'eu.petro.ws':
     - grains.network-dmz
 
-  'metrics.dev':
-    - services.metrics
+# External VDS
+  '*.vds.pws':
+    - grains.network-dmz
 
 # Local PC config
   'pc-*':

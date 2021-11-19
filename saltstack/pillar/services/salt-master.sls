@@ -11,6 +11,7 @@ salt:
     build-linux.pws: {}
     # External
     eu.petro.ws: {}
+    ru.vds.pws: {}
   master:
     file_roots:
       base:
