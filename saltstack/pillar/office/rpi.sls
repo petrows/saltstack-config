@@ -4,6 +4,8 @@
 
 tmp_ramdisk: False
 
+swap_size_mb: {{ 4 * 1024 }}
+
 check_mk_plugins:
   - mk_docker.py
 
