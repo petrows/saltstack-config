@@ -8,3 +8,6 @@ roles:
 openvpn-server:
   'ru-vds':
     port: 443
+    proto: tcp
+    dev: tun
+    auth: SHA1

@@ -40,7 +40,7 @@ openvpn-{{ server_id }}-config:
         user nobody
         group nogroup
         cipher AES-256-CBC
-        auth SHA256
+        auth {{ server.auth|default('SHA256') }}
         server 10.55.39.0 255.255.255.0
         port {{ server.port|default('443') }}
         proto {{ server.proto|default('udp') }}
