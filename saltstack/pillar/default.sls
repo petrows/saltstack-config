@@ -2,6 +2,9 @@
 
 timezone: Europe/Berlin
 
+# Mount /tmp as ramdisk?
+tmp_ramdisk: False
+
 # Additional software
 packages: []
 packages_pip3: []

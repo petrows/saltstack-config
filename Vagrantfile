@@ -16,6 +16,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   os_u18 = "bento/ubuntu-18.04"
   os_u20 = "bento/ubuntu-20.04"
   os_d10 = "debian/buster64"
+  os_d11 = "debian/bullseye64"
   os_ram = 2048
   net_ip = "10.99.99"
   net_dns_ip = "10.99.99.1,10.99.99.254"
@@ -72,6 +73,7 @@ master_config.vm.box = "#{os_u20}"
     ["eu.petro.dev", "#{net_ip}.19", os_ram, os_d10],
     ["build-linux.dev", "#{net_ip}.20", os_ram, os_u20],
     ["metrics.dev", "#{net_ip}.21", os_ram, os_u20],
+    ["rpi.office.dev", "#{net_ip}.22", os_ram, os_d11],
   ].each do |vmname, ip, mem, os|
     config.vm.define "#{vmname}" do |minion_config|
       minion_config.vm.provider "virtualbox" do |vb|

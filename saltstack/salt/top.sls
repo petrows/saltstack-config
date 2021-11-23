@@ -19,7 +19,7 @@ base:
   'roles:monitoring':
     - match: pillar
     - roles.monitoring
-  'roles:tmp-ramdisk':
+  'tmp_ramdisk:True':
     - match: pillar
     - roles.tmp-ramdisk
   'roles:mail-relay':
@@ -103,6 +103,9 @@ base:
 
   'eu.petro.*':
     - pws.eu-petrows
+
+  'rpi.office.*':
+    - office.rpi
 
 # Local host config
   'pc-*':

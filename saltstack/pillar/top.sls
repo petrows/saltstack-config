@@ -139,9 +139,17 @@ base:
   'eu.petro.ws':
     - grains.network-dmz
 
+  'rpi.office.*':
+    - office.rpi
+  'rpi.office.dev':
+    - office.rpi-dev
+  'rpi.office.pws':
+    - grains.network-dmz
+
 # External VDS
   '*.vds.pws':
     - grains.network-dmz
+    - pws.ru-vds
 
 # Local PC config
   'pc-*':
