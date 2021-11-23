@@ -36,6 +36,9 @@ master_config.vm.box = "#{os_u20}"
     master_config.vm.network "private_network", ip: "#{net_ip}.10"
     master_config.vm.synced_folder "saltstack/salt/", "/srv/salt"
     master_config.vm.synced_folder "saltstack/pillar/", "/srv/pillar"
+    if FileTest::directory?("secrets/")
+      master_config.vm.synced_folder "secrets/", "/srv/secrets"
+    end
 
     master_config.vm.provision :shell, run: "once", path: "test/set-dns.sh", args: net_dns_ip
 

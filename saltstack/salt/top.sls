@@ -40,6 +40,9 @@ base:
   'roles:unattended-upgrades':
     - match: pillar
     - roles.unattended-upgrades
+  'roles:openvpn-server':
+    - match: pillar
+    - roles.openvpn-server
 
   # Services
   'roles:salt-master':

@@ -11,3 +11,13 @@ gather_job_timeout: 60
 # Disable display of non-chaged services by default
 # Can be overriden by --state-verbose=True
 state_verbose: False
+
+file_roots:
+  base:
+    - /srv/salt
+    - /srv/secrets/salt
+
+pillar_roots:
+  base:
+    - /srv/pillar
+    - /srv/secrets/pillar
