@@ -74,6 +74,7 @@ master_config.vm.box = "#{os_u20}"
     ["build-linux.dev", "#{net_ip}.20", os_ram, os_u20],
     ["metrics.dev", "#{net_ip}.21", os_ram, os_u20],
     ["rpi.office.dev", "#{net_ip}.22", os_ram, os_d11],
+    ["ru.vds.dev", "#{net_ip}.23", os_ram, os_u20],
   ].each do |vmname, ip, mem, os|
     config.vm.define "#{vmname}" do |minion_config|
       minion_config.vm.provider "virtualbox" do |vb|

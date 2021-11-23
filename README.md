@@ -80,3 +80,10 @@ Add user to shares:
 ```
 docker exec -it Samba smbpasswd -a master
 ```
+
+## Generate new OpenVPN profile
+
+```bash
+./bin/secrets-get.sh
+./bin/easyrsa-gen.sh <server-name> <client-name>
+```

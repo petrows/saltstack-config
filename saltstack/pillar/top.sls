@@ -147,9 +147,11 @@ base:
     - grains.network-dmz
 
 # External VDS
+  'ru.vds.*':
+    - pws.ru-vds
+# All VDS defaults
   '*.vds.pws':
     - grains.network-dmz
-    - pws.ru-vds
 
 # Local PC config
   'pc-*':
