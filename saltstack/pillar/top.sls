@@ -2,9 +2,9 @@ base:
   '*':
     - default
 # Password management
-    - pws.secrets-default
-{% if salt['pillar.file_exists']('pws/secrets.sls') %}
-    - pws.secrets
+    - secrets-default
+{% if salt['pillar.file_exists']('secrets.sls') %}
+    - secrets
 {% endif %}
 
 # Load grains-based info

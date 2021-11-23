@@ -38,6 +38,9 @@
         #!/bin/bash -xe
         cd /srv/salt-config/
         git pull
+        cd secrets
+        git reset --hard HEAD
+        cd ..
         salt '*' state.apply
         salt-ssh '*' state.apply
 

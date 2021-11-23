@@ -17,9 +17,11 @@ salt:
     file_roots:
       base:
         - /srv/salt-config/saltstack/salt
+        - /srv/salt-config/secrets/salt
     pillar_roots:
       base:
         - /srv/salt-config/saltstack/pillar
+        - /srv/salt-config/secrets/pillar
     pillar_merge_lists: True
     gather_job_timeout: 60
     # Disable display of non-chaged services by default

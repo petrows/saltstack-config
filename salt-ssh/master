@@ -1,10 +1,12 @@
 file_roots:
   base:
     - saltstack/salt
+    - secrets/salt
 
 pillar_roots:
   base:
     - saltstack/pillar
+    - secrets/pillar
 
 cachedir: tmp
 
