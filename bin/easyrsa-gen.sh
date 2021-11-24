@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -xe
 
 DIR=$1
 CLIENT=$2
@@ -9,20 +9,21 @@ if [ -z "$DIR" ] || [ -z "$CLIENT" ]; then
     exit 1
 fi
 
-DIR_SECRETS=secrets/salt/files/openvpn/$DIR
+DIR_SECRETS=$(readlink -f secrets/salt/files/openvpn/$DIR)
+VARS=$DIR_SECRETS/vars
 RSA_CMD=../easy-rsa/easyrsa
 
 mkdir -p $DIR_SECRETS
 cd $DIR_SECRETS
 
-if [[ ! -d pki ]]; then
+if [[ ! -d pki/private ]]; then
     echo "Generate PKI"
     $RSA_CMD init-pki
 fi
 
-if [[ ! -f pki/vars ]]; then
+if [[ ! -f $VARS ]]; then
     echo "Add default vars file to pki/vars"
-    cp -rva ../vars pki/vars
+    cp -rva ../vars $VARS
 fi
 
 if [[ ! -f pki/dh.pem ]]; then
@@ -35,13 +36,13 @@ if [[ ! -f pki/ca.crt ]]; then
     (
         export EASYRSA_BATCH="yes"
         export EASYRSA_REQ_CN="CA-$DIR"
-        $RSA_CMD build-ca nopass
+        $RSA_CMD --vars=$VARS build-ca nopass
     )
 fi
 
 if [[ ! -f pki/private/server.key ]]; then
     echo "Generate server key"
-    $RSA_CMD build-server-full server nopass
+    $RSA_CMD --vars=$VARS build-server-full server nopass
 fi
 
 # Check that client cert is not exists already
@@ -51,4 +52,4 @@ if [[ -f pki/private/client-$CLIENT.key ]]; then
     exit 2
 fi
 
-$RSA_CMD build-client-full client-$CLIENT nopass
+$RSA_CMD --vars=$VARS build-client-full client-$CLIENT nopass

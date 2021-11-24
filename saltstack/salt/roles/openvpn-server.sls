@@ -9,6 +9,7 @@ openvpn-pkg:
       - openvpn
       - iptables
       - iptables-persistent
+
 # Server config(s)
 
 {% for server_id, server in salt['pillar.get']('openvpn-server', {}).items() %}
@@ -87,3 +88,16 @@ openvpn-server@{{ server_id }}.service:
       - file: /etc/openvpn/server/{{ server_id }}.conf
 
 {% endfor %}
+
+iptables-masquerade:
+  iptables.append:
+    - table: nat
+    - chain: POSTROUTING
+    - jump: MASQUERADE
+    - out-interface: {{ default_if }}
+    - save: True
+
+iptables-masquerade-sysctl:
+  sysctl.present:
+    - name: net.ipv4.ip_forward
+    - value: 1
