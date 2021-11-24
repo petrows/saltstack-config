@@ -5,13 +5,11 @@ openvpn-pkg:
     - pkgs:
       - openvpn
 
-
 # Server config(s)
 
 {% for server_id, server in salt['pillar.get']('openvpn-server', {}).items() %}
 
 # Deploy keys
-
 
 {% for file in ['ca.crt', 'dh.pem', 'private/server.key'] %}
 openvpn-file-{{ file }}:

@@ -12,6 +12,7 @@ fi
 DIR_SECRETS=secrets/salt/files/openvpn/$DIR
 RSA_CMD=../easy-rsa/easyrsa
 
+mkdir -p $DIR_SECRETS
 cd $DIR_SECRETS
 
 if [[ ! -d pki ]]; then
@@ -31,7 +32,11 @@ fi
 
 if [[ ! -f pki/ca.crt ]]; then
     echo "Build local CA"
-    $RSA_CMD build-ca nopass
+    (
+        export EASYRSA_BATCH="yes"
+        export EASYRSA_REQ_CN="CA-$DIR"
+        $RSA_CMD build-ca nopass
+    )
 fi
 
 if [[ ! -f pki/private/server.key ]]; then
