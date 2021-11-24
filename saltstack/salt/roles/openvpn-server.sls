@@ -1,10 +1,14 @@
 # Role for generic openvpn server
 
+{% set default_if = salt['network.default_route']('inet')[0]['interface'] %}
+{% set default_ip = salt['network.ip_addrs'](default_if)[0] %}
+
 openvpn-pkg:
   pkg.installed:
     - pkgs:
       - openvpn
-
+      - iptables
+      - iptables-persistent
 # Server config(s)
 
 {% for server_id, server in salt['pillar.get']('openvpn-server', {}).items() %}
@@ -29,6 +33,29 @@ openvpn-file-{{ file }}:
     - mode: 0600
 {% endfor %}
 
+# Deply sample user config
+openvpn-sample:
+  file.managed:
+    - name: /etc/openvpn/server/{{ server_id }}/client.ovpn
+    - contents: |
+        client
+        dev {{ server.dev|default('tun') }}
+        remote {{ default_ip }}
+        resolv-retry infinite
+        nobind
+        persist-key
+        persist-tun
+        ca ca.crt
+        cert client.crt
+        key client.key
+        verb 1
+        keepalive 10 120
+        port {{ server.port|default('443') }}
+        proto {{ server.proto|default('udp') }}
+        cipher {{ server.cipher|default('AES-256-CBC') }}
+    - makedirs: True
+    - mode: 0600
+
 # Basic config & service
 
 openvpn-{{ server_id }}-config:
@@ -37,15 +64,14 @@ openvpn-{{ server_id }}-config:
     - contents: |
         user nobody
         group nogroup
-        cipher AES-256-CBC
+        cipher {{ server.cipher|default('AES-256-CBC') }}
         auth {{ server.auth|default('SHA256') }}
         server 10.55.39.0 255.255.255.0
         port {{ server.port|default('443') }}
         proto {{ server.proto|default('udp') }}
-        dev tun
+        dev {{ server.dev|default('tun') }}
         keepalive 10 120
         persist-key
-        persist-tun
         ifconfig-pool-persist ipp.txt
         push "redirect-gateway def1 bypass-dhcp"
         ca /etc/openvpn/server/{{ server_id }}/ca.crt
