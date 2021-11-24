@@ -59,6 +59,9 @@ openvpn-sample:
 
 # Basic config & service
 
+{% set vpn_device = server.dev|default('tun') %}
+{% set vpn_name = server.dev_name|default(vpn_device + '-' + server_id) %}
+
 openvpn-{{ server_id }}-config:
   file.managed:
     - name: /etc/openvpn/server/{{ server_id }}.conf
@@ -70,9 +73,18 @@ openvpn-{{ server_id }}-config:
         server {{ server.network|default('10.1.1.0') }} {{ server.netmask|default('255.255.255.0') }}
         port {{ server.port|default('443') }}
         proto {{ server.proto|default('udp') }}
-        dev {{ server.dev|default('tun') }}
+        dev {{ vpn_name }}
         keepalive 10 120
         persist-key
+        txqueuelen 2000
+        sndbuf 512000
+        rcvbuf 512000
+        push "sndbuf 512000"
+        push "rcvbuf 512000"
+{%- if vpn_device == 'tun' %}
+        persist-tun
+        tun-mtu 1500
+{%- endif %}
         ifconfig-pool-persist ipp.txt
         push "redirect-gateway def1 bypass-dhcp"
         push "route {{ server.network|default('10.1.1.0') }} {{ server.netmask|default('255.255.255.0') }}"
