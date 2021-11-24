@@ -11,3 +11,4 @@ openvpn-server:
     proto: tcp
     dev: tun
     auth: SHA1
+    network: '10.80.2.0'

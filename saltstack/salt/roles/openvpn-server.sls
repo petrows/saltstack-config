@@ -67,7 +67,7 @@ openvpn-{{ server_id }}-config:
         group nogroup
         cipher {{ server.cipher|default('AES-256-CBC') }}
         auth {{ server.auth|default('SHA256') }}
-        server 10.55.39.0 255.255.255.0
+        server {{ server.network|default('10.1.1.0') }} {{ server.netmask|default('255.255.255.0') }}
         port {{ server.port|default('443') }}
         proto {{ server.proto|default('udp') }}
         dev {{ server.dev|default('tun') }}
@@ -75,6 +75,7 @@ openvpn-{{ server_id }}-config:
         persist-key
         ifconfig-pool-persist ipp.txt
         push "redirect-gateway def1 bypass-dhcp"
+        push "route {{ server.network|default('10.1.1.0') }} {{ server.netmask|default('255.255.255.0') }}"
         ca /etc/openvpn/server/{{ server_id }}/ca.crt
         dh /etc/openvpn/server/{{ server_id }}/dh.pem
         cert /etc/openvpn/server/{{ server_id }}/server.crt
