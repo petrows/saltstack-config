@@ -152,6 +152,9 @@ base:
 # External VDS
   'ru.vds.*':
     - pws.ru-vds
+# External VDS
+  'ua.vds.*':
+    - pws.ua-vds
 # All VDS defaults
   '*.vds.pws':
     - grains.network-dmz
