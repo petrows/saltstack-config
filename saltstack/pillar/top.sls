@@ -74,6 +74,9 @@ base:
 
   'fabian.pws':
     - users.master
+{% if salt['pillar.file_exists']('pws/fabian.sls') %}
+    - pws.fabian
+{% endif %}
 
   'web-vm.*':
     - pws.web-vm
