@@ -107,6 +107,9 @@ base:
   'media.*':
     - pws.media
 
+  'nexum.*':
+    - pws.nexum
+
   'eu.petro.*':
     - pws.eu-petrows
 

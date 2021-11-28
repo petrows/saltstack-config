@@ -78,6 +78,12 @@ base:
     - pws.fabian
 {% endif %}
 
+  'nexum.pws':
+    - users.master
+{% if salt['pillar.file_exists']('pws/nexum.sls') %}
+    - pws.nexum
+{% endif %}
+
   'web-vm.*':
     - pws.web-vm
     - users.www

@@ -85,3 +85,33 @@ ntp.service:
     - enable: True
     - require:
       - pkg: pve-ntp-packages
+
+# Wireguard for LXC
+
+pve-backports:
+  pkgrepo.managed:
+    - humanname: {{ grains.oscodename }}-backports
+    - name: deb http://deb.debian.org/debian {{ grains.oscodename }}-backports main
+    - file: /etc/apt/sources.list.d/backports.list
+
+pve-wireguard-pkg:
+  pkg.installed:
+    - pkgs:
+      - libmnl-dev
+      - libelf-dev
+      - pve-headers
+      - build-essential
+      - pkg-config
+      - wireguard-dkms
+    - require:
+      - pkgrepo: pve-backports
+
+pve-wireguard-kmod:
+  kmod.present:
+    - mods:
+      - wireguard
+    - require:
+      - pkg: pve-wireguard-pkg
+
+# Key removed
+# AAAAB3NzaC1yc2EAAAADAQABAAABAQDiP0FsRR4i76hcs8gf9KXYQcBx2BRnsEaO8qvtqPGZBrQkks8LgmyRzp7GkKWNWmnR+S4YkBESp345E203OPGeFs7PiOH2YiHJZUbxExlvKhMS65OAoXk7e1z832nOWz4REdLbC7t0j16TIAosUV0vdXe83Ri2r5IERB67pPSSTYIsue7undgz9r/71siIWWy3CIS0ZyLcgwQ1cXvCOVOv1dT/5edzXywUwuhU3fqbQIsNVC3i5X4f3ITd+hgT7e6ktE5ELhCz3dR4X/wfELqRJEhHOZ2HrJcAnHG6GvV2FIlbXoROkZQkffPkQ6a8MFJ6EqhNlRlMUMcGQn/MqVcX
