@@ -43,6 +43,9 @@ base:
   'roles:openvpn-server':
     - match: pillar
     - roles.openvpn-server
+  'roles:wireguard-server':
+    - match: pillar
+    - roles.wireguard-server
 
   # Services
   'roles:salt-master':
