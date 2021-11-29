@@ -1,6 +1,8 @@
 {% macro service(service_id, args={}) %}
 # This macro defines standart service wrapper, running in docker + systemd
 
+{% set compose_file = args.compose_file|default('salt://files/'+service_id+'/compose') %}
+
 # Working directory - required for all
 {{ service_id }}-workdir:
   file.directory:
@@ -22,9 +24,12 @@
 {{ service_id }}-compose:
   file.recurse:
     - name: /opt/{{ service_id }}
-    - source: salt://files/{{ service_id }}/compose
+    - source: {{ compose_file }}
     - template: jinja
     - makedirs: True
+    - context:
+        service_id: {{ service_id }}
+        args: {{ args|yaml }}
 
 # Systemd service
 {{ service_id }}-service:
