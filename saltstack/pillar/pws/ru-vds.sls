@@ -3,12 +3,9 @@
 tmp_ramdisk: False
 
 roles:
-  - openvpn-server
+  - wireguard-server
 
-openvpn-server:
+wireguard-server:
   'ru-vds':
-    port: 443
-    proto: tcp
-    dev: tun
-    auth: SHA1
-    network: '10.80.2.0'
+    port: 443 # Port listen
+    address: '10.80.3.1/24' # Server VPN address
