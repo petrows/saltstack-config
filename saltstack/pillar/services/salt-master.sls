@@ -12,8 +12,7 @@ salt:
     # External
     eu.petro.ws: {}
     ru.vds.pws: {}
-    ua.vds.pws: {}
-    rpi.office.pws: {}
+    # rpi.office.pws: {}
   master:
     file_roots:
       base:
