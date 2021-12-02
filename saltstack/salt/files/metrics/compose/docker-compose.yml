@@ -22,6 +22,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
+      - {{ pillar.metrics.data_dir }}/grafana/datasources:/etc/grafana/provisioning/datasources
       - {{ pillar.metrics.data_dir }}/grafana:/var/lib/grafana
   telegraf:
     container_name: metrics-telegraf
@@ -30,5 +31,6 @@ services:
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
+      - /etc/ssl/certs/pws.ca.pem:/etc/ssl/certs/pws.ca.pem:ro
       - {{ pillar.metrics.data_dir }}/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
 
