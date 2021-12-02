@@ -9,6 +9,7 @@ salt:
     # DMZ
     web-vm.pws: {}
     build-linux.pws: {}
+    nexum.pws: {}
     # External
     eu.petro.ws: {}
     ru.vds.pws: {}
