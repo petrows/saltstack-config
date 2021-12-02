@@ -41,8 +41,8 @@
         cd secrets
         git reset --hard HEAD
         cd ..
-        salt '*' state.apply
-        salt-ssh '*' state.apply
+        timeout 1h salt '*' state.apply
+        timeout 1h salt-ssh '*' state.apply
 
 saltstack-sync.service:
   file.managed:
