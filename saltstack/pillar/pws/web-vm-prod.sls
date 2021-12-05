@@ -1,5 +1,6 @@
 roles:
   - mounts
+  - wireguard-server
 
 # Mount external data storage for DMZ host
 mounts:
@@ -12,3 +13,8 @@ mounts:
 # Force generate new dhparm keys for Nginx (required for external servers)
 nginx:
   dhparam: True
+
+wireguard-server:
+  'sb0y':
+    port: 5566 # Port listen
+    address: '10.80.6.1/24' # Server VPN address
