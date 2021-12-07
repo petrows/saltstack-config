@@ -2,7 +2,7 @@ version: '3'
 
 services:
   victoriametrics:
-    container_name: metrics-victoriametrics
+    container_name: victoriametrics
     image: victoriametrics/victoria-metrics:{{ pillar.metrics.victoriametrics.version }}
     restart: always
     ports:
@@ -29,7 +29,7 @@ services:
       - '--remoteWrite.url=http://victoriametrics:8428/api/v1/write'
     restart: always
   grafana:
-    container_name: metrics-grafana
+    container_name: grafana
     image: grafana/grafana:{{ pillar.metrics.grafana.version }}
     restart: always
     ports:
@@ -41,15 +41,15 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - {{ pillar.metrics.data_dir }}/grafana/datasources:/etc/grafana/provisioning/datasources
       - {{ pillar.metrics.data_dir }}/grafana:/var/lib/grafana
-  telegraf:
-    container_name: metrics-telegraf
-    image: telegraf:{{ pillar.metrics.telegraf.version }}
-    restart: always
-    volumes:
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/ssl/certs/pws.ca.pem:/etc/ssl/certs/pws.ca.pem:ro
-      - {{ pillar.metrics.data_dir }}/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+  # telegraf:
+  #   container_name: metrics-telegraf
+  #   image: telegraf:{{ pillar.metrics.telegraf.version }}
+  #   restart: always
+  #   volumes:
+  #     - /etc/timezone:/etc/timezone:ro
+  #     - /etc/localtime:/etc/localtime:ro
+  #     - /etc/ssl/certs/pws.ca.pem:/etc/ssl/certs/pws.ca.pem:ro
+  #     - {{ pillar.metrics.data_dir }}/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
   snmp_exporter:
     container_name: snmp-exporter
     image: prom/snmp-exporter:{{ pillar.metrics.snmp_exporter.version }}
