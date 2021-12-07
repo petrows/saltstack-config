@@ -1,6 +1,9 @@
 global:
   scrape_interval: 15s
 
+scrape_config_files:
+  - /etc/prometheus/configs/*.yml
+
 scrape_configs:
   - job_name: 'snmp-exporter'
     static_configs:
@@ -17,3 +20,12 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: snmp-exporter:9116  # The SNMP exporter's real hostname:port.
+
+  - job_name: 'nexum-media'
+    static_configs:
+      - targets:
+        - media-exporter.nexum.pws
+        - priv-exporter.nexum.pws
+    scheme: https
+    tls_config:
+      ca_file: /etc/ssl/certs/pws.ca.pem
