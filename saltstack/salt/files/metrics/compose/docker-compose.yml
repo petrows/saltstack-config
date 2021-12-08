@@ -58,3 +58,11 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
       - {{ pillar.metrics.data_dir }}/snmp_exporter/:/etc/snmp_exporter/
+  mktxp:
+    container_name: mktxp
+    image: guenterbailey/mktxp:{{ pillar.metrics.mktxp.version }}
+    restart: always
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - {{ pillar.metrics.data_dir }}/mktxp/:/root/mktxp:rw

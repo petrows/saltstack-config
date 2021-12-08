@@ -29,3 +29,7 @@ scrape_configs:
     scheme: https
     tls_config:
       ca_file: /etc/ssl/certs/pws.ca.pem
+
+  - job_name: 'mktxp'
+    static_configs:
+      - targets: ['mktxp:49090']

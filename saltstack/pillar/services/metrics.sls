@@ -22,6 +22,8 @@ metrics:
   # https://hub.docker.com/r/prom/snmp-exporter/
   snmp_exporter:
     version: v0.20.0
+  mktxp:
+    version: latest # WTF
 
 proxy_vhosts:
   grafana:

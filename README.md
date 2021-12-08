@@ -98,3 +98,12 @@ sudo apt install easy-rsa
 mkdir -p secrets/salt/files/openvpn/
 cp -rva /usr/share/easy-rsa secrets/salt/files/openvpn/
 ```
+
+## Mikrotik monitoring
+
+Add user:
+
+```
+/user group add name=monitoring_group policy=api,read
+/user add group=monitoring_group name=user password=pwd
+```
