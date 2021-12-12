@@ -39,12 +39,13 @@ metrics-dir-{{ dir }}:
     - watch_in:
       - service: metrics.service
 
-{{ pillar.metrics.data_dir }}/mktxp/mktxp.conf:
+# Uncomment this on cofnig update - mktxp rewrites own config
+{# {{ pillar.metrics.data_dir }}/mktxp/mktxp.conf:
   file.managed:
     - source: salt://files/metrics/mktxp.conf
     - template: jinja
     - watch_in:
-      - service: metrics.service
+      - service: metrics.service #}
 
 {% import "roles/docker-compose-macro.sls" as compose %}
 {{ compose.service('metrics') }}
