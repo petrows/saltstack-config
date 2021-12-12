@@ -67,6 +67,7 @@ base:
     - services.cmk-server
     - services.graylog
     - services.metrics
+    - services.adguard
   'system.pws':
     - services.salt-master-prod
     - services.cmk-server-prod

@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  adguard:
+    container_name: adguard
+    image: adguard/adguardhome:{{ pillar.adguard.version }}
+    restart: always
+    ports:
+      - '53:53/tcp'
+      - '53:53/udp'
+      - '127.0.0.1:{{ pillar.static.proxy_ports.adguard_http }}:3000'
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - {{ pillar.adguard.data_dir }}/work:/opt/adguardhome/work
+      - {{ pillar.adguard.data_dir }}/conf:/opt/adguardhome/conf

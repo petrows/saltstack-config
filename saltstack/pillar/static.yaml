@@ -26,6 +26,7 @@ proxy_ports:
   crashplan_http:   7008
   photoprism_http:  7009
   grafana_http:     7010
+  adguard_http:     7011
 
   # Resillio sync
   rslsync_petro:    8888

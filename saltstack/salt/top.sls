@@ -90,6 +90,9 @@ base:
   'roles:metrics':
     - match: pillar
     - services.metrics
+  'roles:adguard':
+    - match: pillar
+    - services.adguard
 
   # Hosts configs
   'pve.*':
