@@ -107,6 +107,10 @@ php:
   # Pool filename in /etc/php/<version>/fpm/pool.d/
   pool_name: www
 
+# https://github.com/telegramdesktop/tdesktop/releases
+telegram:
+  version: 3.2.0
+
 xsession:
   gtk_scale: 1.0
 

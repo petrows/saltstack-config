@@ -174,8 +174,6 @@ base:
     - common.tmp-ramdisk
     - common.mail-relay
     - users.root
-    - pws.secrets-default
-    - pws.secrets
     - pws.powerline-gitstatus
     - services.rslsync
     - pws.pc

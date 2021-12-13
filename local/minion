@@ -1,5 +1,15 @@
 # Local-apply PC config
 
+file_roots:
+  base:
+    - saltstack/salt
+    - secrets/salt
+
+pillar_roots:
+  base:
+    - saltstack/pillar
+    - secrets/pillar
+
 # Merge lsist (roles)
 pillar_merge_lists: True
 
