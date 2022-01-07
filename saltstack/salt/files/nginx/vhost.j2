@@ -60,7 +60,19 @@ server {
     # Remove X-Powered-By, which is an information leak
     add_header X-Powered-By DENY;
 
-    location ~ /\.pws.* {
+    # SSL configuration
+{%- if ssl_type == 'external' %}
+    # Config defined as 'external' - try to use Letsencrypt
+    include acme.conf;
+{%- endif %}
+{%- if ssl_cert %}
+    ssl_certificate {{ ssl_cert }};
+{%- endif %}
+{%- if ssl_key %}
+    ssl_certificate_key {{ ssl_key }};
+
+    # Disable .dotfiles
+    location ~ /\. {
         deny all;
     }
 
@@ -99,16 +111,6 @@ server {
 	location ~ \.php$ { include php.conf; }
 {%- endif %}
 
-    # SSL configuration
-{%- if ssl_type == 'external' %}
-    # Config defined as 'external' - try to use Letsencrypt
-    include acme.conf;
-{%- endif %}
-{%- if ssl_cert %}
-    ssl_certificate {{ ssl_cert }};
-{%- endif %}
-{%- if ssl_key %}
-    ssl_certificate_key {{ ssl_key }};
 {%- endif %}
 {{ custom_config|indent(4, True) }}
 }
