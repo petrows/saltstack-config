@@ -97,3 +97,38 @@ nfs-export-{{ id }}:
     - require:
       - pkg: nfs-packages
 {% endfor %}
+
+# Systemd cronjobs?
+{% for id, cron in salt['pillar.get']('systemd-cron', {}).items() %}
+{{ id }}.service:
+  file.managed:
+    - name: /etc/systemd/system/{{ id }}.service
+    - contents: |
+        [Unit]
+        Description=Systemd cron: {{ id }}
+        [Service]
+        User={{ cron.user }}
+        Group={{ cron.user }}
+        Type=simple
+        RemainAfterExit=no
+        WorkingDirectory={{ cron.cwd }}
+        ExecStart=/bin/bash -c '{{ cron.cmd }}'
+  service.enabled:
+    - enabled: True
+{{ id }}.timer:
+  file.managed:
+    - name: /etc/systemd/system/{{ id }}.timer
+    - contents: |
+        [Unit]
+        Description=Systemd cron timer: {{ id }}
+        [Timer]
+        OnCalendar={{ cron.calendar }}
+        RandomizedDelaySec=60
+        [Install]
+        WantedBy=timers.target
+  service.running:
+    - enable: True
+    - full_restart: True
+    - watch:
+      - file:  /etc/systemd/system/{{ id }}.timer
+{% endfor %}

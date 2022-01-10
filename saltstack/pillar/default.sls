@@ -135,6 +135,14 @@ mount-folders: {}
 
 nfs-exports: {}
 
+# meta pillar for simple systemd 'crontab'
+# avaliable options are:
+# calendar - equation when to run
+# user - user to set in unit
+# cmd - command to call (will be called as /bin/bash -c '<cmd>')
+# cwd - workdir
+systemd-cron: {}
+
 # Export static registry as pillar to be used in SLS
 {% import_yaml 'static.yaml' as static %}
 static: {{ static|yaml }}

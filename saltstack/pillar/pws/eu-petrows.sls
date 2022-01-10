@@ -32,6 +32,14 @@ proxy_vhosts:
     domain: marinakopf.eu
     ssl: external
 
+# Cron jobs
+systemd-cron:
+  wp-cron-petrows-blog:
+    calendar: '*-*-* *:*:00'
+    user: www
+    cwd: /home/www/petro.ws/blog/web
+    cmd: php wp-cron.php
+
 # SSH key for backup service
 ssh:
   keys:
