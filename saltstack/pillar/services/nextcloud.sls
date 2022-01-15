@@ -18,3 +18,4 @@ proxy_vhosts:
     port: {{ static.proxy_ports.nextcloud_http }}
     ssl: internal
     ssl_name: local
+    enable_dotfiles: True

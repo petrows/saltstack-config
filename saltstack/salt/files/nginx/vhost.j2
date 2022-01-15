@@ -6,6 +6,7 @@
 {%- set force_ssl = conf.ssl_force|default(True) %}
 {%- set enable_frame = conf.enable_frame|default(False) %}
 {%- set enable_http2 = conf.enable_http2|default(False) %}
+{%- set enable_dotfiles = conf.enable_dotfiles|default(False) %}
 {%- set custom_config = conf.custom_config|default('') %}
 {%- set custom_config_proxy = conf.custom_config_proxy|default('') %}
 {% if force_ssl %}
@@ -70,12 +71,12 @@ server {
 {%- endif %}
 {%- if ssl_key %}
     ssl_certificate_key {{ ssl_key }};
-
+{%- if not enable_dotfiles %}
     # Disable .dotfiles
     location ~ /\. {
         deny all;
     }
-
+{%- endif %}
 {%- if conf_type == 'proxy' %}
     location / {
         client_max_body_size    0;
