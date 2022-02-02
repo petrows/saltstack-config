@@ -7,6 +7,7 @@
 {%- set enable_frame = conf.enable_frame|default(False) %}
 {%- set enable_http2 = conf.enable_http2|default(False) %}
 {%- set enable_dotfiles = conf.enable_dotfiles|default(False) %}
+{%- set enable_robots = conf.enable_robots|default(False) %}
 {%- set custom_config = conf.custom_config|default('') %}
 {%- set custom_config_proxy = conf.custom_config_proxy|default('') %}
 {% if force_ssl %}
@@ -55,8 +56,10 @@ server {
     add_header X-Frame-Options "SAMEORIGIN";
 {%- endif %}
     add_header X-Permitted-Cross-Domain-Policies "none";
-    add_header X-Robots-Tag "none";
     add_header X-XSS-Protection "1; mode=block";
+{%- if not enable_robots %}
+    add_header X-Robots-Tag "noindex, nofollow";
+{%- endif %}
 
     # Remove X-Powered-By, which is an information leak
     add_header X-Powered-By DENY;

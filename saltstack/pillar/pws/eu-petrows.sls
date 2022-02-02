@@ -14,6 +14,7 @@ proxy_vhosts:
     root: /home/www/petro.ws/blog
     domain: petro.ws
     ssl: external
+    enable_robots: True
   # Warning: this service requires cron task
   petrows-trs:
     type: php
@@ -26,11 +27,13 @@ proxy_vhosts:
     root: /home/www/petro.ws/tools
     domain: tools.petro.ws
     ssl: external
+    enable_robots: True
   marinakopf-site:
     type: php
     root: /home/www/marinakopf
     domain: marinakopf.eu
     ssl: external
+    enable_robots: True
 
 # Cron jobs
 systemd-cron:
