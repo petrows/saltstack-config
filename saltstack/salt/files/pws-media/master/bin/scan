@@ -10,7 +10,7 @@ OUTPUT="/srv/storage/common/archive/$(date +%Y)/$FNAME.pdf"
 OPTS=""
 TMP="/tmp"
 
-if [[ -f $OUTPUT ]] && [[ "page-add" != "$MODE" ]] ; then
+if [[ -f "$OUTPUT" ]] && [[ "page-add" != "$MODE" ]] ; then
     echo "Error: file already exists: $OUTPUT"
     exit 1
 fi
@@ -61,5 +61,5 @@ fi
 
 echo "Output: $OUTPUT"
 
-echo $OUTPUT > $TMP/scan-output.txt
-cp $TMP/scan-last.pdf $OUTPUT
+echo "$OUTPUT" > $TMP/scan-output.txt
+cp $TMP/scan-last.pdf "$OUTPUT"
