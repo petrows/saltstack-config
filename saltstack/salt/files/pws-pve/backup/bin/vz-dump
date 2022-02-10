@@ -2,18 +2,21 @@
 
 set -e
 
+# How much backups to store
+VMZ_RETAIN="2"
+# Included
 VMZ_BACKUP="--all"
+# Excluded
 VMZ_EXCLUDE="--exclude 102,104"
 
-DIR_BACKUP=/srv/hdd2/backup/vz
-DIR_TMP=/srv/hdd2/backup/tmp
+DIR_BACKUP=/srv/backup/vz
+DIR_TMP=/srv/backup/tmp
 
 cd $DIR_BACKUP
 
 for vz in $VMZ_BACKUP ; do
-	
-	echo "Backung up VZ $vz"
-	
-	vzdump $vz $VMZ_EXCLUDE -compress lzo -mailto root -dumpdir ./ -tmpdir $DIR_TMP -maxfiles 2
-done
 
+	echo "Backung up VZ $vz"
+
+	vzdump $vz $VMZ_EXCLUDE -compress lzo -mailto root -dumpdir ./ -tmpdir $DIR_TMP -maxfiles $VMZ_RETAIN
+done
