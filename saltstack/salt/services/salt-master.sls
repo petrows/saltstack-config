@@ -42,7 +42,7 @@
         git reset --hard HEAD
         cd ..
         timeout 1h salt '*' state.apply
-        timeout 1h salt-ssh '*' state.apply
+        timeout 1h salt-ssh --hard-crash '*' state.apply
 
 saltstack-sync.service:
   file.managed:
