@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# This script forces monitors to switch to DP
+
+# Left
+sudo ddccontrol -r 0x60 -w 15 dev:/dev/i2c-5
+
+# Right
+sudo ddccontrol -r 0x60 -w 15 dev:/dev/i2c-6
