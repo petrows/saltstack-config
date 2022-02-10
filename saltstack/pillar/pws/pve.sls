@@ -42,6 +42,11 @@ mounts:
     device: /dev/mapper/cache_vg-pws--cache
     type: ext4
     opts: defaults
+  pws_media:
+    name: /srv/pws-media
+    device: /dev/mapper/media_vg-pws--media
+    type: ext4
+    opts: defaults
   pws_hdd2:
     name: /srv/hdd2
     device: /dev/disk/by-id/ata-WDC_WD40EFRX-68N32N0_WD-WCC7K1VYRZPA-part1
