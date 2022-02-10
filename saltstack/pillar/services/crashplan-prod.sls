@@ -1,6 +1,6 @@
 crashplan:
   mounts:
-    - /srv/hdd2
+    - /srv/pws-media
     - /srv/pws-data
 
 proxy_vhosts:

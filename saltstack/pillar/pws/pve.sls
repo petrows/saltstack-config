@@ -50,7 +50,7 @@ mounts:
 
 nfs-exports:
   media:
-    path: /srv/hdd2/media/video
+    path: /srv/pws-media/media/video
     hosts: '192.168.80.12'
     opts:
      - ro
