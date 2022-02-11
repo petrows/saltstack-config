@@ -35,7 +35,7 @@ postfix_postmap:
 # Postfix virtual maps
 # This will force ALL @domain to be sent to one address
 # https://serverfault.com/questions/144325/how-to-redirect-all-postfix-emails-to-one-external-email-address
-{% set minion_hostname = salt['cmd.shell']('cat /etc/hostname') %}
+{% set minion_hostname = salt['cmd.shell']('cat /etc/hostname', shell='/bin/bash') %}
 postfix_virtal_map:
   file.managed:
     - name: /etc/postfix/virtual-regexp
