@@ -8,3 +8,9 @@ telegram-send-config:
         chat_id = {{ pillar.pws_secrets.telegram_notification_bot.chat_id }}
     - require:
       - pip: telegram-send
+
+# Drop some packages
+server-blacklisted:
+  pkg.purged:
+    - pkgs:
+      - snapd
