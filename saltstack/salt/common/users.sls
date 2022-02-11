@@ -53,6 +53,10 @@ fish_git_packages:
         {%- endif %}
         {%- endfor %}
 
+# Drop annoying fish file from freaking snapd
+/usr/share/fish/vendor_conf.d/snapd.fish:
+  file.absent: []
+
 {# sudoers-d-remove:
   file.absent:
     - name: /etc/sudoers.d #}
