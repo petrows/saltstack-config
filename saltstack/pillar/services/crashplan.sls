@@ -7,7 +7,7 @@ roles:
 
 crashplan:
   # https://hub.docker.com/r/jlesage/crashplan-pro/
-  version: v2.16.4
+  version: v2.16.5
   mounts: []
   data_dir: /srv/crashplan-data
 
