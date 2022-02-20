@@ -2,6 +2,7 @@
 
 BACKUP_USER=petro
 BACKUP_USER_REMOTE=2017
+BACKUP_HOST=root@pve.pws
 BACKUP_SRC='/home/devel/'
 BACKUP_DST='/srv/pws-data/storage/home/petro/backup/petro-pc/devel/'
 
@@ -20,6 +21,26 @@ rsync -avh \
     --exclude-from /tmp/backup-exclude \
     --exclude-from ~/.config/backup-ignore \
     $BACKUP_SRC \
-    root@pve.pws:$BACKUP_DST
+    $BACKUP_HOST:$BACKUP_DST
 
 rm -rf /tmp/backup-exclude
+
+# Home folder
+
+HOME_BACKUPS=(
+    "Pictures"
+    "Videos"
+    ".config"
+    ".vscode"
+)
+
+for folder in ${HOME_BACKUPS[@]}; do
+    echo "Backup $HOME/$folder"
+    rsync -avh \
+        --delete \
+        --usermap $BACKUP_USER:$BACKUP_USER_REMOTE \
+        --groupmap $BACKUP_USER:$BACKUP_USER_REMOTE \
+        --exclude-from ~/.config/backup-ignore \
+        "$HOME/$folder" \
+        $BACKUP_HOST:/srv/pws-data/storage/home/petro/backup/petro-pc/home/
+done
