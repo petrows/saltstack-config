@@ -7,7 +7,7 @@ roles:
 
 nextcloud:
   # https://hub.docker.com/_/nextcloud?tab=tags
-  version: 22.2.5-apache
+  version: 23.0.2-apache
   version_db: 10.5
   data_dir: /srv/nextcloud-data
   dirs:
