@@ -1,0 +1,25 @@
+#!/bin/bash -e
+
+BACKUP_USER=petro
+BACKUP_USER_REMOTE=2017
+BACKUP_SRC='/home/devel/'
+BACKUP_DST='/srv/pws-data/storage/home/petro/backup/petro-pc/devel/'
+
+# Get list of files not owned by user
+EXCLUDE_NOT_OWNED=$(sudo find $BACKUP_SRC ! -user $BACKUP_USER -printf %P\\n)
+echo "$EXCLUDE_NOT_OWNED" > /tmp/backup-exclude
+
+# Ignore tools and other folders
+echo "/tools" >> /tmp/backup-exclude
+echo "/3rdparty" >> /tmp/backup-exclude
+
+rsync -avh \
+    --delete \
+    --usermap $BACKUP_USER:$BACKUP_USER_REMOTE \
+    --groupmap $BACKUP_USER:$BACKUP_USER_REMOTE \
+    --exclude-from /tmp/backup-exclude \
+    --exclude-from ~/.config/backup-ignore \
+    $BACKUP_SRC \
+    root@pve.pws:$BACKUP_DST
+
+rm -rf /tmp/backup-exclude
