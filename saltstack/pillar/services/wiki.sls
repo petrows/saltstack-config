@@ -6,7 +6,8 @@ roles:
   - wiki
 
 wiki:
-  version: 1.34.2
+  # https://hub.docker.com/_/mediawiki
+  version: 1.37.1
   version_db: 10.5
   data_dir: /srv/wiki-data
   dirs:
