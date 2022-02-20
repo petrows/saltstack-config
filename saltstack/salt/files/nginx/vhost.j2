@@ -10,6 +10,8 @@
 {%- set enable_robots = conf.enable_robots|default(False) %}
 {%- set custom_config = conf.custom_config|default('') %}
 {%- set custom_config_proxy = conf.custom_config_proxy|default('') %}
+{%- set redirect_target = conf.redirect_target|default('') %}
+{%- set redirect_type = conf.redirect_type|default('301') %}
 {% if force_ssl %}
 # HTTP must redirect to HTTPS
 server {
@@ -113,6 +115,11 @@ server {
 		try_files $uri $uri/ {{ conf.php_rewrite_rule|default('/index.php?q=$uri&$args') }};
 	}
 	location ~ \.php$ { include php.conf; }
+{%- endif %}
+{%- if conf_type == 'redirect' %}
+    location / {
+		return 301 {{ redirect_target }};
+	}
 {%- endif %}
 
 {%- endif %}

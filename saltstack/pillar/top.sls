@@ -94,13 +94,13 @@ base:
     - services.wiki
     - services.nextcloud
     - services.jenkins
-    #- services.gitlab
+    - services.gitlab
 
   'web-vm.pws':
     - services.wiki-prod
     - services.nextcloud-prod
     - services.jenkins-prod
-    #- services.gitlab-prod
+    - services.gitlab-prod
     - pws.web-vm-prod
 
   'backup.*':
