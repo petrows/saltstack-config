@@ -6,7 +6,8 @@ roles:
   - jenkins
 
 jenkins:
-  version: 2.334
+  # https://hub.docker.com/r/jenkins/jenkins/tags
+  version: 2.335
   data_dir: /srv/jenkins-data
   dirs:
     - /srv/jenkins-data
