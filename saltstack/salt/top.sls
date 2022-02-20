@@ -123,3 +123,6 @@ base:
   'pc-*':
     - common.users
     - pws.local-pc
+
+  'pc-home':
+    - pws.pc-home
