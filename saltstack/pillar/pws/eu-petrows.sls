@@ -15,6 +15,11 @@ proxy_vhosts:
     domain: petro.ws
     ssl: external
     enable_robots: True
+  petrows-www:
+    type: redirect
+    domain: www.petro.ws
+    ssl: external
+    redirect_target: 'https://petro.ws/'
   # Warning: this service requires cron task
   petrows-trs:
     type: php
