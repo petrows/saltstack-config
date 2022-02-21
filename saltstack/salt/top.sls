@@ -46,6 +46,9 @@ base:
   'roles:wireguard-server':
     - match: pillar
     - roles.wireguard-server
+  'roles:integrity_client':
+    - match: pillar
+    - roles.integrity_client
 
   # Services
   'roles:salt-master':

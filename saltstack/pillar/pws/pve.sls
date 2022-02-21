@@ -2,12 +2,17 @@
 
 roles:
   - mounts
+  - integrity_client
 
 check_mk_plugins:
   - smart
   - lvm
   - apcaccess
   - mk_logwatch.py
+
+integrity:
+  check_targets:
+    pve: True
 
 swap_size_mb: {{ 4 * 1024 }}
 

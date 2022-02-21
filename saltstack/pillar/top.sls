@@ -59,6 +59,8 @@ base:
   'pve.*':
     - pws.pve
     - pws.powerline-gitstatus
+    # FS honeypots
+    - common.integrity-pve
 
   'system.*':
     - pws.system
