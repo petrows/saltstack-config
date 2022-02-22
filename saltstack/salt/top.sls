@@ -96,6 +96,9 @@ base:
   'roles:adguard':
     - match: pillar
     - services.adguard
+  'roles:php-docker':
+    - match: pillar
+    - services.php-docker
 
   # Hosts configs
   'pve.*':

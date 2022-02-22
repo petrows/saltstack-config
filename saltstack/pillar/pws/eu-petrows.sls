@@ -7,7 +7,7 @@ proxy_vhosts:
     type: folder
     root: /home/www/default/web
     domain: eu.petro.ws
-    force_ssl: false
+    ssl_force: false
     ssl: external
   petrows-blog:
     type: php
@@ -28,7 +28,8 @@ proxy_vhosts:
     ssl: external
   petrows-tools:
     type: php
-    php_rewrite_rule: /index.php?url=$uri&$args
+    php:
+      rewrite_rule: /index.php?url=$uri&$args
     root: /home/www/petro.ws/tools
     domain: tools.petro.ws
     ssl: external

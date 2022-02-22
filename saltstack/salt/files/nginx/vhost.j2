@@ -12,6 +12,7 @@
 {%- set custom_config_proxy = conf.custom_config_proxy|default('') %}
 {%- set redirect_target = conf.redirect_target|default('') %}
 {%- set redirect_type = conf.redirect_type|default('301') %}
+{%- set php = conf.php|default({}) %}
 {% if force_ssl %}
 # HTTP must redirect to HTTPS
 server {
@@ -36,7 +37,11 @@ server {
 
     server_name {{ conf.domain }};
 
-{% if conf_type == 'php' %}
+{%- if conf.port|default(False) %}
+    set $proxy_dst 127.0.0.1:{{ conf.port }};
+{%- endif %}
+
+{% if conf_type == 'php' or conf_type == 'php-docker' %}
     root {{ conf.root }}/web;
 {%- else %}
     root {{ conf.root|default('/var/www/html') }};
@@ -49,7 +54,7 @@ server {
     # Add headers to serve security related headers
     # Before enabling Strict-Transport-Security headers please read into this
     # topic first.
-    add_header Strict-Transport-Security "max-age=15768000; includeSubDomains; preload;" always;
+    add_header Strict-Transport-Security "max-age=15768000; preload;" always;
 {%- endif %}
 
     add_header Referrer-Policy "no-referrer";
@@ -96,7 +101,7 @@ server {
         proxy_set_header    X-Forwarded-For     $proxy_add_x_forwarded_for;
         proxy_set_header    X-Forwarded-Host    $http_host;
         proxy_set_header    X-Forwarded-Proto   $scheme;
-        proxy_pass http://127.0.0.1:{{ conf.port }};
+        proxy_pass http://$proxy_dst;
         proxy_redirect default;
 {{ custom_config_proxy|indent(8, True) }}
     }
@@ -109,12 +114,12 @@ server {
         autoindex_localtime on;
     }
 {%- endif %}
-{%- if conf_type == 'php' %}
+{%- if conf_type == 'php' or conf_type == 'php-docker' %}
     index index.php;
     location / {
-		try_files $uri $uri/ {{ conf.php_rewrite_rule|default('/index.php?q=$uri&$args') }};
+		try_files $uri $uri/ {{ php.rewrite_rule|default('/index.php?q=$uri&$args') }};
 	}
-	location ~ \.php$ { include php.conf; }
+	location ~ \.php$ { include {{ conf_type }}.conf; }
 {%- endif %}
 {%- if conf_type == 'redirect' %}
     location / {

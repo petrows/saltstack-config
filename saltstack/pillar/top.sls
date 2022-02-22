@@ -105,6 +105,9 @@ base:
     - services.gitlab-prod
     - pws.web-vm-prod
 
+  'web-vm.dev':
+    - pws.web-vm-dev
+
   'backup.*':
     - services.crashplan
     - services.crashplan-prod
