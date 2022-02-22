@@ -15,6 +15,14 @@ php-docker-fpm-nginx-conf:
 
 {% set php_options = conf.php.cfg|default({}) %}
 
+# Iterate via defaults array and update values
+{% for def_id, def in (salt['pillar.get']('php-docker:defaults:cfg', {})).items() %}
+# Use set value, otherwise from defaults
+{% set cfg_val = php_options[def_id] | default(def) %}
+# Set final value
+{% do php_options.update( {def_id: cfg_val} ) %}
+{% endfor %}
+
 {{ conf_id }}-php.ini:
   file.managed:
     - name: /opt/{{ conf_id }}/php.ini
@@ -31,9 +39,9 @@ php-docker-fpm-nginx-conf:
   file.directory:
     - name: {{ conf.root }}/web
     - makedirs: True
-    - user: {{ conf.php.user }}
-    - group: {{ conf.php.user }}
-    - mode: 700
+    - user: {{ conf.php.user | default(salt['pillar.get']('php-docker:defaults:user')) }}
+    - group: {{ conf.php.user | default(salt['pillar.get']('php-docker:defaults:user')) }}
+    - mode: 755
 
 {{ compose.service(conf_id, {'compose_file': 'salt://files/php-docker/compose'} ) }}
 

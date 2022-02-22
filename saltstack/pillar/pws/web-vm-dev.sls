@@ -5,7 +5,7 @@ roles:
 proxy_vhosts:
   test-host:
     type: php-docker
-    domain: php.web-vm.dev
+    domain: php.local.pws
     ssl_force: False
     ssl: internal
     ssl_name: local

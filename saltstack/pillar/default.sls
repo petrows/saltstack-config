@@ -107,6 +107,14 @@ php:
   # Pool filename in /etc/php/<version>/fpm/pool.d/
   pool_name: www
 
+php-docker:
+  defaults:
+    user: www-data
+    cfg:
+      memory_limit: 1G
+      upload_max_filesize: 1G
+      post_max_size: 1G
+
 # https://github.com/telegramdesktop/tdesktop/releases
 telegram:
   version: 3.2.0
