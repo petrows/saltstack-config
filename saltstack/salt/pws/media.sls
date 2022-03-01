@@ -40,8 +40,6 @@ instaloader-petro.timer:
         Unit=instaloader-petro.service
         OnCalendar=6,16,23:00:00
         RandomizedDelaySec=3600
-        [Install]
-        WantedBy=timers.target
   service.running:
     - enable: True # dummy value
 

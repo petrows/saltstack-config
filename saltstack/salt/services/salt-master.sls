@@ -56,8 +56,6 @@ saltstack-sync.service:
         Group=root
         WorkingDirectory=/srv/salt-config/
         ExecStart=/usr/sbin/saltstack-sync
-        [Install]
-        WantedBy=multi-user.target
   service.enabled:
     - enable: True
 
