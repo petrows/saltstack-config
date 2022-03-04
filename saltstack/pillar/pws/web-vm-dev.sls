@@ -13,7 +13,7 @@ proxy_vhosts:
     port: 8765
     php:
       user: www-data
-      version: 7.2
+      version: 7.4
       cfg:
         upload_max_filesize: 123M
         memory_limit: 99M

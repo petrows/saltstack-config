@@ -24,8 +24,8 @@ services:
     environment:
     {%- if db.type == 'mariadb' %}
       MYSQL_DATABASE: {{ db.dbname }}
-      MYSQL_USER: {{ salt['pillar.get']('secrets:' + db.credentials + ':username' ) }}
-      MYSQL_PASSWORD: {{ salt['pillar.get']('secrets:' + db.credentials + ':password' ) }}
+      MYSQL_USER: {{ salt['pillar.get']('pws_secrets:' + db.credentials + ':username' ) }}
+      MYSQL_PASSWORD: {{ salt['pillar.get']('pws_secrets:' + db.credentials + ':password' ) }}
       MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
     {%- endif %}
     volumes:
