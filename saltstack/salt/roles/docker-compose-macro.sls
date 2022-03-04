@@ -8,6 +8,7 @@
   file.directory:
     - name: /opt/{{ service_id }}
     - makedirs: True
+    - mode: 700
 
 # Cleanup old image
 {{ service_id }}-cleanup:
