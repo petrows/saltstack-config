@@ -1,4 +1,6 @@
 {%- set cfg = salt['pillar.get']('proxy_vhosts:'+service_id, {}) -%}
+{%- set data_root = '/srv/' + service_id -%}
+{%- set db = cfg.php.db | default({}) -%}
 version: '3'
 
 services:
@@ -14,3 +16,23 @@ services:
       - /opt/{{ service_id }}/php.ini:/usr/local/etc/php/conf.d/vhost.ini:ro
       - {{ cfg.root }}/web:/var/www/html
     restart: always
+{%- if db %}
+  db:
+    container_name: {{ service_id }}-db
+    image: {{ db.image }}
+    user: {{ cfg.php.user }}
+    environment:
+    {%- if db.type == 'mariadb' %}
+      MYSQL_DATABASE: {{ db.dbname }}
+      MYSQL_USER: {{ salt['pillar.get']('secrets:' + db.credentials + ':username' ) }}
+      MYSQL_PASSWORD: {{ salt['pillar.get']('secrets:' + db.credentials + ':password' ) }}
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+    {%- endif %}
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      {%- if db.type == 'mariadb' %}
+      - {{ data_root }}/db:/var/lib/mysql
+      {%- endif %}
+    restart: always
+{%- endif %}

@@ -17,3 +17,8 @@ proxy_vhosts:
       cfg:
         upload_max_filesize: 123M
         memory_limit: 99M
+      db:
+        type: mariadb
+        image: mariadb:10.7
+        dbname: petro_wp
+        credentials: petrows_db

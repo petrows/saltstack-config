@@ -13,7 +13,9 @@ php-docker-fpm-nginx-conf:
 {% set conf_type = conf.type|default(None) %}
 {% if conf_type == 'php-docker' %}
 
+{% set db = conf.php.db | default({}) %}
 {% set php_options = conf.php.cfg|default({}) %}
+{% set service_user = conf.php.user | default(salt['pillar.get']('php-docker:defaults:user')) %}
 
 # Iterate via defaults array and update values
 {% for def_id, def in (salt['pillar.get']('php-docker:defaults:cfg', {})).items() %}
@@ -39,9 +41,19 @@ php-docker-fpm-nginx-conf:
   file.directory:
     - name: {{ conf.root }}/web
     - makedirs: True
-    - user: {{ conf.php.user | default(salt['pillar.get']('php-docker:defaults:user')) }}
-    - group: {{ conf.php.user | default(salt['pillar.get']('php-docker:defaults:user')) }}
+    - user: {{ service_user }}
+    - group: {{ service_user }}
     - mode: 755
+
+{% if db %}
+{{ conf_id }}-dir-db:
+  file.directory:
+    - name: /srv/{{ conf_id }}/db
+    - makedirs: True
+    - mode: 755
+    - user: {{ service_user }}
+    - group: {{ service_user }}
+{% endif %}
 
 {{ compose.service(conf_id, {'compose_file': 'salt://files/php-docker/compose'} ) }}
 
