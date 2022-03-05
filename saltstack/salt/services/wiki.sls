@@ -1,13 +1,5 @@
 # WikiMedia
 
-wiki-rootdir:
-  file.directory:
-    - name:  /opt/wiki
-    - makedirs: True
-    - user:  root
-    - group:  root
-    - mode:  755
-
 {% for dir in salt['pillar.get']('wiki:dirs', []) %}
 wiki-dir-{{ dir }}:
   file.directory:
