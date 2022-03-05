@@ -8,9 +8,9 @@ base:
 {% endif %}
 
 # Load grains-based info
-  'G@oscodename:buster':
+  'G@oscodename:bullseye':
     - match: compound
-    - grains.debian-10
+    - grains.debian-11
   'G@oscodename:focal':
     - match: compound
     - grains.ubuntu-20

@@ -1,3 +1,6 @@
+roles:
+  - wireguard-server
+
 # Force generate new dhparm keys for Nginx (required for external servers)
 nginx:
   dhparam: True
@@ -51,3 +54,9 @@ ssh:
       user: root
       key: AAAAC3NzaC1lZDI1NTE5AAAAILO4R2eYkW2YUGB1VBu5XlNRdNlJwceBDEJrNfRtKz/8
       enc: ssh-ed25519
+
+# VPN
+wireguard-server:
+  'eu-pws':
+    port: 465 # Port listen
+    address: '10.80.8.1/24' # Server VPN address
