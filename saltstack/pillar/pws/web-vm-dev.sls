@@ -1,3 +1,5 @@
+{% import_yaml 'static.yaml' as static %}
+
 roles:
   - php-docker
   - nginx

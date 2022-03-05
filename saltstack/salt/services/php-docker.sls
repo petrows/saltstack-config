@@ -44,14 +44,14 @@ php-docker-fpm-nginx-conf:
     - makedirs: True
     - user: {{ service_user }}
     - group: {{ service_user }}
-    - mode: 755
+    - mode: 700
 
 {% if db %}
 {{ conf_id }}-dir-db:
   file.directory:
     - name: /srv/{{ conf_id }}/db
     - makedirs: True
-    - mode: 755
+    - mode: 700
     - user: {{ service_user }}
     - group: {{ service_user }}
 {% endif %}

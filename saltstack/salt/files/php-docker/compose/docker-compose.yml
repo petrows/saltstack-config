@@ -7,7 +7,7 @@ services:
   app:
     container_name: {{ service_id }}-fpm
     image: petrows/saltstack:php-fpm-{{ cfg.php.version }}
-    user: {{ cfg.php.user }}
+    user: '{{ cfg.php.user }}'
     ports:
       - '{{ cfg.port }}:9000'
     volumes:
@@ -20,7 +20,7 @@ services:
   db:
     container_name: {{ service_id }}-db
     image: {{ db.image }}
-    user: {{ cfg.php.user }}
+    user: '{{ cfg.php.user }}'
     environment:
     {%- if db.type == 'mariadb' %}
       MYSQL_DATABASE: '{{ db.dbname }}'
