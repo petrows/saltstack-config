@@ -14,6 +14,7 @@ php-docker-fpm-nginx-conf:
 {% if conf_type == 'php-docker' %}
 
 {% set db = conf.php.db | default({}) %}
+{% set crontabs = conf.php.cron|default({}) %}
 {% set php_options = conf.php.cfg|default({}) %}
 {% set service_user = conf.php.user | default(salt['pillar.get']('php-docker:defaults:user')) %}
 
@@ -54,6 +55,39 @@ php-docker-fpm-nginx-conf:
     - user: {{ service_user }}
     - group: {{ service_user }}
 {% endif %}
+
+# Crontabs defined?
+{% for cron_id, cron in crontabs.items() %}
+{% set systemd_id = conf_id + '-' + cron_id %}
+{{ systemd_id }}.service:
+  file.managed:
+    - name: /etc/systemd/system/{{ systemd_id }}.service
+    - contents: |
+        [Unit]
+        Description=Systemd cron: {{ systemd_id }}
+        [Service]
+        Type=simple
+        RemainAfterExit=no
+        ExecStart=docker exec {{ conf_id }}-fpm bash -c '{{ cron.cmd }}'
+  service.enabled:
+    - enabled: True
+{{ systemd_id }}.timer:
+  file.managed:
+    - name: /etc/systemd/system/{{ systemd_id }}.timer
+    - contents: |
+        [Unit]
+        Description=Systemd cron timer: {{ systemd_id }}
+        [Timer]
+        OnCalendar={{ cron.calendar }}
+        RandomizedDelaySec=60
+        [Install]
+        WantedBy=timers.target
+  service.running:
+    - enable: True
+    - full_restart: True
+    - watch:
+      - file:  /etc/systemd/system/{{ systemd_id }}.timer
+{% endfor %} # Crontabs
 
 {{ compose.service(conf_id, {'compose_file': 'salt://files/php-docker/compose'} ) }}
 

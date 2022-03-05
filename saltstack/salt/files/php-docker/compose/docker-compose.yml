@@ -6,7 +6,7 @@ version: '3'
 services:
   app:
     container_name: {{ service_id }}-fpm
-    image: php:{{ cfg.php.version }}-fpm
+    image: petrows/saltstack:php-fpm-{{ cfg.php.version }}
     user: {{ cfg.php.user }}
     ports:
       - '{{ cfg.port }}:9000'
@@ -23,9 +23,9 @@ services:
     user: {{ cfg.php.user }}
     environment:
     {%- if db.type == 'mariadb' %}
-      MYSQL_DATABASE: {{ db.dbname }}
-      MYSQL_USER: {{ salt['pillar.get']('pws_secrets:' + db.credentials + ':username' ) }}
-      MYSQL_PASSWORD: {{ salt['pillar.get']('pws_secrets:' + db.credentials + ':password' ) }}
+      MYSQL_DATABASE: '{{ db.dbname }}'
+      MYSQL_USER: '{{ salt['pillar.get']('pws_secrets:' + db.credentials + ':username' ) }}'
+      MYSQL_PASSWORD: '{{ salt['pillar.get']('pws_secrets:' + db.credentials + ':password' ) }}'
       MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
     {%- endif %}
     volumes:

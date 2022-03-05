@@ -14,6 +14,10 @@ proxy_vhosts:
     php:
       user: www-data
       version: 7.4
+      cron:
+        wp-cron:
+          calendar: '*-*-* *:*:00'
+          cmd: php wp-cron.php
       cfg:
         upload_max_filesize: 123M
         memory_limit: 99M
