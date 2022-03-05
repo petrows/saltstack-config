@@ -26,3 +26,14 @@ proxy_vhosts:
         image: mariadb:10.7
         dbname: petro_wp
         credentials: petrows_db
+  php-8:
+    type: php-docker
+    domain: php8.local.pws
+    ssl_force: False
+    ssl: internal
+    ssl_name: local
+    root: /srv/php8
+    port: 8766
+    php:
+      user: www-data
+      version: 8.1
