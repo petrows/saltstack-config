@@ -17,11 +17,6 @@ mounts:
 nginx:
   dhparam: True
 
-wireguard-server:
-  'sb0y':
-    port: 5566 # Port listen
-    address: '10.80.6.1/24' # Server VPN address
-
 # Web sites
 proxy_vhosts:
   petro-wp-www:
@@ -53,3 +48,32 @@ proxy_vhosts:
         image: mariadb:10.7
         dbname: petro_wp
         credentials: petrows_db
+  petro-trs:
+    type: php-docker
+    root: /srv/petro-trs
+    port: {{ static.proxy_ports.petro_trs_http }}
+    domain: trs.petro.ws
+    ssl: external
+    php:
+      user: www-data
+      version: 7.4
+      cron:
+        update:
+          calendar: '*-*-* *:00/5:00'
+          cmd: php update.php --feeds
+      db:
+        type: mariadb
+        image: mariadb:10.7
+        dbname: petro_trs
+        credentials: petrows_db
+  petro-tools:
+    type: php-docker
+    root: /srv/petro-tools
+    port: {{ static.proxy_ports.petro_tools_http }}
+    domain: tools.petro.ws
+    ssl: external
+    enable_robots: True
+    php:
+      user: www-data
+      version: 7.4
+      rewrite_rule: /index.php?url=$uri&$args
