@@ -3,7 +3,6 @@
 roles:
   - php-docker
   - mounts
-  - wireguard-server
 
 # Mount external data storage for DMZ host
 mounts:
