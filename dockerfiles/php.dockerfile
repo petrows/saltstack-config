@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
         libpng-dev \
         libzip-dev \
         libicu-dev \
+        git \
     && docker-php-ext-configure intl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd zip intl mysqli exif pdo pdo_mysql

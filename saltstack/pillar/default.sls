@@ -111,6 +111,7 @@ php-docker:
   defaults:
     user: www-data
     cfg:
+      log_errors: On
       memory_limit: 1G
       upload_max_filesize: 1G
       post_max_size: 1G
