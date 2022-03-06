@@ -86,6 +86,7 @@ user_{{user_id}}_config:
   user.present:
     - name: {{ user_id }}
     - home: {{ user.home }}
+    - createhome: True
 {% if user.uid %}
     - uid: {{ user.uid }}
     - gid: {{ user.uid }}

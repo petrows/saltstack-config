@@ -93,6 +93,7 @@ base:
   'web-vm.*':
     - pws.web-vm
     - users.www
+    - users.www-data
     - services.wiki
     - services.nextcloud
     - services.jenkins
