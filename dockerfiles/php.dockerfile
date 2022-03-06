@@ -9,9 +9,12 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
         libicu-dev \
     && docker-php-ext-configure intl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) gd zip intl mysqli exif
+    && docker-php-ext-install -j$(nproc) gd zip intl mysqli exif pdo pdo_mysql
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
         libmagickwand-dev \
     && pecl install imagick \
     && docker-php-ext-enable imagick
+
+# Compat with some scripts
+RUN ln -s /usr/local/bin/php /usr/bin/php
