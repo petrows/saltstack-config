@@ -6,7 +6,7 @@ proxy_vhosts:
     ssl: external
   # Local domain - for backup
   wiki_local:
-    domain: wiki.web-wm.pws
+    domain: wiki.web-vm.pws
     port: {{ static.proxy_ports.wiki_http }}
     ssl: internal
     ssl_name: local
