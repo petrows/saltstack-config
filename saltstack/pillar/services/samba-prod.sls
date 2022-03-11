@@ -12,6 +12,11 @@ samba:
       comment: Media R/W
       user: master
       rw: True
+    media-nexum:
+      path: /srv/media-private
+      comment: Media nexum
+      user: share-root
+      rw: True
     share:
       path: /srv/share
       comment: Public share
