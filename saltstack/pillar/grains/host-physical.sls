@@ -2,3 +2,7 @@
 
 roles:
   - server-dedicated
+
+packages:
+  - sudo
+  - lm-sensors
