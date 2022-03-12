@@ -101,7 +101,7 @@ base:
     - services.php-docker
 
   # Hosts configs
-  'pve.*':
+  'pve.pws':
     - pws.pve
 
   'system.*':

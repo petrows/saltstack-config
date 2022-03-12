@@ -57,8 +57,10 @@ base:
 
 # Separate hosts config
   'pve.*':
-    - pws.pve
     - pws.powerline-gitstatus
+
+  'pve.pws':
+    - pws.pve
     # FS honeypots
     - common.integrity-pve
 
