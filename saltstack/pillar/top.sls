@@ -64,6 +64,9 @@ base:
     # FS honeypots
     - common.integrity-pve
 
+  'pve.office.pws':
+    - pws.pve-office
+
   'system.*':
     - pws.system
     - users.master
