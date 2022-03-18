@@ -1,15 +1,21 @@
 {
+    // tabbed split container
     "border": "normal",
-    "current_border_width": 3,
     "floating": "auto_off",
-    "name": "Google Chrome",
+    "layout": "tabbed",
     "percent": 0.5,
-    "swallows": [
+    "type": "con",
+    "nodes": [
         {
-            "instance": "^google\\-chrome$"
+            "name": "Browser",
+            "type": "con",
+            "swallows": [
+                {
+                    "instance": "^google\\-chrome$"
+                }
+            ]
         }
-    ],
-    "type": "con"
+    ]
 }
 
 {
@@ -25,7 +31,7 @@
             "percent": 0.5,
             "swallows": [
                 {
-                    "instance": "^telegram-desktop$"
+                    "class": "^TelegramDesktop$"
                 }
             ],
             "type": "con"

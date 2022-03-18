@@ -193,6 +193,11 @@ for_window [title="^Loading Microsoft Teams"] floating enable
 # Startup config
 {{ pillar.i3.startup }}
 
+# WS binding
+{%- for wnd in salt['pillar.get']('i3:apps_ws', []) %}
+for_window [class="{{ wnd.class }}"] move to workspace $ws{{ wnd.ws }}
+{%- endfor %}
+
 # Set random wallpaper from dir
 exec --no-startup-id feh --randomize --bg-fill ~/Pictures/wp/*
 # Auto mount USB

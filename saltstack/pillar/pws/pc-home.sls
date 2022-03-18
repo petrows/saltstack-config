@@ -17,8 +17,8 @@ i3:
       workspace $ws1 output $mon_1
       workspace $ws2 output $mon_2
   startup: |
-      for_window [class="Spotify"] move to workspace $ws2
       exec --no-startup-id i3-msg 'workspace $ws2; append_layout ~/.config/i3/layout-home-w2.json;'
+      exec --no-startup-id i3-msg 'workspace $ws1; append_layout ~/.config/i3/layout-work-nb-w1.json;'
       exec --no-startup-id google-chrome
       exec --no-startup-id telegram-desktop
       # exec --no-startup-id spotify

@@ -11,12 +11,6 @@
             "border": "normal",
             "current_border_width": 3,
             "floating": "auto_off",
-            "geometry": {
-                "height": 2102,
-                "width": 3834,
-                "x": 0,
-                "y": 0
-            },
             "name": "konsole",
             "percent": 0.5,
             "swallows": [
@@ -30,12 +24,6 @@
             "border": "normal",
             "current_border_width": 3,
             "floating": "auto_off",
-            "geometry": {
-                "height": 2102,
-                "width": 3834,
-                "x": 0,
-                "y": 22
-            },
             "name": "Double Commander",
             "percent": 0.5,
             "swallows": [
@@ -60,12 +48,6 @@
             "border": "normal",
             "current_border_width": 3,
             "floating": "auto_off",
-            "geometry": {
-                "height": 2105,
-                "width": 1914,
-                "x": 1923,
-                "y": 21
-            },
             "name": "Kode",
             "percent": 0.5,
             "swallows": [
