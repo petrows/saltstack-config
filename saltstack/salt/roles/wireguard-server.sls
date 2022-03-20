@@ -37,6 +37,7 @@ wireguard-{{ server_id }}-config:
   {%- endfor %}
 {%- endfor %}
 {%- for peer_id, peer in peers.items() %}
+        # {{ peer_id }}: {{ peer.comment | default('') }}
         [Peer]
         PublicKey = {{ peer.public }}
         AllowedIPs = {{ peer.address }}
