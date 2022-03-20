@@ -50,8 +50,15 @@ def main():
         print(f'Client: {client_id}')
 
         private_key = client.get("private", "< place-your-private-key-here >")
+        user_comment = client.get("comment", None)
 
         client_config = []
+
+        if user_comment:
+            comment = user_comment.split('\n')
+            for c in comment:
+                client_config += [f'# {c}']
+
         client_config += [f'[Interface]']
         client_config += [f'PrivateKey = {private_key}']
         client_config += [f'Address = {client["address"]}']
