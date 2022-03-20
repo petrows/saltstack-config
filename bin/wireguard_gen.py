@@ -6,6 +6,7 @@
 import argparse
 from pathlib import Path
 import ipaddress
+import re
 import sys
 import yaml
 import qrcode
@@ -29,7 +30,12 @@ def main():
 
     root = Path(__file__).parent.parent.resolve()
 
-    secrets = yaml.safe_load(open(root / "secrets/pillar/secrets.sls", "r"))
+    secrets_f = open(root / "secrets/pillar/secrets.sls", "r").read()
+
+    # Remove Jinja comments
+    secrets_f = re.sub('\\{#.*#\\}', '', secrets_f, flags=re.DOTALL)
+
+    secrets = yaml.safe_load(secrets_f)
     secrets = secrets['pws_secrets']['wireguard']
 
     # Check that server is here
@@ -43,11 +49,13 @@ def main():
     for client_id, client in secrets['client'].items():
         print(f'Client: {client_id}')
 
+        private_key = client.get("private", "< place-your-private-key-here >")
+
         client_config = []
         client_config += [f'[Interface]']
-        client_config += [f'PrivateKey = {client["private"]}']
+        client_config += [f'PrivateKey = {private_key}']
         client_config += [f'Address = {client["address"]}']
-        client_config += [f'ListenPort = 21841']
+        # client_config += [f'ListenPort = 21841']
         if 'dns' in secrets["server"]:
             client_config += [f'DNS = {secrets["server"]["dns"]}']
         client_config += [f'[Peer]']
