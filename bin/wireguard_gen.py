@@ -45,6 +45,16 @@ def main():
 
     secrets = secrets[args.server_id]
 
+    client_ips = []
+
+    # Print clients
+    for client_id, client in secrets['client'].items():
+        print(f"{client_id}\t{client['address']}\t{client['public']}")
+        if client['address'] in client_ips:
+            print(f"ERROR! Duplicating IP address {client['address']}")
+            sys.exit(1)
+        client_ips.append(client['address'])
+
     # Iterate clients
     for client_id, client in secrets['client'].items():
         print(f'Client: {client_id}')
@@ -76,14 +86,16 @@ def main():
         f.write(client_config)
         f.close()
 
-        qr = qrcode.QRCode(
-            version=1,
-            box_size=10,
-            border=5)
-        qr.add_data(client_config)
-        qr.make(fit=True)
-        img = qr.make_image(fill='black', back_color='white')
-        img.save(f'{args.server_id}.{client_id}.png')
+        # Save QR code - only for clients with knwon private keys!
+        if client.get("private", None):
+            qr = qrcode.QRCode(
+                version=1,
+                box_size=10,
+                border=5)
+            qr.add_data(client_config)
+            qr.make(fit=True)
+            img = qr.make_image(fill='black', back_color='white')
+            img.save(f'{args.server_id}.{client_id}.png')
 
 
 if __name__ == "__main__":
