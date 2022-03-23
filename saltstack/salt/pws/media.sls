@@ -19,7 +19,6 @@ instaloader-petro.service:
     - contents: |
         [Unit]
         Description=Instaloader petro
-        After=network.target
         [Service]
         Type=oneshot
         RemainAfterExit=no
@@ -27,8 +26,7 @@ instaloader-petro.service:
         Group=master
         WorkingDirectory=/
         ExecStart=/home/master/bin/instaloader-folder /srv/storage/home/petro/instaloader
-  service.enabled:
-    - enable: True # dummy value
+  service.disabled: []
 
 instaloader-petro.timer:
   file.managed:
@@ -41,7 +39,7 @@ instaloader-petro.timer:
         OnCalendar=6,16,23:00:00
         RandomizedDelaySec=3600
   service.running:
-    - enable: True # dummy value
+    - enable: True
 
 sync-fotos.service:
   file.managed:
@@ -57,8 +55,7 @@ sync-fotos.service:
         Group=master
         WorkingDirectory=/
         ExecStart=/home/master/bin/sync-fotos
-  service.enabled:
-    - enable: True # dummy value
+  service.enabled: []
 
 sync-fotos.timer:
   file.managed:
@@ -73,5 +70,5 @@ sync-fotos.timer:
         [Install]
         WantedBy=timers.target
   service.running:
-    - enable: True # dummy value
+    - enable: True
 

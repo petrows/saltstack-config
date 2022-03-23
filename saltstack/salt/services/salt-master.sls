@@ -50,14 +50,12 @@ saltstack-sync.service:
     - contents: |
         [Unit]
         Description=Saltstack sync
-        After=network.target
         [Service]
         User=root
         Group=root
         WorkingDirectory=/srv/salt-config/
         ExecStart=/usr/sbin/saltstack-sync
-  service.enabled:
-    - enable: True
+  service.disabled: []
 
 saltstack-sync.timer:
   file.managed:
