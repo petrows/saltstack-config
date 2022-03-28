@@ -122,8 +122,13 @@ base:
   'eu.petro.*':
     - pws.eu-petrows
 
+# Office host config
+
   'rpi.office.*':
     - office.rpi
+
+  'pve.office.*':
+    - office.pve
 
 # Local host config
   'pc-*':

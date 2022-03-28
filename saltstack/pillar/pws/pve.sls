@@ -63,3 +63,11 @@ nfs-exports:
      - insecure
      - no_root_squash
      - no_subtree_check
+
+# Backup service
+ssh:
+  keys:
+    root@pve.office.pws:
+      user: root
+      enc: ssh-rsa
+      key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDDGwWMJRn946rItla9U4vmM19AlVqWFhQtWnhXetRKnc84RXN4YhLz6jatDqcLHzeghx1EnbfF/1GXYZ77XOEoEz25QiSoHjk3euAGLa4csnqgQACwlt42sqpcflXRnI/TWj/ULHgUEehmSDEnyjlVC3W51JgK+RVY9A/XZYWs5Smf3UIT0pL5ndFEKHtxcwEdUiKMG0Ale6MAa17x2O05wHHhcKLYvXyfL9TAF4RCpClfvjN55Q6BpuSZLcCfK7PY7iKpLsD96NwUyd9wwg2IvCJxMduqrG38Q7wwCDEq0wWK2Mno4QoJVNqZKH67ff9d10XtDAwiqv2VbLx3bDGv
