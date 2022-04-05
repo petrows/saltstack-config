@@ -1,4 +1,17 @@
-# pve.office.pws
+# pve.ows
+
+pve-udev:
+  file.managed:
+    - name: /etc/udev/rules.d/10-local.rules
+    - contents: |
+        # Add USB Z-Stack stick as special device to be provided by VM
+        # To get current attrs use command:
+        # udevadm info -a -p  (udevadm info -q path -n /dev/ttyUSB0)
+        # usb 2-6: new full-speed USB device number 2 using xhci_hcd
+        # usb 2-6: New USB device found, idVendor=1a86, idProduct=7523, bcdDevice= 2.54
+        # usb 2-6: New USB device strings: Mfr=0, Product=2, SerialNumber=0
+        # usb 2-6: Product: USB2.0-Serial
+        SUBSYSTEMS=="usb", KERNEL=="ttyUSB*", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", SYMLINK+="ttyUSB-Z-Stack", MODE="0666", GROUP="dialout"
 
 # Backup script
 pve-office-backup:
@@ -25,6 +38,8 @@ pve-remote-backup.service:
         RemainAfterExit=no
         ExecStart=/usr/sbin/pws-backup-remote
         TimeoutStartSec=0
+        [Install]
+        WantedBy=
   service.disabled: []
 
 pve-remote-backup.timer:
