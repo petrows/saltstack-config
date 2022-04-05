@@ -10,13 +10,13 @@ echo -e "master: system.pws\nid: pws-system\n" > /etc/salt/minion
 ```
 Master:
 ```
-curl -o bootstrap-salt.sh -L https://bootstrap.saltstack.com
+wget https://bootstrap.saltstack.com -O bootstrap-salt.sh
 sh bootstrap-salt.sh
 echo -e "master: system.pws\nid: pws-system\n" > /etc/salt/minion
 ```
 Minion:
 ```
-curl -L https://bootstrap.saltstack.com -o bootstrap-salt.sh
+wget https://bootstrap.saltstack.com -O bootstrap-salt.sh
 sudo sh bootstrap-salt.sh -P -A system.pws -i pws-server-name stable
 ```
 Update existing machine:

@@ -125,10 +125,10 @@ base:
 # Office host config
 
   'rpi.office.*':
-    - office.rpi
+    - ows.rpi
 
-  'pve.office.*':
-    - office.pve
+  'pve.ows':
+    - ows.pve
 
 # Local host config
   'pc-*':

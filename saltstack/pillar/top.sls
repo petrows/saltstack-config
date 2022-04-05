@@ -16,7 +16,7 @@ base:
     - grains.ubuntu-20
 
 # All PWS servers should have at least advanced config for root
-  '*.pws or *.dev':
+  '*.pws or *.ows or *.dev':
     - match: compound
     - users.root
     - users.salt
@@ -64,8 +64,8 @@ base:
     # FS honeypots
     - common.integrity-pve
 
-  'pve.office.pws':
-    - pws.pve-office
+  'pve.ows':
+    - ows.pve
 
   'system.*':
     - pws.system
@@ -129,7 +129,12 @@ base:
     - pws.home
     - users.master
     - services.openhab
-    - services.openhab-prod
+
+  'home.pws':
+    - services.openhab-home
+
+  'home.ows':
+    - services.openhab-office
 
   'media.*':
     - users.master
@@ -163,12 +168,6 @@ base:
   'eu.petro.ws':
     - grains.network-dmz
 
-  'rpi.office.*':
-    - office.rpi
-  'rpi.office.dev':
-    - office.rpi-dev
-  'rpi.office.pws':
-    - grains.network-dmz
 
 # External VDS
   'ru.vds.*':
