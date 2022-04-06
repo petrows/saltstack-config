@@ -61,6 +61,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - {{ pillar.openhab.influxdb.data_dir }}:/var/lib/influxdb
 
+{% if pillar.openhab.grafana.id %}
   grafana:
     container_name: {{ pillar.openhab.grafana.id }}
     image: grafana/grafana:{{ pillar.openhab.grafana.version }}
@@ -73,3 +74,4 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
       - {{ pillar.openhab.grafana.data_dir }}:/var/lib/grafana
+{% endif %}

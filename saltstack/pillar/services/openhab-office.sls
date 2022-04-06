@@ -8,7 +8,7 @@ openhab:
   influxdb:
     id: Openhab-office-influxdb
   grafana:
-    id: Openhab-office-grafana
+    id: False
 
 proxy_vhosts:
   openhab:
