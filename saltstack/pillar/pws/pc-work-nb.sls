@@ -16,6 +16,6 @@ i3:
 xsession:
   gtk_scale: 1.5
   script: |
-      xrandr --output eDP-1 --off
+      # xrandr --output eDP-1 --off
       xrandr --output DP-2-3 --mode 3840x2160 --dpi 138 --pos 0x0 --primary
       xrandr --output HDMI-1 --mode 3840x2160 --dpi 138 --pos 3840x0

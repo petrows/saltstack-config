@@ -11,7 +11,7 @@
             "type": "con",
             "swallows": [
                 {
-                    "instance": "^google\\-chrome$"
+                    "class": "^firefox$"
                 }
             ]
         }
