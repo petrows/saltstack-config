@@ -219,7 +219,7 @@ exec --no-startup-id numlockx on
 # Klipboard manager (with restart)
 exec --no-startup-id bash -c 'killall kilpper ; sleep 5 ; XDG_CURRENT_DESKTOP="kde" klipper &'
 # Composite
-# exec --no-startup-id compton -b --config ~/.config/compton/compton.conf
+exec --no-startup-id compton -b --config ~/.config/compton/compton.conf
 # Private startup
 exec --no-startup-id ~/bin/autorun
 
