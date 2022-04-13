@@ -171,6 +171,14 @@ bindsym $mod+l exec i3lock -c 333333
 # Take screenshot
 bindsym Print exec --no-startup-id spectacle
 
+# Switch display modes
+# Built-in only
+bindsym $mod+Shift+F1 exec setscreen-onboard
+# Double-monitors
+bindsym $mod+Shift+F2 exec setscreen-double
+# Presentation mode: primary screen + beamer
+bindsym $mod+Shift+F3 exec setscreen-beamer
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {

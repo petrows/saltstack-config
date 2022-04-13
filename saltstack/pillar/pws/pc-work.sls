@@ -27,7 +27,7 @@ i3:
       exec --no-startup-id konsole
       exec --no-startup-id nagstamon
 
-# At work i have 4Л display
+# At work i have 4K display
 xsession:
   gtk_scale: 1.5
   script: |
