@@ -107,3 +107,10 @@ Add user:
 /user group add name=monitoring_group policy=api,read
 /user add group=monitoring_group name=user password=pwd
 ```
+
+## Install MS fonts
+
+```bash
+tar -xf windows-fonts-2022-04.tgz -C /usr/share/fonts/
+fc-cache -fv
+```
