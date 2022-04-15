@@ -8,7 +8,7 @@ roles:
   - cmk-server
 
 check_mk_server:
-  version: 2.0.0p9
+  version: 2.0.0p23
   data_dir: /srv/cmk-data
 
 proxy_vhosts:
