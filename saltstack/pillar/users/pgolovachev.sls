@@ -7,5 +7,6 @@ users:
     uid: 1000
     groups:
       - docker
+      - video
     sudo: True
     sudo_nopassword: True

@@ -137,3 +137,6 @@ base:
 
   'pc-home':
     - pws.pc-home
+
+  'pc-work-nb':
+    - pws.local-laptop

@@ -16,6 +16,8 @@ local-pc-soft:
       - feh
       - network-manager-gnome
       - numlockx
+      - pasystray
+      - playerctl
       # Set default QT-Driven apps
       - qt5ct
       # Set default GTK-Driven apps
