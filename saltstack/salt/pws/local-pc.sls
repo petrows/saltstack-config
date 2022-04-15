@@ -44,6 +44,11 @@ local-tg-binary:
     - require:
       - archive: local-tg-installer
 
+# xorg conf
+/etc/X11/xorg.conf.d/xorg.touchpad.conf:
+  file.managed:
+    - source: salt://files/linux-config/xorg.touchpad.conf
+
 # Loop over allowed users on this server
 {% for user_id, user in salt['pillar.get']('users', {}).items() %}
 local-pc-configs-{{ user_id }}:

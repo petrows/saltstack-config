@@ -5,23 +5,18 @@ general {
 }
 
 
-order += "run_watch CIN"
-order += "path_exists VPN"
+order += "wireless _first_"
 order += "ethernet _first_"
 order += "cpu_temperature 0"
 order += "disk /"
 order += "memory"
 order += "load"
+order += "battery all"
 order += "tztime local"
 
-run_watch CIN {
-    # file containing the PID of a vpnc process
-    pidfile = "/var/run/NetworkManager/nm-vpnc-d6f36c9c-daba-4781-a7d3-62be9bc3aaab.pid"
-}
-
-path_exists VPN {
-    # path exists when a VPN tunnel launched by nmcli/nm-applet is active
-    path = "/proc/sys/net/ipv4/conf/tun0"
+wireless _first_ {
+    format_up = "W: %essid / %quality / %ip"
+    format_down = "E: down"
 }
 
 ethernet _first_ {
@@ -46,6 +41,11 @@ memory {
 
 disk "/" {
     format = "/ %free"
+}
+
+battery all {
+    format = "%status %percentage %remaining"
+    integer_battery_capacity = true
 }
 
 tztime local {
