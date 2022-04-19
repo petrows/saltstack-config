@@ -50,6 +50,7 @@ local-tg-binary:
 /etc/X11/xorg.conf.d/xorg.touchpad.conf:
   file.managed:
     - source: salt://files/linux-config/xorg.touchpad.conf
+    - makedirs: True
 
 # Loop over allowed users on this server
 {% for user_id, user in salt['pillar.get']('users', {}).items() %}
