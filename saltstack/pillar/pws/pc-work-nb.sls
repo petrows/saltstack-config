@@ -16,4 +16,12 @@ i3:
 # At work i have normal display
 xsession:
   gtk_scale: 1.5
-  script: ''
+  script: |
+      # Detect lid state and decide - what to use
+      if grep -q closed /proc/acpi/button/lid/LID0/state; then
+        # Closed lid
+        /usr/local/sbin/setscreen-double
+      else
+        # Open lid
+        /usr/local/sbin/setscreen-onboard
+      fi
