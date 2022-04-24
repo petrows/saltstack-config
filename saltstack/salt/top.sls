@@ -12,6 +12,11 @@ base:
     - match: pillar
     - roles.server-lan
 
+  # HW based
+  'roles:server-vm':
+    - match: pillar
+    - roles.server-vm
+
   # Roles (optional features)
   'roles:server':
     - match: pillar

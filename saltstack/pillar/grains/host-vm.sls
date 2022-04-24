@@ -2,6 +2,7 @@
 
 roles:
   - server-dedicated
+  - server-vm
 
 {% if salt['grains.get']('virtual:kvm', False) %}
 packages:
