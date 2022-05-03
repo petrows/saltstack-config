@@ -28,6 +28,8 @@ local-pc-soft:
       - bluez-alsa-utils
       - bluez
       - blueman
+      # Bat-cat tool: https://github.com/sharkdp/bat
+      - bat
 
 # Bluetooth - configure for hi-res profiles
 /etc/bluetooth/main.conf:
