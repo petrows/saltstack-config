@@ -35,9 +35,12 @@ local-pc-soft:
 /etc/bluetooth/main.conf:
   file.managed:
     - contents: |
+        # This file is managed by Salt
         [General]
         # Enable hi-res profile
         Enable = Source,Sink,Media,Socket
+        # Allow to switch profiles
+        MultiProfile = multiple
         # Default config
         [Policy]
         AutoEnable=true
