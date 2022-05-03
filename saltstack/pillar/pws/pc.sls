@@ -18,6 +18,8 @@ sysctl:
 
 # Define default apps for workspaces
 i3:
+  bt_headphones:
+    - AC:12:2F:E6:56:A9 # Company / Soundcore Life Q30
   apps_ws:
     - class: Spotify
       ws: 2
