@@ -24,6 +24,27 @@ local-pc-soft:
       - gtk-chtheme
       # GTK Front for Libreoffice
       - libreoffice-gtk3
+      # BT support and audio
+      - bluez-alsa-utils
+      - bluez
+      - blueman
+
+# Bluetooth - configure for hi-res profiles
+/etc/bluetooth/main.conf:
+  file.managed:
+    - contents: |
+        [General]
+        # Enable hi-res profile
+        Enable = Source,Sink,Media,Socket
+        # Default config
+        [Policy]
+        AutoEnable=true
+
+bluetooth.service:
+  service.running:
+    - enable: True
+    - watch:
+      - file: /etc/bluetooth/*
 
 # Telegram-desktop
 # Clean installed one

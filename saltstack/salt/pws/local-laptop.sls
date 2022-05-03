@@ -2,8 +2,5 @@
 local-laptop-soft:
   pkg.latest:
     - pkgs:
+      # Brightness control
       - light
-      # BT support and audio
-      - bluez-alsa-utils
-      - bluez
-      - blueman
