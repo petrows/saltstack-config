@@ -78,6 +78,8 @@ git_config:
 #      type: <type:ssh-ed25519> # Type, same as in .pub
 #      key: ...
 ssh:
+  port: 22
+  allow_pw: True
   force_manage: True # Erase keys not exists?
   keys:
     petro@petro.ws:
@@ -90,6 +92,10 @@ ssh:
       user: ^salt$
       enc: ssh-ed25519
       key: AAAAC3NzaC1lZDI1NTE5AAAAINvleX9wOOd2C5M7Wy3sv2XSCXRvYG8iY+U4ONZBueYi
+
+iptables:
+  strict_mode: False # If true all input traffic will be blocked by default
+  ports_open: {}
 
 nginx:
   # Force generate new dhparm keys for Nginx (required for external servers)

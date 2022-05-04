@@ -178,6 +178,7 @@ base:
 # All VDS defaults
   '*.vds.pws':
     - grains.network-dmz
+    - grains.network-external
 
 # Local PC config
   'pc-*':

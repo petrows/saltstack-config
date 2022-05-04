@@ -1,6 +1,7 @@
 # Config for machines in DMZ
 
 # Config for servers avaliable from world
+# and protected by external DMZ firewall
 
 # Watch for updates
 check_mk_plugins:
