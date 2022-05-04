@@ -13,6 +13,13 @@ iptables-default-input:
     - policy: {% if pillar.iptables.strict_mode %}DROP{% else %}ACCEPT{% endif %}
     - save: True
 
+iptables-default-forward:
+  iptables.set_policy:
+    - chain: FORWARD
+    - family: ipv4
+    - policy: {% if pillar.iptables.strict_mode %}DROP{% else %}ACCEPT{% endif %}
+    - save: True
+
 iptables-port-allow-opened:
   iptables.append:
     - table: filter

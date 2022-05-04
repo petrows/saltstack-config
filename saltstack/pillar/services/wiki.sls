@@ -2,8 +2,10 @@
 
 roles:
   - docker
-  - nginx
   - wiki
+
+include:
+  - services.nginx
 
 wiki:
   # https://hub.docker.com/_/mediawiki

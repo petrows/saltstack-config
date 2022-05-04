@@ -16,6 +16,10 @@ network:
   ntp: '0.de.pool.ntp.org 1.de.pool.ntp.org 2.de.pool.ntp.org 3.de.pool.ntp.org'
   dns: '8.8.8.8 8.8.4.4'
 
+iptables:
+  # All machines in DMZ / EXT network must be more secured via firewall
+  strict_mode: True
+
 check_mk_agent:
   ssh: True
   base: salt://packages/

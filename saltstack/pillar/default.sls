@@ -93,6 +93,18 @@ ssh:
       enc: ssh-ed25519
       key: AAAAC3NzaC1lZDI1NTE5AAAAINvleX9wOOd2C5M7Wy3sv2XSCXRvYG8iY+U4ONZBueYi
 
+# Define list of hosts managed via SSH
+ssh_machines:
+    # DMZ
+    web-vm.pws: {}
+    build-linux.pws: {}
+    nexum.pws: {}
+    # External
+    eu.vds.pws:
+      port: 8144
+    ru.vds.pws:
+      port: 8144
+
 iptables:
   strict_mode: False # If true all input traffic will be blocked by default
   ports_open: {}

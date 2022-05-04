@@ -6,5 +6,7 @@ check_mk_plugins:
 
 iptables:
   ports_open:
-    nginx:
-      dst: 80,443
+    nginx-http:
+      dst: 80
+    nginx-https:
+      dst: 443

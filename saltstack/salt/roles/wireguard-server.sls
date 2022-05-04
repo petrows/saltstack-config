@@ -49,12 +49,23 @@ wg-quick@wg-{{ server_id }}.service:
     - watch:
       - file: /etc/wireguard/wg-{{ server_id }}.conf
 
-wireguard-forward:
+wireguard-input-{{ server_id }}:
+  iptables.append:
+    - table: filter
+    - chain: INPUT
+    - jump: ACCEPT
+    - protocol: udp
+    - dport: {{ server.port }}
+    - comment: "WG {{ server_id }}"
+    - save: True
+
+wireguard-forward-{{ server_id }}:
   iptables.append:
     - table: filter
     - chain: FORWARD
     - jump: ACCEPT
     - in-interface: wg-{{ server_id }}
+    - comment: "WG {{ server_id }}"
     - save: True
 
 {% endfor %}

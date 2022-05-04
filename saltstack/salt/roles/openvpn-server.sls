@@ -100,6 +100,24 @@ openvpn-server@{{ server_id }}.service:
       - file: /etc/openvpn/server/{{ server_id }}/*
       - file: /etc/openvpn/server/{{ server_id }}.conf
 
+openvpn-input-{{ server_id }}:
+  iptables.append:
+    - table: filter
+    - chain: INPUT
+    - jump: ACCEPT
+    - dport: {{ server.port|default('443') }}
+    - comment: "OVPN {{ server_id }}"
+    - save: True
+
+openvpn-forward-{{ server_id }}:
+  iptables.append:
+    - table: filter
+    - chain: FORWARD
+    - jump: ACCEPT
+    - in-interface: {{ vpn_name }}
+    - comment: "OVPN {{ server_id }}"
+    - save: True
+
 {% endfor %}
 
 iptables-masquerade:
