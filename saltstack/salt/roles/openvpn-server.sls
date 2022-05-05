@@ -109,12 +109,21 @@ openvpn-input-{{ server_id }}:
     - comment: "OVPN {{ server_id }}"
     - save: True
 
-openvpn-forward-{{ server_id }}:
+openvpn-forward-in-{{ server_id }}:
   iptables.append:
     - table: filter
     - chain: FORWARD
     - jump: ACCEPT
     - in-interface: {{ vpn_name }}
+    - comment: "OVPN {{ server_id }}"
+    - save: True
+
+openvpn-forward-out-{{ server_id }}:
+  iptables.append:
+    - table: filter
+    - chain: FORWARD
+    - jump: ACCEPT
+    - out-interface: {{ vpn_name }}
     - comment: "OVPN {{ server_id }}"
     - save: True
 

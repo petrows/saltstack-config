@@ -108,6 +108,7 @@ ssh_machines:
 iptables:
   strict_mode: False # If true all input traffic will be blocked by default
   ports_open: {}
+  strings_block: {}
 
 nginx:
   # Force generate new dhparm keys for Nginx (required for external servers)

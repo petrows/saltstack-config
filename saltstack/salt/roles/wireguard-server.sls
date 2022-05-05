@@ -59,12 +59,21 @@ wireguard-input-{{ server_id }}:
     - comment: "WG {{ server_id }}"
     - save: True
 
-wireguard-forward-{{ server_id }}:
+wireguard-forward-in-{{ server_id }}:
   iptables.append:
     - table: filter
     - chain: FORWARD
     - jump: ACCEPT
     - in-interface: wg-{{ server_id }}
+    - comment: "WG {{ server_id }}"
+    - save: True
+
+wireguard-forward-out-{{ server_id }}:
+  iptables.append:
+    - table: filter
+    - chain: FORWARD
+    - jump: ACCEPT
+    - out-interface: wg-{{ server_id }}
     - comment: "WG {{ server_id }}"
     - save: True
 

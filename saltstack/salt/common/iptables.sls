@@ -59,3 +59,17 @@ iptables-port-open-{{ name }}:
     - protocol: {{ port.proto | default('tcp') }}
     - save: True
 {% endfor %}
+
+# Blocked filters?
+{% for name, str in pillar.iptables.strings_block.items() %}
+iptables-str-block-{{ name }}:
+  iptables.append:
+    - position: 0
+    - table: filter
+    - chain: FORWARD
+    - jump: DROP
+    - match: string
+    - algo: {{ str.algo | default('bm') }}
+    - string: {{ str.string }}
+    - save: True
+{% endfor %}

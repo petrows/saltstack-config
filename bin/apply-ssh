@@ -54,7 +54,7 @@ parser.add_argument(
 parser.add_argument(
     '-p', '--port',
     action='store',
-    default='22',
+    default=None,
     help='set SSH port',
 )
 

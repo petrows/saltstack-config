@@ -161,7 +161,9 @@ base:
 # External VDS
   'ua.vds.*':
     - pws.ua-vds
+# External VDS
   'eu.vds.*':
+    - common.no-torrent
     - pws.eu-vds
 # All VDS defaults
   '*.vds.pws':
@@ -169,6 +171,7 @@ base:
     - grains.network-external
 # Test machine
   'ru.vds.dev':
+    - common.no-torrent
     - grains.network-dmz
 
 # Local PC config
