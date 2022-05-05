@@ -1,6 +1,8 @@
 include:
   - common.packages
   - common.fzf
+  - common.ssh
+  - common.iptables
 
 locale-us:
   locale.present:

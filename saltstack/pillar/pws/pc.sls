@@ -1,6 +1,8 @@
 roles:
   - docker
-  - nginx
+
+include:
+  - services.nginx
 
 rslsync:
   data_dir: /home/petro/btsync

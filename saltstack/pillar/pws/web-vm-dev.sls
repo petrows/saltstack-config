@@ -2,7 +2,9 @@
 
 roles:
   - php-docker
-  - nginx
+
+include:
+  - services.nginx
 
 proxy_vhosts:
   test-host:

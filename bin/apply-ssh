@@ -52,6 +52,13 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    '-p', '--port',
+    action='store',
+    default=None,
+    help='set SSH port',
+)
+
+parser.add_argument(
     '--sudo',
     dest='sudo',
     action='store_true',
@@ -134,6 +141,7 @@ if (not roster_local.exists() or roster_local.stat().st_mtime < cache_max_time) 
         host : {
             'host': host_ip,
             'user': args.user,
+            'port': args.port,
             'sudo': args.sudo,
             'grains': host_grains,
             'minion_opts': {

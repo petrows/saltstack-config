@@ -113,6 +113,7 @@ base:
 
   'web-vm.dev':
     - pws.web-vm-dev
+    - grains.network-dmz
 
   'backup.*':
     - services.crashplan
@@ -154,29 +155,23 @@ base:
   'metrics.dev':
     - services.metrics
 
-  'eu.petro.*':
-    - common.server
-    - services.nginx
-    - services.php-fpm
-    - services.jenkins-node
-    - users.root
-    - users.salt
-    - users.www_eu
-    - pws.eu-petrows
-  'eu.petro.dev':
-    - pws.eu-petrows-dev
-  'eu.petro.ws':
-    - grains.network-dmz
-
-
 # External VDS
   'ru.vds.*':
     - pws.ru-vds
 # External VDS
   'ua.vds.*':
     - pws.ua-vds
+# External VDS
+  'eu.vds.*':
+    - common.no-torrent
+    - pws.eu-vds
 # All VDS defaults
   '*.vds.pws':
+    - grains.network-dmz
+    - grains.network-external
+# Test machine
+  'ru.vds.dev':
+    - common.no-torrent
     - grains.network-dmz
 
 # Local PC config

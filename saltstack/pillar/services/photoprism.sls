@@ -2,8 +2,10 @@
 
 roles:
   - docker
-  - nginx
   - photoprism
+
+include:
+  - services.nginx
 
 photoprism:
   id: Photoprism-dev

@@ -5,7 +5,9 @@ check_mk_plugins:
 
 roles:
   - docker
-  - nginx
+
+include:
+  - services.nginx
 
 packages:
   - ghostscript

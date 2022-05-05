@@ -4,8 +4,10 @@
 
 roles:
   - docker
-  - nginx
   - cmk-server
+
+include:
+  - services.nginx
 
 check_mk_server:
   version: 2.0.0p23

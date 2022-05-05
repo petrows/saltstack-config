@@ -2,8 +2,10 @@
 
 roles:
   - docker
-  - nginx
   - crashplan
+
+include:
+  - services.nginx
 
 crashplan:
   # https://hub.docker.com/r/jlesage/crashplan-pro/

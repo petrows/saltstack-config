@@ -101,6 +101,7 @@ master_config.vm.box = "#{os_u20}"
       end
 
       minion_config.vm.provision :shell, run: "once", path: "test/set-dns.sh", args: net_dns_ip
+      minion_config.vm.provision :shell, run: "once", path: "test/configure-minion.sh"
 
       minion_config.vm.provision :salt do |salt|
         salt.install_type = "stable"
