@@ -107,6 +107,7 @@ ssh_machines:
 
 iptables:
   strict_mode: False # If true all input traffic will be blocked by default
+  allow_ping: True
   ports_open: {}
   strings_block: {}
 

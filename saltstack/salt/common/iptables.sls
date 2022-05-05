@@ -37,6 +37,18 @@ iptables-port-open-localhost:
     - source: localhost
     - save: True
 
+# Allow ping?
+{% if pillar.iptables.allow_ping %}
+iptables-port-open-ping:
+  iptables.append:
+    - table: filter
+    - chain: INPUT
+    - jump: ACCEPT
+    - proto: icmp
+    - icmp-type: echo-request
+    - save: True
+{% endif %}
+
 # DNS
 iptables-port-open-dns:
   iptables.append:
