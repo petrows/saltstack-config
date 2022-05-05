@@ -28,6 +28,15 @@ iptables-port-allow-opened:
     - connstate: RELATED,ESTABLISHED
     - save: True
 
+# Allow localhost
+iptables-port-open-localhost:
+  iptables.append:
+    - table: filter
+    - chain: INPUT
+    - jump: ACCEPT
+    - source: localhost
+    - save: True
+
 # DNS
 iptables-port-open-dns:
   iptables.append:

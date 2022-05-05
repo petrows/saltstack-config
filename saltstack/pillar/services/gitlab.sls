@@ -6,7 +6,7 @@
 #  - gitlab
 
 include:
-  - common.nginx
+  - services.nginx
 
 # Gitlab was hacked at 26 Nov by Cerber Ransomware and removed (as not used anymore)
 {# gitlab:
