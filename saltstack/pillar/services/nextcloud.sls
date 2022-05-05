@@ -2,8 +2,10 @@
 
 roles:
   - docker
-  - nginx
   - nextcloud
+
+include:
+  - services.nginx
 
 nextcloud:
   # https://hub.docker.com/_/nextcloud?tab=tags

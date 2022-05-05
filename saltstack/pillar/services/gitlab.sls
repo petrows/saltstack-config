@@ -2,7 +2,7 @@
 
 roles:
 #  - docker
-  - nginx
+#   - nginx
 #  - gitlab
 
 # Gitlab was hacked at 26 Nov by Cerber Ransomware and removed (as not used anymore)

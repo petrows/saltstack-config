@@ -3,5 +3,7 @@ check_mk_plugins:
   - mk_docker.py
 
 roles:
-  - nginx
   - docker
+
+include:
+  - services.nginx

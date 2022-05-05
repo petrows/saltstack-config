@@ -2,8 +2,10 @@
 
 roles:
   - docker
-  - nginx
   - adguard
+
+include:
+  - services.nginx
 
 # https://hub.docker.com/r/adguard/adguardhome
 adguard:

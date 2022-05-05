@@ -2,8 +2,10 @@
 
 roles:
   - docker
-  - nginx
   - jenkins
+
+include:
+  - services.nginx
 
 jenkins:
   # https://hub.docker.com/r/jenkins/jenkins/tags

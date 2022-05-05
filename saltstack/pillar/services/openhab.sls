@@ -2,8 +2,10 @@
 
 roles:
   - docker
-  - nginx
   - openhab
+
+include:
+  - services.nginx
 
 openhab:
   id: Openhab-dev

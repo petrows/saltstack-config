@@ -2,8 +2,10 @@
 
 roles:
   - docker
-  - nginx
   - metrics
+
+include:
+  - services.nginx
 
 metrics:
   data_dir: /srv/metrics-data

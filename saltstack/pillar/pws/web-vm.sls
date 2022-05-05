@@ -10,6 +10,8 @@ packages:
 
 roles:
   - docker
-  - nginx
+
+include:
+  - services.nginx
 
 swap_size_mb: {{ 4 * 1024 }}

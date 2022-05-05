@@ -2,8 +2,10 @@
 
 roles:
   - docker
-  - nginx
   - graylog
+
+include:
+  - services.nginx
 
 graylog:
   # Graylog: https://hub.docker.com/r/graylog/graylog/
