@@ -14,6 +14,7 @@ sshd.service:
 
 /etc/ssh/ssh_config.d/salt.conf:
   file.managed:
+    - makedirs: True
     - contents: |
         {% for machine_id,machine in pillar.ssh_machines.items() %}
         Host {{ machine_id }}
