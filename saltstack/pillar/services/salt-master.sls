@@ -11,8 +11,10 @@ salt:
     build-linux.pws: {}
     nexum.pws: {}
     # External
-    eu.petro.ws: {}
-    ru.vds.pws: {}
+    eu.vds.pws:
+      port: 8144
+    ru.vds.pws:
+      port: 8144
     # rpi.office.pws: {}
   master:
     file_roots:
