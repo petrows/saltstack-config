@@ -1,9 +1,12 @@
 {% import_yaml 'static.yaml' as static %}
 
-roles:
+# roles:
 #  - docker
 #   - nginx
 #  - gitlab
+
+include:
+  - common.nginx
 
 # Gitlab was hacked at 26 Nov by Cerber Ransomware and removed (as not used anymore)
 {# gitlab:
