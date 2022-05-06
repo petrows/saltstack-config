@@ -6,3 +6,6 @@ roles:
 packages:
   - sudo
   - lm-sensors
+
+include:
+  - common.coretemp

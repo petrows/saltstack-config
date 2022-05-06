@@ -164,6 +164,8 @@ mount-folders: {}
 
 nfs-exports: {}
 
+kernel-modules: {}
+
 # meta pillar for simple systemd 'crontab'
 # avaliable options are:
 # calendar - equation when to run

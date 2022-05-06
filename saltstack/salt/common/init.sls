@@ -80,6 +80,16 @@ system-custom-bin:
     - value: {{ value }}
 {% endfor %}
 
+{% for name, value in salt['pillar.get']('kernel-modules', {}).items() %}
+{% if value %}
+{{ name }}:
+  kmod.present:
+    - persist: True
+    - mods:
+      - {{ name }}
+{% endif %}
+{% endfor %}
+
 # NFS exports
 {% if salt['pillar.get']('nfs-exports', {}) %}
 nfs-packages:
