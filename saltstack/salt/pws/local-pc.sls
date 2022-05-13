@@ -38,7 +38,7 @@ local-pc-soft:
         # This file is managed by Salt
         [General]
         # Enable hi-res profile
-        Enable = Source,Sink,Media,Socket
+        # Enable = Source,Sink,Media,Socket
         # Allow to switch profiles
         MultiProfile = multiple
         # Default config
