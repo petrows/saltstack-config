@@ -195,6 +195,15 @@ bindsym XF86AudioStop exec playerctl stop --all-players
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
+# Controls Soundcore Q30 headphones via hotkeys
+# Win+PgUP: pause all + transparent mode
+# Win PgDown: resume + Noice cancelling
+#
+# Play + Noise cancelling
+bindsym $mod+Next exec --no-startup-id "bash -c 'playerctl play-pause ; soundcore-anc'"
+# Pause + Transparent
+bindsym $mod+Prior exec --no-startup-id "bash -c 'playerctl pause --all-players ; soundcore-transparent'"
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
