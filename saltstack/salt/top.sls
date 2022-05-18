@@ -54,6 +54,9 @@ base:
   'roles:integrity_client':
     - match: pillar
     - roles.integrity_client
+  'roles:firefox':
+    - match: pillar
+    - roles.firefox
 
   # Services
   'roles:salt-master':

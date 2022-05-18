@@ -178,6 +178,7 @@ base:
   'pc-*':
     - common.tmp-ramdisk
     - common.mail-relay
+    - common.firefox
     - users.root
     - pws.powerline-gitstatus
     - services.rslsync
