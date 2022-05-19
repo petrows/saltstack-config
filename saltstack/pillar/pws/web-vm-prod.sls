@@ -76,3 +76,26 @@ proxy_vhosts:
       user: www-data
       version: 7.4
       rewrite_rule: /index.php?url=$uri&$args
+  marinakopf-eu:
+    type: php-docker
+    root: /srv/marinakopf-eu
+    port: {{ static.proxy_ports.marinakopf_http }}
+    domain: marinakopf.eu
+    ssl: external
+    enable_robots: True
+    php:
+      user: www-data
+      version: 7.4
+      cron:
+        wp-cron:
+          calendar: '*-*-* *:*:00'
+          cmd: php wp-cron.php
+      cfg:
+        post_max_size: 1G
+        upload_max_filesize: 1G
+        memory_limit: 1G
+      db:
+        type: mariadb
+        image: mariadb:10.7
+        dbname: forofo_wp
+        credentials: marinakopf_db
