@@ -149,6 +149,8 @@ i3:
   bar_font_size: 12
   display: ''
   startup: ''
+  # Enable compton?
+  composite: True
   # Where to read CPU package temperature
   temp_read: /sys/devices/platform/coretemp.0/hwmon/hwmon1/temp1_input
 

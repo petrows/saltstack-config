@@ -12,6 +12,8 @@ i3:
       workspace $ws1 output $mon_1
       workspace $ws2 output $mon_2
   temp_read: /sys/devices/platform/coretemp.0/hwmon/hwmon3/temp1_input
+  # Enable compton?
+  composite: False
 
 # At work i have normal display
 xsession:
@@ -25,3 +27,6 @@ xsession:
         # Open lid
         /usr/local/sbin/setscreen-onboard
       fi
+
+kernel-modules:
+  nct6775: False
