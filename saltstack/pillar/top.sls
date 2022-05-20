@@ -192,5 +192,6 @@ base:
   'pc-work*':
     - users.pgolovachev
     - pws.pc-work
+    - pws.pc-work-private
   'pc-work-nb':
     - pws.pc-work-nb
