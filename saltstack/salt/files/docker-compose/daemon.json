@@ -5,7 +5,7 @@
     },
     "ipv6": true,
     "fixed-cidr-v6": "{{ pillar.docker.ipv6_cidr }}",
-    {%- if pillar.docker.dns %}
+    {%- if pillar.docker.dns|default({}) %}
     "dns": ["{{ pillar.docker.dns.split(' ')|join('","') }}"],
     {%- endif %}
     "default-address-pools": [
