@@ -10,3 +10,6 @@ users:
       - video
     sudo: True
     sudo_nopassword: True
+
+firefox:
+  user: pgolovachev
