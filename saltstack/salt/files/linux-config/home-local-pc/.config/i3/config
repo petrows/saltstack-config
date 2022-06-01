@@ -238,7 +238,7 @@ exec --no-startup-id udiskie -ans &
 # Network status applet
 exec --no-startup-id nm-applet
 # Bt restart (required for A2DP)
-# exec --no-startup-id bash -c 'sleep 10; sudo systemctl restart bluetooth'
+exec --no-startup-id bash -c 'sleep 10; sudo systemctl restart bluetooth'
 # BT status
 exec --no-startup-id blueman-applet
 # Audio
