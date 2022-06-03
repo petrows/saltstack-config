@@ -57,6 +57,9 @@ base:
   'roles:firefox':
     - match: pillar
     - roles.firefox
+  'roles:dante':
+    - match: pillar
+    - roles.dante
 
   # Services
   'roles:salt-master':

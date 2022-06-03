@@ -91,6 +91,7 @@ base:
 
   'nexum.pws':
     - users.master
+    - common.dante
 {% if salt['pillar.file_exists']('pws/nexum.sls') %}
     - pws.nexum
 {% endif %}
