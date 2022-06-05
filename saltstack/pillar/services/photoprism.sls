@@ -9,7 +9,7 @@ include:
 
 photoprism:
   id: Photoprism-dev
-  version: 20211018
+  version: 220528-jammy
   data_dir: /srv/photoprism-data/app
   volumes:
     cache:
