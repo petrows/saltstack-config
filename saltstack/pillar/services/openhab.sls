@@ -9,7 +9,7 @@ include:
 
 openhab:
   id: Openhab-dev
-  version: 3.2.0
+  version: 3.3.0
   data_dir: /srv/openhab-data
   dirs:
     - /srv/openhab-data/conf
@@ -19,7 +19,7 @@ openhab:
 
   zigbee2mqtt:
     id: Openhab-zigbee2mqtt-dev
-    version: 1.25.0
+    version: 1.26.0
     device: ''
     data_dir: /srv/zigbee2mqtt-data
     dirs:
