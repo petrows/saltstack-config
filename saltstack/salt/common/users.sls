@@ -61,6 +61,13 @@ fish_git_packages:
   file.absent:
     - name: /etc/sudoers.d #}
 
+# Force allow Vbox to use any networks (https://stackoverflow.com/questions/70281938/docker-machine-unable-to-create-a-machine-on-macos-vboxmanage-returning-e-acces)
+/etc/vbox/networks.conf:
+  file.managed:
+    - makedirs: True
+    - contents: |
+        * 0.0.0.0/0 ::/0
+
 # Loop over allowed users on this server
 {% for user_id, user in salt['pillar.get']('users', {}).items() %}
 
