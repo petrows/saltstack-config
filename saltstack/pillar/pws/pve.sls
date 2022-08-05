@@ -56,7 +56,7 @@ mounts:
 nfs-exports:
   media:
     path: /srv/pws-media/media/video
-    hosts: '192.168.80.12'
+    hosts: '10.80.0.12'
     opts:
      - ro
      - sync

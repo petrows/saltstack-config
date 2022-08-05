@@ -31,7 +31,7 @@ base:
     - common.server-dev
 
 # Config by-network
-  '192.168.80.0/24':
+  '10.80.0.0/24':
     - match: ipcidr
     - grains.network-lan
   '10.80.1.0/24':
