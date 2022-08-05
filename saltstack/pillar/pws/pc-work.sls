@@ -26,6 +26,7 @@ i3:
       exec --no-startup-id code
       exec --no-startup-id konsole
       exec --no-startup-id nagstamon
+      exec --no-startup-id bash -c 'sleep 5; is-working-hours && nmcli c up cinemo-vpn'
 
 # At work i have 4K display
 xsession:
