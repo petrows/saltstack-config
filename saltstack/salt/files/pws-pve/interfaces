@@ -7,6 +7,7 @@ iface enp6s0 inet manual
 # LAN VMs
 auto vmbr0
 iface vmbr0 inet static
+    hwaddress 00:1b:21:3a:52:c6
     address 192.168.80.2
     netmask 255.255.255.0
     gateway 192.168.80.1
