@@ -40,6 +40,9 @@ base:
   '10.80.5.0/24':
     - match: ipcidr
     - grains.network-dmz
+  '10.80.6.0/24':
+    - match: ipcidr
+    - grains.network-smarthome
 
 # Config by-type
 # CT machines
