@@ -2,6 +2,6 @@
 
 # nmcli c up pws-home
 
-nmcli c up pws-l2tp
+wg-quick up wg-pws
 
 sshfs -o uid=1000 -o gid=1000  master@10.80.0.3:/srv /home/pws
