@@ -73,8 +73,17 @@ def main():
         client_config += [f'PrivateKey = {private_key}']
         client_config += [f'Address = {client["address"]}']
         # client_config += [f'ListenPort = 21841']
+
+        # DNS record is set?
         if 'dns' in secrets["server"]:
-            client_config += [f'DNS = {secrets["server"]["dns"]}']
+            # Domain record is set?
+            if secrets["server"]["domain"]:
+                # We are using resolvectl as DNS backend, resolvconf may break old domains on use
+                client_config += [f'PostUp = resolvectl dns %i {secrets["server"]["address"]}; resolvectl domain %i ~' + ' ~'.join(secrets["server"]["domain"])]
+            # Just simple DNS server (no domain)
+            else:
+                client_config += [f'DNS = {secrets["server"]["dns"]}']
+
         client_config += [f'[Peer]']
         client_config += [f'PublicKey = {secrets["server"]["public"]}']
         client_config += [f'Endpoint = {secrets["server"]["endpoint"]}']
