@@ -15,7 +15,7 @@ if [[ -f "$OUTPUT" ]] && [[ "page-add" != "$MODE" ]] ; then
     exit 1
 fi
 
-DEVICE="hpaio:/net/officejet_pro_6970?ip=10.80.0.30&queue=false"
+DEVICE="hpaio:/net/officejet_pro_6970?ip=10.80.6.22&queue=false"
 
 if [[ -z "$MODE" ]] ; then
     echo "Mode: adf duplex page page-add"
