@@ -1,9 +1,11 @@
 #!/bin/bash
 
 HOST=$1
-HOST_IPS=$(dig +short $1)
+# Remove logigin to allow call with root@host
+HOST=$(echo "$HOST" | sed -e "s/^.*@//")
+HOST_IPS=$(dig +short $HOST)
 
-ssh-keygen -R "$1"
+ssh-keygen -R "$HOST"
 
 for IP in $HOST_IPS; do
     ssh-keygen -R "$IP"
