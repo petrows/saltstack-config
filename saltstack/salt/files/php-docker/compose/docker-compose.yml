@@ -1,4 +1,6 @@
 {%- set cfg = salt['pillar.get']('proxy_vhosts:'+service_id, {}) -%}
+{% set default_interface = (salt['network.default_route']('inet')|first)['interface']|default('none') %}
+{% set default_ip = salt['network.interface_ip'](default_interface) %}
 {%- set data_root = '/srv/' + service_id -%}
 {%- set db = cfg.php.db | default({}) -%}
 version: '3'
@@ -16,6 +18,8 @@ services:
       - /opt/{{ service_id }}/php.ini:/usr/local/etc/php/conf.d/vhost.ini:ro
       - {{ cfg.root }}/web:/var/www/html
     restart: always
+    extra_hosts:
+      - "{{ cfg.domain }}:{{ default_ip }}"
 {%- if db %}
   db:
     container_name: {{ service_id }}-db
