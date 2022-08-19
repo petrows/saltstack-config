@@ -135,8 +135,8 @@ base:
 
 # Office host config
 
-  'rpi.office.*':
-    - ows.rpi
+  'office.ows':
+    - ows.office
 
   'pve.ows':
     - ows.pve

@@ -2,7 +2,7 @@
 
 /etc/cups/cupsd.conf:
   file.managed:
-    - source: salt://files/rpi.office/cups/cupsd.conf
+    - source: salt://files/ows-office/cups/cupsd.conf
 
 cups.service:
   service.running:
