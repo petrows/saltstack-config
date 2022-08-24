@@ -130,6 +130,7 @@ php:
 php-docker:
   defaults:
     user: www-data
+    container_revision: '2022-08-24'
     cfg:
       display_errors: Off
       log_errors: On

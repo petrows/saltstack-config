@@ -17,5 +17,9 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     && pecl install imagick \
     && docker-php-ext-enable imagick
 
+# Video management
+RUN apt-get update && apt-get install --no-install-recommends -y \
+        ffmpeg
+
 # Compat with some scripts
 RUN ln -s /usr/local/bin/php /usr/bin/php
