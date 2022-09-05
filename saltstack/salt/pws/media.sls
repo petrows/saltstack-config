@@ -38,8 +38,7 @@ instaloader-petro.timer:
         Unit=instaloader-petro.service
         OnCalendar=6,16,23:00:00
         RandomizedDelaySec=3600
-  service.running:
-    - enable: True
+  service.disabled: []
 
 sync-fotos.service:
   file.managed:
