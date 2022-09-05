@@ -7,6 +7,7 @@ packages_pip3:
 salt:
   roster_hosts:
     # DMZ
+    home.pws: {}
     web-vm.pws: {}
     build-linux.pws: {}
     nexum.pws: {}

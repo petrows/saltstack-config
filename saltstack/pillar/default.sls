@@ -97,6 +97,7 @@ ssh:
 # Define list of hosts managed via SSH
 ssh_machines:
     # DMZ
+    home.pws: {}
     web-vm.pws: {}
     build-linux.pws: {}
     nexum.pws: {}
