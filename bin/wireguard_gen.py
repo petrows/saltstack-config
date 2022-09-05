@@ -77,7 +77,7 @@ def main():
         # DNS record is set?
         if 'dns' in secrets["server"]:
             # Domain record is set?
-            if secrets["server"]["domain"]:
+            if "domain" in secrets["server"] and secrets["server"]["domain"]:
                 # We are using resolvectl as DNS backend, resolvconf may break old domains on use
                 client_config += [f'PostUp = resolvectl dns %i {secrets["server"]["address"]}; resolvectl domain %i ~' + ' ~'.join(secrets["server"]["domain"])]
             # Just simple DNS server (no domain)
