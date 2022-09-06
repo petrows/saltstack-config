@@ -1,0 +1,16 @@
+#!/bin/bash -e
+
+if [[ -z "$1" ]] || [[ -z "$2" ]]; then
+    echo "Usage $0 <in-file> <out-file>"
+    exit 1
+fi
+
+BNAME=$(basename "$2" | cut -d. -f1)
+
+ocrmypdf \
+    -l deu+rus+eng \
+    --keywords pws-ocr,pws-scan \
+    --rotate-pages \
+    --title "${BNAME} / $(date +'%F %H:%M')" \
+    "$1" \
+    "$2"

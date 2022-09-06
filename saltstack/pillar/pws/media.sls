@@ -12,6 +12,11 @@ include:
 packages:
   - ghostscript
   - hplip
+  - tesseract-ocr
+  - tesseract-ocr-rus
+  - tesseract-ocr-deu
+  - tesseract-ocr-eng
+  - ocrmypdf
 
 packages_pip3:
   - exifread
