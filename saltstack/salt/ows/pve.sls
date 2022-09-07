@@ -23,6 +23,7 @@ pve-office-backup:
         BACKUP_HOST=root@pve.pws
         ssh $BACKUP_HOST mount /dev/mapper/backup_vg-pws--backup /srv/backup/ || true
         mount /dev/backup_remote_vg/pws-backup-remote /srv/backup || true
+        systemd-notify --ready
         rsync -rva --delete $BACKUP_HOST:/srv/backup/daily/daily.0/ /srv/backup/pve-backup/
         umount /srv/backup
         ssh $BACKUP_HOST umount /srv/backup/ || true
