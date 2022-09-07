@@ -48,12 +48,12 @@ coreutils:
 /swap.img:
   cmd.run:
     - name: |
-        [ -f /swapfile ] || dd if=/dev/zero of=/swap.img bs=1M count={{ pillar.swap_size_mb }}
+        [ -f /swap.img ] || dd if=/dev/zero of=/swap.img bs=1M count={{ pillar.swap_size_mb }}
         chmod 0600 /swap.img
         mkswap /swap.img
         swapon -a
     - unless:
-      - file /swap.img 2>&1 | grep -q "Linux/i386 swap"
+      - file /swap.img 2>&1 | grep -q "swap file"
   mount.swap:
     - persist: true
 {% endif %}
