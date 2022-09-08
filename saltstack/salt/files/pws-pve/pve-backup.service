@@ -2,7 +2,7 @@
 Description=Backup PVE service
 
 [Service]
-Type=oneshot
+Type=notify
 RemainAfterExit=no
 ExecStart=/opt/backup/bin/backup
 TimeoutStartSec=0

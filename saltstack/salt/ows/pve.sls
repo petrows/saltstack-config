@@ -35,7 +35,7 @@ pve-remote-backup.service:
         [Unit]
         Description=PVE backup remote service
         [Service]
-        Type=oneshot
+        Type=notify
         RemainAfterExit=no
         ExecStart=/usr/sbin/pws-backup-remote
         TimeoutStartSec=0
