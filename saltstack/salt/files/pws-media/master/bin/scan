@@ -46,8 +46,12 @@ if [[ "page-add" == "$MODE" ]] ; then
     cp $TMP/scan-last.pdf $TMP/scan-prev.pdf
 fi
 
-ps2pdf $TMP/scan-raw.pdf $TMP/scan-last.pdf
-rm -rf $TMP/scan-raw.pdf
+# Process PDF to reduce size
+ps2pdf $TMP/scan-raw.pdf $TMP/scan-raw-opt.pdf
+# Process via OCR
+scan-ocr $TMP/scan-raw-opt.pdf $TMP/scan-last.pdf
+# Cleanup
+rm -rf $TMP/scan-raw*.pdf
 
 if [[ "page-add" == "$MODE" ]] ; then
 
@@ -63,5 +67,4 @@ echo "Output: $OUTPUT"
 
 echo "$OUTPUT" > $TMP/scan-output.txt
 
-# cp $TMP/scan-last.pdf "$OUTPUT"
-scan-ocr "$TMP/scan-last.pdf" "$OUTPUT"
+cp $TMP/scan-last.pdf "$OUTPUT"
