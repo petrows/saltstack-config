@@ -48,8 +48,11 @@ fi
 
 # Process PDF to reduce size
 ps2pdf $TMP/scan-raw.pdf $TMP/scan-raw-opt.pdf
-# Process via OCR
-scan-ocr $TMP/scan-raw-opt.pdf $TMP/scan-last.pdf
+# Process via OCR (use desired filename)
+scan-ocr $TMP/scan-raw-opt.pdf "$TMP/$FNAME.pdf"
+rm -rf $TMP/scan-last.pdf
+mv "$TMP/$FNAME.pdf" $TMP/scan-last.pdf
+
 # Cleanup
 rm -rf $TMP/scan-raw*.pdf
 
