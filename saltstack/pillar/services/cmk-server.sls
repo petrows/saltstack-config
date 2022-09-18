@@ -10,7 +10,7 @@ include:
   - services.nginx
 
 check_mk_server:
-  version: 2.0.0p23
+  version: 2.1.0p12
   data_dir: /srv/cmk-data
 
 proxy_vhosts:
