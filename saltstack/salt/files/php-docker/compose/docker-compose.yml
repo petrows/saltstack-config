@@ -1,7 +1,7 @@
 {%- set cfg = salt['pillar.get']('proxy_vhosts:'+service_id, {}) -%}
-{% set default_revision = salt['pillar.get']('php-docker:defaults:container_revision', {}) %}
-{% set default_interface = (salt['network.default_route']('inet')|first)['interface']|default('none') %}
-{% set default_ip = salt['network.interface_ip'](default_interface) %}
+{%- set default_revision = salt['pillar.get']('php-docker:defaults:container_revision', {}) %}
+{%- set default_interface = (salt['network.default_route']('inet')|first)['interface']|default('none') %}
+{%- set default_ip = salt['network.interface_ip'](default_interface) %}
 {%- set data_root = '/srv/' + service_id -%}
 {%- set db = cfg.php.db | default({}) -%}
 {%- set container_revision = cfg.php.container_revision | default(default_revision) -%}
@@ -21,7 +21,9 @@ services:
       - {{ cfg.root }}/web:/var/www/html
     restart: always
     extra_hosts:
-      - "{{ cfg.domain }}:{{ default_ip }}"
+    {%- for _, all_cfg in salt['pillar.get']('proxy_vhosts', {}).items() %}
+      - "{{ all_cfg.domain }}:{{ default_ip }}"
+    {%- endfor %}
 {%- if db %}
   db:
     container_name: {{ service_id }}-db
