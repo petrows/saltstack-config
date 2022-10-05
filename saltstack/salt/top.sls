@@ -51,6 +51,9 @@ base:
   'roles:wireguard-server':
     - match: pillar
     - roles.wireguard-server
+  'roles:l2tp-server':
+    - match: pillar
+    - roles.l2tp-server
   'roles:integrity_client':
     - match: pillar
     - roles.integrity_client
