@@ -4,4 +4,4 @@ roles:
   - firefox
 
 firefox:
-  version: 100.0.2
+  version: 105.0.3
