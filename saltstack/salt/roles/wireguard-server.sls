@@ -13,7 +13,11 @@ wireguard-pkg:
 
 # Server config(s)
 
-{%- for server_id, server in salt['pillar.get']('wireguard-server', {}).items() %}
+{%- for server_name, server_enable in salt['pillar.get']('wireguard-server:servers', {}).items() %}
+{%- if server_enable %}
+{%- for server_instance, server in salt['pillar.get']('pws_secrets:wireguard:'+server_name, {}).items() %}
+
+{%- set server_id =  server_name + '-' + server_instance %}
 {%- set peers =  salt['pillar.get']('pws_secrets:wireguard:'+server_id+':client', {}) %}
 
 # Deploy server config
@@ -23,8 +27,8 @@ wireguard-{{ server_id }}-config:
     - name: /etc/wireguard/wg-{{ server_id }}.conf
     - contents: |
         [Interface]
-        Address = {{ server.address }}
-        ListenPort = {{ server.port }}
+        Address = {{ server.server.address }}
+        ListenPort = {{ server.server.port }}
         PrivateKey = {{ salt['pillar.get']('pws_secrets:wireguard:'+server_id+':server:private') }}
 {%- for peer_id, peer in peers.items() %}
   {%- set peer_ip, peer_netmask = peer.address.split('/') %}
@@ -55,7 +59,7 @@ wireguard-input-{{ server_id }}:
     - chain: INPUT
     - jump: ACCEPT
     - protocol: udp
-    - dport: {{ server.port }}
+    - dport: {{ server.server.port }}
     - comment: "WG {{ server_id }}"
     - save: True
 
@@ -77,7 +81,9 @@ wireguard-forward-out-{{ server_id }}:
     - comment: "WG {{ server_id }}"
     - save: True
 
-{% endfor %}
+{%- endfor %} {# server instances #}
+{%- endif %} {# server_enable #}
+{%- endfor %} {# server record #}
 
 wireguard-masquerade:
   iptables.append:

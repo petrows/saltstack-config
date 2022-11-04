@@ -4,9 +4,8 @@ roles:
 
 # VPN
 wireguard-server:
-  'eu-pws':
-    port: 465 # Port listen
-    address: '10.80.8.1/24' # Server VPN address
+  servers:
+    'eu-pws': True
 
 l2tp-server:
     name: eu-pws
