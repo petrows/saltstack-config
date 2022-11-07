@@ -169,7 +169,12 @@ bindsym $mod+r mode "resize"
 bindsym $mod+l exec i3lock -c 333333
 
 # Take screenshot
-bindsym Print exec --no-startup-id spectacle
+# Printscr - normal
+bindsym Print exec --no-startup-id spectacle --fullscreen --copy-image
+# Shift+Printscr - rectangular
+bindsym $mod+Shift+Print exec --no-startup-id spectacle --region --copy-image
+# Win+Printscr - active window
+bindsym $mod+Control+Print exec --no-startup-id spectacle --windowundercursor --copy-image
 
 # Switch display modes
 # Built-in only
@@ -244,7 +249,7 @@ exec --no-startup-id blueman-applet
 # Audio
 exec --no-startup-id pasystray
 # Caps lock toggle, compose r-alt, term-x str+alt+bksp
-exec --no-startup-id setxkbmap -layout 'us,ru' -variant 'winkeys' -option 'grp:caps_toggle,grp_led:caps,compose:ralt,terminate:ctrl_alt_bksp'
+exec setxkbmap -layout 'us,ru' -variant 'winkeys' -option 'grp:caps_toggle,grp_led:caps,compose:ralt,terminate:ctrl_alt_bksp'
 # Num lock on
 exec --no-startup-id numlockx on
 # Klipboard manager (with restart)
