@@ -144,3 +144,8 @@ nfs-export-{{ id }}:
     - watch:
       - file:  /etc/systemd/system/{{ id }}.timer
 {% endfor %}
+
+# Drop APT spam message,
+# See: https://forum.checkmk.com/t/mk-apt-and-latest-idea-from-ubuntu/34135
+/etc/apt/apt.conf.d/20apt-esm-hook.conf:
+  file.absent: []
