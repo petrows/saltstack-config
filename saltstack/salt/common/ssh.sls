@@ -4,7 +4,11 @@
     - source: salt://files/sshd_config
     - template: jinja
 
+{% if grains.osfinger == 'Ubuntu-22.10' %}
+ssh.service:
+{% else %}
 sshd.service:
+{% endif %}
   service.running:
     - enable: True
     - watch:

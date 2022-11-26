@@ -20,6 +20,7 @@ linux-base-packages:
       - wget
       - screen
       - mc
+      - openssh-server
 
 linux-autoupgrade-packages:
   pkg.installed:
