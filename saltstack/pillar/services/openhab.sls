@@ -34,6 +34,11 @@ openhab:
       - /srv/mosquitto-data/config
       - /srv/mosquitto-data/log
 
+  tuyamqtt:
+    id: Openhab-tuyamqtt-dev
+    version: 3.0.4-amd64
+    data_dir: /srv/openhab-data/conf/tuya-mqtt
+
   influxdb:
     id: Openhab-influxdb-dev
     version: 1.8

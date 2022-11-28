@@ -5,6 +5,8 @@ openhab:
     device: /dev/ttyUSB-Z-Stack
   mosquitto:
     id: Openhab-mosquitto
+  tuyamqtt:
+    id: Openhab-tuyamqtt
   influxdb:
     id: Openhab-influxdb
   grafana:

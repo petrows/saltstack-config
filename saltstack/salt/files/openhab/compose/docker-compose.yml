@@ -50,6 +50,20 @@ services:
       - {{ pillar.openhab.mosquitto.data_dir }}/data:/mosquitto/data
       - {{ pillar.openhab.mosquitto.data_dir }}/log:/mosquitto/log
 
+  {%- if pillar.openhab.tuyamqtt.id %}
+  tuya-mqtt:
+    container_name: {{ pillar.openhab.tuyamqtt.id }}
+    image: gugabguerra/tuya-mqtt:{{ pillar.openhab.tuyamqtt.version }}
+    restart: always
+    environment:
+      - DEBUG=tuya-mqtt:*
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - {{ pillar.openhab.tuyamqtt.data_dir }}/config.json:/app/config.json:ro
+      - {{ pillar.openhab.tuyamqtt.data_dir }}/devices.conf:/app/devices.conf:ro
+  {%- endif %}
+
   influxdb:
     container_name: {{ pillar.openhab.influxdb.id }}
     image: influxdb:{{ pillar.openhab.influxdb.version }}
