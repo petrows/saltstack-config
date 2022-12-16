@@ -164,6 +164,11 @@ network:
   ntp: False
   dns: False
 
+networks:
+  pws:
+    - 10.80.0.0/16
+    - 10.81.0.0/16
+
 users: {}
 
 mount-folders: {}

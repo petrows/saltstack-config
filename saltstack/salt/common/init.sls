@@ -41,6 +41,14 @@ system-ca-update:
     - onchanges:
       - file: /usr/local/share/ca-certificates/*
 
+# PWS networks
+/etc/pws/networks.json:
+  file.managed:
+    - name: /etc/pws/networks.json
+    - makedirs: True
+    - contents: |
+        {{ pillar.networks | json }}
+
 {% if salt['pillar.get']('swap_size_mb', 0) %}
 coreutils:
   pkg.installed

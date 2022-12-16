@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+"""
+Script detects network(s) by name
+"""
+
+import argparse
+import ipaddress
+import netifaces
+import sys
+import json
+
+interfaces = json.load(open('/etc/pws/networks.json'))
+
+parser = argparse.ArgumentParser(
+    description='Script detects network(s) by name')
+
+parser.add_argument(
+    'name',
+    type=str,
+    action='store',
+    help='network name to check',
+)
+
+args = parser.parse_args()
+
+check_network = interfaces[args.name]
+
+interfaces = netifaces.interfaces()
+
+for interface in filter(lambda interface: netifaces.AF_INET in netifaces.ifaddresses(interface), interfaces):
+    addresses = netifaces.ifaddresses(interface)[netifaces.AF_INET]
+    for address in filter(lambda address: 'addr' in address, addresses):
+        # Match address from interface against detected network
+        for network_range in check_network:
+            if ipaddress.ip_address(address['addr']) in ipaddress.ip_network(network_range):
+                # Address found in range
+                sys.exit(0)
+
+
+# Not found
+sys.exit(1)

@@ -2,6 +2,10 @@
 
 # nmcli c up pws-home
 
-wg-quick up wg-pws
+# Check that we are not in PWS network already
+if ! is-network pws; then
+    echo "We are outside network, probe VPN"
+    wg-quick up wg-pws
+fi
 
 sshfs -o uid=1000 -o gid=1000  master@10.80.0.3:/srv /home/pws
