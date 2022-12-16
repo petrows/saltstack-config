@@ -37,6 +37,8 @@ local-pc-soft:
     - contents: |
         # This file is managed by Salt
         [General]
+        # Enable auto connect
+        FastConnectable = true
         # Enable hi-res profile
         # Enable = Source,Sink,Media,Socket
         # Allow to switch profiles
@@ -44,6 +46,7 @@ local-pc-soft:
         # Default config
         [Policy]
         AutoEnable=true
+        ReconnectAttempts=7
 
 bluetooth.service:
   service.running:
