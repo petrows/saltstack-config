@@ -27,6 +27,8 @@ salt:
         - /srv/salt-config/saltstack/pillar
         - /srv/salt-config/secrets/pillar
     pillar_merge_lists: True
+    log_level: info
+    log_file: /var/log/salt/master
     gather_job_timeout: 60
     # Disable display of non-chaged services by default
     # Can be overriden by --state-verbose=true
