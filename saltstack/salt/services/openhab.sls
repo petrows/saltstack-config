@@ -51,6 +51,20 @@ openhab-deps-pip:
       - diskcache
     - bin_env: {{ pillar.pip3_bin }}
 
+# Config files
+{{ pillar.openhab.mosquitto.data_dir }}/config/mosquitto.conf:
+  file.managed:
+    - contents: |
+        listener 1883
+        persistence true
+        persistence_location /mosquitto/data/
+        log_dest file /mosquitto/log/mosquitto.log
+        include_dir /mosquitto/config/conf.d
+        password_file /mosquitto/config/passwd
+        allow_anonymous false
+    - watch_in:
+      - service: openhab.service
+
 {% import "roles/docker-compose-macro.sls" as compose %}
 {{ compose.service('openhab') }}
 
