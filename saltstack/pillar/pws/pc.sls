@@ -8,6 +8,9 @@ rslsync:
   data_dir: /home/petro/btsync
   user: petro
 
+packages_pip3:
+  - netifaces
+
 # I have 4K displays
 xsession:
   gtk_scale: 1.0
