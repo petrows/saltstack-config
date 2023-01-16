@@ -25,6 +25,7 @@ openhab:
     dirs:
       - /srv/zigbee2mqtt-data
 
+  # https://hub.docker.com/_/eclipse-mosquitto
   mosquitto:
     id: Openhab-mosquitto-dev
     version: 2.0.15
@@ -46,9 +47,10 @@ openhab:
     dirs:
       - /srv/influxdb-data
 
+  # https://hub.docker.com/r/grafana/grafana
   grafana:
     id: Openhab-grafana-dev
-    version: 8.1.5
+    version: 9.3.2
     data_dir: /srv/grafana-data
     dirs:
       - /srv/grafana-data
