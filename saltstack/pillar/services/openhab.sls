@@ -27,7 +27,7 @@ openhab:
 
   mosquitto:
     id: Openhab-mosquitto-dev
-    version: 1.6
+    version: 2.0.15
     data_dir: /srv/mosquitto-data
     dirs:
       - /srv/mosquitto-data/data
