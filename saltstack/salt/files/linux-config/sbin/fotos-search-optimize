@@ -1,0 +1,98 @@
+#!/usr/bin/env python3
+"""
+Script used to find images by parameters
+"""
+
+import os
+import glob
+import argparse
+import logging
+from pathlib import Path
+import shutil
+from PIL import Image
+
+parser = argparse.ArgumentParser(
+    description='Watch import folder for new files')
+
+parser.add_argument(
+    '-l', '--log',
+    choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
+    default='INFO',
+    help='set log level',
+)
+
+parser.add_argument(
+    '-t', '--transcode',
+    action='store_true',
+    help='transcode images',
+)
+
+parser.add_argument(
+    '--min-height',
+    type=int,
+    default='1024',
+    help='minimum height',
+)
+
+parser.add_argument(
+    '--min-width',
+    type=int,
+    default='1024',
+    help='minimum width',
+)
+
+parser.add_argument(
+    '--max-height',
+    type=int,
+    default='10240',
+    help='minimum height',
+)
+
+parser.add_argument(
+    '--max-width',
+    type=int,
+    default='10240',
+    help='minimum width',
+)
+
+parser.add_argument(
+    'search',
+    type=str,
+    action='store',
+    help='glob expression to search',
+)
+
+parser.add_argument(
+    'folder',
+    type=str,
+    action='store',
+    help='path to copy files',
+)
+
+args = parser.parse_args()
+
+log_level = args.log
+logging.basicConfig(level=log_level)
+
+out_path = Path(args.folder)
+
+for each in glob.glob(args.search, recursive=True):
+    try:
+        with Image.open(each) as img:
+            width, height = img.size
+            exif = img.getexif()
+
+            if (width >= args.min_width or height >= args.min_height) and (width <= args.max_width or height <= args.max_height):
+                logging.info(f"{each} -> {width}x{height}")
+                file_path = out_path / Path(each).name
+                if file_path.exists():
+                    logging.error(f"FILE EIXTSTS!!! {file_path.name}")
+                else:
+                    # logging.info(file_path)
+                    if args.transcode:
+                        img.save(file_path, quality=90, optimize=True, exif=exif)
+                    else:
+                        shutil.copy(each, str(file_path))
+
+    except Exception as err:
+        logging.error(f"{err=}")
