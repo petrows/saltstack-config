@@ -1,8 +1,8 @@
 proxy_vhosts:
   nextcloud:
-    domain: cloud.marinakopf.eu
+    domain: cloud.petro.ws
     ssl: external
     enable_dotfiles: True
 
 nextcloud:
-  data_dir: /mnt/data/nextcloud-data
+  data_dir: /mnt/data/cloud-petrows

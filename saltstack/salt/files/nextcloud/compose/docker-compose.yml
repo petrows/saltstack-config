@@ -14,13 +14,13 @@ services:
     environment:
       NEXTCLOUD_TRUSTED_DOMAINS: {{ pillar.proxy_vhosts.nextcloud.domain }}
       TRUSTED_PROXIES: 172.0.0.0/8
-      SMTP_HOST: {{ pillar.pws_secrets.mail_marinakopf.host }}
-      SMTP_PORT: {{ pillar.pws_secrets.mail_marinakopf.port }}
-      SMTP_SECURE: {{ pillar.pws_secrets.mail_marinakopf.secure }}
-      SMTP_NAME: {{ pillar.pws_secrets.mail_marinakopf.username }}
-      SMTP_PASSWORD: {{ pillar.pws_secrets.mail_marinakopf.password }}
-      MAIL_FROM_ADDRESS: {{ pillar.pws_secrets.mail_marinakopf.from }}
-      MAIL_DOMAIN: {{ pillar.pws_secrets.mail_marinakopf.from_domain }}
+      SMTP_HOST: {{ pillar.pws_secrets.mail_relay.host }}
+      SMTP_PORT: {{ pillar.pws_secrets.mail_relay.port }}
+      SMTP_SECURE: {{ pillar.pws_secrets.mail_relay.secure }}
+      SMTP_NAME: {{ pillar.pws_secrets.mail_relay.username }}
+      SMTP_PASSWORD: {{ pillar.pws_secrets.mail_relay.password }}
+      MAIL_FROM_ADDRESS: {{ pillar.pws_secrets.mail_relay.from }}
+      MAIL_DOMAIN: {{ pillar.pws_secrets.mail_relay.from_domain }}
   db:
     container_name: nextcloud-db
     image: mariadb:{{ pillar.nextcloud.version_db }}
