@@ -163,6 +163,25 @@ dashboard = grafana.Dashboard(
         ]),
         grafana.Row(panels=[
             grafana.Graph(
+                title="CO2",
+                dataSource=common.GRAFANA_SOURCE_OPENHAB,
+                lineWidth=common.GRAFANA_LINE_WIDTH,
+                yAxes=grafana.YAxes(
+                    left=grafana.YAxis(min=None, format='ppm'),
+                ),
+                targets=item_graph('sz_co2', name='SZ'),
+                # Force graph's colors and Y-Axis
+                seriesOverrides = [
+                    {
+                        'alias': "PPM",
+                        'color': '#bf1b00',
+                        'yaxis': 1,
+                    }
+                ],
+            ),
+        ]),
+        grafana.Row(panels=[
+            grafana.Graph(
                 title="Pressure",
                 dataSource=common.GRAFANA_SOURCE_OPENHAB,
                 lineWidth=common.GRAFANA_LINE_WIDTH,
