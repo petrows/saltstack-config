@@ -8,6 +8,7 @@ users:
     groups:
       - docker
       - video
+      - dialout
     sudo: True
     sudo_nopassword: True
 
