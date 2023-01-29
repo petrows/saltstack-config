@@ -178,6 +178,17 @@ dashboard = grafana.Dashboard(
                         'yaxis': 1,
                     }
                 ],
+                thresholds=[
+                    {
+                        "value": 1000,
+                        "colorMode": "warning",
+                        "op": "gt",
+                        "fill": False,
+                        "line": True,
+                        "yaxis": "left",
+                        "$$hashKey": "object:108"
+                    }
+                ],
             ),
         ]),
         grafana.Row(panels=[
