@@ -19,7 +19,7 @@ This plugin it will be called by the agent without any arguments.
 
 from __future__ import with_statement
 
-__version__ = "2.1.0p12"
+__version__ = "2.1.0p20"
 
 # this file has to work with both Python 2 and 3
 # pylint: disable=super-with-arguments
@@ -274,7 +274,7 @@ class MKDockerClient(docker.DockerClient):
 
     def __init__(self, config):
         super(MKDockerClient, self).__init__(config["base_url"], version=MKDockerClient.API_VERSION)
-        all_containers = self.containers.list(all=True)
+        all_containers = _robust_inspect(self, "containers")
         if config["container_id"] == "name":
             self.all_containers = {c.attrs["Name"].lstrip("/"): c for c in all_containers}
         elif config["container_id"] == "long":
@@ -345,7 +345,22 @@ class MKDockerClient(docker.DockerClient):
         if not container.status == "running":
             return self._container_stats.setdefault(container_key, None)
 
-        stats = container.stats(stream=False)
+        # We use the streaming mode here because it faciliates error handling. If a container is
+        # removed at exactly the same time when we query the stats, we get StopIteration in
+        # streaming mode. In non-streaming mode, the error type is version-dependent.
+        stats_generator = container.stats(stream=True, decode=True)
+        try:
+            next(stats_generator)  # we need to advance the generator by one to get useful data
+            stats = next(stats_generator)
+        except (
+            # container was removed in between collecting containers and here
+            docker.errors.NotFound,
+            # container is removed just now; it could be that under very old docker versions (eg.
+            # 1.31), there are other scenarios causing this exception (SUP-10974)
+            StopIteration,
+        ):
+            return self._container_stats.setdefault(container_key, None)
+
         return self._container_stats.setdefault(container_key, stats)
 
 
@@ -448,12 +463,41 @@ def section_node_disk_usage(client):
     section.write()
 
 
+def _robust_inspect(client, docker_object):
+    object_map = {
+        "images": {
+            "api": client.api.images,
+            "getter": client.images.get,
+            "kwargs": {},
+        },
+        "containers": {
+            "api": client.api.containers,
+            "getter": client.containers.get,
+            "kwargs": {"all": True},
+        },
+    }
+    if docker_object not in object_map:
+        raise RuntimeError("Unkown docker object: %s" % docker_object)
+
+    api = object_map[docker_object]["api"]
+    getter = object_map[docker_object]["getter"]
+    kwargs = object_map[docker_object]["kwargs"]
+    # workaround instead of calling client.OBJECT.list() directly to be able to
+    # ignore errors when OBJECT was removed in between listing available OBJECT
+    # and getting detailed information about them
+    for response in api(**kwargs):
+        try:
+            yield getter(response["Id"])
+        except docker.errors.NotFound:
+            pass
+
+
 @time_it
 def section_node_images(client):
     """in subsections list [[[images]]] and [[[containers]]]"""
     section = Section("node_images")
 
-    images = client.images.list()
+    images = _robust_inspect(client, "images")
     LOGGER.debug(images)
     section.append("[[[images]]]")
     for image in images:
@@ -520,11 +564,28 @@ def section_container_network(client, container_id):
     section.write()
 
 
+def _is_not_running_exception(exception):
+    return (
+        exception.response.status_code
+        in (
+            409,
+            500,  # Thrown by old docker versions: SUP-10974
+        )
+        and "is not running" in exception.explanation
+    )
+
+
 def section_container_agent(client, container_id):
     container = client.all_containers[container_id]
     if container.status != "running":
         return True
-    result = client.run_agent(container)
+    try:
+        result = client.run_agent(container)
+    except docker.errors.APIError as e:
+        # container was removed in between collecting containers and here
+        if _is_not_running_exception(e):
+            return True
+        raise e
     success = "<<<check_mk>>>" in result
     if success:
         LOGGER.debug("running check_mk_agent in container %s: ok", container_id)
