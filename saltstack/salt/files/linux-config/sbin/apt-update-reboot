@@ -1,0 +1,7 @@
+#!/bin/bash -xe
+
+apt update
+
+apt upgrade -y -q -o DPkg::Options::="--force-confold" --no-install-recommends
+
+reboot
