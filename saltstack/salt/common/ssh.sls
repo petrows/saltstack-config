@@ -14,6 +14,18 @@ sshd.service:
     - watch:
       - file: /etc/ssh/*
 
+# Local config
+
+/etc/ssh/ssh_config:
+  file.managed:
+    - makedirs: True
+    - contents: |
+        Host *
+            SendEnv LANG LC_*
+            HashKnownHosts yes
+            GSSAPIAuthentication yes
+        Include ssh_config.d/*
+
 # Local hosts config
 
 /etc/ssh/ssh_config.d/salt.conf:
