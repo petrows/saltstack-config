@@ -81,6 +81,18 @@ iptables-port-open-{{ name }}:
     - save: True
 {% endfor %}
 
+# Allowed hosts
+{% for name, host in pillar.iptables.hosts_open.items() %}
+iptables-host-open-{{ name }}:
+  iptables.append:
+    - table: filter
+    - chain: INPUT
+    - jump: ACCEPT
+    - source: {{ host.source }}
+    - protocol: {{ host.proto | default('tcp') }}
+    - save: True
+{% endfor %}
+
 # Blocked filters?
 {% for name, str in pillar.iptables.strings_block.items() %}
 iptables-str-block-{{ name }}:

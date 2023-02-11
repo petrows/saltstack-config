@@ -20,11 +20,13 @@ sshd.service:
   file.managed:
     - makedirs: True
     - contents: |
+        # This file is managed by SALT
+        Include /etc/ssh/ssh_config.d/*.conf
         Host *
             SendEnv LANG LC_*
             HashKnownHosts yes
             GSSAPIAuthentication yes
-        Include ssh_config.d/*
+
 
 # Local hosts config
 
@@ -32,6 +34,7 @@ sshd.service:
   file.managed:
     - makedirs: True
     - contents: |
+        # This file is managed by SALT
         {% for machine_id,machine in pillar.ssh_machines.items() %}
         Host {{ machine_id }}
           HostName {{ machine_id }}

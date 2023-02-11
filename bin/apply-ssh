@@ -133,6 +133,9 @@ if (not roster_local.exists() or roster_local.stat().st_mtime < cache_max_time) 
         logging.info("Host seems to be salt-ssh registered, grains data will be used from roster config")
         if "grains" in saltmaster_roster[host]:
             host_grains = saltmaster_roster[host]["grains"]
+        if 'port' in saltmaster_roster[host] and not args.port:
+            logging.info("Using port from roster")
+            args.port = saltmaster_roster[host]['port']
 
     logging.debug(f"Grains data used: {host_grains}")
 
