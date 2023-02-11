@@ -205,6 +205,8 @@ base:
     - pws.pc-work-nb
 
 # Julia hosts
-  'rpi.j.dev':
+  'rpi.j.*':
     - grains.rpi
     - julia.rpi
+    - services.openhab
+    - services.openhab-julia
