@@ -14,6 +14,7 @@ wireguard-pkg:
 # Server config(s)
 
 {%- for server_id, server in salt['pillar.get']('wireguard-server', {}).items() %}
+{%- set server_secrets =  salt['pillar.get']('pws_secrets:wireguard:'+server_id+':server', {}) %}
 {%- set peers =  salt['pillar.get']('pws_secrets:wireguard:'+server_id+':client', {}) %}
 
 # Deploy server config
@@ -24,8 +25,9 @@ wireguard-{{ server_id }}-config:
     - contents: |
         [Interface]
         Address = {{ server.address }}
-        {% if server.get('port', False) %}ListenPort = {{ server.port }}{%- endif %}
-        PrivateKey = {{ salt['pillar.get']('pws_secrets:wireguard:'+server_id+':server:private') }}
+        {% if server.get('port', False) %}ListenPort = {{ server.port }}{% endif %}
+        {% if server_secrets.get('server_dns') %}PostUp = resolvectl dns %i {{server_secrets.server_dns.dns}}; resolvectl domain %i ~{{ server_secrets.server_dns.domain | join(' ~') }}{% endif %}
+        PrivateKey = {{ server_secrets.private }}
 {%- for peer_id, peer in peers.items() %}
   {%- set peer_ip, peer_netmask = peer.address.split('/') %}
   {%- set peer_ports = peer.ports|default([]) %}
@@ -39,7 +41,7 @@ wireguard-{{ server_id }}-config:
 {%- for peer_id, peer in peers.items() %}
         # {{ peer_id }}: {{ peer.comment | default('') }}
         [Peer]
-        {% if peer.get('endpoint', False) %}Endpoint = {{ peer.endpoint }}{%- endif %}
+        {% if peer.get('endpoint', False) %}Endpoint = {{ peer.endpoint }}{% endif %}
         PublicKey = {{ peer.public }}
         AllowedIPs = {{ peer.address }}
 {% endfor %}
