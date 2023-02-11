@@ -33,7 +33,7 @@ services:
       - {{ pillar.openhab.zigbee2mqtt.data_dir }}:/app/data
     {% if pillar.openhab.zigbee2mqtt.device %}
     devices:
-      - {{ pillar.openhab.zigbee2mqtt.device }}:{{ pillar.openhab.zigbee2mqtt.device }}
+      - {{ pillar.openhab.zigbee2mqtt.device }}:/dev/ttyUSB-Z-Stack
     {% endif %}
 
   mosquitto:

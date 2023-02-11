@@ -208,5 +208,5 @@ base:
   'rpi.j.*':
     - grains.rpi
     - julia.rpi
-    #- services.openhab
-    #- services.openhab-julia
+    - services.openhab
+    - services.openhab-julia

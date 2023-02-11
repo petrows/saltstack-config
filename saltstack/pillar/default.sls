@@ -34,8 +34,7 @@ maintainer_email: petro@petro.ws
 
 # Docker-compose config
 docker_compose:
-  url: https://github.com/docker/compose/releases/download/1.26.2/docker-compose-Linux-x86_64
-  sha256: 13e50875393decdb047993c3c0192b0a3825613e6dfc0fa271efed4f5dbdd6eb
+  version: 2.16.0
   # Services to be auto-added to run
   services: {}
 

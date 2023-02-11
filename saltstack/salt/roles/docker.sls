@@ -33,16 +33,18 @@ docker-compose-pkg-clean:
     - pkgs:
       - docker-compose
 
+{% set compose_url = 'https://github.com/docker/compose/releases/download/v' + pillar.docker_compose.version + '/docker-compose-' + (grains.kernel|lower) + '-' + grains.cpuarch %}
+{% set compose_url_hash = compose_url + '.sha256' %}
 docker-compose-bin:
   file.managed:
     - name: /usr/local/bin/docker-compose
-    - source: {{ pillar.docker_compose.url }}
-    - source_hash: {{ pillar.docker_compose.sha256 }}
+    - source: {{ compose_url }}
+    - source_hash: {{ compose_url_hash }}
     - mode: 755
     - user: root
     - group: root
 
-docker-compose-bin-symlink:
+docker-compose-bin-local-symlink:
   file.symlink:
     - name: /usr/bin/docker-compose
     - target: /usr/local/bin/docker-compose
