@@ -24,7 +24,7 @@ wireguard-{{ server_id }}-config:
     - contents: |
         [Interface]
         Address = {{ server.address }}
-        ListenPort = {{ server.port }}
+        {% if server.get('port', False) %}ListenPort = {{ server.port }}{%- endif %}
         PrivateKey = {{ salt['pillar.get']('pws_secrets:wireguard:'+server_id+':server:private') }}
 {%- for peer_id, peer in peers.items() %}
   {%- set peer_ip, peer_netmask = peer.address.split('/') %}
@@ -39,6 +39,7 @@ wireguard-{{ server_id }}-config:
 {%- for peer_id, peer in peers.items() %}
         # {{ peer_id }}: {{ peer.comment | default('') }}
         [Peer]
+        {% if peer.get('endpoint', False) %}Endpoint = {{ peer.endpoint }}{%- endif %}
         PublicKey = {{ peer.public }}
         AllowedIPs = {{ peer.address }}
 {% endfor %}
@@ -49,6 +50,8 @@ wg-quick@wg-{{ server_id }}.service:
     - watch:
       - file: /etc/wireguard/wg-{{ server_id }}.conf
 
+# If server defines port - open it
+{% if server.get('port', False) %}
 wireguard-input-{{ server_id }}:
   iptables.append:
     - table: filter
@@ -58,6 +61,7 @@ wireguard-input-{{ server_id }}:
     - dport: {{ server.port }}
     - comment: "WG {{ server_id }}"
     - save: True
+{%- endif %}
 
 wireguard-forward-in-{{ server_id }}:
   iptables.append:

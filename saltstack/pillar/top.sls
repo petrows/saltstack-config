@@ -203,3 +203,8 @@ base:
     - pws.pc-work-private
   'pc-work-nb':
     - pws.pc-work-nb
+
+# Julia hosts
+  'rpi.j.dev':
+    - grains.rpi
+    - julia.rpi
