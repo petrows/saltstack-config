@@ -15,11 +15,15 @@ end
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   os_u18 = "bento/ubuntu-18.04"
   os_u20 = "bento/ubuntu-20.04"
+  os_u22 = "bento/ubuntu-22.04"
   os_d10 = "debian/buster64"
   os_d11 = "debian/bullseye64"
   os_ram = 2048
   net_ip = "10.99.99"
   net_dns_ip = "10.99.99.1,10.99.99.254"
+
+  config.ssh.username = 'vagrant'
+  config.ssh.password = 'vagrant'
 
   # ============================================================================================
   # Salt master config
@@ -31,7 +35,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.name = "master"
     end
 
-master_config.vm.box = "#{os_u20}"
+    master_config.vm.box = "#{os_u22}"
     master_config.vm.host_name = "saltmaster.local"
     master_config.vm.network "private_network", ip: "#{net_ip}.10"
     master_config.vm.synced_folder "saltstack/salt/", "/srv/salt"
@@ -44,7 +48,7 @@ master_config.vm.box = "#{os_u20}"
 
     # Do not update VBox additions (VBox only) - speedup of machine creation
     if Vagrant.has_plugin?("vagrant-vbguest")
-      master_config.vbguest.auto_update = false
+     master_config.vbguest.auto_update = false
     end
 
     master_config.vm.provision :salt do |salt|
@@ -78,6 +82,7 @@ master_config.vm.box = "#{os_u20}"
     ["metrics.dev", "#{net_ip}.21", os_ram, os_u20],
     ["rpi.office.dev", "#{net_ip}.22", os_ram, os_d11],
     ["ru.vds.dev", "#{net_ip}.23", os_ram, os_u20],
+    ["rpi.j.dev", "#{net_ip}.24", os_ram, os_u22],
   ].each do |vmname, ip, mem, os|
     config.vm.define "#{vmname}" do |minion_config|
       minion_config.vm.provider "virtualbox" do |vb|
@@ -86,14 +91,13 @@ master_config.vm.box = "#{os_u20}"
         vb.name = "#{vmname}"
       end
 
-      minion_config.vbguest.auto_update = false
       minion_config.vm.box = "#{os}"
       minion_config.vm.hostname = "#{vmname}"
       minion_config.vm.network "private_network", ip: "#{ip}"
 
       # Do not update VBox additions (VBox only) - speedup of machine creation
       if Vagrant.has_plugin?("vagrant-vbguest")
-        minion_config.vbguest.auto_update = false
+       minion_config.vbguest.auto_update = false
       end
 
       if File.directory?(File.expand_path("test/srv/#{vmname}"))

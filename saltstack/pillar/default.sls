@@ -93,6 +93,28 @@ ssh:
       user: ^salt$
       enc: ssh-ed25519
       key: AAAAC3NzaC1lZDI1NTE5AAAAINvleX9wOOd2C5M7Wy3sv2XSCXRvYG8iY+U4ONZBueYi
+  # Hosts config (for client)
+  hosts_config:
+    local_no_check_127:
+        host: '127.0.0.*'
+        config:
+          StrictHostKeyChecking: 'no'
+    local_no_check_192:
+        host: '192.168.*.*'
+        config:
+          StrictHostKeyChecking: 'no'
+    local_no_check_10:
+        host: '10.*.*.*'
+        config:
+          StrictHostKeyChecking: 'no'
+    pws_no_check:
+        host: '*.pws'
+        config:
+          StrictHostKeyChecking: 'no'
+    internal_no_check:
+        host: '*.internal'
+        config:
+          StrictHostKeyChecking: 'no'
 
 # Define list of hosts managed via SSH
 ssh_machines:

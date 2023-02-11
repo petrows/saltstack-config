@@ -35,6 +35,13 @@ sshd.service:
     - makedirs: True
     - contents: |
         # This file is managed by SALT
+        {% for host_id,host in pillar.ssh.hosts_config.items() %}
+        # {{ host_id }}
+        Host {{ host.host }}
+          {%- for conf_id,conf in host.config.items() %}
+          {{ conf_id }} {{ conf }}
+          {%- endfor %}
+        {% endfor %}
         {% for machine_id,machine in pillar.ssh_machines.items() %}
         Host {{ machine_id }}
           HostName {{ machine_id }}
