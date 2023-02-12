@@ -42,6 +42,7 @@ docker-compose-hash:
     - name: /var/cache/salt/{{ compose_name }}.sha256
     - source: {{ compose_url_hash }}
     - skip_verify: True
+    - makedirs: True
 
 docker-compose-bin:
   file.managed:
