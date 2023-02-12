@@ -33,16 +33,26 @@ docker-compose-pkg-clean:
     - pkgs:
       - docker-compose
 
-{% set compose_url = 'https://github.com/docker/compose/releases/download/v' + pillar.docker_compose.version + '/docker-compose-' + (grains.kernel|lower) + '-' + grains.cpuarch %}
+{% set compose_name = 'docker-compose-' + (grains.kernel|lower) + '-' + grains.cpuarch %}
+{% set compose_url = 'https://github.com/docker/compose/releases/download/v' + pillar.docker_compose.version + '/' + compose_name %}
 {% set compose_url_hash = compose_url + '.sha256' %}
+
+docker-compose-hash:
+  file.managed:
+    - name: /var/cache/salt/{{ compose_name }}.sha256
+    - source: {{ compose_url_hash }}
+    - skip_verify: True
+
 docker-compose-bin:
   file.managed:
     - name: /usr/local/bin/docker-compose
     - source: {{ compose_url }}
-    - source_hash: {{ compose_url_hash }}
+    - source_hash: /var/cache/salt/{{ compose_name }}.sha256
     - mode: 755
     - user: root
     - group: root
+    - watch:
+      - file: docker-compose-hash
 
 docker-compose-bin-local-symlink:
   file.symlink:
