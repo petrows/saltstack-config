@@ -211,3 +211,5 @@ base:
     - julia.rpi
     - services.openhab
     - services.openhab-julia
+    - services.samba
+    - services.samba-julia
