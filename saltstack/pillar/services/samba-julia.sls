@@ -1,5 +1,5 @@
 samba:
-  id: Samba
+  id: Samba-julia
   name: JULIA
   workgroup: PETROWS
   shares:
