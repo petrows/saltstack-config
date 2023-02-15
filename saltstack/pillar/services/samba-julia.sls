@@ -4,7 +4,7 @@ samba:
   workgroup: PETROWS
   shares:
     storage:
-      path: /srv/julia-data/storage
+      path: /mnt/julia-data/storage
       comment: 'Network disk: Julia'
       rw: True
       user: master
