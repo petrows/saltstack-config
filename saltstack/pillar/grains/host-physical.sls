@@ -6,6 +6,7 @@ roles:
 packages:
   - sudo
   - lm-sensors
+  - smartmontools
 
 include:
   - common.coretemp

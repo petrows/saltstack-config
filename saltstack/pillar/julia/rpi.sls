@@ -3,6 +3,7 @@
 {% import_yaml 'static.yaml' as static %}
 
 check_mk_plugins:
+  - smart
   - mk_docker.py
 
 roles:
