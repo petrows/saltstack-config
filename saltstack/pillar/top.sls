@@ -60,6 +60,7 @@ base:
 
 # Separate hosts config
   'pve.*':
+    - grains.host-hdd
     - pws.powerline-gitstatus
 
   'pve.pws':
@@ -208,6 +209,7 @@ base:
   'rpi.j.*':
     - users.master
     - grains.rpi
+    - grains.host-hdd
     - julia.rpi
     - services.openhab
     - services.openhab-julia

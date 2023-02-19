@@ -144,7 +144,7 @@ if which smartctl > /dev/null 2>&1 ; then
             MODEL=${MODEL// /-}
             DNAME=${DNAME#AMCC_}
             DNAME="AMCC_${MODEL}_${DNAME%000000000000}"
-        elif [ "$VEND" != "ATA" ] ; then
+        elif [ "$VEND" != "ATA" ] && [ "$VEND" != "WDCWDS" ] ; then
             if [ "$VEND" == "NVME" ] ; then
                 DNAME="/dev/$N"
                 CMD="smartctl -d nvme -A $DNAME"
@@ -160,7 +160,7 @@ if which smartctl > /dev/null 2>&1 ; then
                 DNAME="${VEND}_${MODEL}_${SN}"
             fi
         else
-            CMD="smartctl -d ata -v 9,raw48 -A $D"
+            CMD="smartctl -v 9,raw48 -A $D"
         fi
 
             if [ $VEND == "NVME" ]; then
