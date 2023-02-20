@@ -114,6 +114,10 @@ ssh:
         host: '*.internal'
         config:
           StrictHostKeyChecking: 'no'
+    j_root_ssh:
+      host: '10.82.0.1'
+      config:
+        Port: 6446
 
 # Define list of hosts managed via SSH
 ssh_machines:
