@@ -13,7 +13,7 @@ include:
   - services.nginx
 
 wireguard-server:
-  'julua-pws':
+  'julia-pws':
     address: 10.80.7.6/32
 
 # Mount external data storage via USB
