@@ -12,9 +12,9 @@ roles:
 include:
   - services.nginx
 
-wireguard-server:
+{# wireguard-server:
   'julia-pws':
-    address: 10.80.7.6/32
+    address: 10.80.7.6/32 #}
 
 # Mount external data storage via USB
 mounts:
