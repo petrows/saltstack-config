@@ -14,14 +14,14 @@ openhab:
 
 proxy_vhosts:
   openhab:
-    domain: home.rpi.j.pws
+    domain: home.j.pws
     ssl: internal
-    ssl_name: rpi_j_pws
+    ssl_name: j_pws
   openhab-stats:
-    domain: stats.rpi.j.pws
+    domain: stats.j.pws
     ssl: internal
-    ssl_name: rpi_j_pws
+    ssl_name: j_pws
   openhab-zigbee2mqtt:
-    domain: zigbee2mqtt.rpi.j.pws
+    domain: z2m.rpi.j.pws
     ssl: internal
-    ssl_name: rpi_j_pws
+    ssl_name: j_pws
