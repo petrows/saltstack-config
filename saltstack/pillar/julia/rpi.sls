@@ -12,6 +12,9 @@ roles:
 include:
   - services.nginx
 
+iptables:
+  strict_mode: False
+
 {# wireguard-server:
   'julia-pws':
     address: 10.80.7.6/32 #}

@@ -11,6 +11,7 @@ salt:
     web-vm.pws: {}
     build-linux.pws: {}
     nexum.pws: {}
+    rpi.j.pws: {}
     # External
     eu.vds.pws:
       port: 8144

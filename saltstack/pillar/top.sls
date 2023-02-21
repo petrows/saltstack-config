@@ -210,6 +210,7 @@ base:
     - users.master
     - grains.rpi
     - grains.host-hdd
+    - grains.network-dmz
     - julia.rpi
     - services.openhab
     - services.openhab-julia
