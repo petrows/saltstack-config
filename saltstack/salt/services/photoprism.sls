@@ -25,6 +25,11 @@ photoprism-dir-db:
 
 # Updates watcher service
 
+/usr/bin/photoprism-watch:
+  file.managed:
+    - source: salt://files/photoprism/photoprism-watch.py
+    - mode: 755
+
 photoprism-watch.service:
   file.managed:
     - name: /etc/systemd/system/photoprism-watch.service
@@ -38,7 +43,7 @@ photoprism-watch.service:
         Type=notify
         WorkingDirectory=/
         ExecStartPre=/bin/sleep 60
-        ExecStart=/home/master/bin/photoprism-watch.py --container "{{ pillar.photoprism.id }}" "{{ pillar.photoprism.volumes.originals.path }}"
+        ExecStart=/usr/bin/photoprism-watch --container "{{ pillar.photoprism.id }}" "{{ pillar.photoprism.volumes.originals.path }}"
         [Install]
         WantedBy=multi-user.target
   service.running:
