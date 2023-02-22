@@ -28,6 +28,8 @@ version: '3.5'
 # Note: All commands may have to be prefixed with "sudo" when not running as root.
 #       This will change the home directory "~" to "/root" in your configuration.
 
+{% set creds = salt['pillar.get']('pws_secrets:' + pillar.photoprism.creds) %}
+
 services:
   photoprism:
     # Use photoprism/photoprism:preview instead for testing preview builds:
@@ -43,7 +45,7 @@ services:
     ports:
       - "{{ pillar.static.proxy_ports.photoprism_http }}:2342" # [local port]:[container port]
     environment:
-      PHOTOPRISM_ADMIN_PASSWORD: "{{ pillar.pws_secrets.photoprism.password }}"          # PLEASE CHANGE: Your initial admin password (min 4 characters)
+      PHOTOPRISM_ADMIN_PASSWORD: "{{ creds.password }}"          # PLEASE CHANGE: Your initial admin password (min 4 characters)
       PHOTOPRISM_ORIGINALS_LIMIT: 50000              # File size limit for originals in MB (increase for high-res video)
       PHOTOPRISM_HTTP_COMPRESSION: "gzip"            # Improves transfer speed and bandwidth utilization (none or gzip)
       PHOTOPRISM_DEBUG: "false"                      # Run in debug mode (shows additional log messages)

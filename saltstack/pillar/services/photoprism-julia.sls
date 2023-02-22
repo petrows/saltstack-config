@@ -8,6 +8,8 @@ photoprism:
     originals:
       path: /mnt/julia-data/storage/Фото
 
+  creds: photoprism_julia
+
   mariadb:
     id: Photoprism-db-julia
 

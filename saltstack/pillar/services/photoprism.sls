@@ -21,6 +21,7 @@ photoprism:
     originals:
       path: /tmp/originals
       mode: ro
+  creds: photoprism
 
   mariadb:
     id: Photoprism-db-dev
