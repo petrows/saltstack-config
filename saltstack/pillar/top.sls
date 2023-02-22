@@ -216,3 +216,5 @@ base:
     - services.openhab-julia
     - services.samba
     - services.samba-julia
+    - services.photoprism
+    - services.photoprism-julia
