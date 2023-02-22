@@ -9,9 +9,7 @@ photoprism:
       path: /srv/photoprism-data/originals
 
   mariadb:
-    id: Photoprism-db-dev
-    version: 10.5.12
-    data_dir: /srv/photoprism-data/db
+    id: Photoprism-db
 
 proxy_vhosts:
   photoprism:

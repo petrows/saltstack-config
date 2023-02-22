@@ -9,7 +9,7 @@ include:
 
 photoprism:
   id: Photoprism-dev
-  version: 220528-jammy
+  version: 221118-jammy
   data_dir: /srv/photoprism-data/app
   volumes:
     cache:
@@ -24,7 +24,7 @@ photoprism:
 
   mariadb:
     id: Photoprism-db-dev
-    version: 10.5.12
+    version: 10.11.2
     data_dir: /srv/photoprism-data/db
 
 proxy_vhosts:
