@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Scans und generates .html for each .md in current folder
+# sudo apt install pandoc
+
+ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )"/.. && pwd )"
+
+for f in *.md; do
+    fn="${f%.*}"
+    echo "Processing $fn"
+    pandoc --css "$ROOT_DIR/doc/pandoc.css" --self-contained -f markdown -t html $f -o $fn.html
+done
