@@ -118,6 +118,10 @@ ssh:
       host: 'root.j.pws'
       config:
         Port: 6446
+    j_wlan_ssh:
+      host: 'wlan.j.pws'
+      config:
+        Port: 6446
 
 # Define list of hosts managed via SSH
 ssh_machines:
