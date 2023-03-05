@@ -2,6 +2,8 @@
 
 {% import_yaml 'static.yaml' as static %}
 
+timezone: Europe/Moscow
+
 check_mk_plugins:
   - smart
   - mk_docker.py
