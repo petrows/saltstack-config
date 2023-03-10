@@ -81,3 +81,9 @@ Unattended-Upgrade::Automatic-Reboot-Time "06:00";
 // Use apt bandwidth limit feature, this example limits the download
 // speed to 70kb/sec
 //Acquire::http::Dl-Limit "70";
+
+// Ignore config file updates for auto upgraded packages
+Dpkg::Options {
+   "--force-confdef";
+   "--force-confold";
+};
