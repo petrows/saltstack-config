@@ -8,7 +8,7 @@ dante-pkg:
     - contents: |
         logoutput: stderr
         # debug: 2
-        internal: 0.0.0.0 port = {{ pillar.dante.port }}
+        internal: {{ pillar.dante.if | default('0.0.0.0') }} port = {{ pillar.dante.port }}
         external: {{ pillar.dante.if_external }}
         user.notprivileged: nobody
         clientmethod: none
