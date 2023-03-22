@@ -1,0 +1,60 @@
+#!/bin/bash
+
+# Profile to use: handsfree_head_unit, a2dp_sink
+PROFILE=$1
+# Device mac to query
+MAC=$2
+
+# Prepare services for work!
+systemctl --user restart pulseaudio.service
+killall blueman-manager
+
+CARD=$(echo "${MAC}" | sed -e 's/:/_/g')
+CARD="bluez_card.${CARD}"
+
+$(pactl list | grep -qi "Active Profile: $PROFILE")
+a2dpUsed=$?
+
+# this loops until a2dp is _actually used_ on the given MAC.
+while [ ${a2dpUsed} -ne 0 ];
+do
+    #
+    echo "Restarting bluetooth."
+    rfkill unblock bluetooth
+    sudo service bluetooth restart
+    sudo hciconfig hci0 up
+
+    # reconnect
+    echo -e "power on\nconnect ${MAC}" | bluetoothctl
+
+    #
+    echo "Waiting for headset to be connected..."
+    btConnected=1
+
+    while [ ${btConnected} -gt 0 ];
+    do
+
+        sleep .1
+        $(bluetoothctl <<< "info ${MAC}" | grep -qi "Connected: yes")
+        btConnected=$?
+    done
+
+    #
+    echo "Bluetooth connected, waiting for profiles to register"
+
+    cardFound=1
+    while [ ${cardFound} -ne 0 ];
+    do
+        $(pactl list | grep -qi "${CARD}")
+        cardFound=$?
+    done
+
+    #
+    echo "Setting bluetooth $PROFILE profile"
+    pactl set-card-profile ${CARD} $PROFILE
+    $(pactl list | grep -qi "Active Profile: $PROFILE")
+    a2dpUsed=$?
+done
+
+echo "$PROFILE is working."
+
