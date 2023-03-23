@@ -1,83 +1,118 @@
+# Petro's saltstack config
+
+My home and devices configuration
+
+## How to fix problems of Soundcore Life Q30 under linux
+
+[How to fix Soundcore Life Q30 under linux](README_Soundcore_q30.md)
+
 ## Apply local config
 
 Install fish
 `salt-call --local --file-root salt state.apply common.fish pillar='{"users": {"user1":1} }'`
 
-# Configure new machine:
-```
+## Configure new machine:
+
+```bash
 apt install salt-minion
 echo -e "master: system.pws\nid: pws-system\n" > /etc/salt/minion
 ```
+
 Master:
-```
+
+```bash
 wget https://bootstrap.saltstack.com -O bootstrap-salt.sh
 sh bootstrap-salt.sh
 echo -e "master: system.pws\nid: pws-system\n" > /etc/salt/minion
 ```
+
 Minion:
-```
+
+```bash
 wget https://bootstrap.saltstack.com -O bootstrap-salt.sh
 sudo sh bootstrap-salt.sh -P -A system.pws -i pws-server-name stable
 ```
+
 Update existing machine:
-```
+
+```bash
 rm -rf /etc/salt/pki/minion/minion_master.pub
 wget -O bootstrap-salt.sh https://bootstrap.saltstack.com
 sh bootstrap-salt.sh -x python3 stable
 ```
 
-# Run test machines
-```
+## Run test machines
+
+```bash
 vagrant up master
 vagrant up pws-web-vm-dev
 vagrant ssh master -- sudo salt --force-color 'pws-web-vm-dev' state.apply
 vagrant ssh master -- sudo salt --force-color --state-verbose=True 'pws-web-vm-dev' state.apply
 ```
 
-# Nginx config
+## Nginx config
+
 Auto-use of self-signed or Letsencrypt certs. After new web service installed run
-```
+
+```bash
 certbot certonly --webroot --webroot-path /var/www/letsencrypt --agree-tos -m email -d domain
 ```
+
 and apply config again.
 
-# Time
+## Time
+
 NTP is not used. Used systemd (linux default)
-```
+
+```bash
 systemctl status systemd-timesyncd
 timedatectl
 ```
 
-# Services
+## Services
+
 Section for services-specific
+
 ## Logging
+
 To see log from container via journald, use:
-```
+
+```bash
 journalctl -f -n 100 CONTAINER_NAME=Plex-dev
 ```
 
 ## Openhab
+
 After docker update, call
-```
+
+```bash
 systemctl stop openhab.service
 rm -rf /srv/openhab-data/userdata/{cache,tmp}/*
 systemctl start openhab.service
 ```
+
 ## Resillio Sync
+
 To force new version run, call
-```
+
+```bash
 salt pws-media cmd.run 'rm -rf /opt/rslsync'
 salt pws-media state.apply
 ```
+
 ## Samba
+
 To use Samba from Windows 10, apply registry file:
-```
+
+```bash
 Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters]
 "AllowInsecureGuestAuth"=dword:1
 ```
+
 Add user to shares:
-```
+
+```bash
 docker exec -it Samba smbpasswd -a master
 ```
 
@@ -103,7 +138,7 @@ cp -rva /usr/share/easy-rsa secrets/salt/files/openvpn/
 
 Add user:
 
-```
+```bash
 /user group add name=monitoring_group policy=api,read
 /user add group=monitoring_group name=user password=pwd
 ```
