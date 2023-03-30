@@ -208,9 +208,9 @@ base:
 # Julia hosts
   'rpi.j.*':
     - users.master
-    - grains.rpi
     - grains.host-hdd
     - grains.network-dmz
+    - grains.rpi
     - julia.rpi
     - services.openhab
     - services.openhab-julia

@@ -8,11 +8,11 @@ check_mk_plugins:
   - mk_apt
 
 # Auto updates for linux systems
-# Skip for rpi family!
-{% if 'raspi' not in grains.kernelrelease %}
 roles:
   - unattended-upgrades
-{% endif %}
+
+upgrades:
+  auto: True
 
 network:
   type: dmz

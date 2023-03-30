@@ -207,6 +207,10 @@ networks:
 
 users: {}
 
+# Allow auto updates?
+upgrades:
+  auto: False
+
 mount-folders: {}
 
 nfs-exports: {}

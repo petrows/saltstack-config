@@ -22,11 +22,6 @@ linux-base-packages:
       - mc
       - openssh-server
 
-linux-autoupgrade-packages:
-  pkg.installed:
-    - pkgs:
-      - unattended-upgrades
-
 {% for pkg in salt['pillar.get']('packages', []) %}
 linux-add-package-{{ pkg }}:
   pkg.installed:
