@@ -9,3 +9,7 @@ swap_size_mb: {{ 4 * 1024 }}
 # Do not upgrade on RPI
 upgrades:
   auto: False
+
+# Do not write log data to disk
+journald:
+  storage: volatile

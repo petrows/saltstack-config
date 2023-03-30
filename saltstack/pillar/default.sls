@@ -211,6 +211,10 @@ users: {}
 upgrades:
   auto: False
 
+# Journald config
+journald:
+  storage: auto
+
 mount-folders: {}
 
 nfs-exports: {}
