@@ -1,0 +1,26 @@
+[Unit]
+Description=SOCKS (v4 and v5) proxy daemon (danted)
+Documentation=man:danted(8) man:danted.conf(5)
+After=network.target
+
+[Service]
+Type=simple
+PIDFile=/run/danted.pid
+ExecStart=/usr/sbin/danted
+ExecStartPre=/bin/sh -c ' \
+    uid=`sed -n -e "s/[[:space:]]//g" -e "s/#.*//" -e "/^user\\.privileged/{s/[^:]*://p;q;}" /etc/danted.conf`; \
+    if [ -n "$uid" ]; then \
+            touch /var/run/danted.pid; \
+            chown $uid /var/run/danted.pid; \
+    fi \
+    '
+PrivateTmp=yes
+InaccessibleDirectories=/boot /home /media /mnt /opt /root
+ReadOnlyDirectories=/bin /etc /lib -/lib64 /sbin /usr /var
+DeviceAllow=/dev/null rw
+
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target

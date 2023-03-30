@@ -33,9 +33,14 @@ dante-pkg:
     - require:
       - pkg: dante-pkg
 
+/lib/systemd/system/danted.service:
+  file.managed:
+    - source: salt://files/dante/danted.service
+
 danted.service:
   service.running:
     - enable: True
     - watch:
       - file: /etc/danted.conf
+      - file: /lib/systemd/system/danted.service
       - pkg: dante-pkg
