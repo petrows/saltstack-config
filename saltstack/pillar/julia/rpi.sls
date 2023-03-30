@@ -36,3 +36,12 @@ ssh:
       user: root
       enc: ssh-ed25519
       key: AAAAC3NzaC1lZDI1NTE5AAAAILO4R2eYkW2YUGB1VBu5XlNRdNlJwceBDEJrNfRtKz/8
+
+proxy_vhosts:
+  media:
+    type: folder
+    domain: media.j.pws
+    root: /mnt/julia-data/storage/Фильмы/
+    ssl_force: False
+    ssl: internal
+    ssl_name: j_pws
