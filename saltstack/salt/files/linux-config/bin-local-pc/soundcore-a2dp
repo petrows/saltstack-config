@@ -1,9 +1,16 @@
 #!/bin/bash
 
-#!/bin/bash
-for device in $(bluetoothctl devices | grep Soundcore | grep -o "[[:xdigit:]:]\{8,17\}"); do
+DEVICES=$(bluetoothctl devices | grep Soundcore | grep -o "[[:xdigit:]:]\{8,17\}")
+
+if [[ -z $DEVICES ]]; then
+    echo "No soundcore devices found"
+    echo "Check that you have device connected with containing 'Soundcore'"
+    echo "Devices list command: bluetoothctl devices"
+    exit 1
+fi
+
+for device in $DEVICES; do
     echo "Soundcore device: $device"
 
     bt-force-profile a2dp_sink $device
 done
-
