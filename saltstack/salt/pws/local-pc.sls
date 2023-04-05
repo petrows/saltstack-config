@@ -82,6 +82,12 @@ local-tg-binary:
     - source: salt://files/linux-config/xorg.touchpad.conf
     - makedirs: True
 
+# VS Code
+vscode-repo:
+  pkgrepo.managed:
+    - name: deb [arch={{ grains.osarch }}] https://packages.microsoft.com/repos/code stable main
+    - key_url: https://packages.microsoft.com/keys/microsoft.asc
+
 # Loop over allowed users on this server
 {% for user_id, user in salt['pillar.get']('users', {}).items() %}
 local-pc-configs-{{ user_id }}:
