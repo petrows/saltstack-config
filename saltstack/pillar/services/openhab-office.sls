@@ -22,6 +22,6 @@ proxy_vhosts:
     ssl: internal
     ssl_name: home_ows
   openhab-zigbee2mqtt:
-    domain: zigbee2mqtt.home.ows
+    domain: z2m.home.ows
     ssl: internal
     ssl_name: home_ows
