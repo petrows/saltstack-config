@@ -259,7 +259,7 @@ dashboard = grafana.Dashboard(
             grafana.GaugePanel(
                 title="Battery levels status",
                 dataSource=common.GRAFANA_SOURCE_OPENHAB,
-                targets=group_status('g_battery_level'),
+                targets=group_status('g_all_battery'),
                 format='%',
                 thresholds=[
                     {'color': 'red', 'value': 0},
@@ -272,7 +272,7 @@ dashboard = grafana.Dashboard(
             grafana.Graph(
                 title="Battery levels",
                 dataSource=common.GRAFANA_SOURCE_OPENHAB,
-                targets=group_graph('g_battery_level', fill='none'),
+                targets=group_graph('g_all_battery', fill='none'),
                 fill=False,
                 lineWidth=common.GRAFANA_LINE_WIDTH,
                 yAxes=grafana.single_y_axis(min=None, format='%'),
@@ -282,7 +282,7 @@ dashboard = grafana.Dashboard(
             grafana.Graph(
                 title="Battery voltage",
                 dataSource=common.GRAFANA_SOURCE_OPENHAB,
-                targets=group_graph('g_battery_voltage', fill='none'),
+                targets=group_graph('g_all_battery_voltage', fill='none'),
                 fill=False,
                 lineWidth=common.GRAFANA_LINE_WIDTH,
                 yAxes=grafana.single_y_axis(min=None, format='V'),
@@ -292,7 +292,7 @@ dashboard = grafana.Dashboard(
             grafana.Graph(
                 title="Battery low signal",
                 dataSource=common.GRAFANA_SOURCE_OPENHAB,
-                targets=group_graph('g_battery_low', fill='none', function='last'),
+                targets=group_graph('g_all_lowbattery', fill='none', function='last'),
                 fill=False,
                 lineWidth=common.GRAFANA_LINE_WIDTH,
                 yAxes=grafana.single_y_axis(min=0, max=1),
