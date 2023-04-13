@@ -22,7 +22,7 @@ if [[ ${a2dpUsed} -eq 0 ]]; then
 fi
 
 # Prepare services for work!
-systemctl --user restart pulseaudio.service
+# systemctl --user restart pulseaudio.service
 killall blueman-manager
 
 # this loops until a2dp is _actually used_ on the given MAC.
