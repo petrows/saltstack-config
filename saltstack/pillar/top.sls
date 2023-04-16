@@ -68,12 +68,12 @@ base:
     # FS honeypots
     - common.integrity-pve
 
-  'pve.ows':
+  {# 'pve.ows':
     - ows.pve
 
   'office.ows':
     - users.master
-    - ows.office
+    - ows.office #}
 
   'system.*':
     - pws.system
@@ -143,8 +143,8 @@ base:
   'home.pws':
     - services.openhab-home
 
-  'home.ows':
-    - services.openhab-office
+  #'home.ows':
+  #  - services.openhab-office
 
   'media.*':
     - users.master
