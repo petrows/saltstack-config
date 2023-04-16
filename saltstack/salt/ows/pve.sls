@@ -14,7 +14,7 @@ pve-udev:
         SUBSYSTEMS=="usb", KERNEL=="ttyUSB*", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", SYMLINK+="ttyUSB-Z-Stack", MODE="0666", GROUP="dialout"
 
 # Backup script
-pve-office-backup:
+{# pve-office-backup:
   file.managed:
     - name: /usr/sbin/pws-backup-remote
     - mode: 755
@@ -56,4 +56,4 @@ pve-remote-backup.timer:
         WantedBy=timers.target
   service.running:
     - enable: True
-
+ #}
