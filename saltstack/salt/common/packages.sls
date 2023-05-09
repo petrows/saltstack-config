@@ -13,7 +13,6 @@ linux-base-packages:
       - net-tools
       - mailutils
       - git
-      - python2.7
       - python3
       - python3-pip
       - curl

@@ -9,7 +9,6 @@ install_check_mk_deps:
   pkg.installed:
     - pkgs:
       - iptables-persistent
-      - python2.7
 {% if pillar.check_mk_agent.ssh %}
 check_mk_no_agent_port:
   iptables.append:
