@@ -4,4 +4,6 @@ roles:
   - firefox
 
 firefox:
-  version: 105.0.3
+  version: 113.0.1
+  # Use root user as default, do not update sudden updates
+  user: root
