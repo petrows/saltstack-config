@@ -1,0 +1,18 @@
+#!/bin/bash -ex
+# Script to generate pdf document from .tex one
+
+FILENAME=$1
+
+if [[ -z "$1" ]]; then
+    echo "Make PDF from TEX"
+    echo "Usage: $0 <filename>.tex"
+    exit 1
+fi
+
+BASENAME=$(basename "${FILENAME}" .tex)
+
+# Generate doc (2 times)
+xelatex "${FILENAME}"
+xelatex "${FILENAME}"
+# Cleanup temp files
+rm -rf "${BASENAME}".{aux,log}
