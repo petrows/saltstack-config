@@ -1,7 +1,7 @@
 if status --is-interactive
     # Include powerline (if exists)
     if test -d /usr/share/powerline
-        set fish_function_path $fish_function_path "/usr/share/powerline/bindings/fish"
+        set fish_function_path $fish_function_path /usr/share/powerline/bindings/fish
         source /usr/share/powerline/bindings/fish/powerline-setup.fish
         powerline-setup
     end
@@ -15,6 +15,11 @@ if status --is-interactive
         function fish_user_key_bindings
             fzf_key_bindings
         end
+    end
+
+    function venv
+        python -m venv .env
+        source .env/bin/activate.fish
     end
 end
 
