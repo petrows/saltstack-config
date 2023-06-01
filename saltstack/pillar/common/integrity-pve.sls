@@ -6,9 +6,6 @@ integrity:
   pve:
     target: root@pve.pws
     list:
-      - path: /srv/pws-data/storage/home/marina/DIRECTORY.txt
-        hash: c5e6a97e30859f458542fd25726b3371
-        uid: 2017
       - path: /srv/pws-data/storage/home/petro/DIRECTORY.txt
         hash: c5e6a97e30859f458542fd25726b3371
         uid: 2017

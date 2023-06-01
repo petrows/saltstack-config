@@ -4,14 +4,6 @@ pws_secrets:
     port: 587
     username: test@example.com
     password: testpassword
-  mail_marinakopf:
-    host: smtp.example.com
-    port: 465
-    secure: ssl
-    username: test@example.com
-    password: testpassword
-    from: mail
-    from_domain: example.com
   db_password: test-password
   graylog:
     admin_sha2: 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918

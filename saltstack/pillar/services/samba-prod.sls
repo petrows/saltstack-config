@@ -34,8 +34,3 @@ samba:
     common-tmp:
       path: /srv/storage-tmp
       user: share-root
-    marina:
-      path: /srv/storage/home/marina
-      comment: Marina private
-      rw: True
-      user: master
