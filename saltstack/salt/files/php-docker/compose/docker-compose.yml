@@ -22,7 +22,7 @@ services:
     restart: always
     extra_hosts:
     {%- for _, all_cfg in salt['pillar.get']('proxy_vhosts', {}).items() %}
-      - "{{ all_cfg.domain }}:{{ default_ip }}"
+      - "{{ all_cfg.domain }}:{{ all_cfg.host|default(default_ip) }}"
     {%- endfor %}
 {%- if db %}
   db:

@@ -38,7 +38,7 @@ server {
     server_name {{ conf.domain }};
 
 {%- if conf.port|default(False) %}
-    set $proxy_dst 127.0.0.1:{{ conf.port }};
+    set $proxy_dst {{ conf.host|default('127.0.0.1') }}:{{ conf.port }};
 {%- endif %}
 
 {% if conf_type == 'php' or conf_type == 'php-docker' %}
