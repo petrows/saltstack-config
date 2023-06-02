@@ -1,5 +1,5 @@
 
-{{ pillar.firefly.data_dir }}/data:
+{{ pillar.firefly.data_dir }}/upload:
   file.directory:
     - makedirs: True
     - user: 33
