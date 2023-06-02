@@ -83,6 +83,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ["rpi.office.dev", "#{net_ip}.22", os_ram, os_d11],
     ["ru.vds.dev", "#{net_ip}.23", os_ram, os_u20],
     ["rpi.j.dev", "#{net_ip}.24", os_ram, os_u22],
+    ["bank.dev", "#{net_ip}.25", os_ram, os_u22],
   ].each do |vmname, ip, mem, os|
     config.vm.define "#{vmname}" do |minion_config|
       minion_config.vm.provider "virtualbox" do |vb|

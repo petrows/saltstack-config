@@ -30,6 +30,7 @@ proxy_ports:
   petro_wp_http:    7012
   petro_tools_http: 7013
   petro_trs_http:   7014
+  firefly_http:     7015
 
   # Resillio sync
   rslsync_petro:    8888

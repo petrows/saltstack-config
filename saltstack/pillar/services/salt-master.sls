@@ -10,6 +10,7 @@ salt:
     home.pws: {}
     web-vm.pws: {}
     build-linux.pws: {}
+    bank.pws: {}
     nexum.pws: {}
     rpi.j.pws: {}
     # External

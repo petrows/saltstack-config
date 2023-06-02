@@ -113,6 +113,9 @@ base:
   'roles:php-docker':
     - match: pillar
     - services.php-docker
+  'roles:firefly':
+    - match: pillar
+    - services.firefly
 
   # Hosts configs
   'pve.pws':

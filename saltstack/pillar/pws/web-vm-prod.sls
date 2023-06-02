@@ -76,3 +76,11 @@ proxy_vhosts:
       user: www-data
       version: 7.4
       rewrite_rule: /index.php?url=$uri&$args
+
+  # Proxy record to external apps
+  firefly:
+    port: {{ static.proxy_ports.firefly_http }}
+    host: 10.80.1.5
+    domain: bank.petro.ws
+    ssl: external
+    enable_robots: False

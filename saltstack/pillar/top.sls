@@ -143,6 +143,15 @@ base:
   'home.pws':
     - services.openhab-home
 
+  # Banking machine
+  'bank.*':
+    - users.master
+    - services.firefly
+  'bank.dev':
+    - services.firefly-dev
+  'bank.pws':
+    - services.firefly-prod
+
   #'home.ows':
   #  - services.openhab-office
 

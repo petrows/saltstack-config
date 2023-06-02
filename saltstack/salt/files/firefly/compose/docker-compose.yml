@@ -1,0 +1,43 @@
+version: '3.3'
+
+services:
+  app:
+    container_name: {{ pillar.firefly.id }}
+    image: fireflyiii/core:{{ pillar.firefly.version }}
+    restart: always
+    volumes:
+      - {{ pillar.firefly.data_dir }}/upload:/var/www/html/storage/upload
+    env_file: firefly.env
+    ports:
+      - '{{ pillar.static.proxy_ports.firefly_http }}:8080'
+    depends_on:
+      - db
+  db:
+    container_name: {{ pillar.firefly.id }}-db
+    image: mariadb:{{ pillar.firefly.db_version }}
+    hostname: fireflyiiidb
+    restart: always
+    environment:
+      MYSQL_DATABASE: firefly
+      MYSQL_USER: firefly
+      MYSQL_PASSWORD: {{ pillar.pws_secrets.firefly.db_password }}
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+    volumes:
+      - {{ pillar.firefly.data_dir }}/db:/var/lib/mysql
+  importer:
+    container_name: {{ pillar.firefly.id }}-importer
+    image: fireflyiii/data-importer:{{ pillar.firefly.importer_version }}
+    hostname: importer
+    restart: always
+    ports:
+      - '81:8080'
+    depends_on:
+      - app
+    env_file: importer.env
+  cron:
+    #
+    # To make this work, set STATIC_CRON_TOKEN in your .env file or as an environment variable and replace REPLACEME below
+    # The STATIC_CRON_TOKEN must be *exactly* 32 characters long
+    #
+    image: alpine
+    command: sh -c "echo \"0 3 * * * wget -qO- http://app:8080/api/v1/cron/{{ pillar.pws_secrets.firefly.cron_token }}\" | crontab - && crond -f -L /dev/stdout"

@@ -1,9 +1,12 @@
 pws_secrets:
   mail_relay:
     host: smtp.example.com
+    secure: tls
     port: 587
     username: test@example.com
     password: testpassword
+    from: test
+    from_domain: example.com
   db_password: test-password
   graylog:
     admin_sha2: 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
@@ -15,6 +18,10 @@ pws_secrets:
     chat_id: 1024
   photoprism:
     password: testpassword
+  firefly:
+    app_key: 58402e1a9dc47cd431d7c051e02388d3
+    db_password: test-password
+    cron_token: 178a04a0c6980355be0359b530c79714
 
   # Local cert for testing, signed for *.local.pws
   ssl_pws_local:
