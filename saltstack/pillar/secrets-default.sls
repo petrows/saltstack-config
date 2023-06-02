@@ -22,6 +22,8 @@ pws_secrets:
     app_key: 58402e1a9dc47cd431d7c051e02388d3
     db_password: test-password
     cron_token: 178a04a0c6980355be0359b530c79714
+    importer_client_id: 1
+    importer_client_key: 178a04a0c6980355be0359b530c79714
 
   # Local cert for testing, signed for *.local.pws
   ssl_pws_local:
