@@ -35,9 +35,6 @@ services:
       - app
     env_file: importer.env
   cron:
-    #
-    # To make this work, set STATIC_CRON_TOKEN in your .env file or as an environment variable and replace REPLACEME below
-    # The STATIC_CRON_TOKEN must be *exactly* 32 characters long
-    #
+    container_name: {{ pillar.firefly.id }}-cron
     image: alpine
     command: sh -c "echo \"0 3 * * * wget -qO- http://app:8080/api/v1/cron/{{ pillar.pws_secrets.firefly.cron_token }}\" | crontab - && crond -f -L /dev/stdout"
