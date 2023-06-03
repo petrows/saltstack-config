@@ -30,7 +30,7 @@ services:
     hostname: importer
     restart: always
     ports:
-      - '81:8080'
+      - '{{ pillar.static.proxy_ports.firefly_imp_http }}:8080'
     depends_on:
       - app
     env_file: importer.env

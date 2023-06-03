@@ -4,6 +4,9 @@ roles:
   - docker
   - firefly
 
+include:
+  - services.nginx
+
 firefly:
   id: Firefly-dev
 
@@ -15,3 +18,10 @@ firefly:
   db_version: '10.9.6'
 
   data_dir: /srv/firefly-data
+
+proxy_vhosts:
+  firefly_importer:
+    domain: firefly-import.local.pws
+    port: {{ static.proxy_ports.firefly_imp_http }}
+    ssl: internal
+    ssl_name: local

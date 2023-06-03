@@ -4,11 +4,8 @@ roles:
   - docker
   - firefly
 
-include:
-  - services.nginx
-
 proxy_vhosts:
-  adguard:
+  firefly:
     domain: firefly.local.pws
     port: {{ static.proxy_ports.firefly_http }}
     ssl: internal
