@@ -1,0 +1,50 @@
+#!/usr/bin/env python
+"""
+This script fixes Alfa-Bank transactions CSV
+
+It does not provide "+" and "-" amount, only "Пополнение", "Списание"
+"""
+
+import argparse
+import csv
+
+
+def main():
+    """
+        Entry point
+    """
+
+    parser = argparse.ArgumentParser(
+        description='Generates QR codes for all WG clients'
+    )
+
+    parser.add_argument(
+        'input_csv',
+        help='filename to process',
+    )
+
+    parser.add_argument(
+        'output_csv',
+        help='filename to process',
+    )
+
+    args = parser.parse_args()
+
+    fields_out = []
+    data_out = []
+
+    with open(args.input_csv, mode='r') as csv_file:
+        csv_reader = csv.DictReader(csv_file)
+        for row in csv_reader:
+            if row['Тип'] == "Списание":
+                row['Сумма'] = f"-{row['Сумма']}"
+            data_out.append(row)
+        fields_out = csv_reader.fieldnames
+
+    with open(args.output_csv, mode='w') as csv_file:
+        writer = csv.DictWriter(csv_file, fields_out)
+        writer.writeheader()
+        writer.writerows(data_out)
+
+if __name__ == "__main__":
+    main()

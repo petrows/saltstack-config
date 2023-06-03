@@ -148,6 +148,7 @@ base:
 
   # Banking machine
   'bank.*':
+    - pws.bank
     - users.master
     - services.firefly
   'bank.dev':

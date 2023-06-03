@@ -12,5 +12,29 @@
     - group:  999
     - mode:  700
 
+bank-scripts:
+  file.recurse:
+    - name: /srv/bank
+    - source: salt://files/bank
+    - template: jinja
+    - user: master
+    - group: master
+
+/srv/bank/firefly.json:
+  file.serialize:
+    - serializer: json
+    - dataset_pillar: 'pws_secrets:firefly'
+
+/srv/bank/nordigen.json:
+  file.serialize:
+    - serializer: json
+    - dataset_pillar: 'pws_secrets:nordigen'
+
+/srv/bank/.env:
+  virtualenv.managed:
+    - user: master
+    - system_site_packages: False
+    - requirements: salt://files/bank/requirements.txt
+
 {% import "roles/docker-compose-macro.sls" as compose %}
 {{ compose.service('firefly') }}

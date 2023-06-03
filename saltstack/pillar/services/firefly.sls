@@ -7,6 +7,9 @@ roles:
 include:
   - services.nginx
 
+packages:
+  - jq
+
 firefly:
   id: Firefly-dev
 

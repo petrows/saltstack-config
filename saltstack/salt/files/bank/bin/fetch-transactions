@@ -1,0 +1,88 @@
+#!/usr/bin/env python
+"""
+This script fetches JSON from nordigen
+"""
+
+import argparse
+import logging
+import json
+from pathlib import Path
+
+root = Path(__file__).parents[1]
+
+session = {
+    'refresh_token': ''
+}
+
+session_file = None
+
+def session_save():
+    with open(str(session_file), 'w') as fp:
+        logging.info("Save config to %s", session_file)
+        json.dump(session, fp)
+
+def main():
+    """
+        Entry point
+    """
+    global session
+    global session_file
+
+    parser = argparse.ArgumentParser(
+        description='Fetch nordigen JSON'
+    )
+
+    parser.add_argument(
+        'account',
+        help='account name to fetch, use "all" to fetch all',
+    )
+
+    parser.add_argument(
+        '-l', '--log',
+        choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
+        default='INFO',
+        help='set log level',
+    )
+
+    parser.add_argument(
+        '--days',
+        default=30,
+        help='days to fetch',
+    )
+
+    parser.add_argument(
+        '--cfg-dir',
+        default=None,
+        help='path to get json config files and store session',
+    )
+
+    parser.add_argument(
+        '--upload',
+        default=False,
+        type=bool,
+        help='upload to Firefly',
+    )
+
+    args = parser.parse_args()
+
+    log_level = args.log
+    logging.basicConfig(level=log_level)
+
+    if args.cfg_dir:
+        logging.info("Config path %s", args.cfg_dir)
+        config_dir = Path(args.cfg_dir)
+
+    # Check - do we have session valid?
+
+    session_file = Path(config_dir) / "session.json"
+
+    # Load session file (if present)
+    if session_file.exists():
+        session = json.load(open(session_file))
+
+
+    session_save()
+
+
+if __name__ == "__main__":
+    main()
