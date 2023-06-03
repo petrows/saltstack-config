@@ -18,7 +18,7 @@ if status --is-interactive
     end
 
     function venv
-        python -m venv .env
+        python -m virtualenv .env
         source .env/bin/activate.fish
     end
 end
