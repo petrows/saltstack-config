@@ -15,6 +15,7 @@ linux-base-packages:
       - git
       - python3
       - python3-pip
+      - python-virtualenv
       - curl
       - wget
       - screen
