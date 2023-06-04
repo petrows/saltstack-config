@@ -16,7 +16,7 @@ firefly:
   # https://hub.docker.com/r/fireflyiii/core/tags
   version: 'version-6.0.11'
   # https://hub.docker.com/r/fireflyiii/data-importer/tags
-  importer_version: 'version-1.2.2'
+  importer_version: 'version-1.3.0'
   # https://hub.docker.com/_/mariadb/tags
   db_version: '10.9.6'
 
