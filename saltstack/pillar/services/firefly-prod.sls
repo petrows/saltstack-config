@@ -1,6 +1,17 @@
 firefly:
   id: Firefly
 
+# Production config has fetch-transactions service
+# Do not use on dev!
+
+systemd-cron:
+  fetch-transactions-cron:
+    user: master
+    # Every 8 hours
+    calendar: '0/8:00:00'
+    cwd: /srv/bank
+    cmd: source .env/bin/activate && python bin/fetch-transactions -l DEBUG --cfg-dir /srv/bank/cfg --data-dir /srv/bank/data --days 90 --test
+
 # Production config does not have it's own nginx proxy config,
 # managed by external web frontend
 

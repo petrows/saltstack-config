@@ -4,22 +4,74 @@ This script fetches JSON from nordigen
 """
 
 import argparse
+import csv
+import datetime
 import logging
 import json
+import sys
+import requests
 from pathlib import Path
+from pprint import pprint
+from uuid import uuid4
+from nordigen import NordigenClient
 
 root = Path(__file__).parents[1]
 
 session = {
     'refresh_token': ''
 }
-
 session_file = None
+transaction_keys = [
+    'internal_reference', # Must be 1st!
+    'date_transaction',
+    'date_book',
+    'external-id',
+    'account-id',
+    'opposing-name',
+    'opposing-iban',
+    'amount',
+    'currency-code',
+    'description',
+]
+
+transaction_import_config = {
+    "version": 3,
+    "date": "Y-m-d",
+    "default_account": 0, # ! updates below !
+    "delimiter": "comma",
+    "headers": True,
+    "rules": True,
+    "add_import_tag": True,
+    "roles": transaction_keys,
+    "mapping": [],
+    "duplicate_detection_method": "cell",
+    "ignore_duplicate_lines": True,
+    "unique_column_index": 0,
+    "unique_column_type": "internal_reference",
+    "flow": "file",
+    "map_all_data": True,
+    "accounts": [],
+    "date_range": "",
+    "date_range_number": 365, # ! updates below !
+    "date_range_unit": "d", # ! updates below !
+    "date_not_before": "",
+    "date_not_after": "",
+    "nordigen_country": "",
+    "nordigen_bank": "",
+    "nordigen_requisitions": [],
+    "nordigen_max_days": "90",
+    "conversion": False,
+    "ignore_duplicate_transactions": True,
+}
 
 def session_save():
     with open(str(session_file), 'w') as fp:
         logging.info("Save config to %s", session_file)
         json.dump(session, fp)
+
+def json_save(filename, data):
+    with open(filename, "w") as outfile:
+        outfile.write(json.dumps(data, indent=4))
 
 def main():
     """
@@ -27,14 +79,10 @@ def main():
     """
     global session
     global session_file
+    global config
 
     parser = argparse.ArgumentParser(
         description='Fetch nordigen JSON'
-    )
-
-    parser.add_argument(
-        'account',
-        help='account name to fetch, use "all" to fetch all',
     )
 
     parser.add_argument(
@@ -46,21 +94,27 @@ def main():
 
     parser.add_argument(
         '--days',
-        default=30,
+        default=60,
+        type=int,
         help='days to fetch',
     )
 
     parser.add_argument(
         '--cfg-dir',
-        default=None,
+        default=Path("cfg"),
         help='path to get json config files and store session',
     )
 
     parser.add_argument(
-        '--upload',
-        default=False,
-        type=bool,
-        help='upload to Firefly',
+        '--data-dir',
+        default=Path("data"),
+        help='path to get json config files and store session',
+    )
+
+    parser.add_argument(
+        '--test',
+        action='store_true',
+        help='Do not contact Nordigen, re-use previous data',
     )
 
     args = parser.parse_args()
@@ -68,9 +122,22 @@ def main():
     log_level = args.log
     logging.basicConfig(level=log_level)
 
-    if args.cfg_dir:
-        logging.info("Config path %s", args.cfg_dir)
-        config_dir = Path(args.cfg_dir)
+    logging.debug("Config path %s", args.cfg_dir)
+    config_dir = Path(args.cfg_dir)
+
+    data_dir = Path(args.data_dir)
+    data_dir.mkdir(parents=True, exist_ok=True)
+
+    # Prepare filter fields
+    date_to = datetime.datetime.today()
+    date_from = date_to - datetime.timedelta(days=args.days)
+    date_with_month = date_to.strftime("%Y-%m")
+
+    logging.info(
+        "Fetching from %s to %s",
+        date_from.strftime("%Y-%m-%d"),
+        date_to.strftime("%Y-%m-%d"),
+    )
 
     # Check - do we have session valid?
 
@@ -80,9 +147,121 @@ def main():
     if session_file.exists():
         session = json.load(open(session_file))
 
+    # Load accounts
+    config_nordigen = json.load(open(config_dir / "nordigen.json", "r"))
+    config_firefly = json.load(open(config_dir / "firefly.json", "r"))
 
-    session_save()
+    # Fill some default account (it does not required, as we set if in each transaction,
+    # but this is required by importer)
+    transaction_import_config['default_account'] = list(config_nordigen['accounts'].values())[0]['firefly_account_id']
+    # Set range limit
+    transaction_import_config['date_range_number'] = args.days
+    transaction_import_config['date_range_unit'] = "d"
 
+    if not args.test:
+        # Establish Nordigen
+        client = NordigenClient(
+            secret_id = config_nordigen['id'],
+            secret_key = config_nordigen['key'],
+        )
+        client.generate_token()
+    else:
+        logging.warning("Test mode activated, will use prevous data!")
+
+    data = []
+
+    # Load transactions
+    for account_id, account in config_nordigen['accounts'].items():
+        logging.info("Processing: %s", account_id)
+        if not args.test:
+            account_api = client.account_api(id=account['account'])
+            transactions_api = account_api.get_transactions(
+                date_from=date_from.strftime("%Y-%m-%d"),
+                date_to=date_to.strftime("%Y-%m-%d")
+            )
+            # Dump data (with month)
+            json_save(data_dir / f"transactions-{date_with_month}-{account_id}.json", transactions_api)
+        else:
+            # Re-use previous dump
+            transactions_api = json.load(open(data_dir / f"transactions-{date_with_month}-{account_id}.json"))
+
+        for transaction_raw in transactions_api['transactions']['booked']:
+            # Prepare empty object
+            transaction_csv = {}
+            for csv_key in transaction_keys: transaction_csv[csv_key] = ''
+            # Common fields
+            transaction_csv['date_transaction'] = transaction_raw['valueDate']
+            transaction_csv['date_book'] = transaction_raw['bookingDate']
+            transaction_csv['internal_reference'] = transaction_raw['internalTransactionId']
+            transaction_csv['account-id'] = account['firefly_account_id']
+            # Bank reference?
+            if 'endToEndId' in transaction_raw:
+                transaction_csv['external-id'] = transaction_raw['endToEndId']
+            # Amount
+            transaction_csv['amount'] = float(transaction_raw['transactionAmount']['amount'])
+            is_income = transaction_csv['amount'] >= 0
+            transaction_csv['currency-code'] = transaction_raw['transactionAmount']['currency']
+            # Description
+            # Some of banks (N26) have only remittanceInformationUnstructured
+            # , and some (Commerzbank) have more detailed remittanceInformationStructured
+            if 'remittanceInformationStructured' in transaction_raw:
+                transaction_csv['description'] = transaction_raw['remittanceInformationStructured']
+            else:
+                transaction_csv['description'] = transaction_raw['remittanceInformationUnstructured']
+            # The 'opposite' account
+            # We should use: Creditor = money OUT, Debitor = money IN
+            field_name = 'creditor'
+            if is_income: field_name = 'debtor'
+            # Try to read other Name (ok, if missing)
+            try:
+                transaction_csv['opposing-name'] = transaction_raw[f"{field_name}Name"]
+            except: pass
+            # Try to read other IBAN (ok, if missing)
+            try:
+                transaction_csv['opposing-iban'] = transaction_raw[f"{field_name}Account"]['iban']
+            except: pass
+            # Add record to common list
+            data.append(transaction_csv)
+
+    logging.info("Grabbed %d transactions", len(data))
+
+    # Dump out files
+    json_save(data_dir / 'import-config.json', transaction_import_config)
+    with open(data_dir / 'import-data.csv', mode='w') as csv_file:
+        writer = csv.DictWriter(csv_file, transaction_keys)
+        writer.writeheader()
+        writer.writerows(data)
+
+    # Send transactions
+    # Provide 2 files to importer: config json and csv data
+    # See documentation: https://docs.firefly-iii.org/data-importer/advanced/automation/#automated-imports-using-the-web-post
+
+    post_files = {
+        'importable': open(data_dir / 'import-data.csv', 'rb'),
+        'json': open(data_dir / 'import-config.json', 'rb'),
+    }
+
+    post_headers = {
+        'accept': 'application/json',
+        'authorization': f"Bearer {config_firefly['importer_client_key']}",
+    }
+
+    logging.info("Sending data to %s", config_firefly['importer_url'])
+
+    resp = requests.post(
+        url=f"{config_firefly['importer_url']}/autoupload?secret={config_firefly['importer_import_secret']}",
+        files = post_files,
+        headers=post_headers,
+        verify=False, # Skip SSL check (self-signed cert)
+    )
+
+    logging.info("Response: %s", resp.reason)
+
+    if not resp.ok:
+        logging.info("Error sending data!")
+        return 8
+
+    return 0
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

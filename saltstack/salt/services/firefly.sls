@@ -20,12 +20,21 @@ bank-scripts:
     - user: master
     - group: master
 
-/srv/bank/firefly.json:
+{% for dir in ['cfg','data'] %}
+/srv/bank/{{ dir }}:
+  file.directory:
+    - makedirs: True
+    - user: master
+    - group: master
+    - mode:  700
+{% endfor %}
+
+/srv/bank/cfg/firefly.json:
   file.serialize:
     - serializer: json
     - dataset_pillar: 'pws_secrets:firefly'
 
-/srv/bank/nordigen.json:
+/srv/bank/cfg/nordigen.json:
   file.serialize:
     - serializer: json
     - dataset_pillar: 'pws_secrets:nordigen'
