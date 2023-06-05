@@ -202,13 +202,6 @@ def main():
             transaction_csv['amount'] = float(transaction_raw['transactionAmount']['amount'])
             is_income = transaction_csv['amount'] >= 0
             transaction_csv['currency-code'] = transaction_raw['transactionAmount']['currency']
-            # Description
-            # Some of banks (N26) have only remittanceInformationUnstructured
-            # , and some (Commerzbank) have more detailed remittanceInformationStructured
-            if 'remittanceInformationStructured' in transaction_raw:
-                transaction_csv['description'] = transaction_raw['remittanceInformationStructured']
-            else:
-                transaction_csv['description'] = transaction_raw['remittanceInformationUnstructured']
             # The 'opposite' account
             # We should use: Creditor = money OUT, Debitor = money IN
             field_name = 'creditor'
@@ -221,6 +214,20 @@ def main():
             try:
                 transaction_csv['opposing-iban'] = transaction_raw[f"{field_name}Account"]['iban']
             except: pass
+            # Description
+            # Some of banks (N26) have only remittanceInformationUnstructured
+            # , and some (Commerzbank) have more detailed remittanceInformationStructured
+            if 'remittanceInformationStructured' in transaction_raw:
+                transaction_csv['description'] = transaction_raw['remittanceInformationStructured']
+            elif 'remittanceInformationUnstructured' in transaction_raw:
+                transaction_csv['description'] = transaction_raw['remittanceInformationUnstructured']
+            # Sometimes it could be even missing!
+            # Populate it with some opposite-account information
+            elif 'opposing-name' in transaction_csv:
+                transaction_csv['description'] = transaction_csv['opposing-name']
+            elif 'opposing-iban' in transaction_csv:
+                transaction_csv['description'] = transaction_csv['opposing-iban']
+
             # Add record to common list
             data.append(transaction_csv)
 
