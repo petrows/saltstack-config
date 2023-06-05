@@ -163,6 +163,7 @@ def main():
         client = NordigenClient(
             secret_id = config_nordigen['id'],
             secret_key = config_nordigen['key'],
+            timeout = 120,
         )
         client.generate_token()
     else:
