@@ -126,6 +126,7 @@ nfs-export-{{ id }}:
     - contents: |
         [Unit]
         Description=Systemd cron: {{ id }}
+        OnFailure=status-email@%n.service
         [Service]
         User={{ cron.user }}
         Group={{ cron.user }}

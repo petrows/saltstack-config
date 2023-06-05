@@ -10,11 +10,20 @@ postfix_packages:
 postfix_conf:
   file.recurse:
     - name: /etc/postfix/
-    - source: salt://files/mail-relay/
+    - source: salt://files/mail-relay/etc
     - template: jinja
     - user: root
     - group: root
     - file_mode: 600
+
+postfix_bin:
+  file.recurse:
+    - name: /usr/local/bin/
+    - source: salt://files/mail-relay/bin
+    - template: jinja
+    - user: root
+    - group: root
+    - file_mode: 755
 
 postfix_postmap:
   cmd.wait:
@@ -63,3 +72,19 @@ mail_alias_maintainer_db:
     - requre:
       - pkg:
         - mail-tools
+
+# Mail notification virtual service
+# Triggered by: (in the [Unit] section)
+# OnFailure=status-email@%n.service
+status-email.service:
+  file.managed:
+    - name: /etc/systemd/system/status-email@.service
+    - contents: |
+        [Unit]
+        Description=Status email for %i
+        [Service]
+        Type=oneshot
+        ExecStart=/usr/local/bin/systemd-email %i
+        User=root
+        Group=systemd-journal
+  service.disabled: []
