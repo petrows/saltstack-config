@@ -7,30 +7,21 @@ postfix_packages:
       - libsasl2-modules
       - mailutils
 
-postfix_sasl:
-  file.managed:
-    - name: /etc/postfix/sasl_passwd
-    - source: salt://files/mail-relay/sasl_passwd
-    - template: jinja
-    - user: root
-    - group: root
-    - mode: 600
-
 postfix_conf:
-  file.managed:
-    - name: /etc/postfix/main.cf
-    - source: salt://files/mail-relay/mail.cf
+  file.recurse:
+    - name: /etc/postfix/
+    - source: salt://files/mail-relay/
     - template: jinja
     - user: root
     - group: root
-    - mode: 644
+    - file_mode: 600
 
 postfix_postmap:
   cmd.wait:
     - name: postmap /etc/postfix/sasl_passwd
     - cwd: /
     - watch:
-      - file: /etc/postfix/sasl_passwd
+      - file: postfix_conf
 
 # Postfix virtual maps
 # This will force ALL @domain to be sent to one address
@@ -52,7 +43,7 @@ postfix_reload:
     - enable: True
     - reload: True
     - watch:
-      - file: /etc/postfix/*
+      - file: postfix_conf
       - pkg: postfix_packages
 
 # This maps will redirect local mailbox emails,
