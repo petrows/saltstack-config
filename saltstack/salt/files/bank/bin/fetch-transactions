@@ -31,6 +31,7 @@ transaction_keys = [
     'opposing-iban',
     'amount',
     'currency-code',
+    'tags-comma',
     'description',
 ]
 
@@ -190,6 +191,12 @@ def main():
             # Prepare empty object
             transaction_csv = {}
             for csv_key in transaction_keys: transaction_csv[csv_key] = ''
+            # Add some tags, good for automation (e.g. transaction origin to filter duplicates)
+            transaction_tags = []
+            # Fetched via Nordigen
+            transaction_tags.append(f"nordigen_{account_id}")
+            # Fetched via API
+            transaction_tags.append(f"api_{account_id}")
             # Common fields
             transaction_csv['date_transaction'] = transaction_raw['valueDate']
             transaction_csv['date_book'] = transaction_raw['bookingDate']
@@ -227,6 +234,9 @@ def main():
                 transaction_csv['description'] = transaction_csv['opposing-name']
             elif 'opposing-iban' in transaction_csv:
                 transaction_csv['description'] = transaction_csv['opposing-iban']
+
+            # Build tags
+            transaction_csv['tags-comma'] = ','.join(transaction_tags)
 
             # Add record to common list
             data.append(transaction_csv)
