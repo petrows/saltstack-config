@@ -130,7 +130,7 @@ def main():
     data_dir.mkdir(parents=True, exist_ok=True)
 
     # Prepare filter fields
-    date_to = datetime.datetime.today()
+    date_to = datetime.datetime.now(datetime.timezone.utc)
     date_from = date_to - datetime.timedelta(days=args.days)
     date_with_month = date_to.strftime("%Y-%m")
 
