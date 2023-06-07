@@ -10,6 +10,7 @@ import logging
 import json
 import sys
 import requests
+import re
 from pathlib import Path
 from pprint import pprint
 from uuid import uuid4
@@ -64,6 +65,8 @@ transaction_import_config = {
     "conversion": False,
     "ignore_duplicate_transactions": True,
 }
+
+iso_date_regex = re.compile(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}')
 
 def session_save():
     with open(str(session_file), 'w') as fp:
@@ -234,6 +237,23 @@ def main():
                 transaction_csv['description'] = transaction_csv['opposing-name']
             elif 'opposing-iban' in transaction_csv:
                 transaction_csv['description'] = transaction_csv['opposing-iban']
+
+            # Search date / time from description, some banks (like Commerzbank) may
+            # do like: NORDSEE GMBH - 1234 KARLSRUHE DEU 2023-06-01T09:19:15 Kartenzahlung
+            iso_date_match = iso_date_regex.search(transaction_csv['description'])
+            if iso_date_match:
+                iso_date_match = iso_date_match.group(0)
+                iso_date_match = datetime.datetime.fromisoformat(iso_date_match).strftime("%Y-%m-%d")
+
+                if iso_date_match != transaction_csv['date_book']:
+                    # logging.debug(
+                    #     "Trnsaction has date in description: %s, date %s -> %s",
+                    #     transaction_csv['description'],
+                    #     transaction_csv['date_book'],
+                    #     iso_date_match,
+                    # )
+                    transaction_csv['date_book'] = iso_date_match
+                    transaction_csv['date_transaction'] = iso_date_match
 
             # Build tags
             transaction_csv['tags-comma'] = ','.join(transaction_tags)
