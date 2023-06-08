@@ -18,6 +18,8 @@ powerline_git_pkg: ''
 
 # If check-mk used, we can install additional plugins to monitor it
 check_mk_plugins: {}
+# If check-mk used, we can install additional local checks
+check_mk_local: {}
 
 # check-mk settings
 check_mk_agent:

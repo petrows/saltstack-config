@@ -139,6 +139,11 @@ base:
   'eu.petro.*':
     - pws.eu-petrows
 
+# Remote host config
+
+  'backup-ext.*':
+    - pws.backup-ext
+
 # Office host config
 
   'office.ows':

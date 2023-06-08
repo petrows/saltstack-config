@@ -31,6 +31,16 @@ check_mk_plugin_{{plugin_id}}:
     - mode: 755
 {% endfor %}
 
+# Install local checks?
+{% for plugin_id in salt['pillar.get']('check_mk_local', []) %}
+check_mk_plugin_{{plugin_id}}:
+  file.managed:
+    - name: /usr/lib/check_mk_agent/local/{{plugin_id}}
+    - source: salt://files/check-mk/local/{{plugin_id}}
+    - makedirs: True
+    - mode: 755
+{% endfor %}
+
 # Configs
 {% if 'nginx_status.py' in salt['pillar.get']('check_mk_plugins', []) %}
 check_mk_plugin_nginx_status_cfg:

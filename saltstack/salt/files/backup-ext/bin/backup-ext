@@ -11,15 +11,18 @@ mkdir -p /srv/backup/daily
 rsync -avh --delete \
     --exclude 'pws-data/srv/pws-data/storage/home/marina' \
     root@pve.pws:/srv/backup/daily/daily.0 \
-    /srv/backup/daily
+    /srv/backup/
 
 mkdir -p /srv/backup/vz
 
 rsync -avh --delete \
     root@pve.pws:/srv/backup/vz \
-    /srv/backup/vz
+    /srv/backup/
 
-# Umound remote
+# Update ext-backup marker
+ssh root@pve.pws touch /var/local/ext-backup
+
+# Umount remote
 ssh root@pve.pws umount /srv/backup
 
 # Umount backup

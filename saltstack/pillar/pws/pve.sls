@@ -9,6 +9,9 @@ check_mk_plugins:
   - apcaccess
   - mk_logwatch.py
 
+check_mk_local:
+  - backup_ext
+
 integrity:
   check_targets:
     pve: True
