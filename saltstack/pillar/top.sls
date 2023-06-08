@@ -177,6 +177,10 @@ base:
   'metrics.dev':
     - services.metrics
 
+# External backup system
+  'backup-ext.pws':
+    - users.master
+
 # External VDS
   'ru.vds.*':
     - pws.ru-vds

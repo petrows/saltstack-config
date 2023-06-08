@@ -1,0 +1,26 @@
+#!/bin/bash -xe
+
+# Mount backup
+mount /dev/mapper/backup--ext--vg-backup--ext--lv /srv/backup
+
+# Mount remote backup
+ssh root@pve.pws mount /dev/mapper/backup_vg-pws--backup /srv/backup
+
+mkdir -p /srv/backup/daily
+
+rsync -avh --delete \
+    --exclude 'pws-data/srv/pws-data/storage/home/marina' \
+    root@pve.pws:/srv/backup/daily/daily.0 \
+    /srv/backup/daily
+
+mkdir -p /srv/backup/vz
+
+rsync -avh --delete \
+    root@pve.pws:/srv/backup/vz \
+    /srv/backup/vz
+
+# Umound remote
+ssh root@pve.pws umount /srv/backup
+
+# Umount backup
+umount /srv/backup

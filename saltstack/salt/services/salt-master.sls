@@ -50,6 +50,7 @@ saltstack-sync.service:
     - contents: |
         [Unit]
         Description=Saltstack sync
+        OnFailure=status-email@%n.service
         [Service]
         User=root
         Group=root
