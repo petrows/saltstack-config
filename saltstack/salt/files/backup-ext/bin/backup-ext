@@ -53,4 +53,4 @@ if [[ -f /etc/backup-disable ]]; then
 fi
 
 # Power down
-# poweroff
+poweroff
