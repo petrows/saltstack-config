@@ -10,7 +10,7 @@ check_mk_plugins:
   - mk_logwatch.py
 
 check_mk_local:
-  - backup_ext
+  - backup_stats
 
 integrity:
   check_targets:

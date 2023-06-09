@@ -1,0 +1,56 @@
+#!/usr/bin/env python3
+"""
+Local check to ensure last backup date
+"""
+
+import os
+import datetime
+from pathlib import Path
+import re
+
+disk_threshold_warn = 0.8
+disk_threshold_crit = 0.95
+disk_tb = 1024 * 1024 * 1024 * 1024
+
+def read_stats(name):
+    # Get last time complete
+    mtime = datetime.datetime.fromtimestamp(int(Path(f"/var/local/backup-{name}.timestamp").read_text()))
+    delta_days = (datetime.datetime.today() - mtime).days
+
+    # Get disk stats
+    # Read DF output and parse it (size is Kb)
+    # <fs> <size> <used> <avaliable>
+    with open(f"/var/local/backup-{name}.diskstat", "r") as f:
+        df_data = f.readlines()
+        # Skip 1st line and clean
+        df_data = df_data[1].strip()
+        # Split onto parts
+        df_data = re.split(r'\s+', df_data)
+        size = int(df_data[1]) * 1024
+        size_used = int(df_data[2]) * 1024
+        size_aval = int(df_data[3]) * 1024
+
+    # Calculate percentage as 100% - (avaliable / size)
+    # this seems to be closer to original df output
+    pers_used = 1.0 - (size_aval / size)
+    pers_used_warn = disk_threshold_warn
+    pers_used_crit = disk_threshold_crit
+
+    size_used_warn = int(size * disk_threshold_warn)
+    size_used_crit = int(size * disk_threshold_crit)
+
+    print(
+        "P \"Backup ({})\" use={:.2f};{:.2f};{:.2f}|size_tb={:.2f};{:.2f};{:.2f}|age_days={:d};2;5 Backup status".format(
+            name,
+            pers_used * 100.0,
+            pers_used_warn * 100.0,
+            pers_used_crit * 100.0,
+            size_used / disk_tb,
+            size_used_warn / disk_tb,
+            size_used_crit / disk_tb,
+            delta_days,
+        )
+    )
+
+read_stats("int")
+read_stats("ext")

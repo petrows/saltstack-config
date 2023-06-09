@@ -1,5 +1,6 @@
 #!/bin/bash
 
 mail -s "Systemd service $1 failed on {{ grains.fqdn }}" root <<ERRMAIL
+Host: {{ grains.fqdn }}
 $(systemctl status --full "$1")
 ERRMAIL

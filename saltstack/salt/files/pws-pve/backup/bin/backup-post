@@ -1,18 +1,11 @@
-#!/bin/bash
-
-set -e
-
-echo "Free space info"
+#!/bin/bash -xe
 
 df -hT /srv/backup
 
-echo "Umounting backup HDD"
+# Dump backup info
+date +%s | tee /var/local/backup-int.timestamp
+df --output=source,size,used,avail --sync /srv/backup | tee /var/local/backup-int.diskstat
 
 umount /srv/backup
 
-echo "Set drive to sleep"
-
-# hdparm -Y /dev/disk/by-id/ata-TOSHIBA_DT01ACA300_Z2O51GXGS
-
 exit 0
-

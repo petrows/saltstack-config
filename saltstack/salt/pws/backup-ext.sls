@@ -12,7 +12,7 @@ backup-ext.service:
     - name: /etc/systemd/system/backup-ext.service
     - contents: |
         [Unit]
-        Description=Baclup ext
+        Description=Backup ext
         After=network.target
         OnFailure=status-email@%n.service
         [Service]
