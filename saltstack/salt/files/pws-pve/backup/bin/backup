@@ -31,7 +31,7 @@ class PetroBackup:
 
 		self.force_weekly = args.w
 		self.force_monthly = args.m
-		
+
 		systemd.daemon.notify('READY=1')
 
 	def log(self, msg):
@@ -91,6 +91,7 @@ class PetroBackup:
 	def run(self):
 		self.exec_if_exists("backup-pre")
 		ret_code = 0
+		start_tms = datetime.today()
 
 		try:
 			# What run every day
@@ -110,6 +111,11 @@ class PetroBackup:
 			ret_code = 5
 		else:
 			self.log("Backup tasks complete")
+
+		tms_seconds = int((datetime.today() - start_tms).total_seconds())
+		self.log("Runtime: " + str(tms_seconds) + " sec")
+		with open("/var/local/backup-int.duration", "w") as f:
+			f.write(str(tms_seconds))
 
 		self.exec_if_exists("backup-post")
 		self.log("Exit code: " + str(ret_code))
