@@ -7,7 +7,7 @@ VMZ_RETAIN="2"
 # Included
 VMZ_BACKUP="--all"
 # Excluded
-VMZ_EXCLUDE="--exclude 102,104"
+VMZ_EXCLUDE="--exclude 102,104,108"
 
 DIR_BACKUP=/srv/backup/vz
 DIR_TMP=/srv/backup/tmp
