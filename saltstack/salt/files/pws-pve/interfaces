@@ -2,7 +2,7 @@ auto lo
 iface lo inet loopback
 
 # LAN interface
-iface enp4s0 inet manual
+iface enp3s0 inet manual
 
 # LAN VMs
 auto vmbr0
@@ -11,7 +11,7 @@ iface vmbr0 inet static
     address 10.80.0.2
     netmask 255.255.255.0
     gateway 10.80.0.1
-    bridge_ports enp4s0
+    bridge_ports enp3s0
     bridge_vlan_aware yes
     bridge_stp off
     bridge_fd 0
