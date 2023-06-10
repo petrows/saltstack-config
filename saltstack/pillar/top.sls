@@ -179,6 +179,7 @@ base:
 
 # External backup system
   'backup-ext.pws':
+    - grains.host-hdd
     - users.master
 
 # External VDS
