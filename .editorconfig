@@ -22,3 +22,7 @@ indent_size = 2
 [*jsonnet]
 indent_style = space
 indent_size = 2
+
+# Special config for rsnapshot
+[daily.conf]
+indent_style = tab
