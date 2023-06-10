@@ -15,7 +15,7 @@ disk_tb = 1024 * 1024 * 1024 * 1024
 def read_stats(name):
     # Get last time complete
     mtime = datetime.datetime.fromtimestamp(int(Path(f"/var/local/backup-{name}.timestamp").read_text()))
-    delta_days = (datetime.datetime.today() - mtime).days
+    delta_days = (datetime.datetime.today() - mtime).total_seconds() / 86400.0
 
     # Get disk stats
     # Read DF output and parse it (size is Kb)
@@ -43,7 +43,7 @@ def read_stats(name):
     size_used_crit = int(size * disk_threshold_crit)
 
     print(
-        "P \"Backup ({})\" use={:.2f};{:.2f};{:.2f}|size_tb={:.2f};{:.2f};{:.2f}|age_days={:d};2;5|duration_sec={:d};; Backup status".format(
+        "P \"Backup ({})\" use={:.2f};{:.2f};{:.2f}|size_tb={:.2f};{:.2f};{:.2f}|age_days={:.2f};2;5|duration_sec={:d};; Backup status".format(
             name,
             pers_used * 100.0,
             pers_used_warn * 100.0,
