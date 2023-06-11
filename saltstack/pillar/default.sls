@@ -186,6 +186,7 @@ xsession:
 # i3 config options
 i3:
   bar_font_size: 12
+  display_config_id: petro-pc
   display: ''
   startup: ''
   # Enable compton?
