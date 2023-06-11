@@ -1,0 +1,15 @@
+#!/bin/bash
+# This script checks and returns layout name
+# Used to configure displays and workspaces
+
+CFG_ID={{ pillar.i3.display_config_id }}
+
+# Default: return hostname
+if [[ -f ~/.config/i3/layout.d/$CFG_ID.conf ]]; then
+    echo "$CFG_ID"
+    exit 0
+fi
+
+i3-nagbar -t warning -m "No layout config found to host '$CFG_ID'" &> /dev/null
+
+echo -n "default"
