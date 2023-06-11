@@ -225,6 +225,9 @@ bar {
 for_window [title="^Android Emulator -"] floating enable
 for_window [title="^Loading Microsoft Teams"] floating enable
 
+# Default is tabbed
+workspace_layout tabbed
+
 # Detect and include host-specific config (monitors and layout)
 include ~/.config/i3/layout.d/`get-i3-display-config`.conf
 
