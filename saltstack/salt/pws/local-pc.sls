@@ -98,3 +98,15 @@ local-pc-configs-{{ user_id }}:
     - user: {{user_id}}
     - group: {{user_id}}
 {% endfor %}
+
+# Stop/break annoying nvidia-persistenced service -> does not react on stop
+# Jun 11 12:03:03 petro-pc systemd[1]: Started nvidia-persistenced.service - NVIDIA Persistence Daemon.
+# Jun 11 12:11:00 petro-pc nvidia-persistenced[1189]: Received signal 15
+# Jun 11 12:11:00 petro-pc systemd[1]: Stopping nvidia-persistenced.service - NVIDIA Persistence Daemon...
+# Jun 11 12:12:30 petro-pc systemd[1]: nvidia-persistenced.service: State 'stop-sigterm' timed out. Killing.
+# Jun 11 12:12:30 petro-pc systemd[1]: nvidia-persistenced.service: Killing process 1189 (nvidia-persiste) with signal SIGKILL.
+# Service may be deactivated safely, as it needed only in headless mode.
+# See: https://forums.developer.nvidia.com/t/nvidia-persistenced-causing-60-second-reboot-delays/67681
+
+nvidia-persistenced.service:
+  service.masked
