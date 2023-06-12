@@ -43,17 +43,17 @@ mounts:
     name: /srv/pws-data
     device: /dev/mapper/data_vg-pws--data
     type: ext4
-    opts: defaults
+    opts: rw,noexec,nosuid
   pws_cache:
     name: /srv/pws-cache
     device: /dev/mapper/cache_vg-pws--cache
     type: ext4
-    opts: defaults
+    opts: rw,noexec,nosuid,discard
   pws_media:
     name: /srv/pws-media
     device: /dev/mapper/media_vg-pws--media
     type: ext4
-    opts: defaults
+    opts: rw,noexec,nosuid
 
 nfs-exports:
   media:
