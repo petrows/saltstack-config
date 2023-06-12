@@ -264,5 +264,5 @@ exec --no-startup-id compton -b --config ~/.config/compton/compton.conf
 # Private startup
 exec --no-startup-id ~/bin/autorun
 
-bindsym $mod+o exec xdg-open ~
+bindsym $mod+o exec kde-open ~
 

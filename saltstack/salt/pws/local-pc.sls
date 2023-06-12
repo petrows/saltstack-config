@@ -31,6 +31,8 @@ local-pc-soft:
       - rfkill
       # Bat-cat tool: https://github.com/sharkdp/bat
       - bat
+      # File manager
+      - doublecmd-qt
 
 # Bluetooth - configure for hi-res profiles
 /etc/bluetooth/main.conf:
@@ -97,6 +99,18 @@ local-pc-configs-{{ user_id }}:
     - template: jinja
     - user: {{user_id}}
     - group: {{user_id}}
+
+# File accociations
+{{user.home}}/.config/mimeapps.list:
+  ini.options_present:
+    - separator: '='
+    - strict: False
+    - sections:
+        Default Applications:
+          {% for app_mime,app_desktop in pillar.i3.mime_types.default.items() %}
+          {{ app_mime }}: {{ app_desktop }}
+          {% endfor %}
+
 {% endfor %}
 
 # Stop/break annoying nvidia-persistenced service -> does not react on stop

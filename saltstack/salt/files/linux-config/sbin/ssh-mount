@@ -8,4 +8,4 @@ echo "Mount $SERVER -> $SERVER_DIR"
 mkdir -p "$SERVER_DIR"
 nohup sshfs -o idmap=user $SERVER:/ "$SERVER_DIR" &
 
-xdg-open "$SERVER_DIR"
+kde-open "$SERVER_DIR"
