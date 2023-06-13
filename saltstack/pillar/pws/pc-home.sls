@@ -17,7 +17,6 @@ i3:
       exec --no-startup-id bash -c 'sleep 5; firefox'
       exec --no-startup-id doublecmd --no-splash
       exec --no-startup-id konsole
-      exec --no-startup-id konsole
       exec --no-startup-id keepassxc
   temp_read: /sys/devices/platform/coretemp.0/hwmon/hwmon2/temp1_input
 

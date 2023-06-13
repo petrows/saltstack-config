@@ -14,6 +14,13 @@
                     "class": "^firefox$"
                 }
             ]
+        }, {
+            "border": "normal",
+            "current_border_width": 3,
+            "floating": "auto_off",
+            "name": "stub",
+            "swallows": [],
+            "type": "con"
         }
     ]
 }
@@ -54,12 +61,8 @@
             "border": "normal",
             "current_border_width": 3,
             "floating": "auto_off",
-            "name": "konsole",
-            "swallows": [
-                {
-                    "class": "^konsole$"
-                }
-            ],
+            "name": "stub",
+            "swallows": [],
             "type": "con"
         }
     ]
