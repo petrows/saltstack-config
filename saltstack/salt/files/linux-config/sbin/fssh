@@ -2,4 +2,27 @@
 
 # This script calls remote host from fish
 
+SSH_CONN=$1
+
+SSH_HOSTNAME=$(echo "${SSH_CONN}" | cut -d '@' -f 2 | cut -d '.' -f 1)
+SSH_USERNAME=$(echo "${SSH_CONN}" | cut -d '@' -f 1)
+
+if [[ -z "${SSH_USERNAME}" ]]; then
+    echo "Invalid SSH user@host!"
+    exit 1
+fi
+
+# Fake konsole tab title: create and cd to "host"
+FAKE_NAME="(${SSH_USERNAME}) ${SSH_HOSTNAME}"
+FAKE_PATH=/tmp/fssh-fake-path/"${FAKE_NAME}"
+mkdir -p "${FAKE_PATH}"
+cd "${FAKE_PATH}"
+
+# Remove fake folder on exit
+function finish {
+    rm -rf "${FAKE_PATH}"
+}
+trap finish EXIT
+
+# Call SSH
 ssh $@ -t fish
