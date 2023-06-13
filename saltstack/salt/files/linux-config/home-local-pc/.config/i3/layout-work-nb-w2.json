@@ -36,21 +36,10 @@
             "type": "con"
         },
         {
-            "name": "Microsoft Teams splash",
-            "swallows": [
-                {
-                    "title": "Microsoft\\ Teams",
-                    "window_role": "^browser\\-window$"
-                }
-            ],
-            "type": "con"
-        },
-        {
             "name": "Microsoft Teams",
             "swallows": [
                 {
                     "title": "Microsoft\\ Teams",
-                    "window_role": "^browser\\-window$"
                 }
             ],
             "type": "con"
