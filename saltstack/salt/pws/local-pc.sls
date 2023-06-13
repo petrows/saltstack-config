@@ -33,6 +33,8 @@ local-pc-soft:
       - bat
       # File manager
       - doublecmd-qt
+      # Clipboard manipulation
+      - xclip
 
 # Bluetooth - configure for hi-res profiles
 /etc/bluetooth/main.conf:

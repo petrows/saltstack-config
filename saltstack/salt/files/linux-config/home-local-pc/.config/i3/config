@@ -168,6 +168,9 @@ bindsym $mod+r mode "resize"
 # Lock screen
 bindsym $mod+l exec i3lock -c 333333
 
+# Copy date to clipboard: Win+T
+bindsym $mod+t exec --no-startup-id bash -c 'date "+%F" | xclip -rmlastnl -selection clipboard'
+
 # Take screenshot
 # Printscr - normal
 bindsym Print exec --no-startup-id spectacle --fullscreen --copy-image
