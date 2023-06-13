@@ -28,10 +28,20 @@
     "nodes": [
         {
             "name": "Telegram",
-            "percent": 0.5,
             "swallows": [
                 {
                     "class": "^TelegramDesktop$"
+                }
+            ],
+            "type": "con"
+        }, {
+            "border": "normal",
+            "current_border_width": 3,
+            "floating": "auto_off",
+            "name": "konsole",
+            "swallows": [
+                {
+                    "class": "^konsole$"
                 }
             ],
             "type": "con"

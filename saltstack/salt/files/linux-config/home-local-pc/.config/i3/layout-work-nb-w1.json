@@ -12,20 +12,17 @@
             "current_border_width": 3,
             "floating": "auto_off",
             "name": "konsole",
-            "percent": 0.5,
             "swallows": [
                 {
                     "class": "^konsole$"
                 }
             ],
             "type": "con"
-        },
-        {
+        }, {
             "border": "normal",
             "current_border_width": 3,
             "floating": "auto_off",
             "name": "Double Commander",
-            "percent": 0.5,
             "swallows": [
                 {
                     "instance": "^doublecmd$"
@@ -49,7 +46,6 @@
             "current_border_width": 3,
             "floating": "auto_off",
             "name": "Kode",
-            "percent": 0.5,
             "swallows": [
                 {
                     "class": "^Code$"

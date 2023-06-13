@@ -16,6 +16,7 @@ i3:
       exec --no-startup-id doublecmd
       exec --no-startup-id code
       exec --no-startup-id konsole
+      exec --no-startup-id konsole
       exec --no-startup-id keepassxc
       exec --no-startup-id nagstamon
       exec --no-startup-id bash -c 'sleep 5; is-working-hours && ~/bin/cinemo-vpn'

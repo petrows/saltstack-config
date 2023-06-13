@@ -4,8 +4,15 @@
 
 SSH_CONN=$1
 
+# Cut hostname before 1st dot
 SSH_HOSTNAME=$(echo "${SSH_CONN}" | cut -d '@' -f 2 | cut -d '.' -f 1)
-SSH_USERNAME=$(echo "${SSH_CONN}" | cut -d '@' -f 1)
+
+# Cut username (if exists)
+if grep -q "@" <<< "$SSH_CONN"; then
+    SSH_USERNAME=$(echo "${SSH_CONN}" | cut -d '@' -f 1)
+else
+    SSH_USERNAME=$USER
+fi
 
 if [[ -z "${SSH_USERNAME}" ]]; then
     echo "Invalid SSH user@host!"

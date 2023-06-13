@@ -34,8 +34,7 @@
                 }
             ],
             "type": "con"
-        },
-        {
+        }, {
             "name": "Microsoft Teams",
             "swallows": [
                 {
@@ -43,12 +42,22 @@
                 }
             ],
             "type": "con"
-        },
-        {
+        }, {
             "name": "Telegram",
             "swallows": [
                 {
                     "class": "^TelegramDesktop$"
+                }
+            ],
+            "type": "con"
+        }, {
+            "border": "normal",
+            "current_border_width": 3,
+            "floating": "auto_off",
+            "name": "konsole",
+            "swallows": [
+                {
+                    "class": "^konsole$"
                 }
             ],
             "type": "con"
