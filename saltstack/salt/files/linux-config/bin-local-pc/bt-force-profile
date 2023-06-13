@@ -27,7 +27,7 @@ if pgrep -f telegram-desktop &>/dev/null ; then
     RUNNING_TG=1
     echo "Telegram is running, kill it"
     killall telegram-desktop
-    speep 1
+    sleep 3
 fi
 
 # Prepare services for work!
@@ -79,5 +79,6 @@ echo "$PROFILE is working."
 
 if [[ -n "${RUNNING_TG}" ]] ; then
     echo "Telegram was running, restart it"
+    sleep 1
     nohup telegram-desktop &>/dev/null &
 fi

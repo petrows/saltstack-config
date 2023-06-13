@@ -15,7 +15,7 @@ i3:
       # exec --no-startup-id spotify
       exec --no-startup-id nagstamon
       exec --no-startup-id bash -c 'sleep 5; firefox'
-      exec --no-startup-id doublecmd
+      exec --no-startup-id doublecmd --no-splash
       exec --no-startup-id konsole
       exec --no-startup-id konsole
       exec --no-startup-id keepassxc
