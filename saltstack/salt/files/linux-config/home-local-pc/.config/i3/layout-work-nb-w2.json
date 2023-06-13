@@ -15,12 +15,13 @@
                 }
             ]
         }, {
-            "border": "normal",
-            "current_border_width": 3,
-            "floating": "auto_off",
-            "name": "stub",
-            "swallows": [],
-            "type": "con"
+            "name": "Browser",
+            "type": "con",
+            "swallows": [
+                {
+                    "class": "^firefox$"
+                }
+            ]
         }
     ]
 }
@@ -61,8 +62,12 @@
             "border": "normal",
             "current_border_width": 3,
             "floating": "auto_off",
-            "name": "stub",
-            "swallows": [],
+            "name": "Spotify",
+            "swallows": [
+                {
+                    "title": "^Spotify$"
+                }
+            ],
             "type": "con"
         }
     ]

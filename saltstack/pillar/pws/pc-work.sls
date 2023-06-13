@@ -18,6 +18,7 @@ i3:
       exec --no-startup-id konsole
       exec --no-startup-id keepassxc
       exec --no-startup-id nagstamon
+      exec --no-startup-id spotify --uri=/
       exec --no-startup-id bash -c 'sleep 5; is-working-hours && ~/bin/cinemo-vpn'
       exec --no-startup-id bash -c 'sleep 5; firefox'
 

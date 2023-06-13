@@ -25,7 +25,8 @@
             "name": "Double Commander",
             "swallows": [
                 {
-                    "instance": "^doublecmd$"
+                    "instance": "^doublecmd$",
+                    "window_role": "^TfrmMain$"
                 }
             ],
             "type": "con"
