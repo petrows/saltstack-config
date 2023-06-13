@@ -4,7 +4,7 @@
     - source: salt://files/sshd_config
     - template: jinja
 
-{% if grains.osfinger == 'Ubuntu-22.10' %}
+{% if grains.osfinger in ['Ubuntu-22.10', 'Ubuntu-23.04'] %}
 ssh.service:
 {% else %}
 sshd.service:

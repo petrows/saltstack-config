@@ -1,5 +1,6 @@
 [Unit]
 Description=Backup PVE service
+OnFailure=status-email@%n.service
 
 [Service]
 Type=notify
