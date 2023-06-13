@@ -195,7 +195,7 @@ i3:
   temp_read: /sys/devices/platform/coretemp.0/hwmon/hwmon1/temp1_input
   mime_types:
     default:
-      x-scheme-handler/file: doublecmd.desktop
+      inode/directory: doublecmd.desktop
 
 swap_size_mb: 0
 
