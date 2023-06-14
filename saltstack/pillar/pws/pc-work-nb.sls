@@ -17,6 +17,7 @@ xsession:
         /usr/local/sbin/setscreen-double
       else
         # Open lid
+        export GDK_DPI_SCALE=1.2
         /usr/local/sbin/setscreen-onboard
       fi
 

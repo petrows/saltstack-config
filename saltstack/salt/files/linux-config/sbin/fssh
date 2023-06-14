@@ -19,6 +19,8 @@ if [[ -z "${SSH_USERNAME}" ]]; then
     exit 1
 fi
 
+# echo "${SSH_USERNAME}, ${SSH_HOSTNAME}"
+
 # Fake konsole tab title: create and cd to "host"
 FAKE_NAME="(${SSH_USERNAME}) ${SSH_HOSTNAME}"
 FAKE_PATH=/tmp/fssh-fake-path/"${FAKE_NAME}"
@@ -32,4 +34,4 @@ function finish {
 trap finish EXIT
 
 # Call SSH
-ssh $@ -t fish
+ssh ${SSH_USERNAME}@${SSH_HOSTNAME} -t fish
