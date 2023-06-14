@@ -11,7 +11,7 @@ SSH_HOSTNAME=$(echo "${SSH_CONN}" | cut -d '@' -f 2 | cut -d '.' -f 1)
 if grep -q "@" <<< "$SSH_CONN"; then
     SSH_USERNAME=$(echo "${SSH_CONN}" | cut -d '@' -f 1)
 else
-    SSH_USERNAME=$USER
+    SSH_USERNAME=root
 fi
 
 if [[ -z "${SSH_USERNAME}" ]]; then
