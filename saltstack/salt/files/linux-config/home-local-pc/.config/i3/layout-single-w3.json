@@ -1,0 +1,26 @@
+{
+    // tabbed split container
+    "border": "normal",
+    "floating": "auto_off",
+    "layout": "tabbed",
+    "type": "con",
+    "nodes": [
+        {
+            "name": "Browser",
+            "type": "con",
+            "swallows": [
+                {
+                    "class": "^firefox$"
+                }
+            ]
+        }, {
+            "name": "Browser",
+            "type": "con",
+            "swallows": [
+                {
+                    "class": "^firefox$"
+                }
+            ]
+        }
+    ]
+}

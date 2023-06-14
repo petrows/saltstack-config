@@ -3,35 +3,6 @@
     "border": "normal",
     "floating": "auto_off",
     "layout": "tabbed",
-    "percent": 0.6,
-    "type": "con",
-    "nodes": [
-        {
-            "name": "Browser",
-            "type": "con",
-            "swallows": [
-                {
-                    "class": "^firefox$"
-                }
-            ]
-        }, {
-            "name": "Browser",
-            "type": "con",
-            "swallows": [
-                {
-                    "class": "^firefox$"
-                }
-            ]
-        }
-    ]
-}
-
-{
-    // tabbed split container
-    "border": "normal",
-    "floating": "auto_off",
-    "layout": "tabbed",
-    "percent": 0.4,
     "type": "con",
     "nodes": [
         {

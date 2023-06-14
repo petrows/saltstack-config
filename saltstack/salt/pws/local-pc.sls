@@ -10,6 +10,7 @@ local-pc-soft:
   pkg.latest:
     - pkgs:
       - i3
+      - i3lock-fancy
       - compton
       - udiskie
       - rofi

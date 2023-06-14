@@ -1,8 +1,0 @@
-{
-    // tabbed split container
-    "border": "normal",
-    "floating": "auto_off",
-    "layout": "tabbed",
-    "percent": 1.0,
-    "type": "con"
-}
