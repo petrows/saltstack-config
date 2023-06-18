@@ -165,6 +165,9 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+# Open file manager
+bindsym $mod+o exec kde-open /home
+
 # Lock screen
 bindsym $mod+l exec i3lock-fancy
 
@@ -259,8 +262,3 @@ exec --no-startup-id bash -c 'killall kilpper ; sleep 5 ; XDG_CURRENT_DESKTOP="k
 # Composite
 exec --no-startup-id compton -b --config ~/.config/compton/compton.conf
 {% endif %}
-# Private startup
-exec --no-startup-id ~/bin/autorun
-
-bindsym $mod+o exec kde-open ~
-
