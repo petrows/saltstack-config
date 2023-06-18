@@ -5,4 +5,8 @@
 xkb-switch -s us
 
 # Lock screen
-i3lock-fancy
+# Nice tool from https://github.com/yvbbrjdr/i3lock-fancy-rapid
+# Random effects for blur
+fancy_radius=("10" "pixel")
+{#- Warning! This is a Jinja template! {{ '{#' }} - is control sequence to print #}
+i3lock-fancy-rapid 20 ${fancy_radius[ $RANDOM % ${{ '{#' }}fancy_radius[@]} ]}
