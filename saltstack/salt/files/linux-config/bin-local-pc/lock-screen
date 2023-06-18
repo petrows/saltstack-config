@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Reset current layout to US
+# to allow password be always-correct
+xkb-switch -s us
+
+# Lock screen
+i3lock-fancy
