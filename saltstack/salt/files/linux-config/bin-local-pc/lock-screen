@@ -2,7 +2,7 @@
 
 # Reset current layout to US
 # to allow password be always-correct
-xkb-switch -s 'us(winkeys)'
+xkb-switch -s 'us'
 
 # Set Scroll lock to ON
 # To indicate that we are locked (when display is sleeping)

@@ -241,6 +241,9 @@ include ~/.config/i3/layout.d/`get-i3-display-config`.conf
 # Startup config
 {{ pillar.i3.startup }}
 
+# Start keyboard-indicator service (displays caps_lock in more explicit way)
+exec --no-startup-id xkb-display &
+
 # Set random wallpaper from dir
 exec --no-startup-id feh --randomize --bg-fill ~/Pictures/wp/*
 # Auto mount USB
@@ -253,8 +256,6 @@ exec --no-startup-id bash -c 'sleep 10; sudo systemctl restart bluetooth'
 exec --no-startup-id blueman-applet
 # Audio
 exec --no-startup-id pasystray
-# Caps lock toggle, compose r-alt, term-x str+alt+bksp
-exec setxkbmap -layout 'us,ru' -variant 'winkeys' -option 'grp:caps_toggle,grp_led:caps,compose:ralt,terminate:ctrl_alt_bksp'
 # Num lock on
 exec --no-startup-id numlockx on
 # Klipboard manager (with restart)

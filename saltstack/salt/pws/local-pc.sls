@@ -6,6 +6,36 @@ local-pc-custom-bin:
     - template: jinja
     - file_mode: 755
 
+# /etc config
+local-pc-custom-etc:
+  file.recurse:
+    - name: /etc
+    - source: salt://files/linux-config/etc-local-pc
+    - template: jinja
+
+# Allow direct control of Scroll lock
+/usr/share/X11/xkb/compat/ledcaps:
+  file.managed:
+    - contents: |
+        default partial xkb_compatibility "caps_lock" {
+            indicator "Caps Lock" {
+                whichModState= Locked;
+                modifiers= Lock;
+            };
+        };
+        partial xkb_compatibility "group_lock" {
+            indicator "Caps Lock" {
+                modifiers= None;
+                groups=All-group1;
+            };
+        };
+        partial xkb_compatibility "shift_lock" {
+            indicator "Caps Lock" {
+                whichModState= Locked;
+                modifiers= Shift;
+            };
+        };
+
 local-pc-soft:
   pkg.latest:
     - pkgs:
