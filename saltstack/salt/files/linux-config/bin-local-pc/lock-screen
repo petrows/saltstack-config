@@ -2,11 +2,18 @@
 
 # Reset current layout to US
 # to allow password be always-correct
-xkb-switch -s us
+xkb-switch -s 'us(winkeys)'
+
+# Set Scroll lock to ON
+# To indicate that we are locked (when display is sleeping)
+xset led 3
 
 # Lock screen
 # Nice tool from https://github.com/yvbbrjdr/i3lock-fancy-rapid
 # Random effects for blur
 fancy_radius=("10" "pixel")
 {#- Warning! This is a Jinja template! {{ '{#' }} - is control sequence to print #}
-i3lock-fancy-rapid 20 ${fancy_radius[ $RANDOM % ${{ '{#' }}fancy_radius[@]} ]}
+i3lock-fancy-rapid 20 ${fancy_radius[ $RANDOM % ${{ '{#' }}fancy_radius[@]} ]} --nofork
+
+# Unlock done, make OFF scroll lock
+xset -led 3

@@ -169,7 +169,8 @@ bindsym $mod+r mode "resize"
 bindsym $mod+o exec kde-open /home
 
 # Lock screen
-bindsym $mod+l exec lock-screen
+# See my custom script with keyboard revert and effects: saltstack/salt/files/linux-config/bin-local-pc/lock-screen
+bindsym $mod+l exec lock-screen &
 
 # Copy date to clipboard: Win+T
 bindsym $mod+t exec --no-startup-id bash -c 'date "+%F" | xclip -rmlastnl -selection clipboard'
