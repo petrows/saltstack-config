@@ -4,14 +4,16 @@
 
 SSH_CONN=$1
 
-# Cut hostname before 1st dot
-SSH_HOSTNAME=$(echo "${SSH_CONN}" | cut -d '@' -f 2 | cut -d '.' -f 1)
+# Cut hostname before 1st dot (short)
+SSH_HOSTNAME_SHORT=$(echo "${SSH_CONN}" | cut -d '@' -f 2 | cut -d '.' -f 1)
 
 # Cut username (if exists)
 if grep -q "@" <<< "$SSH_CONN"; then
     SSH_USERNAME=$(echo "${SSH_CONN}" | cut -d '@' -f 1)
+    SSH_HOSTNAME=$(echo "${SSH_CONN}" | cut -d '@' -f 2)
 else
     SSH_USERNAME=root
+    SSH_HOSTNAME=${SSH_CONN}
 fi
 
 if [[ -z "${SSH_USERNAME}" ]]; then
@@ -22,7 +24,7 @@ fi
 # echo "${SSH_USERNAME}, ${SSH_HOSTNAME}"
 
 # Fake konsole tab title: create and cd to "host"
-FAKE_NAME="(${SSH_USERNAME}) ${SSH_HOSTNAME}"
+FAKE_NAME="(${SSH_USERNAME}) ${SSH_HOSTNAME_SHORT}"
 FAKE_PATH=/tmp/fssh-fake-path/"${FAKE_NAME}"
 mkdir -p "${FAKE_PATH}"
 cd "${FAKE_PATH}"

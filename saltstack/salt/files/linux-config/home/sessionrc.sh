@@ -10,7 +10,7 @@ export GDK_DPI_SCALE={{ pillar.xsession.gtk_scale }}
 
 # Start private autorun (if exists)
 if test -x $HOME/bin/autorun; then
-    $HOME/bin/autorun &> /tmp/$USER-xsession-autorun.log
+    $HOME/bin/autorun > /tmp/$USER-xsession-autorun.log 2>&1
 fi
 
 {{ pillar.xsession.script|default('') }}
