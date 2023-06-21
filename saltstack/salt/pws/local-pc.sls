@@ -66,6 +66,17 @@ local-pc-soft:
       - doublecmd-qt
       # Clipboard manipulation
       - xclip
+      # Video player
+      - vlc
+      - vlc-plugin-base
+      # Text editor
+      - kate
+      # Media viewers
+      - okular
+      - gwenview
+      # Log viewer
+      - glogg
+      - kdiff3
 
 # Bluetooth - configure for hi-res profiles
 /etc/bluetooth/main.conf:
@@ -129,6 +140,14 @@ local-pc-configs-{{ user_id }}:
   file.recurse:
     - name: {{user.home}}/.config
     - source: salt://files/linux-config/home-local-pc/.config
+    - template: jinja
+    - user: {{user_id}}
+    - group: {{user_id}}
+
+local-pc-local-{{ user_id }}:
+  file.recurse:
+    - name: {{user.home}}/.local
+    - source: salt://files/linux-config/home-local-pc/.local
     - template: jinja
     - user: {{user_id}}
     - group: {{user_id}}

@@ -195,7 +195,22 @@ i3:
   temp_read: /sys/devices/platform/coretemp.0/hwmon/hwmon1/temp1_input
   mime_types:
     default:
+      # Use Double commander to open directories
       inode/directory: doublecmd.desktop
+      # Use KDE apps to open text types
+      text/plain: org.kde.kate.desktop
+      text/markdown: org.kde.kate.desktop
+      text/x-patch: org.kde.kate.desktop
+      # Use KDE apps to open media types
+      application/pdf: org.kde.okular.desktop
+      image/jpeg: org.kde.gwenview.desktop
+      image/png: org.kde.gwenview.desktop
+      image/svg+xml: org.kde.gwenview.desktop
+      # Video: VLC
+      video/mp4: vlc.desktop
+      video/x-ms-wmv: vlc.desktop
+      video/x-matroska: vlc.desktop
+      video/x-msvideo: vlc.desktop
 
 swap_size_mb: 0
 
