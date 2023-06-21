@@ -163,6 +163,16 @@ local-pc-local-{{ user_id }}:
           {{ app_mime }}: {{ app_desktop }}
           {% endfor %}
 
+# Apps config
+{% for file_id, file_data in salt['pillar.get']('i3:apps_config_ini', {}).items() %}
+{{user.home}}/.config/{{ file_id }}:
+  ini.options_present:
+    - separator: '='
+    - strict: False
+    - sections:
+        {{ file_data|yaml|indent(8) }}
+{% endfor %}
+
 {% endfor %}
 
 # Stop/break annoying nvidia-persistenced service -> does not react on stop

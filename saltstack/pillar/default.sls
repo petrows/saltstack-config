@@ -211,6 +211,25 @@ i3:
       video/x-ms-wmv: vlc.desktop
       video/x-matroska: vlc.desktop
       video/x-msvideo: vlc.desktop
+  # Apps config, uses [ini] format in ~/.config,
+  # true for most KDE apps
+  apps_config_ini:
+    okularpartrc:
+      General:
+        ShellOpenFileInTabs: 'true'
+      Core Performance:
+        TextHinting: Enabled
+    konsolerc:
+      Desktop Entry:
+        DefaultProfile: Petro.profile
+      Notification Messages:
+        CloseAllEmptyTabs: 'true'
+        CloseAllTabs: 'true'
+        CloseSingleTab: 'true'
+      TabBar:
+        CloseTabButton: None
+        CloseTabOnMiddleMouseButton: 'true'
+        TabBarVisibility: AlwaysShowTabBar
 
 swap_size_mb: 0
 
