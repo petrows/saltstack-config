@@ -1,3 +1,6 @@
+#!/bin/sh
+# Warning: executed by /bin/sh
+
 # Force all QT apps to use this theme
 export QT_QPA_PLATFORMTHEME=qt5ct
 # Force libreoffice to use this theme
@@ -6,8 +9,8 @@ export SAL_USE_VCLPLUGIN=gtk3
 export GDK_DPI_SCALE={{ pillar.xsession.gtk_scale }}
 
 # Start private autorun (if exists)
-if [[ -x $HOME/bin/autorun ]]; then
-    $HOME/bin/autorun
+if test -x $HOME/bin/autorun; then
+    $HOME/bin/autorun &> /tmp/$USER-xsession-autorun.log
 fi
 
 {{ pillar.xsession.script|default('') }}
