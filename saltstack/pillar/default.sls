@@ -203,6 +203,7 @@ i3:
       text/x-patch: org.kde.kate.desktop
       # Use KDE apps to open media types
       application/pdf: org.kde.okular.desktop
+      application/x-fictionbook+xml: org.kde.okular.desktop
       image/jpeg: org.kde.gwenview.desktop
       image/png: org.kde.gwenview.desktop
       image/svg+xml: org.kde.gwenview.desktop
