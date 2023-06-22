@@ -165,12 +165,15 @@ local-pc-local-{{ user_id }}:
 
 # Apps config
 {% for file_id, file_data in salt['pillar.get']('i3:apps_config_ini', {}).items() %}
+{% set file_data = file_data|yaml %}
+{% set file_data = file_data|replace("%HOME%", user.home) %}
+{% set file_data = file_data|replace("%HOSTID%", grains.id) %}
 {{user.home}}/.config/{{ file_id }}:
   ini.options_present:
     - separator: '='
     - strict: False
     - sections:
-        {{ file_data|yaml|indent(8) }}
+        {{ file_data|indent(8) }}
 {% endfor %}
 
 {% endfor %}

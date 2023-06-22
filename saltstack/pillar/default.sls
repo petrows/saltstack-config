@@ -230,6 +230,20 @@ i3:
         CloseTabButton: None
         CloseTabOnMiddleMouseButton: 'true'
         TabBarVisibility: AlwaysShowTabBar
+    spectaclerc:
+      General:
+        autoSaveImage: 'true'
+        clipboardGroup: PostScreenshotCopyImage
+        printKeyActionRunning: 0
+        rememberLastRectangularRegion: 2
+        showMagnifier: 'false'
+        useLightMaskColour: 'false'
+        useReleaseToCapture: 'false'
+      Save:
+        compressionQuality: 90
+        defaultSaveImageFormat: JPEG
+        defaultSaveLocation: file:/%HOME%/Pictures/screenshots
+        saveFilenameFormat: Screenshot_%HOSTID%_%Y%M%D_%H%m%S
 
 swap_size_mb: 0
 
