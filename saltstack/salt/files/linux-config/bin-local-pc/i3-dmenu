@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Reset current layout to US
+# to allow promt be always-correct
+xkb-switch -s 'us'
+
+rofi -show combi
