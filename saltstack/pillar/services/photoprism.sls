@@ -9,7 +9,8 @@ include:
 
 photoprism:
   id: Photoprism-dev
-  version: 221118-jammy
+  # https://hub.docker.com/r/photoprism/photoprism/tags
+  version: '230615'
   data_dir: /srv/photoprism-data/app
   volumes:
     cache:
