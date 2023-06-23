@@ -29,11 +29,5 @@ FAKE_PATH=/tmp/fssh-fake-path/"${FAKE_NAME}"
 mkdir -p "${FAKE_PATH}"
 cd "${FAKE_PATH}"
 
-# Remove fake folder on exit
-function finish {
-    rm -rf "${FAKE_PATH}"
-}
-trap finish EXIT
-
 # Call SSH
 ssh ${SSH_USERNAME}@${SSH_HOSTNAME} -t fish
