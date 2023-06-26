@@ -207,6 +207,7 @@ i3:
       image/jpeg: org.kde.gwenview.desktop
       image/png: org.kde.gwenview.desktop
       image/svg+xml: org.kde.gwenview.desktop
+      image/webp: org.kde.gwenview.desktop
       # Video: VLC
       video/mp4: vlc.desktop
       video/x-ms-wmv: vlc.desktop
