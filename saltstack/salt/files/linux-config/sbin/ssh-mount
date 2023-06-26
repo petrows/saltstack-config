@@ -3,9 +3,15 @@
 SERVER=$1
 SERVER_DIR="/tmp/$SERVER"
 
+if [[ -z "$SERVER" ]]; then
+    echo "Program to mount some user@host to /tmp/user@host and navigate there"
+    echo "Usage: $0 <server>"
+    exit 1
+fi
+
 echo "Mount $SERVER -> $SERVER_DIR"
 
 mkdir -p "$SERVER_DIR"
-nohup sshfs -o idmap=user $SERVER:/ "$SERVER_DIR" &
+sshfs -o idmap=user $SERVER:/ "$SERVER_DIR"
 
 kde-open "$SERVER_DIR"
