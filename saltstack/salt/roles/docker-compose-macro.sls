@@ -10,10 +10,17 @@
     - makedirs: True
     - mode: 700
 
-# Cleanup old image
+# Cleanup old image and call cleanup script (if any)
 {{ service_id }}-cleanup:
   cmd.run:
-    - name: test -f docker-compose.yml && docker-compose down --rmi all || true
+    - shell: /bin/bash
+    - name: |
+        if [[ -f docker-compose.yml ]]; then
+          docker-compose down --rmi all || true
+        fi
+        if [[ -x cmd-down.sh ]]; then
+           ./cmd-down.sh
+        fi
     - cwd: /opt/{{ service_id }}
     - prereq:
       - file: {{ service_id }}-compose
@@ -44,7 +51,12 @@
       - file: docker-compose-bin
   # Build image (if needed)
   cmd.run:
-    - name: docker-compose build
+    - shell: /bin/bash
+    - name: |
+        docker-compose build
+        if [[ -x cmd-build.sh ]]; then
+           ./cmd-build.sh
+        fi
     - cwd: /opt/{{ service_id }}
     - onchanges:
       - file: {{ service_id }}-compose
