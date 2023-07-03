@@ -4,6 +4,12 @@
 
 SSH_CONN=$1
 
+# Check - do we have SSH agent running?
+if [[ -z "$SSH_AGENT_PID" ]]; then
+    echo "SSH Agent seems to be not running, start it"
+    ssh-add
+fi
+
 # Cut hostname before 1st dot (short)
 SSH_HOSTNAME_SHORT=$(echo "${SSH_CONN}" | cut -d '@' -f 2 | cut -d '.' -f 1)
 
@@ -30,4 +36,4 @@ mkdir -p "${FAKE_PATH}"
 cd "${FAKE_PATH}"
 
 # Call SSH
-ssh ${SSH_USERNAME}@${SSH_HOSTNAME} -t fish
+ssh -A ${SSH_USERNAME}@${SSH_HOSTNAME} -t fish
