@@ -169,7 +169,7 @@ dashboard = grafana.Dashboard(
                 yAxes=grafana.YAxes(
                     left=grafana.YAxis(min=None, format='ppm'),
                 ),
-                targets=item_graph('sz_co2', name='SZ'),
+                targets=item_graph('sz_co2_co2', name='SZ'),
                 # Force graph's colors and Y-Axis
                 seriesOverrides = [
                     {

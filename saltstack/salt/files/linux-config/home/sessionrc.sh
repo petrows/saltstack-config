@@ -8,6 +8,9 @@ export SAL_USE_VCLPLUGIN=gtk3
 # Default apps scaling for HDPI
 export GDK_DPI_SCALE={{ pillar.xsession.gtk_scale }}
 
+# Ask python to use system CA bundle
+export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+
 # Start private autorun (if exists)
 if test -x $HOME/bin/autorun; then
     $HOME/bin/autorun > /tmp/$USER-xsession-autorun.log 2>&1
