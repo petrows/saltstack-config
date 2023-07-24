@@ -121,6 +121,9 @@ base:
   'pve.pws':
     - pws.pve
 
+  'octoprint.pws':
+    - pws.octoprint
+
   'system.*':
     - pws.system
 

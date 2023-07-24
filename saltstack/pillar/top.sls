@@ -71,6 +71,9 @@ base:
     # FS honeypots
     - common.integrity-pve
 
+  'octoprint.pws':
+    - pws.octoprint
+
   {# 'pve.ows':
     - ows.pve
 
