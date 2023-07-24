@@ -24,3 +24,20 @@ update-octopi-env:
     - unless:
       # Check that file is up-to-date
       - cmp -s /home/pi/requirements.txt /home/pi/requirements.txt.installed
+
+# Replace broken DHT22 script
+
+dht-read-script:
+  file.recurse:
+    - name: /home/pi/oprint/lib/python3.7/site-packages/octoprint_enclosure/
+    - source: salt://files/octoprint/octoprint_enclosure/
+    - template: jinja
+    - user: pi
+    - group: pi
+
+octoprint.service:
+  service.running:
+    - enable: True
+    - watch:
+      - file: dht-read-script
+      - cmd: update-octopi-env
