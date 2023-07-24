@@ -1120,14 +1120,14 @@ class EnclosurePlugin(octoprint.plugin.StartupPlugin, octoprint.plugin.TemplateP
             else:
                 sudo_str = ""
             cmd = sudo_str + "python3 " + script + str(sensor) + " " + str(pin)
-            #if  self._settings.get(["debug_temperature_log"]) is True:
-            self._logger.info("Temperature dht cmd: %s", cmd)
+            if  self._settings.get(["debug_temperature_log"]) is True:
+                self._logger.info("Temperature dht cmd: %s", cmd)
             ddd = Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE)
             stdout = (ddd.stdout).read()
             stderr = (ddd.stderr).read()
-            #if  self._settings.get(["debug_temperature_log"]) is True:
-            self._logger.info("Dht result: %s", stdout)
-            self._logger.info("Dht err: %s", stderr)
+            if  self._settings.get(["debug_temperature_log"]) is True:
+                self._logger.info("Dht result: %s", stdout)
+                self._logger.info("Dht err: %s", stderr)
             temp, hum = stdout.decode("utf-8").split("|")
             return (self.to_float(temp.strip()), self.to_float(hum.strip()))
         except Exception as ex:
