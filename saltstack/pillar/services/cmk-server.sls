@@ -10,7 +10,8 @@ include:
   - services.nginx
 
 check_mk_server:
-  version: 2.1.0p26
+  # https://hub.docker.com/r/checkmk/check-mk-raw/tags
+  version: 2.1.0p31
   data_dir: /srv/cmk-data
 
 proxy_vhosts:

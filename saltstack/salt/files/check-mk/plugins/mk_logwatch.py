@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Copyright (C) 2019 tribe29 GmbH - License: GNU General Public License v2
+# Copyright (C) 2019 Checkmk GmbH - License: GNU General Public License v2
 # This file is part of Checkmk (https://checkmk.com). It is subject to the terms and
 # conditions defined in the file COPYING, which is part of this source code package.
 """mk_logwatch
@@ -23,7 +23,7 @@ You should find an example configuration file at
 
 from __future__ import with_statement
 
-__version__ = "2.1.0p26"
+__version__ = "2.1.0p31"
 
 import sys
 
@@ -771,7 +771,7 @@ def process_logfile(section, filestate, debug):  # pylint: disable=too-many-bran
 class Options(object):  # pylint: disable=useless-object-inheritance
     """Options w.r.t. logfile patterns (not w.r.t. cluster mapping)."""
 
-    MAP_OVERFLOW = {"C": 2, "W": 1, "I": 0, "O": 0}
+    MAP_OVERFLOW = {"C": 2, "W": 1, "I": 0, "O": 0}  # case-insensitive, see set_opt
     MAP_BOOL = {"true": True, "false": False, "1": True, "0": False, "yes": True, "no": False}
     DEFAULTS = {
         "encoding": None,
@@ -864,7 +864,7 @@ class Options(object):  # pylint: disable=useless-object-inheritance
             elif key in ("maxtime",):
                 self.values[key] = float(value)
             elif key == "overflow":
-                if value not in Options.MAP_OVERFLOW:
+                if value.upper() not in Options.MAP_OVERFLOW:
                     raise ValueError(
                         "Invalid overflow: %r (choose from %r)"
                         % (
@@ -872,7 +872,7 @@ class Options(object):  # pylint: disable=useless-object-inheritance
                             Options.MAP_OVERFLOW.keys(),
                         )
                     )
-                self.values["overflow"] = value
+                self.values["overflow"] = value.upper()
             elif key in ("regex", "iregex"):
                 flags = (re.IGNORECASE if key.startswith("i") else 0) | re.UNICODE
                 self.values["regex"] = re.compile(value, flags)
@@ -909,6 +909,11 @@ class PatternConfigBlock(object):  # pylint: disable=useless-object-inheritance
         super(PatternConfigBlock, self).__init__()
         self.files = files
         self.patterns = patterns
+        # First read all the options like 'maxlines=100' or 'maxtime=10'
+        self.options = Options()
+        for item in self.files:
+            if "=" in item:
+                self.options.set_opt(item)
 
 
 class ClusterConfigBlock(object):  # pylint: disable=useless-object-inheritance
@@ -1025,25 +1030,18 @@ def parse_sections(logfiles_config):
     non_matching_patterns = []
 
     for cfg in logfiles_config:
-
-        # First read all the options like 'maxlines=100' or 'maxtime=10'
-        opt = Options()
-        for item in cfg.files:
-            if "=" in item:
-                opt.set_opt(item)
-
         # Then handle the file patterns
         # The thing here is that the same file could match different patterns.
         for glob_pattern in (f for f in cfg.files if "=" not in f):
             logfile_refs = find_matching_logfiles(glob_pattern)
-            if opt.regex is not None:
-                logfile_refs = [ref for ref in logfile_refs if opt.regex.search(ref[1])]
+            if cfg.options.regex is not None:
+                logfile_refs = [ref for ref in logfile_refs if cfg.options.regex.search(ref[1])]
             if not logfile_refs:
                 non_matching_patterns.append(glob_pattern)
             for logfile_ref in logfile_refs:
                 section = found_sections.setdefault(logfile_ref[0], LogfileSection(logfile_ref))
                 section.patterns.extend(cfg.patterns)
-                section.options.update(opt)
+                section.options.update(cfg.options)
 
     logfile_sections = [found_sections[k] for k in sorted(found_sections)]
 
