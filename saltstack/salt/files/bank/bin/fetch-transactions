@@ -180,10 +180,21 @@ def main():
         logging.info("Processing: %s", account_id)
         if not args.test:
             account_api = client.account_api(id=account['account'])
-            transactions_api = account_api.get_transactions(
-                date_from=date_from.strftime("%Y-%m-%d"),
-                date_to=date_to.strftime("%Y-%m-%d")
-            )
+            try:
+                transactions_api = account_api.get_transactions(
+                    date_from=date_from.strftime("%Y-%m-%d"),
+                    date_to=date_to.strftime("%Y-%m-%d")
+                )
+            except requests.exceptions.HTTPError as e:
+                logging.error("HTTP error: %s", str(e))
+                if e.response.json()['type'] == 'AccessExpiredError':
+                    # We have expired token!
+                    # Get new one and post in log
+                    logging.error("Token expired! We have to get new connection!")
+
+                    exit(41)
+
+
             # Dump data (with month)
             json_save(data_dir / f"transactions-{date_with_month}-{account_id}.json", transactions_api)
         else:
