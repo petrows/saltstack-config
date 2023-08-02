@@ -151,6 +151,8 @@ def main():
     if session_file.exists():
         session = json.load(open(session_file))
 
+    if 'account' not in session: session['account'] = {}
+
     # Load accounts
     config_nordigen = json.load(open(config_dir / "nordigen.json", "r"))
     config_firefly = json.load(open(config_dir / "firefly.json", "r"))
@@ -169,15 +171,30 @@ def main():
             secret_key = config_nordigen['key'],
             timeout = 120,
         )
-        client.generate_token()
+        token_info = client.generate_token()
+        session['access'] = token_info['access']
+        session_save()
     else:
         logging.warning("Test mode activated, will use prevous data!")
 
     data = []
 
+    account_errors = []
+
     # Load transactions
     for account_id, account in config_nordigen['accounts'].items():
         logging.info("Processing: %s", account_id)
+        if account_id not in session['account']: session['account'][account_id] = {'status':''}
+        # Check account status
+        account_status = session['account'][account_id].get('status', None)
+        connection_url = f"https://bankaccountdata.gocardless.com/psd2/start/{account['id']}/{account['bank_id']}"
+
+        if account_status == 'suspend':
+            # Account suspended, skip it
+            logging.error("Account suspended! Skipping")
+            account_errors.append(f"Account {account_id}: suspended status, need to be checked and status cleared, connection url: {connection_url}")
+            continue
+
         if not args.test:
             account_api = client.account_api(id=account['account'])
             try:
@@ -187,13 +204,25 @@ def main():
                 )
             except requests.exceptions.HTTPError as e:
                 logging.error("HTTP error: %s", str(e))
+
+                if e.response.status_code == 409:
+                    # Account suspended!
+                    logging.error("Account suspended!")
+                    session['account'][account_id]['status'] = 'suspend'
+                    session_save()
+                    exit(42)
+
                 if e.response.json()['type'] == 'AccessExpiredError':
                     # We have expired token!
-                    # Get new one and post in log
                     logging.error("Token expired! We have to get new connection!")
-
+                    session['account'][account_id]['status'] = 'suspend'
+                    session_save()
+                    # Request new connection link
+                    logging.error(f"New connection: {connection_url}")
                     exit(41)
 
+                # Rethrow unknown
+                raise e
 
             # Dump data (with month)
             json_save(data_dir / f"transactions-{date_with_month}-{account_id}.json", transactions_api)
@@ -242,7 +271,7 @@ def main():
                 transaction_csv['description'] = transaction_raw['remittanceInformationStructured']
             elif 'remittanceInformationUnstructured' in transaction_raw:
                 transaction_csv['description'] = transaction_raw['remittanceInformationUnstructured']
-            # Sometimes it could be even missing!
+            # Sometimes it could be evenpip missing!
             # Populate it with some opposite-account information
             elif 'opposing-name' in transaction_csv:
                 transaction_csv['description'] = transaction_csv['opposing-name']
@@ -309,6 +338,13 @@ def main():
     if not resp.ok:
         logging.info("Error sending data!")
         return 8
+
+    # If we have erorrs recorded, say it
+    if len(account_errors):
+        logging.info("Errors in accounts detected")
+        for err in account_errors:
+            logging.info(err)
+        return 9
 
     return 0
 
