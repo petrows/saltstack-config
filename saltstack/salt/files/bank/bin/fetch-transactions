@@ -68,6 +68,9 @@ transaction_import_config = {
 
 iso_date_regex = re.compile(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}')
 
+# Max errors per service, to throw an error
+max_errors = 5
+
 def session_save():
     with open(str(session_file), 'w') as fp:
         logging.info("Save config to %s", session_file)
@@ -136,6 +139,7 @@ def main():
     date_to = datetime.datetime.now(datetime.timezone.utc)
     date_from = date_to - datetime.timedelta(days=args.days)
     date_with_month = date_to.strftime("%Y-%m")
+    date_with_hour = date_to.strftime("%Y-%m-%d-%H")
 
     logging.info(
         "Fetching from %s to %s",
@@ -185,6 +189,7 @@ def main():
     for account_id, account in config_nordigen['accounts'].items():
         logging.info("Processing: %s", account_id)
         if account_id not in session['account']: session['account'][account_id] = {'status':''}
+        if 'connection_errors' not in session['account'][account_id]: session['account'][account_id]['connection_errors'] = 0
         # Check account status
         account_status = session['account'][account_id].get('status', None)
         connection_url = f"https://bankaccountdata.gocardless.com/psd2/start/{account['id']}/{account['bank_id']}"
@@ -205,6 +210,17 @@ def main():
             except requests.exceptions.HTTPError as e:
                 logging.error("HTTP error: %s", str(e))
 
+                if e.response.status_code == 503:
+                    # Institution service unavailable
+                    logging.error("Service unavailable")
+                    session['account'][account_id]['connection_errors'] = session['account'][account_id]['connection_errors'] + 1
+
+                    if session['account'][account_id]['connection_errors'] >= max_errors:
+                        logging.error(f"Max erros reached for {account_id}")
+                        exit(43)
+                    session_save()
+                    continue
+
                 if e.response.status_code == 409:
                     # Account suspended!
                     logging.error("Account suspended!")
@@ -224,8 +240,14 @@ def main():
                 # Rethrow unknown
                 raise e
 
+            # We get something, reset error counter
+            session['account'][account_id]['connection_errors'] = 0
+
             # Dump data (with month)
             json_save(data_dir / f"transactions-{date_with_month}-{account_id}.json", transactions_api)
+            # Dump data (with month+day+hour)
+            json_save(data_dir / f"transactions-{date_with_hour}-{account_id}.json", transactions_api)
+            session_save()
         else:
             # Re-use previous dump
             transactions_api = json.load(open(data_dir / f"transactions-{date_with_month}-{account_id}.json"))
