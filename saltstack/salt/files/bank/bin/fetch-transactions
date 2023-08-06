@@ -80,6 +80,12 @@ def json_save(filename, data):
     with open(filename, "w") as outfile:
         outfile.write(json.dumps(data, indent=4))
 
+def filter_field(data, field_name, search_string):
+    if field_name in data:
+        if data[field_name] == search_string:
+            del data[field_name]
+    return data
+
 def main():
     """
         Entry point
@@ -286,6 +292,10 @@ def main():
             try:
                 transaction_csv['opposing-iban'] = transaction_raw[f"{field_name}Account"]['iban']
             except: pass
+
+            # Filter out "-" in values (sent by N26)
+            transaction_raw = filter_field(transaction_raw, 'remittanceInformationUnstructured', '-')
+
             # Description
             # Some of banks (N26) have only remittanceInformationUnstructured
             # , and some (Commerzbank) have more detailed remittanceInformationStructured
