@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DEVICES=$(bluetoothctl devices | grep Soundcore | grep -o "[[:xdigit:]:]\{8,17\}")
+DEVICES=$(bluetoothctl devices Connected | grep Soundcore | grep -o "[[:xdigit:]:]\{8,17\}")
 
 if [[ -z $DEVICES ]]; then
     echo "No soundcore devices found"
