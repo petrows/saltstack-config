@@ -61,6 +61,9 @@ def main():
 
         private_key = client.get("private", "< place-your-private-key-here >")
         user_comment = client.get("comment", None)
+        # This option disables partial DNS config (for full traffic mode)
+        # User will have DNS option always, even if VPN defines domain
+        force_full_dns = client.get("full_dns", False)
 
         client_config = []
 
@@ -77,7 +80,7 @@ def main():
         # DNS record is set?
         if 'dns' in secrets["server"]:
             # Domain record is set?
-            if "domain" in secrets["server"] and secrets["server"]["domain"]:
+            if "domain" in secrets["server"] and secrets["server"]["domain"] and not force_full_dns:
                 # We are using resolvectl as DNS backend, resolvconf may break old domains on use
                 client_config += [f'PostUp = resolvectl dns %i {secrets["server"]["address"]}; resolvectl domain %i ~' + ' ~'.join(secrets["server"]["domain"])]
             # Just simple DNS server (no domain)
