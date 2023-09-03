@@ -1,0 +1,185 @@
+#!/usr/bin/env python
+"""
+This script manages nordigen accounts
+"""
+
+import argparse
+import csv
+import datetime
+import logging
+import json
+import sys
+import requests
+import re
+from pathlib import Path
+from pprint import pprint
+from uuid import uuid4
+from nordigen import NordigenClient
+
+root = Path(__file__).parents[1]
+
+def session_save():
+    with open(str(session_file), 'w') as fp:
+        logging.info("Save config to %s", session_file)
+        json.dump(session, fp)
+
+def json_save(filename, data):
+    with open(filename, "w") as outfile:
+        outfile.write(json.dumps(data, indent=4))
+
+def filter_field(data, field_name, search_string):
+    if field_name in data:
+        if data[field_name] == search_string:
+            del data[field_name]
+    return data
+
+def main():
+    """
+        Entry point
+    """
+    global session
+    global session_file
+
+    parser = argparse.ArgumentParser(
+        description='Manage nordigen'
+    )
+
+    parser.add_argument(
+        'action',
+        choices=['institution-list', 'bank-list', 'bank-remove', 'bank-add', 'account-show'],
+        default='bank-list',
+        help='select action to perform',
+    )
+
+    parser.add_argument(
+        '-l', '--log',
+        choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
+        default='INFO',
+        help='set log level',
+    )
+
+    parser.add_argument(
+        '--cfg-dir',
+        default=Path("cfg"),
+        help='path to get json config files and store session',
+    )
+
+    parser.add_argument(
+        '--account-id',
+        default=None,
+        help='account ID to use',
+    )
+
+    parser.add_argument(
+        '--bank-id',
+        default=None,
+        help='bank (requisition) ID to use',
+    )
+
+    parser.add_argument(
+        '--institution-id',
+        default=None,
+        help='institution ID to build link, to list use institution-list',
+    )
+
+    args = parser.parse_args()
+
+    log_level = args.log
+    logging.basicConfig(level=log_level)
+
+    logging.debug("Config path %s", args.cfg_dir)
+    config_dir = Path(args.cfg_dir)
+
+    # Check - do we have session valid?
+
+    session_file = Path(config_dir) / "session.json"
+
+    # Load session file (if present)
+    if session_file.exists():
+        session = json.load(open(session_file))
+
+    if 'account' not in session: session['account'] = {}
+
+    # Load accounts
+    config_nordigen = json.load(open(config_dir / "nordigen.json", "r"))
+
+    # Establish Nordigen
+    client = NordigenClient(
+        secret_id = config_nordigen['id'],
+        secret_key = config_nordigen['key'],
+        timeout = 120,
+    )
+    token_info = client.generate_token()
+    session['access'] = token_info['access']
+    session_save()
+
+    if args.action == 'institution-list':
+        bank_api = client.institution
+        pprint(bank_api.get_institutions())
+
+    if args.action == 'account-show':
+        if args.account_id == None:
+            logging.error("To use command must set --account-id option")
+            return 1
+
+        account = config_nordigen['accounts'][args.account_id]
+        account_api = client.account_api(id=account['account'])
+        account_details = account_api.get_details()
+        pprint(account)
+        pprint(account_details)
+
+    if args.action == 'bank-list':
+        bank_api = client.requisition
+        banks = bank_api.get_requisitions()
+
+        for bank in banks["results"]:
+            print(f"ID: {bank['id']}")
+            print(f"Bank: {bank['institution_id']}")
+            bank_used = False
+            # Check if bank is used?
+            for account_id, account in config_nordigen['accounts'].items():
+                if account['id'] == bank['id']:
+                    bank_used = True
+                    break
+            print(f"Used: {bank_used}")
+            print(f"Accounts: {bank['accounts']}")
+            print(f"Link: {bank['link']}")
+            print(f"")
+
+    if args.action == 'bank-remove':
+        if args.bank_id == None:
+            logging.error("To use command must set --bank-id option")
+            return 1
+
+        bank_api = client.requisition
+        pprint(bank_api.delete_requisition(args.bank_id))
+
+    if args.action == 'bank-add':
+        if args.institution_id == None:
+            logging.error("To use command must set --institution-id option")
+            return 1
+
+        # Generate unique ID
+        date_now = datetime.datetime.now()
+        institution_ref = f"{args.institution_id} {date_now.strftime('%Y-%m-%d %H:%M:%S')}"
+
+        bank_api = client.requisition
+
+        # Create new bank link
+        ret = bank_api.create_requisition(
+            redirect_uri='https://petro.ws/',
+            institution_id=args.institution_id,
+            reference_id=institution_ref,
+        )
+
+        pprint(ret)
+
+        # Print link to new bank
+        logging.info(f"Bank added!")
+        logging.info(f"Bank ID: {ret['id']}")
+        logging.info(f"Follow this link to process: {ret['link']}")
+        logging.info(f"Then finish, use bank-list to list accounts")
+
+
+if __name__ == "__main__":
+    sys.exit(main())
