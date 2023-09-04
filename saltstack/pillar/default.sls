@@ -60,8 +60,8 @@ git_config:
   alias.s: status --short
   alias.checkout-pr: "!f() { git fetch origin pull/$1/head:pr-$1 && git checkout pr-$1; }; f"
   alias.cln: "!f() { git submodule sync; git submodule update --init --remote; git reset --hard --recurse-submodule; git clean -fd; }; f"
-  alias.ch: "!f() { git fetch; git checkout -f --recursive-submodules $1; }; f"
-  alias.cm: "!f() { git checkout -f --recursive-submodules master; git pull --rebase }; f"
+  alias.ch: "!f() { git fetch; git checkout -f --recurse-submodules $1; }; f"
+  alias.cm: "!f() { git checkout -f --recurse-submodules master; git pull --rebase; }; f"
   alias.pb: push --set-upstream origin HEAD
   alias.pf: push --force
   alias.d: diff
