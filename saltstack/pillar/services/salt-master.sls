@@ -18,7 +18,6 @@ salt:
       port: 8144
     ru.vds.pws:
       port: 8144
-    # rpi.office.pws: {}
   master:
     file_roots:
       base:
