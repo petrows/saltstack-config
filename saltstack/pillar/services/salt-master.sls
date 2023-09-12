@@ -12,7 +12,7 @@ salt:
     build-linux.pws: {}
     bank.pws: {}
     nexum.pws: {}
-    rpi.j.pws: {}
+    pve.j.pws: {}
     # External
     eu.vds.pws:
       port: 8144
