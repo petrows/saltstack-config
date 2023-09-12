@@ -116,27 +116,15 @@ ssh:
         host: '*.internal'
         config:
           StrictHostKeyChecking: 'no'
-    j_root_ssh:
-      host: 'root.j.pws'
-      config:
-        Port: 6446
-    j_wlan_ssh:
-      host: 'wlan.j.pws'
-      config:
-        Port: 6446
-    m_root_ssh:
-      host: 'root.m.pws'
-      config:
-        Port: 6446
 
-# Define list of hosts managed via SSH
+# Define list of hosts, to be managed in sshd config
 ssh_machines:
-    # DMZ
-    home.pws: {}
-    web-vm.pws: {}
-    build-linux.pws: {}
-    nexum.pws: {}
-    # External
+    root.j.pws:
+      port: 6446
+    wlan.j.pws:
+      port: 6446
+    root.m.pws:
+      port: 6446
     eu.vds.pws:
       port: 8144
     ru.vds.pws:
