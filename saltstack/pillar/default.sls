@@ -7,6 +7,9 @@ tmp_ramdisk: False
 
 # Additional software
 packages: []
+
+# List of packages, will be installed to system venv,
+# Use `/opt/venv/system/bin/python` as interpreter
 packages_pip3: []
 
 # PIP3 location
