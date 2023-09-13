@@ -147,14 +147,6 @@ base:
   'backup-ext.*':
     - pws.backup-ext
 
-# Office host config
-
-  'office.ows':
-    - ows.office
-
-  'pve.ows':
-    - ows.pve
-
 # Local host config
   'pc-*':
     - common.users
@@ -165,3 +157,7 @@ base:
 
   'pc-work-nb':
     - pws.local-laptop
+
+# Julia
+  'pve.j.pws':
+    - j.pve

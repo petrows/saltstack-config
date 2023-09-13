@@ -2,7 +2,7 @@ openhab:
   id: Openhab-julia
   zigbee2mqtt:
     id: Openhab-julia-zigbee2mqtt
-    device: /dev/serial/by-id/usb-Silicon_Labs_Sonoff_Zigbee_3.0_USB_Dongle_Plus_0001-if00-port0
+    device: /dev/ttyUSB-Z-Stack
   mosquitto:
     id: Openhab-julia-mosquitto
   tuyamqtt:

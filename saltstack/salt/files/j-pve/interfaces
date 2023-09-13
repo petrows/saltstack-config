@@ -1,0 +1,17 @@
+auto lo
+iface lo inet loopback
+
+# LAN interface
+iface eth0 inet manual
+
+# LAN VMs
+auto vmbr0
+iface vmbr0 inet static
+    hwaddress 2c:4d:54:62:ac:d4
+    address 10.82.0.4
+    netmask 255.255.255.0
+    gateway 10.82.0.1
+    bridge_ports eth0
+    bridge_vlan_aware yes
+    bridge_stp off
+    bridge_fd 0

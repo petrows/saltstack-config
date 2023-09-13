@@ -46,6 +46,11 @@ base:
   '10.80.6.0/24':
     - match: ipcidr
     - grains.network-smarthome
+  # Julia
+  '10.82.0.0/24':
+    - match: ipcidr
+    - grains.network-dmz
+    - grains.network-dmz-julia
 
 # Config by-type
 # CT machines
@@ -227,14 +232,19 @@ base:
     - pws.pc-work-nb
 
 # Julia hosts
-  'rpi.j.*':
-    - users.master
+  'pve.j.*':
     - grains.host-hdd
+    - j.pve
+
+  'home.j.*':
+    - users.master
     - grains.network-dmz
-    - grains.rpi
-    - julia.rpi
     - services.openhab
     - services.openhab-julia
+
+  'media.j.*':
+    - users.master
+    - grains.network-dmz
     - services.samba
     - services.samba-julia
     - services.photoprism
