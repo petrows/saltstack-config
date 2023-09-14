@@ -3,7 +3,7 @@
 # i3 config options
 i3:
   display_config_id: work-nb
-  temp_read: /sys/devices/platform/coretemp.0/hwmon/hwmon3/temp1_input
+  temp_read: /sys/devices/platform/coretemp.0/hwmon/hwmon6/temp1_input
   # Enable compton?
   composite: False
 
