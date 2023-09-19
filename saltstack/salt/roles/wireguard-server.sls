@@ -28,6 +28,7 @@ wireguard-{{ server_id }}-config:
         {% if server.get('port', False) %}ListenPort = {{ server.port }}{% endif %}
         {% if server_secrets.get('server_dns') %}PostUp = resolvectl dns %i {{server_secrets.server_dns.dns}}; resolvectl domain %i ~{{ server_secrets.server_dns.domain | join(' ~') }}{% endif %}
         PrivateKey = {{ server_secrets.private }}
+        {% if server.get('fwmark', False) %}FwMark = {{ server.fwmark }}{% endif %}
 {%- for peer_id, peer in peers.items() %}
   {%- set peer_ip, peer_netmask = peer.address.split('/') %}
   {%- set peer_ports = peer.ports|default([]) %}
