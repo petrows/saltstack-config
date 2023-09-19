@@ -13,6 +13,8 @@ wireguard-pkg:
 
 # Server config(s)
 
+{%- set iptables_enable =  salt['pillar.get']('wireguard:iptables', True) %}
+
 {%- for server_id, server in salt['pillar.get']('wireguard-server', {}).items() %}
 {%- set server_secrets =  salt['pillar.get']('pws_secrets:wireguard:'+server_id+':server', {}) %}
 {%- set peers =  salt['pillar.get']('pws_secrets:wireguard:'+server_id+':client', {}) %}
@@ -47,11 +49,16 @@ wireguard-{{ server_id }}-config:
         AllowedIPs = {{ peer.address }}
 {% endfor %}
 
+{% if server.get('autorun', True) %}
 wg-quick@wg-{{ server_id }}.service:
   service.running:
     - enable: True
     - watch:
       - file: /etc/wireguard/wg-{{ server_id }}.conf
+{% endif %}
+
+# Create iptables rules?
+{% if iptables_enable %}
 
 # If server defines port - open it
 {% if server.get('port', False) %}
@@ -84,8 +91,11 @@ wireguard-forward-out-{{ server_id }}:
     - comment: "WG {{ server_id }}"
     - save: True
 
-{% endfor %}
+{% endif %} # iptables option
 
+{% endfor %} # Servers
+
+{% if iptables_enable %}
 wireguard-masquerade:
   iptables.append:
     - table: nat
@@ -93,6 +103,7 @@ wireguard-masquerade:
     - jump: MASQUERADE
     - out-interface: {{ default_if }}
     - save: True
+{% endif %}
 
 iptables-masquerade-sysctl:
   sysctl.present:
