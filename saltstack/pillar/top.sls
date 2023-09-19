@@ -47,7 +47,7 @@ base:
     - match: ipcidr
     - grains.network-smarthome
   # Julia
-  '10.82.0.0/24':
+  '10.82.0.0/16':
     - match: ipcidr
     - grains.network-dmz
     - grains.network-dmz-julia
@@ -238,14 +238,16 @@ base:
 
   'home.j.*':
     - users.master
-    - grains.network-dmz
     - services.openhab
     - services.openhab-julia
 
   'media.j.*':
     - users.master
-    - grains.network-dmz
     - services.samba
     - services.samba-julia
     - services.photoprism
     - services.photoprism-julia
+
+  'vpn.j.*':
+    - users.master
+    - j.vpn

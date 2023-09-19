@@ -161,3 +161,6 @@ base:
 # Julia
   'pve.j.pws':
     - j.pve
+
+  'vpn.j.pws':
+    - j.vpn
