@@ -7,19 +7,36 @@ net.ipv4.ip_forward:
     - value: 1
 
 # Network config
-pve-net-deps:
+{# pve-net-deps:
   kmod.present:
     - persist: True
     - mods:
       - 8021q
   file.managed:
     - name: /etc/network/interfaces
-    - source: salt://files/j-pve/interfaces
+    - source: salt://files/j-pve/interfaces #}
 
 pve-udev:
   file.managed:
     - name: /etc/udev/rules.d/10-local.rules
     - source: salt://files/j-pve/udev-10-local.rules
+
+pve-grub:
+  file.managed:
+    - name: /etc/default/grub
+    - source: salt://files/j-pve/grub
+
+/etc/subuid:
+  file.managed:
+    - contents: |
+        root:0:6553600
+        salt:6553600:65536
+
+/etc/subgid:
+  file.managed:
+    - contents: |
+        root:0:6553600
+        salt:6553600:65536
 
 # Wireguard for LXC
 
