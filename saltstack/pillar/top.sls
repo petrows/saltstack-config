@@ -234,14 +234,17 @@ base:
 # Julia hosts
   'pve.j.*':
     - grains.host-hdd
+    - users.ssh-pve
     - j.pve
 
   'home.j.*':
+    - users.ssh-pve
     - users.master
     - services.openhab
     - services.openhab-julia
 
   'media.j.*':
+    - users.ssh-pve
     - users.master
     - services.samba
     - services.samba-julia
@@ -249,5 +252,6 @@ base:
     - services.photoprism-julia
 
   'vpn.j.*':
+    - users.ssh-pve
     - users.master
     - j.vpn
