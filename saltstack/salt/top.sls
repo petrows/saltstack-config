@@ -133,7 +133,8 @@ base:
   'home.*':
     - pws.home
 
-  'media.*':
+  'media.pws or media.dev':
+    - match: compound
     - pws.media
 
   'nexum.*':

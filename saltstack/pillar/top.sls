@@ -167,7 +167,8 @@ base:
   #'home.ows':
   #  - services.openhab-office
 
-  'media.*':
+  'media.pws or media.dev':
+    - match: compound
     - users.master
     - services.samba
     - services.plex
