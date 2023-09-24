@@ -27,10 +27,3 @@ linux-add-package-{{ pkg }}:
   pkg.installed:
     - name: {{ pkg }}
 {% endfor %}
-
-{% for pkg in salt['pillar.get']('packages_pip3', []) %}
-linux-add-package-pip3-{{ pkg }}:
-  pip.installed:
-    - name: {{ pkg }}
-    - bin_env: {{ pillar.pip3_bin }}
-{% endfor %}

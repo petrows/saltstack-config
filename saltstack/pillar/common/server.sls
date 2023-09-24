@@ -25,3 +25,4 @@ packages:
 # Default pip3 packages for notifications
 packages_pip3:
   - telegram-send
+  - docker

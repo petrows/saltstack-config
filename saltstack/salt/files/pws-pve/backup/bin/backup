@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python-app
 
 # Backup system
 # This script should be run every day at night (03:00)

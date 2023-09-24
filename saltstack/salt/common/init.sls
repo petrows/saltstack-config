@@ -3,6 +3,7 @@ include:
   - common.fzf
   - common.ssh
   - common.iptables
+  - common.python
 
 locale-us:
   locale.present:

@@ -67,9 +67,4 @@ check_mk_plugin_docker_cfg:
     - source: salt://files/check-mk/configs/docker.cfg
     - makedirs: True
     - mode: 755
-docker-monitoring-pip-pkgs:
-  pip.installed:
-    - names:
-      - docker
-    - bin_env: {{ pillar.pip3_bin }}
 {% endif %}
