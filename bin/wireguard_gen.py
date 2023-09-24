@@ -17,6 +17,8 @@ def main():
         Entry point
     """
 
+    root = Path(__file__).parent.parent.resolve()
+
     parser = argparse.ArgumentParser(
         description='Generates QR codes for all WG clients'
     )
@@ -25,12 +27,16 @@ def main():
         'server_id',
         help='server ID in secrets pillar: pillar.pws_secrets.wireguard.<NAME>'
     )
+    parser.add_argument(
+        '--file',
+        '-f',
+        default=root / "secrets/pillar/secrets.sls",
+        help='pillar file to parse, default is <root>/secrets/pillar/secrets.sls',
+    )
 
     args = parser.parse_args()
 
-    root = Path(__file__).parent.parent.resolve()
-
-    secrets_f = open(root / "secrets/pillar/secrets.sls", "r").read()
+    secrets_f = open(args.file, "r").read()
 
     # Remove Jinja comments
     secrets_f = re.sub('\\{#.*#\\}', '', secrets_f, flags=re.DOTALL)
