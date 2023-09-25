@@ -8,7 +8,7 @@ base:
     - roles.docker-compose-macro
 
   # Network-based
-  'network:lan':
+  'network:type:lan':
     - match: pillar
     - roles.server-lan
 
