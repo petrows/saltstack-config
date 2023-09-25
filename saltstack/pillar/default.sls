@@ -15,6 +15,7 @@ packages_pip3: []
 # PIP3 location
 pip3_bin: /usr/bin/pip3
 python_bin: /opt/venv/app/bin/python
+python_system_bin: /usr/bin/python3
 
 # Use 'powerline.segments.common.vcs.branch' for old systems
 powerline_git_plugin: 'powerline.segments.common.vcs.branch'

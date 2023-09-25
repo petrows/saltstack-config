@@ -6,6 +6,7 @@
 /opt/venv/app:
   virtualenv.managed:
     - user: root
+    - python: {{ pillar.python_system_bin }}
     - pip_pkgs:
       {% for pkg in pillar.packages_pip3 %}
       - {{ pkg }}
