@@ -12,7 +12,11 @@ salt:
     build-linux.pws: {}
     bank.pws: {}
     nexum.pws: {}
-    # pve.j.pws: {}
+    # Julia
+    pve.j.pws: {}
+    media.j.pws: {}
+    home.j.pws: {}
+    vpn.j.pws: {}
     # External
     eu.vds.pws:
       port: 8144
