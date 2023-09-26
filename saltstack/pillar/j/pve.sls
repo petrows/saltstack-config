@@ -9,7 +9,6 @@ packages:
 
 check_mk_plugins:
   - smart
-  - mk_docker.py
 
 iptables:
   strict_mode: False

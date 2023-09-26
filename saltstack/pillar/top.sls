@@ -247,6 +247,7 @@ base:
   'media.j.*':
     - users.ssh-pve
     - users.master
+    - j.media
     - services.samba
     - services.samba-julia
     - services.photoprism
