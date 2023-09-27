@@ -120,6 +120,7 @@ base:
   # Hosts configs
   'pve.pws':
     - pws.pve
+    - roles.proxmox
 
   'octoprint.pws':
     - pws.octoprint
@@ -162,6 +163,7 @@ base:
 # Julia
   'pve.j.pws':
     - j.pve
+    - roles.proxmox
 
   'vpn.j.pws':
     - j.vpn
