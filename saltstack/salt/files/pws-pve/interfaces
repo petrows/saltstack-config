@@ -13,5 +13,14 @@ iface vmbr0 inet static
     gateway 10.80.0.1
     bridge_ports enp4s0
     bridge_vlan_aware yes
+    bridge-vids 2-4094
     bridge_stp off
     bridge_fd 0
+
+# GUEST
+auto vmbr0.20
+iface vmbr0.20 inet manual
+
+# DMZ
+auto vmbr0.30
+iface vmbr0.30 inet manual

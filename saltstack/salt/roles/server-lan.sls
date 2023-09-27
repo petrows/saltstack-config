@@ -9,19 +9,23 @@ salt-minion-config:
     - template: jinja
 
 # Manage Slatstack repo
+{% set key_url = 'https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/SALT-PROJECT-GPG-PUBKEY-2023.gpg' %}
 {% set osname = grains.os|lower %}
+{% set oscodename = grains.oscodename %}
 {% if osname == 'raspbian' %}
   {% set os_url = 'https://repo.saltproject.io/py3/debian/' + grains.osrelease + '/' + grains.osarch + '/latest' %}
-  {% set key_url = 'https://repo.saltproject.io/py3/debian/' + grains.osrelease + '/' + grains.osarch + '/latest/salt-archive-keyring.gpg' %}
+{% elif grains.osfinger == 'Debian-12' %}
+  # Use debian 11 repo. FIXME: update when Debian 12 will be presented
+  {% set os_url = 'https://repo.saltproject.io/py3/debian/11/' + grains.osarch + '/latest' %}
+  {% set oscodename = 'bullseye' %}
 {% else %}
 # Repo path
   {% set os_url = 'https://repo.saltproject.io/salt/py3/' + osname + '/' + grains.osrelease + '/' + grains.osarch + '/latest' %}
-  {% set key_url = 'https://repo.saltproject.io/salt/py3/' + osname + '/' + grains.osrelease + '/' + grains.osarch + '/SALT-PROJECT-GPG-PUBKEY-2023.gpg' %}
 {% endif %}
 saltstack-repo:
   pkgrepo.managed:
     - file: /etc/apt/sources.list.d/saltstack.list
-    - name: deb {{ os_url }} {{ grains.oscodename }} main
+    - name: deb {{ os_url }} {{ oscodename }} main
     - key_url: {{ key_url }}
 
 salt-minion-update.service:
