@@ -1,18 +1,29 @@
 roles:
   - wireguard-server
-  - l2tp-server
   - dante
+
+packages:
+  - vnstat
+  - vnstati
+
+{%
+  set vpn_users = {
+    'petro': {'id': 0},
+  }
+%}
 
 # VPN
 wireguard-server:
   'eu-pws':
     port: 465 # Port listen
     address: '10.80.8.1/24' # Server VPN address
-
-l2tp-server:
-    name: eu-pws
-    address: '10.80.9.1'
-    range: '10.80.9.2-10.80.9.254'
+# New users iterate
+{% for user, vpn in vpn_users.items() %}
+  'eu-{{ user }}':
+    port: {{ 27031 + vpn.id }} # Port listen
+    network: '10.85.{{ vpn.id }}.0/24'
+    address: '10.85.{{ vpn.id }}.1/24' # Server VPN address
+{% endfor %}
 
 dante:
   port: 13380
