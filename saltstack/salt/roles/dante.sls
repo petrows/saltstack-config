@@ -9,7 +9,7 @@ dante-pkg:
         logoutput: stderr
         # debug: 2
         internal: {{ pillar.dante.if | default('0.0.0.0') }} port = {{ pillar.dante.port }}
-        external: {{ pillar.dante.if_external }}
+        {%- if pillar.dante.if_external|default(None) %}external: {{ pillar.dante.if_external }}{% endif %}
         user.notprivileged: nobody
         clientmethod: none
         socksmethod: none
