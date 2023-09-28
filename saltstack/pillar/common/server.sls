@@ -21,8 +21,11 @@ check_mk_agent:
 
 packages:
   - sudo
+  # Requered by pip systemd
+  - libsystemd-dev
 
 # Default pip3 packages for notifications
 packages_pip3:
   - telegram-send
   - docker
+  - systemd
