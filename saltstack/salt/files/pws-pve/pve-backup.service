@@ -5,5 +5,5 @@ OnFailure=status-email@%n.service
 [Service]
 Type=notify
 RemainAfterExit=no
-ExecStart=/opt/backup/bin/backup
+ExecStart=/opt/venv/app/bin/python /opt/backup/bin/backup
 TimeoutStartSec=0
