@@ -1,0 +1,6 @@
+#!/bin/bash -xe
+
+cd /mnt/julia-data/backup/vz/
+
+# Backup all CT and VM
+vzdump --all -compress lzo -dumpdir ./ -tmpdir ./ -mailto root --maxfiles 3

@@ -16,13 +16,15 @@ net.ipv4.ip_forward:
     - name: /etc/network/interfaces
     - source: salt://files/j-pve/interfaces #}
 
-pve-udev:
+/etc/udev/rules.d/10-local.rules:
   file.managed:
-    - name: /etc/udev/rules.d/10-local.rules
     - source: salt://files/j-pve/udev-10-local.rules
 
-pve-grub:
+/etc/default/grub:
   file.managed:
-    - name: /etc/default/grub
     - source: salt://files/j-pve/grub
 
+/usr/sbin/backup-j-pve:
+  file.managed:
+    - mode: 755
+    - source: salt://files/j-pve/backup-j-pve

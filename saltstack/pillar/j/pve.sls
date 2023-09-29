@@ -28,3 +28,12 @@ ssh:
       user: root
       enc: ssh-ed25519
       key: AAAAC3NzaC1lZDI1NTE5AAAAILO4R2eYkW2YUGB1VBu5XlNRdNlJwceBDEJrNfRtKz/8
+
+# Backup cronjob
+systemd-cron:
+  backup-j-pve:
+    user: root
+    # Every day
+    calendar: 'Mon 8:00'
+    cwd: /
+    cmd: /usr/sbin/backup-j-pve
