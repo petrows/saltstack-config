@@ -134,7 +134,7 @@ ssh_machines:
       port: 8144
     ru.vds.pws:
       port: 8144
-    ext.j.pws:
+    pve.ext.j.pws:
       port: 34123
 
 iptables:
