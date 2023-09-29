@@ -134,6 +134,8 @@ ssh_machines:
       port: 8144
     ru.vds.pws:
       port: 8144
+    ext.j.pws:
+      port: 34123
 
 iptables:
   strict_mode: False # If true all input traffic will be blocked by default
