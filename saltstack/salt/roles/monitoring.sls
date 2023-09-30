@@ -23,9 +23,11 @@ check_mk_no_agent_port:
 
 # Install plugins?
 {% for plugin_id in salt['pillar.get']('check_mk_plugins', []) %}
+# Remove .py, as it will have system interpreter usage
+{% set plugin_fname = plugin_id | replace(".py", "") %}
 check_mk_plugin_{{plugin_id}}:
   file.managed:
-    - name: /usr/lib/check_mk_agent/plugins/{{plugin_id}}
+    - name: /usr/lib/check_mk_agent/plugins/{{plugin_fname}}
     - source: salt://files/check-mk/plugins/{{plugin_id}}
     - makedirs: True
     - mode: 755
