@@ -14,5 +14,10 @@
 
 # Default interpreter
 /usr/bin/python-app:
-  file.symlink:
-    - target: /opt/venv/app/bin/python
+  file.managed:
+    - mode: 755
+    - follow_symlinks: false
+    - contents: |
+        #!/bin/bash -e
+        source /opt/venv/app/bin/activate
+        /opt/venv/app/bin/python "$@"
