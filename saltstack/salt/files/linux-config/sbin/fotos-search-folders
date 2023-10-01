@@ -1,0 +1,134 @@
+#!/usr/bin/env python3
+"""
+Script used to find folders with photos by year
+"""
+
+import datetime
+import fnmatch
+import os
+import glob
+import argparse
+import re
+import exifread
+import logging
+from pathlib import Path
+import shutil
+from PIL import Image
+
+parser = argparse.ArgumentParser(
+    description='Find folders with  with photos by year')
+
+parser.add_argument(
+    '-l', '--log',
+    choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
+    default='INFO',
+    help='set log level',
+)
+
+parser.add_argument(
+    '--out',
+    action='store',
+    type=str,
+    required=True,
+    help='out location, use %Y, %m, %d placeholders for Year, Month and Day from file as part of path',
+)
+
+parser.add_argument(
+    '--rename',
+    action='store',
+    type=str,
+    required=False,
+    help='out name, %N original name, use %Y, %m, %d placeholders for Year, Month and Day from file as part of path',
+)
+
+parser.add_argument(
+    '-d', '--dry-run',
+    action='store_true',
+    help='dry run',
+)
+
+parser.add_argument(
+    'search',
+    type=str,
+    action='store',
+    help='glob expression to search',
+)
+
+def detectFileDate(file: Path) -> datetime.datetime:
+    # Try to read exif
+    try:
+        fh = open(file, 'rb')
+        tag = 'EXIF DateTimeOriginal'
+        tags = exifread.process_file(fh, stop_tag=tag)
+        dateTaken = str(tags[tag])
+        imageDate = datetime.datetime.strptime(dateTaken, "%Y:%m:%d %H:%M:%S")
+        return imageDate
+    except:
+        pass
+
+    # No exif -> use file modified time
+    return datetime.datetime.fromtimestamp(file.stat().st_mtime)
+
+def findImages(dir: Path):
+    result = []
+    for root, dirs, files in os.walk(dir, topdown=True):
+        result += [os.path.join(root, j) for j in files \
+            if re.match(fnmatch.translate("*.jpg"), j, re.IGNORECASE)]
+    return result
+
+def replacePath(template, dirdate, name):
+    out_path_tpl = template
+    out_path_tpl = out_path_tpl.replace('%N', name)
+    out_path_tpl = out_path_tpl.replace('%Y', dirdate.strftime("%Y"))
+    out_path_tpl = out_path_tpl.replace('%m', dirdate.strftime("%m"))
+    out_path_tpl = out_path_tpl.replace('%d', dirdate.strftime("%d"))
+    return out_path_tpl
+
+
+args = parser.parse_args()
+
+log_level = args.log
+logging.basicConfig(level=log_level)
+
+for each in glob.glob(args.search, recursive=False):
+    # Skip non-folders
+    f = Path(each)
+    if not f.is_dir(): continue
+
+    dirdate = None
+    matched = False
+
+    images = findImages(f)
+
+    # Search fotos inside
+    for foto in images:
+        foto_f = Path(foto)
+        try:
+            dirdate = detectFileDate(foto_f)
+            matched = True
+            break
+        except Exception as err:
+            continue
+
+    if matched:
+        # Check placeholders in out path
+        out_path_tpl = replacePath(args.out, dirdate, f.name)
+        out_name_tpl = f.name
+        if args.rename:
+            out_name_tpl = replacePath(args.rename, dirdate, f.name)
+
+        out_path = Path(out_path_tpl) / out_name_tpl
+
+        print(f"{dirdate}, {each} -> {out_path}")
+
+        if args.dry_run:
+            # Do nothing
+            pass
+        else:
+            # Move file
+            if out_path.exists():
+                print(f"Warning: {out_path} already exists, skipping")
+            else:
+                out_path.parent.mkdir(parents=True, exist_ok=True)
+                shutil.move(f, out_path)
+
