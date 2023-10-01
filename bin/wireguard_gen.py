@@ -4,6 +4,7 @@
 """
 
 import argparse
+import os
 from pathlib import Path
 import ipaddress
 import re
@@ -33,6 +34,12 @@ def main():
         default=root / "secrets/pillar/secrets.sls",
         help='pillar file to parse, default is <root>/secrets/pillar/secrets.sls',
     )
+    parser.add_argument(
+        '--zip',
+        '-z',
+        action='store_true',
+        help='pack files to .zip in tmp',
+    )
 
     args = parser.parse_args()
 
@@ -60,6 +67,9 @@ def main():
             print(f"ERROR! Duplicating IP address {client['address']}")
             sys.exit(1)
         client_ips.append(client['address'])
+
+    # Cleanup clients folder
+    os.system(f'rm -rf "{args.server_id}"')
 
     # Iterate clients
     for client_id, client in secrets['client'].items():
@@ -99,8 +109,11 @@ def main():
         client_config += [f'AllowedIPs = 0.0.0.0/0']
         client_config = '\n'.join(client_config)
 
+        # Output client config path
+        Path(args.server_id).mkdir(parents=True, exist_ok=True)
+
         # Save client config
-        f = open(f'{args.server_id}.{client_id}.conf', 'w')
+        f = open(f'{args.server_id}/{client_id}.conf', 'w')
         f.write(client_config)
         f.close()
 
@@ -113,7 +126,12 @@ def main():
             qr.add_data(client_config)
             qr.make(fit=True)
             img = qr.make_image(fill='black', back_color='white')
-            img.save(f'{args.server_id}.{client_id}.png')
+            img.save(f'{args.server_id}/{client_id}.png')
+
+    # Create zip for package?
+    if (args.zip):
+        os.system(f'rm -rf "/tmp/{args.server_id}.zip"')
+        os.system(f'zip -x "Server: {args.server_id}" -j /tmp/{args.server_id}.zip {args.server_id}/*')
 
 
 if __name__ == "__main__":
