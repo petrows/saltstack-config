@@ -136,6 +136,8 @@ ssh_machines:
       port: 8144
     pve.ext.j.pws:
       port: 34123
+    media.ext.j.pws:
+      port: 20124
 
 iptables:
   strict_mode: False # If true all input traffic will be blocked by default
