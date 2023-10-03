@@ -4,4 +4,11 @@
 
 RETAIN_DAYS=30
 
+# Petro mobile DCIM
 /home/master/bin/exif-sort --older $RETAIN_DAYS --out '/srv/storage/common/photo/photos/%Y/%Y - Mobile Petro/%Y-%m/' '/srv/storage/home/petro/mobile-photos/Camera/'
+
+# Petro Mobile screenshots
+/home/master/bin/exif-sort --older $RETAIN_DAYS --out '/srv/storage/home/petro/screenshots/%Y/' '/srv/storage/home/petro/mobile-pics/Screenshots/'
+
+# Petro instagram pics
+/home/master/bin/exif-sort --older $RETAIN_DAYS --out '/srv/storage/common/photo/photos/%Y/%Y - Instagram/' '/srv/storage/home/petro/mobile-pics/Instagram/'
