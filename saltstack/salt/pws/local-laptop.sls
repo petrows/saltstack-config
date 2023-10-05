@@ -4,3 +4,7 @@ local-laptop-soft:
     - pkgs:
       # Brightness control
       - light
+
+# Disable tailscale auto-start - too aggressive
+tailscaled.service:
+  service.disabled: []
