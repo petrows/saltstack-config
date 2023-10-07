@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Force connection and call a2dp for HOME headset
+
+bt-force-profile a2dp_sink AC:12:2F:CD:F8:6C

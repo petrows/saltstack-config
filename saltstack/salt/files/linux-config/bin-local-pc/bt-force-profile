@@ -33,6 +33,9 @@ fi
 # Prepare services for work!
 systemctl --user restart pulseaudio.service
 killall blueman-manager
+# Kill applet, to avoid annoying windows created
+killall blueman-applet
+killall pasystray
 
 # this loops until a2dp is _actually used_ on the given MAC.
 while [ ${a2dpUsed} -ne 0 ];
@@ -82,3 +85,7 @@ if [[ -n "${RUNNING_TG}" ]] ; then
     sleep 1
     nohup telegram-desktop &>/dev/null &
 fi
+
+# Start tray icon back
+blueman-applet &> /dev/null &
+pasystray &> /dev/null &
