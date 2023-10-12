@@ -21,6 +21,8 @@ check_mk_agent:
 
 packages:
   - sudo
+  # Required to build some pip packages
+  - pkg-config
   # Requered by pip systemd
   - libsystemd-dev
 
@@ -28,4 +30,4 @@ packages:
 packages_pip3:
   - telegram-send
   - docker
-  - systemd
+  - systemd-python
