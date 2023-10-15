@@ -15,8 +15,8 @@ rooms = [
     {'id': 'kg', 'title': 'KG'},
     {'id': 'sz', 'title': 'SZ'},
     {'id': 'ku', 'title': 'KU'},
-    {'id': 'ns', 'title': 'NS'},
-    {'id': 'fs', 'title': 'FS'},
+    {'id': 'ks', 'title': 'KS'},
+    {'id': 'wz', 'title': 'WZ'},
 ]
 
 # Function to get single item_id, label
