@@ -307,18 +307,20 @@ common.upload_to_grafana(dashboard)
 
 rooms_temperature_current = []
 rooms_thermostat_current = []
-rooms_thermostat_cal = [] # Locasl sensor calibration
+rooms_thermostat_cal_current = [] # Locasl sensor calibration
 rooms_valve_current = []
 rooms_thermostat = []
+rooms_thermostat_cal = [] # Locasl sensor calibration
 rooms_valve = []
 for room in rooms:
     room_id = room['id']
     room_title = room['title']
     rooms_temperature_current += item_last(f"{room_id}_climate_temperature", name=room_title)
     rooms_thermostat_current  += item_last(f"{room_id}_heating_thermostat", name=room_title)
-    rooms_thermostat_cal      += item_last(f"{room_id}_heating_local_temperature_calibration", name=room_title)
+    rooms_thermostat_cal_current += item_last(f"{room_id}_heating_local_temperature_calibration", name=room_title)
     rooms_valve_current       += item_last(f"{room_id}_heating_position", name=room_title)
     rooms_thermostat          += item_graph(f"{room_id}_heating_thermostat", name=room_title)
+    rooms_thermostat_cal      += item_graph(f"{room_id}_heating_local_temperature_calibration", name=room_title)
     rooms_valve               += item_graph(f"{room_id}_heating_position", name=room_title)
 
 dashboard = grafana.Dashboard(
@@ -358,7 +360,7 @@ dashboard = grafana.Dashboard(
             grafana.GaugePanel(
                 title="Current Calibration",
                 dataSource=common.GRAFANA_SOURCE_OPENHAB,
-                targets=rooms_thermostat_cal,
+                targets=rooms_thermostat_cal_current,
                 format='',
                 min=-12,
                 max=12,
