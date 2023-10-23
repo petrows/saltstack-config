@@ -1,0 +1,80 @@
+#!/usr/bin/env python3
+"""
+Script get all ips and optinally wrap networks
+"""
+
+import argparse
+import ipaddress
+import dns.resolver
+
+parser = argparse.ArgumentParser(
+    description='Script get all ips and optinally wrap networks')
+
+parser.add_argument(
+    'host',
+    type=str,
+    nargs='+',
+    action='store',
+    help='network name to check',
+)
+
+parser.add_argument(
+    '--dns',
+    type=str,
+    action='store',
+    default='8.8.8.8',
+    help='DNS server to use',
+)
+
+parser.add_argument(
+    '--net24',
+    action='store_true',
+    help='collapse to /24 networks',
+)
+
+args = parser.parse_args()
+
+resolver = dns.resolver.Resolver()
+resolver.nameservers = [args.dns]
+
+def reolve_host(host, deep=1):
+    ans = []
+
+    deep = deep + 1
+    if deep > 10:
+        return []
+
+    try:
+        answers = resolver.resolve(host, 'A')
+        for answer in answers:
+            ans.append(answer.to_text())
+    except:
+        pass
+
+    try:
+        answers = resolver.resolve(host, 'CNAME')
+        for answer in answers:
+            ans.extend(reolve_host(answer.to_text(), deep))
+    except:
+        pass
+
+    # Filter for unique values
+    return list(set(ans))
+
+ips = []
+
+for resolve_host in args.host:
+    ips.extend(reolve_host(resolve_host))
+
+if args.net24:
+    nets = []
+    for addr in ips:
+        network = ipaddress.IPv4Network(f'{addr}/255.255.255.0', strict=False)
+        nets.append(f'{network.network_address}/24')
+    ips = nets
+
+ips = list(set(ips))
+
+for ip in ips:
+    print(ip)
+

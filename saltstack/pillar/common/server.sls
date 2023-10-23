@@ -31,3 +31,4 @@ packages_pip3:
   - telegram-send
   - docker
   - systemd-python
+  - dnspython
