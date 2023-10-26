@@ -189,3 +189,9 @@ local-pc-local-{{ user_id }}:
 
 nvidia-persistenced.service:
   service.masked
+
+# Udev rules
+udev-user:
+  file.recurse:
+    - name: /etc/udev/rules.d/
+    - source: salt://files/linux-config/udev/
