@@ -6,6 +6,7 @@ firefly:
 
 systemd-cron:
   fetch-transactions-cron:
+    enable: False
     user: master
     # Every 8 hours
     calendar: '0/1:00:00'
