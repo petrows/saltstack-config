@@ -121,6 +121,7 @@ nfs-export-{{ id }}:
 
 # Systemd cronjobs?
 {% for id, cron in salt['pillar.get']('systemd-cron', {}).items() %}
+{% set service_enabled = cron.enable | default(True) %}
 {{ id }}.service:
   file.managed:
     - name: /etc/systemd/system/{{ id }}.service
@@ -135,8 +136,11 @@ nfs-export-{{ id }}:
         RemainAfterExit=no
         WorkingDirectory={{ cron.cwd }}
         ExecStart=/bin/bash -c '{{ cron.cmd }}'
-  service.enabled:
-    - enabled: True
+{% if service_enabled %}
+  service.enabled: []
+{% else %}
+  service.disabled: []
+{% endif %}
 {{ id }}.timer:
   file.managed:
     - name: /etc/systemd/system/{{ id }}.timer
@@ -148,11 +152,17 @@ nfs-export-{{ id }}:
         RandomizedDelaySec=60
         [Install]
         WantedBy=timers.target
+{% if service_enabled %}
   service.running:
     - enable: True
     - full_restart: True
     - watch:
       - file:  /etc/systemd/system/{{ id }}.timer
+{% else %}
+  service.dead:
+    - enable: False
+{% endif %}
+
 {% endfor %}
 
 # Drop APT spam message,
