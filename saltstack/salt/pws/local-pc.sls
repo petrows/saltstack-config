@@ -77,6 +77,10 @@ local-pc-soft:
       # Log viewer
       - glogg
       - kdiff3
+      # Desktop notifications
+      - notification-daemon
+      - libnotify-bin
+      - notify-osd
 
 # Bluetooth - configure for hi-res profiles
 /etc/bluetooth/main.conf:
