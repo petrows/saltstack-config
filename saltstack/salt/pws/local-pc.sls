@@ -78,8 +78,13 @@ local-pc-soft:
       - glogg
       - kdiff3
       # Desktop notifications
-      - notification-daemon
       - libnotify-bin
+      - dunst
+
+local-pc-soft-cleanup:
+  pkg.purged:
+    - pkgs:
+      # Desktop notifications (old)
       - notify-osd
 
 # Bluetooth - configure for hi-res profiles
