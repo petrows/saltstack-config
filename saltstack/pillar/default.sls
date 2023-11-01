@@ -67,6 +67,7 @@ git_config:
   alias.cln: "!f() { git submodule sync; git submodule update --init --remote; git reset --hard --recurse-submodule; git clean -fd; }; f"
   alias.ch: "!f() { git fetch; git checkout -f --recurse-submodules $1; }; f"
   alias.cm: "!f() { git checkout -f --recurse-submodules master; git pull --rebase; }; f"
+  alias.cb: checkout -b
   alias.pb: push --set-upstream origin HEAD
   alias.pf: push --force
   alias.d: diff
@@ -218,6 +219,11 @@ i3:
         ShellOpenFileInTabs: 'true'
       Core Performance:
         TextHinting: Enabled
+    # Global shortcuts
+    kglobalshortcutsrc:
+      klipper:
+        # Get previous copied item by Ctrl+Shift+C
+        cycleNextAction: Ctrl+Shift+C,,Next History Item
     konsolerc:
       Desktop Entry:
         DefaultProfile: Petro.profile
