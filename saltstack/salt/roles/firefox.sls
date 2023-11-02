@@ -10,6 +10,9 @@ firefox-extract:
     - skip_verify: True
     - enforce_toplevel: False
     - clean: True
+    - unless:
+      # Exatract new archive only if not exists, else leave FF to update it by itself
+      - test -d /opt/firefox
   file.directory:
     - name: /opt/firefox
     - user: {{ pillar.firefox.user | default('root') }}
