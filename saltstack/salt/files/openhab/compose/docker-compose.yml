@@ -89,3 +89,17 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - {{ pillar.openhab.grafana.data_dir }}:/var/lib/grafana
 {% endif %}
+
+{% if pillar.openhab.yandex2mqtt.id %}
+  yandex2mqtt:
+    container_name: {{ pillar.openhab.yandex2mqtt.id }}
+    image: petrows/yandex2mqtt:{{ pillar.openhab.yandex2mqtt.version }}
+    restart: always
+    ports:
+      - '4001:4001'
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /srv/openhab-data/conf/services/yandex2mqtt.js:/opt/yandex2mqtt/config.js:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+{% endif %}

@@ -55,7 +55,10 @@ vagrant ssh master -- sudo salt --force-color --state-verbose=True 'pws-web-vm-d
 Auto-use of self-signed or Letsencrypt certs. After new web service installed run
 
 ```bash
+# Regular direct mode
 certbot certonly --webroot --webroot-path /var/www/letsencrypt --agree-tos -m email -d domain
+# or, DNS mode
+certbot certonly --manual --manual-auth-hook /etc/letsencrypt/acme-dns-auth.py --preferred-challenges dns --debug-challenges --agree-tos -m email -d domain
 ```
 
 and apply config again.

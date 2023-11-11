@@ -26,6 +26,12 @@ nginx-ssl-dummy:
     - name: /etc/ssl/certs/empty.saltstack
     - contents: ''
 
+acme-certbot-dns:
+  file.managed:
+    - name: /etc/letsencrypt/acme-dns-auth.py
+    - source: salt://files/nginx/acme-dns-auth.py
+    - mode: 0755
+
 # Hosts config
 {%- for conf_id, conf in (salt['pillar.get']('proxy_vhosts', {})).items() %}
 
