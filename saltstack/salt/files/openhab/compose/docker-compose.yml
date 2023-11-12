@@ -100,6 +100,8 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
+      - {{ pillar.openhab.yandex2mqtt.data_dir }}/loki.json:/opt/yandex2mqtt/loki.json
+      - {{ pillar.openhab.yandex2mqtt.data_dir }}/loki.json~:/opt/yandex2mqtt/loki.json~
       - /srv/openhab-data/conf/services/yandex2mqtt.js:/opt/yandex2mqtt/config.js:ro
       - /etc/letsencrypt:/etc/letsencrypt:ro
 {% endif %}
