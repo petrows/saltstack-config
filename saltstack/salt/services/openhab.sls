@@ -37,16 +37,6 @@ zigbee2mqtt-dir-data:
     - group:  {{ pillar.static.uids.master }}
     - mode:  755
 
-# Optional configs
-{% if pillar.openhab.yandex2mqtt.id %}
-{{ pillar.openhab.yandex2mqtt.data_dir }}/loki.json:
-  file.managed:
-    - mode:  755
-{{ pillar.openhab.yandex2mqtt.data_dir }}/loki.json~:
-  file.managed:
-    - mode:  755
-{% endif %}
-
 openhab-deps:
   pkg.installed:
     - pkgs:
