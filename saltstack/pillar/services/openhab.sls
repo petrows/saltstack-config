@@ -58,7 +58,7 @@ openhab:
   # Yandex2mqtt proxy
   yandex2mqtt:
     id: False # Do not start by default
-    version: 191c8d8
+    version: a8d567f
     data_dir: /srv/yandex2mqtt-data
     dirs:
       - /srv/yandex2mqtt-data
