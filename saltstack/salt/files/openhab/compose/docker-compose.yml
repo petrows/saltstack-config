@@ -97,10 +97,14 @@ services:
     restart: always
     ports:
       - '4001:4001'
+    environment:
+      PATH_CONFIG: ./config
+      PATH_DEVICES: ./config.devices
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
       - {{ pillar.openhab.yandex2mqtt.data_dir }}:/opt/yandex2mqtt/data:rw
       - /srv/openhab-data/conf/services/yandex2mqtt.js:/opt/yandex2mqtt/config.js:ro
+      - /srv/openhab-data/conf/yandex2mqtt.devices.js:/opt/yandex2mqtt/config.devices.js:ro
       - /etc/letsencrypt:/etc/letsencrypt:ro
 {% endif %}
