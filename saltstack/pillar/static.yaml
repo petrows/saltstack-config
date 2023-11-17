@@ -35,6 +35,7 @@ proxy_ports:
 
   # Resillio sync
   rslsync_petro:    8888
+  rslsync_j:        8889
 
   # Note: non-changeable with network=host
   openhab_http:        8080

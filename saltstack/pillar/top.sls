@@ -248,6 +248,7 @@ base:
     - users.ssh-pve
     - users.master
     - j.media
+    - services.rslsync
     - services.samba
     - services.samba-julia
     - services.photoprism

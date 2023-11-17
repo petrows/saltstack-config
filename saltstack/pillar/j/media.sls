@@ -15,3 +15,17 @@ packages_pip3:
   - exifread
   - docker
   - watchdog
+
+rslsync:
+  instances:
+    j:
+      data_dir: /srv/rslsync-data-j
+      user: master
+      port: {{ static.proxy_ports.rslsync_j }}
+
+proxy_vhosts:
+  rslsync_j:
+    domain: sync.j.pws
+    port: {{ static.proxy_ports.rslsync_j }}
+    ssl: internal
+    ssl_name: media
