@@ -80,6 +80,8 @@ local-pc-soft:
       # Desktop notifications
       - libnotify-bin
       - dunst
+      # fdfund tool (friendly find): https://github.com/sharkdp/fd
+      - fd-find
 
 local-pc-soft-cleanup:
   pkg.purged:
