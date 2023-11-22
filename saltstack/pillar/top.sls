@@ -27,6 +27,8 @@ base:
     - common.tmp-ramdisk
 # Generic server role
     - common.server
+# Common scripts
+    - common.scripts
 
 # All dev servers should have virtual user config
   '*.dev':

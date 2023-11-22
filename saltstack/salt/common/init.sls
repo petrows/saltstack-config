@@ -74,14 +74,6 @@ vm.swappiness:
     - value: 10
 {% endif %}
 
-# Additional scripts
-system-custom-bin:
-  file.recurse:
-    - name: /usr/local/sbin
-    - source: salt://files/linux-config/sbin
-    - template: jinja
-    - file_mode: 755
-
 # Sysctl magic
 {% for name, value in salt['pillar.get']('sysctl', {}).items() %}
 {{ name }}:

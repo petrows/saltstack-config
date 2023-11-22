@@ -11,11 +11,6 @@ roles:
 include:
   - services.nginx
 
-packages_pip3:
-  - exifread
-  - docker
-  - watchdog
-
 rslsync:
   instances:
     j:

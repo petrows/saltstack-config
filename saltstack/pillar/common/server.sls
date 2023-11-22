@@ -25,10 +25,3 @@ packages:
   - pkg-config
   # Requered by pip systemd
   - libsystemd-dev
-
-# Default pip3 packages for notifications
-packages_pip3:
-  - telegram-send
-  - docker
-  - systemd-python
-  - dnspython

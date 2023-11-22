@@ -18,11 +18,6 @@ packages:
   - tesseract-ocr-eng
   - ocrmypdf
 
-packages_pip3:
-  - exifread
-  - docker
-  - watchdog
-
 rslsync:
   instances:
     petro:
