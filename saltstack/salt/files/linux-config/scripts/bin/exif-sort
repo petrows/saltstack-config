@@ -1,4 +1,4 @@
-#!/usr/bin/env python-app
+#!/opt/venv/app/bin/python
 
 import datetime
 import shutil
@@ -16,7 +16,7 @@ parser.add_argument(
     action='store',
     type=str,
     required=True,
-    help='out folder, use %Y, %m, %d placeholders for Yer, Month and Day from file as part of path',
+    help='out folder, use %%Y, %%m, %%d placeholders for Yer, Month and Day from file as part of path',
 )
 
 parser.add_argument(
@@ -24,6 +24,13 @@ parser.add_argument(
     action='store',
     type=int,
     help='process files older than X (days)',
+)
+
+parser.add_argument(
+    '--lastmarker',
+    action='store',
+    type=str,
+    help='path to state file, used to save / use last copied file timestamp, for incremental calls',
 )
 
 parser.add_argument(
@@ -77,15 +84,32 @@ for pattern in args.file:
 
 files = list(set(files))
 
+# Store the newest processed file, to track state, if --lastmarker is set
+newest_file_dt = None
+# Load previous marker (if set)
+previous_file_dt = None
+if args.lastmarker and Path(args.lastmarker).exists():
+    previous_file_dt = datetime.datetime.fromtimestamp(float(Path(args.lastmarker).read_text().strip()))
+    newest_file_dt = previous_file_dt
+    print(f"Last processed file previous time: {previous_file_dt}")
+
 print(f"Found {len(files)} files")
 
 for file in files:
     # Get date
     file_dt = detectFileDate(file)
+
     if args.older:
         time_between = datetime.datetime.now() - file_dt
         if time_between.days < args.older:
             continue
+
+    if args.lastmarker:
+        if previous_file_dt and file_dt < previous_file_dt:
+            continue
+        if newest_file_dt == None or file_dt > newest_file_dt:
+            print(f"Newest file: {file_dt}")
+            newest_file_dt = file_dt
 
     # Check placeholders in out path
     out_path_tpl = args.out
@@ -108,5 +132,14 @@ for file in files:
             out_path.parent.mkdir(parents=True, exist_ok=True)
             shutil.move(file, out_path)
 
+
+if args.dry_run:
+    # Do nothing
+    pass
+else:
+    if args.lastmarker:
+        # Save newes processed file
+        with open(Path(args.lastmarker), 'w') as f:
+            f.write(str(newest_file_dt.timestamp()))
 
 print("Finished")
