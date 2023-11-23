@@ -4,6 +4,8 @@ import datetime
 import shutil
 import exifread
 import argparse
+import os
+import sys
 from pathlib import Path
 
 
@@ -17,6 +19,12 @@ parser.add_argument(
     type=str,
     required=True,
     help='out folder, use %%Y, %%m, %%d placeholders for Yer, Month and Day from file as part of path',
+)
+
+parser.add_argument(
+    '--copy',
+    action='store_true',
+    help='copy files (instead of default move)',
 )
 
 parser.add_argument(
@@ -61,16 +69,19 @@ def scanDir(pn: Path):
     return ret
 
 def detectFileDate(file: Path) -> datetime.datetime:
-    # Try to read exif
-    try:
-        fh = open(file, 'rb')
-        tag = 'EXIF DateTimeOriginal'
-        tags = exifread.process_file(fh, stop_tag=tag)
-        dateTaken = str(tags[tag])
-        imageDate = datetime.datetime.strptime(dateTaken, "%Y:%m:%d %H:%M:%S")
-        return imageDate
-    except:
-        print(f"Warning: no EXIF loaded for {file}")
+    ext = file.suffix.lower()
+    if ext in ['.jpg', '.jpeg', '.png']:
+        # Try to read exif
+        try:
+            fh = open(file, 'rb')
+            tag = 'EXIF DateTimeOriginal'
+            tags = exifread.process_file(fh, stop_tag=tag)
+            dateTaken = str(tags[tag])
+            imageDate = datetime.datetime.strptime(dateTaken, "%Y:%m:%d %H:%M:%S")
+            return imageDate
+        except:
+            # print(f"Warning: no EXIF loaded for {file}")
+            pass # ignore
     # No exif -> use file modified time
     return datetime.datetime.fromtimestamp(file.stat().st_mtime)
 
@@ -89,11 +100,18 @@ newest_file_dt = None
 # Load previous marker (if set)
 previous_file_dt = None
 if args.lastmarker and Path(args.lastmarker).exists():
-    previous_file_dt = datetime.datetime.fromtimestamp(float(Path(args.lastmarker).read_text().strip()))
+    try:
+        previous_file_dt = datetime.datetime.fromtimestamp(float(Path(args.lastmarker).read_text().strip()))
+    except:
+        pass
     newest_file_dt = previous_file_dt
     print(f"Last processed file previous time: {previous_file_dt}")
 
 print(f"Found {len(files)} files")
+
+if len(files) == 0:
+    print("No files found, exitting")
+    sys.exit(0)
 
 for file in files:
     # Get date
@@ -119,19 +137,24 @@ for file in files:
 
     out_path = Path(out_path_tpl) / file.name
 
+    if out_path.exists():
+        # print(f"Warning: {out_path} already exists, skipping")
+        continue
+
     print(f"{file_dt}, {file} -> {out_path}")
 
     if args.dry_run:
         # Do nothing
         pass
     else:
-        # Move file
-        if out_path.exists():
-            print(f"Warning: {out_path} already exists, skipping")
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        if args.copy:
+            shutil.copy2(file, out_path)
         else:
-            out_path.parent.mkdir(parents=True, exist_ok=True)
             shutil.move(file, out_path)
-
+        # Copy permissions
+        st = os.stat(file)
+        os.chown(out_path, st.st_uid, st.st_gid)
 
 if args.dry_run:
     # Do nothing

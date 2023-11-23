@@ -239,6 +239,7 @@ base:
     - grains.host-hdd
     - users.ssh-pve
     - users.master
+    - services.iphone-copy
     - j.pve
 
   'home.j.*':

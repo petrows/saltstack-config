@@ -64,6 +64,9 @@ base:
   'roles:dante':
     - match: pillar
     - roles.dante
+  'roles:iphone-copy':
+    - match: pillar
+    - roles.iphone-copy
 
   # Services
   'roles:salt-master':
