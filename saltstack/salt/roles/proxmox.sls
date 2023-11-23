@@ -49,12 +49,14 @@ ntp.service:
     - contents: |
         root:0:6553600
         salt:6553600:65536
+        master:6619136:65536
 
 /etc/subgid:
   file.managed:
     - contents: |
         root:0:6553600
         salt:6553600:65536
+        master:6619136:65536
 
 # Wireguard for LXC
 

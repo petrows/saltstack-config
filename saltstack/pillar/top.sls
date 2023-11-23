@@ -238,6 +238,7 @@ base:
   'pve.j.*':
     - grains.host-hdd
     - users.ssh-pve
+    - users.master
     - j.pve
 
   'home.j.*':
