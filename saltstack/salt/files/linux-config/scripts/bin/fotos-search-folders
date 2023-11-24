@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/opt/venv/app/bin/python
 """
 Script used to find folders with photos by year
 """

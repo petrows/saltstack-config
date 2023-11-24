@@ -7,3 +7,4 @@ packages_pip3:
   - telegram-send
   - systemd-python
   - dnspython
+  - netifaces
