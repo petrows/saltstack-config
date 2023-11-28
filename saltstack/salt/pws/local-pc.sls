@@ -103,6 +103,8 @@ local-pc-soft-cleanup:
         # Enable = Source,Sink,Media,Socket
         # Allow to switch profiles
         MultiProfile = multiple
+        # Allow experimental features, like Battery level
+        Experimental = true
         # Default config
         [Policy]
         AutoEnable=true
