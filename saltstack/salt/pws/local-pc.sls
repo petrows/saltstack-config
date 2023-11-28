@@ -88,6 +88,8 @@ local-pc-soft-cleanup:
     - pkgs:
       # Desktop notifications (old)
       - notify-osd
+      # Displays annoying popups as windows
+      - notification-daemon
 
 # Bluetooth - configure for hi-res profiles
 /etc/bluetooth/main.conf:
