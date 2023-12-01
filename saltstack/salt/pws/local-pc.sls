@@ -82,6 +82,8 @@ local-pc-soft:
       - dunst
       # fdfund tool (friendly find): https://github.com/sharkdp/fd
       - fd-find
+      # Wine formats
+      - binfmt-support
 
 local-pc-soft-cleanup:
   pkg.purged:
