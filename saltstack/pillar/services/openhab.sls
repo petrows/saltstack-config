@@ -9,7 +9,7 @@ include:
 
 openhab:
   id: Openhab-dev
-  version: 3.4.4
+  version: 4.0.4
   data_dir: /srv/openhab-data
   dirs:
     - /srv/openhab-data/conf
