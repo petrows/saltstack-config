@@ -56,7 +56,7 @@ base:
 
 # Config by-type
 # CT machines
-  'G@virtual:LXC':
+  'G@virtual:container':
     - match: compound
     - grains.host-ct
 # VM machines
