@@ -10,8 +10,15 @@ if [[ -z "$SSH_AGENT_PID" ]]; then
     ssh-add
 fi
 
-# Cut hostname before 1st dot (short)
-SSH_HOSTNAME_SHORT=$(echo "${SSH_CONN}" | cut -d '@' -f 2 | cut -d '.' -f 1)
+SSH_HOSTNAME_SHORT=$(echo "${SSH_CONN}" | cut -d '@' -f 2)
+
+# If this is .pws domain -> cut off suffix
+if [[ "$SSH_HOSTNAME_SHORT" == *".pws" ]]; then
+    SSH_HOSTNAME_SHORT=${SSH_HOSTNAME_SHORT%".pws"}
+else
+    # Cut hostname before 1st dot (short)
+    SSH_HOSTNAME_SHORT=$(echo "${SSH_CONN}" | cut -d '@' -f 2 | cut -d '.' -f 1)
+fi
 
 # Cut username (if exists)
 if grep -q "@" <<< "$SSH_CONN"; then
