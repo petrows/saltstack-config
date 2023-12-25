@@ -1,11 +1,11 @@
-php-pm-repo:
-  pkgrepo.managed:
-    - humanname: PHP repository
-    - name: deb https://packages.sury.org/php {{ grains.lsb_distrib_codename }} main
-    - file: /etc/apt/sources.list.d/php.list
-    - key_url: https://packages.sury.org/php/apt.gpg
+# php-pm-repo:
+#   pkgrepo.managed:
+#     - humanname: PHP repository
+#     - name: deb https://packages.sury.org/php {{ grains.lsb_distrib_codename }} main
+#     - file: /etc/apt/sources.list.d/php.list
+#     - key_url: https://packages.sury.org/php/apt.gpg
 
-{% set php_pkg = ['fpm','mysql','gd','mbstring','xml','curl','imagick','zip','intl','geoip'] %}
+{% set php_pkg = ['fpm','mysql','gd','mbstring','xml','curl','imagick','zip','intl'] %}
 
 php-fpm-pkg:
   pkg.latest:
@@ -13,8 +13,8 @@ php-fpm-pkg:
     {%- for pkg in php_pkg %}
       - php{{ pillar.php.version }}-{{ pkg }}
     {%- endfor %}
-    - require:
-      - pkgrepo: php-pm-repo
+    # - require:
+    #   - pkgrepo: php-pm-repo
 
 # Pool root
 php-fpm-conf:
