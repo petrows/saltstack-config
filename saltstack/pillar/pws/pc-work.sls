@@ -28,3 +28,7 @@ xsession:
   script: |
       xrandr --output DP-4 --mode 3840x2160 --dpi 138 --pos 0x0 --primary
       xrandr --output DP-2 --mode 3840x2160 --dpi 138 --right-of DP-4
+
+# PHP development
+php:
+  user: pgolovachev

@@ -1,5 +1,7 @@
 roles:
   - docker
+  - php-fpm
+  - nginx
 
 include:
   - services.nginx
@@ -29,3 +31,16 @@ i3:
       ws: 2
     - class: ^Code$
       ws: 1
+
+# PHP development
+php:
+  # PHP version avaliable in packages, to be replaced by grains-driven pillar
+  version: 8.1
+  # User to run pool under
+  user_sock: www-data
+  # User to own process (but NOT socket)
+  user: petro
+  # chroot base dir
+  home: /home/www
+  # Pool filename in /etc/php/<version>/fpm/pool.d/
+  pool_name: www
