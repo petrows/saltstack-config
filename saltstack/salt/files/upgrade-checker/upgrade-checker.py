@@ -32,7 +32,7 @@ config.append({
         "mode": "docker",
         "docker": {
             "image": "openhab/openhab:latest",
-            "attr": '$.Config.Labels."org.label-schema.version"',
+            "attr": '$.Config.Labels."org.opencontainers.image.version"',
         },
     },
 })
