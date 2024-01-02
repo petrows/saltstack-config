@@ -1,10 +1,10 @@
-#!/bin/bash -xe
+#!/bin/bash
 
 PACKET='\x01\x07'
 
 ACTION=$1
 
-case ACTION in
+case "$ACTION" in
   'OK')
     PACKET='\x01\x01'
     ;;

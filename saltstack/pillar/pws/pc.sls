@@ -44,3 +44,12 @@ php:
   home: /home/www
   # Pool filename in /etc/php/<version>/fpm/pool.d/
   pool_name: www
+
+# Led indicator idle script
+systemd-cron:
+  pws-led-idle:
+    user: root
+    # Every 5 min
+    calendar: '*:0/5'
+    cwd: /tmp
+    cmd: /usr/local/bin/led-indicator-idle
