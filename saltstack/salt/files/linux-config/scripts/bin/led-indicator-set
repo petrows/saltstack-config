@@ -1,0 +1,21 @@
+#!/bin/bash -xe
+
+PACKET='\x01\x07'
+
+ACTION=$1
+
+case ACTION in
+  'OK')
+    PACKET='\x01\x01'
+    ;;
+  'WARN')
+    PACKET='\x01\x02'
+    ;;
+  'CRIT')
+    PACKET='\x01\x04'
+    ;;
+esac
+
+if [[ -e /dev/hidraw-led-indicator-54578748066DFF56 ]]; then
+    echo -ne "${PACKET}" > /dev/hidraw-led-indicator-54578748066DFF56
+fi
