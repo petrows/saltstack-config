@@ -12,8 +12,7 @@ i3:
       # exec --no-startup-id firefox
       exec --no-startup-id telegram-desktop
       # exec --no-startup-id spotify
-      exec --no-startup-id led-indicator-set OK
-      exec --no-startup-id nagstamon
+      exec --no-startup-id run-nagstamon
       exec --no-startup-id bash -c 'sleep 5; firefox'
       exec --no-startup-id doublecmd --no-splash
       exec --no-startup-id konsole
