@@ -32,6 +32,17 @@ acme-certbot-dns:
     - source: salt://files/nginx/acme-dns-auth.py
     - mode: 0755
 
+/etc/letsencrypt/cli.ini:
+  file.managed:
+    - contents: |
+        # Because we are using logrotate for greater flexibility, disable the
+        # internal certbot logrotation.
+        max-log-backups = 0
+        # Adjust interactive output regarding automated renewal
+        preconfigured-renewal = True
+        # Reload nginx on renew
+        deploy-hook = systemctl reload nginx
+
 # Hosts config
 {%- for conf_id, conf in (salt['pillar.get']('proxy_vhosts', {})).items() %}
 
