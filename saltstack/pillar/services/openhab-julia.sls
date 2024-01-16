@@ -1,3 +1,5 @@
+{% import_yaml 'static.yaml' as static %}
+
 openhab:
   id: Openhab-julia
   zigbee2mqtt:
@@ -19,6 +21,12 @@ proxy_vhosts:
     domain: home.j.pws
     ssl: internal
     ssl_name: j_pws
+  openhab-direct:
+    domain: home.j.petro.ws
+    port: {{ static.proxy_ports.openhab_http }}
+    ssl_force: False
+    ssl: internal
+    ssl_name: local
   openhab-stats:
     domain: stats.j.pws
     ssl: internal
