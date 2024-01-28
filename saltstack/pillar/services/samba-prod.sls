@@ -34,3 +34,6 @@ samba:
     common-tmp:
       path: /srv/storage-tmp
       user: share-root
+    julia:
+      path: /srv/storage/home/julia
+      user: master
