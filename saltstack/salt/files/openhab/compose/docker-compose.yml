@@ -106,6 +106,7 @@ services:
       - {{ pillar.openhab.yandex2mqtt.data_dir }}:/opt/yandex2mqtt/data:rw
       - /srv/openhab-data/conf/services/yandex2mqtt.js:/opt/yandex2mqtt/config.js:ro
       - /srv/openhab-data/conf/yandex2mqtt.devices.js:/opt/yandex2mqtt/config.devices.js:ro
+      - /srv/openhab-data/conf/yandex2mqtt.codegen.js:/opt/yandex2mqtt/config.codegen.js:ro
       - /srv/openhab-data/conf/yandex2mqtt.template.js:/opt/yandex2mqtt/yandex2mqtt.template.js:ro
       - /etc/letsencrypt:/etc/letsencrypt:ro
 {% endif %}
