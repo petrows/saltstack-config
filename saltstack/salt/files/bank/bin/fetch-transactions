@@ -278,6 +278,10 @@ def main():
                 transaction_csv['external-id'] = transaction_raw['endToEndId']
             # Amount
             transaction_csv['amount'] = float(transaction_raw['transactionAmount']['amount'])
+            # Skip empty ("informational") ones
+            if transaction_csv['amount'] == 0:
+                continue
+            # Credit / debit and currency
             is_income = transaction_csv['amount'] >= 0
             transaction_csv['currency-code'] = transaction_raw['transactionAmount']['currency']
             # The 'opposite' account
