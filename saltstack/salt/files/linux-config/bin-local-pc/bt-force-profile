@@ -31,7 +31,7 @@ if pgrep -f telegram-desktop &>/dev/null ; then
 fi
 
 # Prepare services for work!
-systemctl --user restart pulseaudio.service
+# systemctl --user restart pulseaudio.service
 killall blueman-manager
 # Kill applet, to avoid annoying windows created
 killall blueman-applet
