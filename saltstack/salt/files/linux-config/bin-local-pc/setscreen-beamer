@@ -1,7 +1,18 @@
 #!/bin/bash
 
+OUTPUT=$1
+
+if [[ -z "$OUTPUT" ]]; then
+    OUTPUT=$(xrandr | grep -w connected | grep -Po 'DP-\d+' | head -n 1)
+fi
+
+if [[ -z "$OUTPUT" ]]; then
+    echo "No output found, call $0 <output>"
+    exit 1
+fi
+
 # Primary output
 xrandr --output eDP-1 --scale 1.0x1.0 --primary --auto --dpi 128
 
 # Beamer output
-xrandr --output DP-1-1 --scale 1.0x1.0 --auto --dpi 128 --pos 1920x0
+xrandr --output $OUTPUT --scale 1.0x1.0 --auto --dpi 128 --pos 1920x0
