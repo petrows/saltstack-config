@@ -92,6 +92,8 @@ local-pc-soft-cleanup:
       - notify-osd
       # Displays annoying popups as windows
       - notification-daemon
+      # Pipewire (i use Pulseaudio)
+      - pipewire
 
 # Bluetooth - configure for hi-res profiles
 /etc/bluetooth/main.conf:
