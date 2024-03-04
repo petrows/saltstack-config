@@ -15,3 +15,4 @@ samba:
   smb_users:
     share-root: {{ static.uids.share_root }}
     share: {{ static.uids.share }}
+    julia: {{ static.uids.julia }}

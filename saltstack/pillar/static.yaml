@@ -9,6 +9,7 @@ uids:
   share: 2020
   salt: 2021
   jenkins: 2022
+  julia: 2023
   www_eu: 1000
 
 # Services proxy ports

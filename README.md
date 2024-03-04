@@ -115,6 +115,10 @@ Windows Registry Editor Version 5.00
 
 Add user to shares:
 
+* Add user to pillar `samba.smb_users`
+* Deploy config
+* Add user to SMB container:
+
 ```bash
 docker exec -it Samba smbpasswd -a master
 ```

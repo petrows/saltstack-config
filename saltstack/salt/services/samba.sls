@@ -19,6 +19,8 @@ samba-group-{{ user_name }}:
   group.present:
     - name: '{{ user_name }}'
     - gid: {{ user_id }}
+    - watch_in:
+      - service: samba.service
 samba-user-{{ user_name }}:
   user.present:
     - name: '{{ user_name }}'
@@ -26,6 +28,8 @@ samba-user-{{ user_name }}:
     - gid: {{ user_id }}
     - createhome: False
     - home: '/tmp'
+    - watch_in:
+      - service: samba.service
 {% endfor %}
 
 {% import "roles/docker-compose-macro.sls" as compose %}

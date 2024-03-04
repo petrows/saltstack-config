@@ -36,4 +36,5 @@ samba:
       user: share-root
     julia:
       path: /srv/storage/home/julia
-      user: master
+      user: julia
+      rw: True
