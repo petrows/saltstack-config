@@ -38,8 +38,10 @@ acme-certbot-dns:
         # Because we are using logrotate for greater flexibility, disable the
         # internal certbot logrotation.
         max-log-backups = 0
+        {%- if grains.osfinger != 'Ubuntu-20.04' %}
         # Adjust interactive output regarding automated renewal
         preconfigured-renewal = True
+        {%- endif %}
         # Reload nginx on renew
         deploy-hook = systemctl reload nginx
 
