@@ -22,17 +22,17 @@ samba:
       comment: Public share
       rw: True
       guest: True
-    common:
-      path: /srv/storage/common
-      comment: Documents
-      user: master julia
-    common-old:
-      path: /srv/storage-old
-      comment: Documents (old)
-      user: share-root julia
-    common-tmp:
-      path: /srv/storage-tmp
-      user: share-root
+    # common:
+    #   path: /srv/storage/common
+    #   comment: Documents
+    #   user: master julia
+    # common-old:
+    #   path: /srv/storage-old
+    #   comment: Documents (old)
+    #   user: share-root julia
+    # common-tmp:
+    #   path: /srv/storage-tmp
+    #   user: share-root
     julia:
       path: /srv/storage/home/julia
       user: julia
