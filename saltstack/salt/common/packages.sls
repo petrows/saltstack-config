@@ -25,6 +25,7 @@ linux-base-packages:
       - screen
       - mc
       - openssh-server
+      - zstd
 
 {% for pkg in salt['pillar.get']('packages', []) %}
 linux-add-package-{{ pkg }}:
