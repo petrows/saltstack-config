@@ -1,0 +1,8 @@
+#!/bin/bash -xe
+
+mkdir -p tmp
+find . -maxdepth 1 -mtime +30 -type f -exec mv "{}" tmp/ \;
+cd tmp
+tar --zstd -cf ../backup/transactions-$(date +"%Y-%m-%d").tar.zst *
+cd ..
+rm -rf tmp

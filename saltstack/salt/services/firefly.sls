@@ -20,7 +20,7 @@ bank-scripts:
     - user: master
     - group: master
 
-{% for dir in ['cfg','data'] %}
+{% for dir in ['cfg','data', 'data/backup'] %}
 /srv/bank/{{ dir }}:
   file.directory:
     - makedirs: True

@@ -12,6 +12,13 @@ systemd-cron:
     calendar: '0/1:00:00'
     cwd: /srv/bank
     cmd: source .env/bin/activate && python bin/fetch-transactions -l DEBUG --cfg-dir /srv/bank/cfg --data-dir /srv/bank/data --days 32
+  fetch-transactions-rotate:
+    enable: True
+    user: master
+    # Every 8 hours
+    calendar: monthly
+    cwd: /srv/bank/data
+    cmd: /srv/bank/bin/rotate-data
 
 # Production config does not have it's own nginx proxy config,
 # managed by external web frontend
