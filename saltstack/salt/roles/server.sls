@@ -26,3 +26,11 @@ server-blacklisted:
   file.managed:
     - contents: ''
 {% endif %}
+
+/etc/hosts:
+  file.managed:
+    - source: salt://files/etc-hosts
+    - template: jinja
+    - user: root
+    - group: root
+    - mode: 644

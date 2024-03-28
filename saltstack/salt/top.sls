@@ -120,6 +120,9 @@ base:
   'roles:firefly':
     - match: pillar
     - services.firefly
+  'roles:k8s':
+    - match: pillar
+    - services.k8s
 
   # Hosts configs
   'pve.pws':

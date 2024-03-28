@@ -188,6 +188,10 @@ base:
   'metrics.dev':
     - services.metrics
 
+# Test k8s machines
+  'k8s-*.pws':
+    - services.k8s
+
 # External backup system
   'backup-ext.pws':
     - grains.host-hdd
