@@ -1,17 +1,26 @@
 #!/bin/bash
 
 SERVER=$1
-SERVER_DIR="/tmp/$SERVER"
 
 if [[ -z "$SERVER" ]]; then
-    echo "Program to mount some user@host to /tmp/user@host and navigate there"
-    echo "Usage: $0 <server>"
+    echo "Program to mount some user@host to /tmp/user@host"
+    echo "Usage: $0 <server>[:/path]"
     exit 1
 fi
 
-echo "Mount $SERVER -> $SERVER_DIR"
+SERVER_URL=(${SERVER//:/ })
+SERVER_HOST="${SERVER_URL[0]}"
+SERVER_PATH="${SERVER_URL[1]}"
+SERVER_DIR="/tmp/$SERVER_HOST"
+
+# Add default path (/) to URL to mount root by default
+if [[ -z "$SERVER_PATH" ]]; then
+    SERVER_PATH="/"
+fi
+
+echo "Mount $SERVER_HOST:$SERVER_PATH -> $SERVER_DIR"
 
 mkdir -p "$SERVER_DIR"
-sshfs -o idmap=user $SERVER:/ "$SERVER_DIR"
+sshfs -o idmap=user $SERVER_HOST:$SERVER_PATH "$SERVER_DIR"
 
-kde-open "$SERVER_DIR"
+# kde-open "$SERVER_DIR"
