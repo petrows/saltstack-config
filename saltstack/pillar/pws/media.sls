@@ -17,6 +17,7 @@ packages:
   - tesseract-ocr-deu
   - tesseract-ocr-eng
   - ocrmypdf
+  - pdftk-java
 
 rslsync:
   instances:
