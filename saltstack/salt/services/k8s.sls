@@ -23,6 +23,13 @@ k8s-pkg-hold:
     - watch:
       - pkg: k8s-pkg
 
+# Helm
+helm-repository:
+  pkgrepo.managed:
+    - name: deb https://baltocdn.com/helm/stable/debian/ all main
+    - key_url: https://baltocdn.com/helm/signing.asc
+    - file: /etc/apt/sources.list.d/helm.list
+
 # k8s require ip fw
 net.ipv4.ip_forward:
   sysctl.present:
@@ -48,26 +55,26 @@ containerd.service:
     - watch:
       - file: /etc/containerd/*
 
-{%- set default_interface = (salt['network.default_route']('inet')|first)['interface']|default('none') %}
-{%- if default_interface %}
-    {%- set default_addr = (salt['network.interface_ip'](default_interface)) %}
-{%- endif %}
+# {%- set default_interface = (salt['network.default_route']('inet')|first)['interface']|default('none') %}
+# {%- if default_interface %}
+#     {%- set default_addr = (salt['network.interface_ip'](default_interface)) %}
+# {%- endif %}
 
-/tmp/k8s-init.yaml:
-  file.managed:
-    - contents: |
-        apiVersion: kubeadm.k8s.io/v1beta3
-        kind: InitConfiguration
-        localAPIEndpoint:
-          advertiseAddress: {{ default_addr }}
-          bindPort: 6443
-        nodeRegistration:
-          kubeletExtraArgs:
-            node-ip: {{ default_addr }}
-        ---
-        apiVersion: kubeadm.k8s.io/v1beta3
-        kind: ClusterConfiguration
-        kubernetesVersion: 1.28.8
-        controlPlaneEndpoint: "k8s-cp.pws:6443"
-        networking:
-          podSubnet: 10.99.0.0/16
+# /tmp/k8s-init.yaml:
+#   file.managed:
+#     - contents: |
+#         apiVersion: kubeadm.k8s.io/v1beta3
+#         kind: InitConfiguration
+#         localAPIEndpoint:
+#           advertiseAddress: {{ default_addr }}
+#           bindPort: 6443
+#         nodeRegistration:
+#           kubeletExtraArgs:
+#             node-ip: {{ default_addr }}
+#         ---
+#         apiVersion: kubeadm.k8s.io/v1beta3
+#         kind: ClusterConfiguration
+#         kubernetesVersion: 1.28.8
+#         controlPlaneEndpoint: "k8s-cp.pws:6443"
+#         networking:
+#           podSubnet: 10.99.0.0/16
