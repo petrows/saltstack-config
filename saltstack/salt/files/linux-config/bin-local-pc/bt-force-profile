@@ -22,13 +22,13 @@ if [[ ${a2dpUsed} -eq 0 ]]; then
 fi
 
 # KIll some apps, which are not okay with pulse restart
-RUNNING_TG=
-if pgrep -f telegram-desktop &>/dev/null ; then
-    RUNNING_TG=1
-    echo "Telegram is running, kill it"
-    killall telegram-desktop
-    sleep 3
-fi
+# RUNNING_TG=
+# if pgrep -f telegram-desktop &>/dev/null ; then
+#     RUNNING_TG=1
+#     echo "Telegram is running, kill it"
+#     killall telegram-desktop
+#     sleep 3
+# fi
 
 # Prepare services for work!
 # systemctl --user restart pulseaudio.service
@@ -80,11 +80,11 @@ done
 
 echo "$PROFILE is working."
 
-if [[ -n "${RUNNING_TG}" ]] ; then
-    echo "Telegram was running, restart it"
-    sleep 1
-    nohup telegram-desktop &>/dev/null &
-fi
+# if [[ -n "${RUNNING_TG}" ]] ; then
+#     echo "Telegram was running, restart it"
+#     sleep 1
+#     nohup telegram-desktop &>/dev/null &
+# fi
 
 # Start tray icon back
 blueman-applet &> /dev/null &
