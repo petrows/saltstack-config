@@ -101,15 +101,15 @@ pve-backup.service:
   file.managed:
     - name: /etc/systemd/system/pve-backup.service
     - source: salt://files/pws-pve/pve-backup.service
-  service.dead:
-    - enable: False
+  service.enabled:
+    - enable: True
 
 pve-backup.timer:
   file.managed:
     - name: /etc/systemd/system/pve-backup.timer
     - source: salt://files/pws-pve/pve-backup.timer
-  service.dead:
-    - enable: False
+  service.running:
+    - enable: True
 
 pve-backup-code:
   file.recurse:
