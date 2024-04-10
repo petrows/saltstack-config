@@ -256,6 +256,10 @@ network:
   type: unknown
   ntp: False
   dns: False
+  # Domain zone of this host
+  domain: pws
+  # Add hostname as 127.0.0.1?
+  hostname_local: True
 
 networks:
   pws:

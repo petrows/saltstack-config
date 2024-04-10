@@ -11,3 +11,6 @@ iptables:
 ssh:
   # Do not allow password auth for SSH
   allow_pw: False
+
+network:
+  domain: j.pws

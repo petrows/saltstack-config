@@ -71,6 +71,7 @@ base:
 # Separate hosts config
   'pve.*':
     - grains.host-hdd
+    - grains.proxmox
     - pws.powerline-gitstatus
 
   'pve.pws':
@@ -240,6 +241,7 @@ base:
 
 # Julia hosts
   'pve.j.*':
+  #'pve.t.*':
     - grains.host-hdd
     - users.ssh-pve
     - users.master

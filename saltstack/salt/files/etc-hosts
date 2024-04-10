@@ -1,15 +1,18 @@
 {%- set hostname = salt['grains.get']('host') -%}
-{%- set domain = 'pws' -%}
-{%- set hosts = salt['pillar.get']('dns:override_hosts', {}) -%}
+{%- set domain = salt['pillar.get']('network:domain') -%}
+{%- set hosts = salt['pillar.get']('network:dns_override_hosts', {}) -%}
+{%- set hostname_local = salt['pillar.get']('network:hostname_local') -%}
 {%- set default_addr = '127.0.0.1' -%}
 {%- set default_interface = (salt['network.default_route']('inet')|first)['interface']|default('none') -%}
 {%- if default_interface -%}
     {%- set default_addr = (salt['network.interface_ip'](default_interface)) -%}
 {%- endif -%}
 # Full FQDN should resolve to external IP
-{{ default_addr }}	{{ hostname }}.{{ domain }}
+{{ default_addr }}	{{ hostname }}.{{ domain }} {%- if not hostname_local %} {{ hostname }}{%- endif %}
+{%- if hostname_local %}
 # This record is required to enforce proper FQDN of host
 127.0.0.1	{{ hostname }}
+{%- endif %}
 # Default ones
 127.0.0.1   localhost
 

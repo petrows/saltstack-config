@@ -64,3 +64,15 @@ pve-wireguard-pkg:
   pkg.installed:
     - pkgs:
       - wireguard
+
+# PVE repos
+pve-repository:
+  pkgrepo.managed:
+    - file: /etc/apt/sources.list.d/pve.list
+    - name: deb http://download.proxmox.com/debian/pve {{ grains['oscodename'] }} pve-no-subscription
+
+# Remove proprietary repos
+/etc/apt/sources.list.d/pve-enterprise.list:
+  file.absent: []
+/etc/apt/sources.list.d/ceph.list:
+  file.absent: []
