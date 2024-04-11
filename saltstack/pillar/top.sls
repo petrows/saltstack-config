@@ -254,16 +254,6 @@ base:
     - services.openhab
     - services.openhab-julia
 
-  'media.j.*':
-    - users.ssh-pve
-    - users.master
-    - j.media
-    - services.rslsync
-    - services.samba
-    - services.samba-julia
-    - services.photoprism
-    - services.photoprism-julia
-
   'vpn.j.*':
     - users.ssh-pve
     - users.master

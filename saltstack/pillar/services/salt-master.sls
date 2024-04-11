@@ -14,7 +14,6 @@ salt:
     nexum.pws: {}
     # Julia
     pve.j.pws: {}
-    media.j.pws: {}
     home.j.pws: {}
     vpn.j.pws: {}
     # External
