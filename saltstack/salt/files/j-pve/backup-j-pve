@@ -2,5 +2,13 @@
 
 cd /mnt/julia-data/backup/vz/
 
+# How much backups to store
+VMZ_RETAIN="3"
+# Included
+VMZ_BACKUP="--all"
+# Excluded
+# 100: old home ct with broken disk: TODO: remove
+VMZ_EXCLUDE="--exclude 100"
+
 # Backup all CT and VM
-vzdump --all -compress lzo -dumpdir ./ -tmpdir ./ -mailto root --maxfiles 3
+vzdump $VMZ_BACKUP $VMZ_EXCLUDE -compress lzo -dumpdir ./ -tmpdir ./ -mailto root --maxfiles $VMZ_RETAIN
