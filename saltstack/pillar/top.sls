@@ -39,6 +39,7 @@ base:
   '10.80.0.0/24':
     - match: ipcidr
     - grains.network-lan
+    - common.salt-minion
   '10.80.1.0/24':
     - match: ipcidr
     - grains.network-dmz

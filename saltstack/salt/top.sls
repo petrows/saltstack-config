@@ -8,11 +8,6 @@ base:
     - common.scripts
     - roles.docker-compose-macro
 
-  # Network-based
-  'network:type:lan':
-    - match: pillar
-    - roles.server-lan
-
   # HW based
   'roles:server-vm':
     - match: pillar
@@ -72,6 +67,9 @@ base:
   'roles:salt-master':
     - match: pillar
     - services.salt-master
+  'roles:salt-minion':
+    - match: pillar
+    - services.salt-minion
   'roles:openhab':
     - match: pillar
     - services.openhab

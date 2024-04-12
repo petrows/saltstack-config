@@ -256,6 +256,8 @@ network:
   type: unknown
   ntp: False
   dns: False
+  # CDN name to use in mirror
+  cdn: de
   # Domain zone of this host
   domain: pws
   # Add hostname as 127.0.0.1?

@@ -65,6 +65,14 @@ pve-wireguard-pkg:
     - pkgs:
       - wireguard
 
+# PVE standart list
+/etc/apt/sources.list:
+  file.managed:
+    - contents: |
+        deb http://ftp.{{ pillar.network.cdn }}.debian.org/debian {{ grains['oscodename'] }} main contrib
+        deb http://ftp.{{ pillar.network.cdn }}.debian.org/debian {{ grains['oscodename'] }}-updates main contrib
+        deb http://security.debian.org {{ grains['oscodename'] }}-security main contrib
+
 # PVE repos
 pve-repository:
   pkgrepo.managed:

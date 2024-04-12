@@ -14,10 +14,6 @@ salt-minion-config:
 {% set oscodename = grains.oscodename %}
 {% if osname == 'raspbian' %}
   {% set os_url = 'https://repo.saltproject.io/py3/debian/' + grains.osrelease + '/' + grains.osarch + '/latest' %}
-{% elif grains.osfinger == 'Debian-12' %}
-  # Use debian 11 repo. FIXME: update when Debian 12 will be presented
-  {% set os_url = 'https://repo.saltproject.io/py3/debian/11/' + grains.osarch + '/latest' %}
-  {% set oscodename = 'bullseye' %}
 {% else %}
 # Repo path
   {% set os_url = 'https://repo.saltproject.io/salt/py3/' + osname + '/' + grains.osrelease + '/' + grains.osarch + '/latest' %}
@@ -27,6 +23,21 @@ saltstack-repo:
     - file: /etc/apt/sources.list.d/saltstack.list
     - name: deb {{ os_url }} {{ oscodename }} main
     - key_url: {{ key_url }}
+    - clean_file: True
+
+/etc/apt/sources.list.d/salt.list:
+  file.absent: []
+
+/usr/sbin/salt-minion-update:
+  file.managed:
+    - mode: 755
+    - contents: |
+        #!/bin/bash -x
+        # Update software
+        apt-get update
+        apt-get install --only-upgrade -y -q -o DPkg::Options::="--force-confold" --no-install-recommends salt-minion
+        # Update Salt user to OUR defaults
+        usermod -d {{ pillar.users.salt.home }} -s {{ pillar.users.salt.shell }} salt
 
 salt-minion-update.service:
   file.managed:

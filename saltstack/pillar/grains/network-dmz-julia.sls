@@ -13,4 +13,5 @@ ssh:
   allow_pw: False
 
 network:
+  cdn: ru
   domain: j.pws
