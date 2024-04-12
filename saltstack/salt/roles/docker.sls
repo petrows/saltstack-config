@@ -2,7 +2,9 @@
 docker-repository:
   pkgrepo.managed:
     - name: deb [arch={{ grains.osarch }}] https://download.docker.com/linux/{{ grains.os|lower }} {{ grains['oscodename'] }} stable
+    - file: /etc/apt/sources.list.d/docker.list
     - key_url: https://download.docker.com/linux/{{ grains.os|lower }}/gpg
+    - clean_file: True
 
 docker-pkg:
   pkg.installed:

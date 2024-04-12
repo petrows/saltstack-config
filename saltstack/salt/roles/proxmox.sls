@@ -78,6 +78,7 @@ pve-repository:
   pkgrepo.managed:
     - file: /etc/apt/sources.list.d/pve.list
     - name: deb http://download.proxmox.com/debian/pve {{ grains['oscodename'] }} pve-no-subscription
+    - clean_file: True
 
 # Remove proprietary repos
 /etc/apt/sources.list.d/pve-enterprise.list:

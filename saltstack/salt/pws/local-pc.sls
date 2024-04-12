@@ -151,7 +151,9 @@ local-tg-binary:
 vscode-repo:
   pkgrepo.managed:
     - name: deb [arch={{ grains.osarch }}] https://packages.microsoft.com/repos/code stable main
+    - file: /etc/apt/sources.list.d/vscode.list
     - key_url: https://packages.microsoft.com/keys/microsoft.asc
+    - clean_file: True
 
 # Loop over allowed users on this server
 {% for user_id, user in salt['pillar.get']('users', {}).items() %}
