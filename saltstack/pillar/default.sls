@@ -176,7 +176,7 @@ php-docker:
 
 # https://github.com/telegramdesktop/tdesktop/releases
 telegram:
-  version: 3.2.0
+  version: 4.16.6
 
 xsession:
   gtk_scale: 1.0
