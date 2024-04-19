@@ -64,6 +64,8 @@ local-pc-soft:
       - bat
       # File manager
       - doublecmd-qt
+      - libunrar5
+      - unrar
       # Clipboard manipulation
       - xclip
       # Video player
