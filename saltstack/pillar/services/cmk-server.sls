@@ -11,7 +11,7 @@ include:
 
 check_mk_server:
   # https://hub.docker.com/r/checkmk/check-mk-raw/tags
-  version: 2.1.0p31
+  version: 2.2.0p25
   data_dir: /srv/cmk-data
 
 proxy_vhosts:

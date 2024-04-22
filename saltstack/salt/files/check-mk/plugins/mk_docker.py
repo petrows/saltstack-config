@@ -19,13 +19,9 @@ This plugin it will be called by the agent without any arguments.
 
 from __future__ import with_statement
 
-__version__ = "2.1.0p31"
+__version__ = "2.2.0p25"
 
-# this file has to work with both Python 2 and 3
-# pylint: disable=super-with-arguments
-
-# N O T E:
-# docker is available for python versions from 2.6 / 3.3
+# NOTE: docker is available for python versions from 2.6 / 3.3
 
 import argparse
 import configparser
@@ -40,7 +36,7 @@ import sys
 import time
 
 try:
-    from typing import Dict, Tuple, Union
+    from typing import Dict, Tuple, Union  # noqa: F401 # pylint: disable=unused-import
 except ImportError:
     pass
 
@@ -166,14 +162,14 @@ class Section(list):
     # Should we need to parallelize one day, change this to be
     # more like the Section class in agent_azure, for instance
     def __init__(self, name=None, piggytarget=None):
-        super(Section, self).__init__()
+        super().__init__()
         if piggytarget is not None:
             self.append("<<<<%s>>>>" % piggytarget)
         if name is not None:
-            self.append("<<<docker_%s:sep(124)>>>" % name)
+            self.append("<<<%s:sep(124)>>>" % name)
             version_json = json.dumps(Section.version_info)
             self.append("@docker_version_info|%s" % version_json)
-            self.append("<<<docker_%s:sep(0)>>>" % name)
+            self.append("<<<%s:sep(0)>>>" % name)
 
     def write(self):
         if self[0].startswith("<<<<"):
@@ -187,7 +183,7 @@ class Section(list):
 def report_exception_to_server(exc, location):
     LOGGER.info("handling exception: %s", exc)
     msg = "Plugin exception in %s: %s" % (location, exc)
-    sec = Section("node_info")
+    sec = Section("docker_node_info")
     sec.append(json.dumps({"Unknown": msg}))
     sec.write()
 
@@ -278,7 +274,7 @@ class MKDockerClient(docker.DockerClient):
     _DEVICE_MAP_LOCK = multiprocessing.Lock()
 
     def __init__(self, config):
-        super(MKDockerClient, self).__init__(config["base_url"], version=MKDockerClient.API_VERSION)
+        super().__init__(config["base_url"], version=MKDockerClient.API_VERSION)
         all_containers = _robust_inspect(self, "containers")
         if config["container_id"] == "name":
             self.all_containers = {c.attrs["Name"].lstrip("/"): c for c in all_containers}
@@ -291,7 +287,7 @@ class MKDockerClient(docker.DockerClient):
         self._device_map = None
         self.node_info = self.info()
 
-        self._df_caller = ParallelDfCall(call=super(MKDockerClient, self).df)
+        self._df_caller = ParallelDfCall(call=super().df)
 
     def df(self):
         return self._df_caller()
@@ -414,7 +410,7 @@ def is_disabled_section(config, section_name):
 @time_it
 def section_node_info(client):
     LOGGER.debug(client.node_info)
-    section = Section("node_info")
+    section = Section("docker_node_info")
     section.append(json.dumps(client.node_info))
     section.write()
 
@@ -422,7 +418,7 @@ def section_node_info(client):
 @time_it
 def section_node_disk_usage(client):
     """docker system df"""
-    section = Section("node_disk_usage")
+    section = Section("docker_node_disk_usage")
     try:
         data = client.df()
     except docker.errors.APIError as exc:
@@ -500,7 +496,7 @@ def _robust_inspect(client, docker_object):
 @time_it
 def section_node_images(client):
     """in subsections list [[[images]]] and [[[containers]]]"""
-    section = Section("node_images")
+    section = Section("docker_node_images")
 
     images = _robust_inspect(client, "images")
     LOGGER.debug(images)
@@ -519,14 +515,14 @@ def section_node_images(client):
 @time_it
 def section_node_network(client):
     networks = client.networks.list(filters={"driver": "bridge"})
-    section = Section("node_network")
+    section = Section("docker_node_network")
     section += [json.dumps(n.attrs) for n in networks]
     section.write()
 
 
 def section_container_node_name(client, container_id):
     node_name = client.node_info.get("Name")
-    section = Section("container_node_name", piggytarget=container_id)
+    section = Section("docker_container_node_name", piggytarget=container_id)
     section.append(json.dumps({"NodeName": node_name}))
     section.write()
 
@@ -549,14 +545,14 @@ def section_container_status(client, container_id):
         pass
     status["NodeName"] = client.node_info.get("Name")
 
-    section = Section("container_status", piggytarget=container_id)
+    section = Section("docker_container_status", piggytarget=container_id)
     section.append(json.dumps(status))
     section.write()
 
 
 def section_container_labels(client, container_id):
     container = client.all_containers[container_id]
-    section = Section("container_labels", piggytarget=container_id)
+    section = Section("docker_container_labels", piggytarget=container_id)
     section.append(json.dumps(container.labels))
     section.write()
 
@@ -564,7 +560,7 @@ def section_container_labels(client, container_id):
 def section_container_network(client, container_id):
     container = client.all_containers[container_id]
     network = container.attrs.get("NetworkSettings", {})
-    section = Section("container_network", piggytarget=container_id)
+    section = Section("docker_container_network", piggytarget=container_id)
     section.append(json.dumps(network))
     section.write()
 
@@ -607,7 +603,7 @@ def section_container_mem(client, container_id):
     if stats is None:  # container not running
         return
     container_mem = stats["memory_stats"]
-    section = Section("container_mem", piggytarget=container_id)
+    section = Section("docker_container_mem", piggytarget=container_id)
     section.append(json.dumps(container_mem))
     section.write()
 
@@ -617,7 +613,7 @@ def section_container_cpu(client, container_id):
     if stats is None:  # container not running
         return
     container_cpu = stats["cpu_stats"]
-    section = Section("container_cpu", piggytarget=container_id)
+    section = Section("docker_container_cpu", piggytarget=container_id)
     section.append(json.dumps(container_cpu))
     section.write()
 
@@ -629,7 +625,7 @@ def section_container_diskstat(client, container_id):
     container_blkio = stats["blkio_stats"]
     container_blkio["time"] = time.time()
     container_blkio["names"] = client.device_map()
-    section = Section("container_diskstat", piggytarget=container_id)
+    section = Section("docker_container_diskstat", piggytarget=container_id)
     section.append(json.dumps(container_blkio))
     section.write()
 
@@ -664,7 +660,14 @@ def call_node_sections(client, config):
         except Exception as exc:
             if DEBUG:
                 raise
+            # The section is already always written. Prevent duplicate @docker_version_info
+            if name != "docker_node_info":
+                write_empty_section(name)
             report_exception_to_server(exc, section.__name__)
+
+
+def write_empty_section(name, piggytarget=None):
+    Section(name, piggytarget).write()
 
 
 def call_container_sections(client, config):

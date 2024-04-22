@@ -18,12 +18,9 @@ You should find an example configuration file at
 '../cfg_examples/logwatch.cfg' relative to this file.
 """
 
-# this file has to work with both Python 2 and 3
-# pylint: disable=super-with-arguments
-
 from __future__ import with_statement
 
-__version__ = "2.1.0p31"
+__version__ = "2.2.0p25"
 
 import sys
 
@@ -33,6 +30,7 @@ if sys.version_info < (2, 6):
 
 import ast
 import binascii
+import codecs
 import glob
 import io
 import itertools
@@ -47,7 +45,15 @@ import socket
 import time
 
 try:
-    from typing import Any, Collection, Dict, Iterable, Iterator, Sequence
+    from typing import (  # noqa: F401 # pylint: disable=unused-import
+        Any,
+        Collection,
+        Dict,
+        Iterable,
+        Iterator,
+        Sequence,
+        Tuple,
+    )
 except ImportError:
     # We need typing only for testing
     pass
@@ -91,6 +97,7 @@ CONFIG_ERROR_PREFIX = "CANNOT READ CONFIG FILE: "  # detected by check plugin
 
 PY2 = sys.version_info[0] == 2
 PY3 = sys.version_info[0] == 3
+PY_GE_35 = PY3 and sys.version_info[1] >= 5
 
 if PY3:
     text_type = str
@@ -113,6 +120,7 @@ if PY3:
         errors=sys.stdout.errors,
     )
     old_stdout, sys.stdout = sys.stdout, new_stdout
+
 
 # Borrowed from six
 def ensure_str(s, encoding="utf-8", errors="strict"):
@@ -151,6 +159,45 @@ def ensure_text_type(s, encoding="utf-8", errors="strict"):
     return s if isinstance(s, text_type) else s.decode(encoding, errors)
 
 
+def int_to_escaped_char(char):
+    # type: (int) -> text_type
+    return ensure_text_type("\\x{:02x}".format(char))
+
+
+def bytestring_to_escaped_char(char):
+    # type: (binary_type) -> text_type
+    return ensure_text_type("\\x{:02x}".format(ord(char)))
+
+
+if PY3:
+    escaped = int_to_escaped_char
+else:
+    escaped = bytestring_to_escaped_char
+
+if PY_GE_35:
+    backslashreplace_decode = codecs.backslashreplace_errors
+else:
+    # Python 2 and Python < 3.4 don't support decoding with "backslashreplace" error handler,
+    # but we need it to uniquely represent UNIX paths in monitoring.
+    def backslashreplace_decode(exception):
+        # type: (UnicodeError) -> Tuple[text_type, int]
+
+        if not isinstance(exception, UnicodeDecodeError):
+            # We'll use this error handler only for decoding, as the original
+            # "backslashreplace" handler is capable of encoding in all Python versions.
+            raise exception
+
+        bytestring, start, end = exception.object, exception.start, exception.end
+
+        return (
+            ensure_text_type("").join(escaped(c) for c in bytestring[start:end]),
+            end,
+        )
+
+
+codecs.register_error("backslashreplace_decode", backslashreplace_decode)
+
+
 def init_logging(verbosity):
     if verbosity == 0:
         LOGGER.propagate = False
@@ -161,7 +208,7 @@ def init_logging(verbosity):
         logging.basicConfig(level=logging.DEBUG, format="%(levelname)s: %(lineno)s: %(message)s")
 
 
-class ArgsParser(object):  # pylint: disable=too-few-public-methods, useless-object-inheritance
+class ArgsParser:  # pylint: disable=too-few-public-methods
     """
     Custom argument parsing.
     (Neither use optparse which is Python 2.3 to 2.7 only.
@@ -170,7 +217,7 @@ class ArgsParser(object):  # pylint: disable=too-few-public-methods, useless-obj
 
     def __init__(self, argv):
         # type: (Sequence[str]) -> None
-        super(ArgsParser, self).__init__()
+        super().__init__()
 
         if "-h" in argv:
             sys.stderr.write(ensure_str(__doc__))
@@ -271,9 +318,9 @@ def get_config_files(directory, config_file_arg=None):
         return [config_file_arg]
 
     config_file_paths = []
-    config_file_paths.append(directory + "/logwatch.cfg")
+    config_file_paths.append(os.path.join(directory, "logwatch.cfg"))
     # Add config file paths from a logwatch.d folder
-    for config_file in glob.glob(directory + "/logwatch.d/*.cfg"):
+    for config_file in glob.glob(os.path.join(directory, "logwatch.d", "*.cfg")):
         config_file_paths.append(config_file)
     LOGGER.info("Configuration file paths: %r", config_file_paths)
     return config_file_paths
@@ -400,10 +447,10 @@ def read_config(config_lines, files, debug=False):
     return global_options, logfiles_configs, cluster_configs
 
 
-class State(object):  # pylint: disable=useless-object-inheritance
+class State:
     def __init__(self, filename):
         # type: (str) -> None
-        super(State, self).__init__()
+        super().__init__()
         self.filename = filename
         self._data = {}  # type: dict[text_type | binary_type, dict[str, Any]]
 
@@ -454,13 +501,13 @@ class State(object):  # pylint: disable=useless-object-inheritance
         return self._data.setdefault(key, {"file": key})
 
 
-class LogLinesIter(object):  # pylint: disable=useless-object-inheritance
+class LogLinesIter:
     # this is supposed to become a proper iterator.
     # for now, we need a persistent buffer to fix things
     BLOCKSIZE = 8192
 
     def __init__(self, logfile, encoding):
-        super(LogLinesIter, self).__init__()
+        super().__init__()
         self._fd = os.open(logfile, os.O_RDONLY)
         self._lines = []  # List[Text]
         self._buffer = b""
@@ -768,7 +815,7 @@ def process_logfile(section, filestate, debug):  # pylint: disable=too-many-bran
     return header, []
 
 
-class Options(object):  # pylint: disable=useless-object-inheritance
+class Options:
     """Options w.r.t. logfile patterns (not w.r.t. cluster mapping)."""
 
     MAP_OVERFLOW = {"C": 2, "W": 1, "I": 0, "O": 0}  # case-insensitive, see set_opt
@@ -897,16 +944,16 @@ class Options(object):  # pylint: disable=useless-object-inheritance
             raise
 
 
-class GlobalOptions(object):  # pylint: disable=useless-object-inheritance
+class GlobalOptions:
     def __init__(self):
-        super(GlobalOptions, self).__init__()
+        super().__init__()
         self.retention_period = 60
 
 
-class PatternConfigBlock(object):  # pylint: disable=useless-object-inheritance
+class PatternConfigBlock:
     def __init__(self, files, patterns):
         # type: (Sequence[text_type], Sequence[tuple[text_type, text_type, Sequence[text_type], Sequence[text_type]]]) -> None
-        super(PatternConfigBlock, self).__init__()
+        super().__init__()
         self.files = files
         self.patterns = patterns
         # First read all the options like 'maxlines=100' or 'maxtime=10'
@@ -916,10 +963,10 @@ class PatternConfigBlock(object):  # pylint: disable=useless-object-inheritance
                 self.options.set_opt(item)
 
 
-class ClusterConfigBlock(object):  # pylint: disable=useless-object-inheritance
+class ClusterConfigBlock:
     def __init__(self, name, ips_or_subnets):
         # type: (text_type, Sequence[text_type]) -> None
-        super(ClusterConfigBlock, self).__init__()
+        super().__init__()
         self.name = name
         self.ips_or_subnets = ips_or_subnets
 
@@ -959,7 +1006,7 @@ def find_matching_logfiles(glob_pattern):
             continue
 
         # match is bytes in Linux and unicode/str in Windows
-        match_readable = ensure_text_type(match, errors="replace")
+        match_readable = ensure_text_type(match, errors="backslashreplace_decode")
 
         file_refs.append((match, match_readable))
 
@@ -986,10 +1033,10 @@ def _compile_continuation_pattern(raw_pattern):
         return re.compile(_search_optimize_raw_pattern(raw_pattern), re.UNICODE)
 
 
-class LogfileSection(object):  # pylint: disable=useless-object-inheritance
+class LogfileSection:
     def __init__(self, logfile_ref):
         # type: (tuple[text_type | binary_type, text_type]) -> None
-        super(LogfileSection, self).__init__()
+        super().__init__()
         self.name_fs = logfile_ref[0]
         self.name_write = logfile_ref[1]
         self.options = Options()
