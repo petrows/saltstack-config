@@ -7,7 +7,7 @@ GRUB_DEFAULT=0
 GRUB_TIMEOUT=5
 GRUB_DISTRIBUTOR=`lsb_release -i -s 2> /dev/null || echo Debian`
 GRUB_CMDLINE_LINUX_DEFAULT="quiet"
-GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0 libata.force=3.0"
+GRUB_CMDLINE_LINUX=""
 
 # If your computer has multiple operating systems installed, then you
 # probably want to run os-prober. However, if your computer is a host
