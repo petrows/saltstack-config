@@ -16,6 +16,11 @@ mount-folders:
     name: /srv/photoprism-data/originals/photos
     user: {{ static.uids.master }}
     group: {{ static.uids.master }}
+  photoprism-photos-old:
+    device: /srv/storage-old/photo-old/photos/
+    name: /srv/photoprism-data/originals/photos-old
+    user: {{ static.uids.master }}
+    group: {{ static.uids.master }}
   photoprism-photos-sync-petro:
     device: /srv/storage/home/petro/mobile-photos/Camera
     name: /srv/photoprism-data/originals/mobile-petro
