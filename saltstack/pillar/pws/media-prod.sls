@@ -21,3 +21,8 @@ mount-folders:
     name: /srv/photoprism-data/originals/mobile-petro
     user: {{ static.uids.master }}
     group: {{ static.uids.master }}
+  photoprism-photos-metaview-sync-petro:
+    device: /srv/storage/home/petro/mobile-metaview/
+    name: /srv/photoprism-data/originals/metaview
+    user: {{ static.uids.master }}
+    group: {{ static.uids.master }}
