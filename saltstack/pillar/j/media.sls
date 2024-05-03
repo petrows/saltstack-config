@@ -16,11 +16,11 @@ rslsync:
     j:
       data_dir: /srv/rslsync-data-j
       user: master
-      port: {{ static.proxy_ports.rslsync_j }}
+      port: {{ static.proxy_ports.rslsync_julia }}
 
 proxy_vhosts:
   rslsync_j:
     domain: sync.j.pws
-    port: {{ static.proxy_ports.rslsync_j }}
+    port: {{ static.proxy_ports.rslsync_julia }}
     ssl: internal
     ssl_name: media

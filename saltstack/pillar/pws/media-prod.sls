@@ -5,6 +5,10 @@ proxy_vhosts:
     domain: rslsync-petro.media.pws
     ssl: internal
     ssl_name: media
+  rslsync_julia:
+    domain: rslsync-julia.media.pws
+    ssl: internal
+    ssl_name: media
 
 mount-folders:
   photoprism-photos-archive:
