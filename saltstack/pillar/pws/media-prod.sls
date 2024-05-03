@@ -26,3 +26,8 @@ mount-folders:
     name: /srv/photoprism-data/originals/metaview
     user: {{ static.uids.master }}
     group: {{ static.uids.master }}
+  photoprism-photos-julia:
+    device: /srv/storage/home/julia/Фото/
+    name: /srv/photoprism-data/originals/photos-julia
+    user: {{ static.uids.master }}
+    group: {{ static.uids.master }}
