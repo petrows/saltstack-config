@@ -10,7 +10,7 @@ samba:
     media-rw:
       path: /srv/media
       comment: Media R/W
-      user: master
+      user: share-root master
       rw: True
     media-nexum:
       path: /srv/media-private
@@ -22,14 +22,14 @@ samba:
       comment: Public share
       rw: True
       guest: True
-    # common:
-    #   path: /srv/storage/common
-    #   comment: Documents
-    #   user: master julia
-    # common-old:
-    #   path: /srv/storage-old
-    #   comment: Documents (old)
-    #   user: share-root julia
+    common:
+      path: /srv/storage/common
+      comment: Documents
+      user: share-root master julia
+    common-old:
+      path: /srv/storage-old
+      comment: Documents (old)
+      user: share-root julia
     # common-tmp:
     #   path: /srv/storage-tmp
     #   user: share-root
