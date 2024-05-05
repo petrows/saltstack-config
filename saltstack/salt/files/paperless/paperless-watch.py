@@ -99,7 +99,7 @@ def process_function():
         file_name = re.sub('(\d{4}) (\d{2}) (\d{2})', '\\1-\\2-\\3', file_name)
 
         # Detect document date
-        file_date = datetime.datetime.fromtimestamp(f.stat().st_ctime)
+        file_date = datetime.datetime.fromtimestamp(f.stat().st_mtime)
         # From path?
         file_date_from_path = search_date_in_path(f)
         if (file_date_from_path):
