@@ -29,7 +29,7 @@ paperless-watch.service:
         Type=notify
         WorkingDirectory=/
         ExecStartPre=/bin/sleep 60
-        ExecStart=/opt/venv/app/bin/python /usr/bin/paperless-watch -l INFO --url https://docs.media.pws --token {{ pillar.pws_secrets.paperless.api_token }} /srv/storage/common/archive
+        ExecStart=/opt/venv/app/bin/python /usr/bin/paperless-watch -l INFO --url https://{{ pillar.proxy_vhosts.paperless.domain }} --token {{ pillar.pws_secrets.paperless.api_token }} {{ pillar.paperless.dirs_watch|join(' ')}}
         [Install]
         WantedBy=multi-user.target
   service.running:

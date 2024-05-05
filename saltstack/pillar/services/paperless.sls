@@ -18,6 +18,9 @@ paperless:
     - /srv/paperless-data/app/consume
     - /srv/paperless-data/app/data
     - /srv/paperless-data/app/media
+  # Dirs to watch new documents
+  dirs_watch:
+    - /srv/storage/common/archive
 
 proxy_vhosts:
   paperless:

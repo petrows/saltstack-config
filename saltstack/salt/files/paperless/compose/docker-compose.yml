@@ -26,6 +26,13 @@ services:
       PAPERLESS_DBUSER: paperless
       PAPERLESS_DBPASS: paperless
       PAPERLESS_DBNAME: paperless
+      PAPERLESS_OCR_LANGUAGES: deu rus eng
+      PAPERLESS_OCR_LANGUAGE: deu+rus+eng
+      PAPERLESS_OCR_MODE: skip
+      PAPERLESS_TASK_WORKERS: 3
+      PAPERLESS_THREADS_PER_WORKER: 4
+      PAPERLESS_TIME_ZONE: {{ pillar.timezone }}
+      PAPERLESS_SECRET_KEY: {{ pillar.pws_secrets.paperless.salt }}
       USERMAP_UID: {{ pillar.static.uids.master }}
       USERMAP_GID: {{ pillar.static.uids.master }}
       DEBUG: true
