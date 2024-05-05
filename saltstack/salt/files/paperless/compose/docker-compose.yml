@@ -46,7 +46,8 @@ services:
     image: redis:{{ pillar.paperless.version_redis }}
     hostname: paperless-redis
     restart: always
+    command: redis-server --save 60 1 --loglevel notice
     volumes:
-      - {{ pillar.paperless.data_dir }}/redis:/root/redis
+      - {{ pillar.paperless.data_dir }}/redis:/data
     environment:
-      - REDIS_PASSWORD=paperless
+      REDIS_PASSWORD: paperless
