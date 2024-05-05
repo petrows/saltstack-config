@@ -23,6 +23,8 @@ running = True
 exit_code = 0
 q = queue.SimpleQueue()
 path_date_sub = r'(\d{4}-\d{2}-\d{2})'
+path_year_sub = r'^(\d{4})$'
+path_year_plus_sub = r'^(\d{4})[^\d]+'
 
 def scan_dir(pn: Path):
     ret = []
@@ -42,6 +44,17 @@ def search_date_in_path(pn: Path):
         ss = re.search(path_date_sub, pp)
         if ss:
             return datetime.date.fromisoformat(ss[1])
+    return None
+
+def search_year_in_path(pn: Path):
+    for pp in list(pn.parents):
+        pp = pp.name
+        ss = re.search(path_year_sub, pp)
+        if ss:
+            file_date = datetime.datetime.fromtimestamp(pn.stat().st_mtime)
+            # Set only year
+            file_date = file_date.replace(year=int(ss[1]))
+            return file_date
     return None
 
 class Handler(FileSystemEventHandler):
@@ -104,13 +117,17 @@ def process_function():
         file_date_from_path = search_date_in_path(f)
         if (file_date_from_path):
             file_date = file_date_from_path
+        else:
+            file_date_from_path = search_year_in_path(f)
+            if (file_date_from_path):
+                file_date = file_date_from_path
 
         logging.info("Processing file: %s (%s) (%s)", task, file_name, file_date.strftime("%Y-%m-%d"))
 
         request_data = {
             'title': (None, file_name),
             'created': (None, file_date.strftime("%Y-%m-%d")),
-            'document': (f.name, open(task, 'rb'), mime_type),
+            'document': (str(f), open(task, 'rb'), mime_type),
         }
 
         response = requests.post(
