@@ -33,6 +33,7 @@ proxy_ports:
   petro_trs_http:   7014
   firefly_http:     7015
   firefly_imp_http: 7016
+  paperless_http:   7017
 
   # Resillio sync
   rslsync_petro:    8888

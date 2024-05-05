@@ -118,6 +118,9 @@ base:
   'roles:firefly':
     - match: pillar
     - services.firefly
+  'roles:paperless':
+    - match: pillar
+    - services.paperless
   'roles:k8s':
     - match: pillar
     - services.k8s

@@ -178,12 +178,14 @@ base:
     - services.plex
     - services.rslsync
     - services.photoprism
+    - services.paperless
     - pws.media
   'media.pws':
     - pws.media-prod
     - services.plex-prod
     - services.samba-prod
     - services.photoprism-prod
+    - services.paperless-prod
   'media.dev':
     - services.samba-dev
 

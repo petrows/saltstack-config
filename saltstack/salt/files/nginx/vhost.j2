@@ -8,6 +8,7 @@
 {%- set enable_http2 = conf.enable_http2|default(False) %}
 {%- set enable_dotfiles = conf.enable_dotfiles|default(False) %}
 {%- set enable_robots = conf.enable_robots|default(False) %}
+{%- set enable_ref = conf.enable_ref|default(False) %}
 {%- set custom_config = conf.custom_config|default('') %}
 {%- set custom_config_proxy = conf.custom_config_proxy|default('') %}
 {%- set redirect_target = conf.redirect_target|default('') %}
@@ -56,8 +57,9 @@ server {
     # topic first.
     add_header Strict-Transport-Security "max-age=15768000; preload;" always;
 {%- endif %}
-
+{%- if not enable_ref %}
     add_header Referrer-Policy "no-referrer";
+{%- endif %}
     add_header X-Content-Type-Options "nosniff";
 {%- if not enable_frame %}
     add_header X-Frame-Options "SAMEORIGIN";

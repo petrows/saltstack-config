@@ -1,0 +1,52 @@
+# Paperless with PostgreSQL
+version: '3'
+
+services:
+  app:
+    container_name:  {{ pillar.paperless.id }}-app
+    image: ghcr.io/paperless-ngx/paperless-ngx:{{ pillar.paperless.version }}
+    restart: always
+    ports:
+      - {{ pillar.static.proxy_ports.paperless_http }}:8000
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      # Input files
+      - {{ pillar.paperless.data_dir }}/app/consume:/usr/src/paperless/consume
+      - {{ pillar.paperless.data_dir }}/app/data:/usr/src/paperless/data
+      - {{ pillar.paperless.data_dir }}/app/media:/usr/src/paperless/media
+    environment:
+      PAPERLESS_URL: https://{{ pillar.proxy_vhosts.paperless.domain }}
+      PAPERLESS_REDIS: redis://paperless-redis:6379
+      PAPERLESS_DBENGINE: postgresql
+      PAPERLESS_DBHOST: paperless-db
+      PAPERLESS_DBUSER: paperless
+      PAPERLESS_DBPASS: paperless
+      PAPERLESS_DBNAME: paperless
+      USERMAP_UID: {{ pillar.static.uids.master }}
+      USERMAP_GID: {{ pillar.static.uids.master }}
+      DEBUG: true
+  db:
+    container_name: {{ pillar.paperless.id }}-db
+    image: postgres:{{ pillar.paperless.version_db }}
+    hostname: paperless-db
+    restart: always
+    volumes:
+      - {{ pillar.paperless.data_dir }}/db:/var/lib/postgresql/data
+    environment:
+      LANG: en_US.utf8
+      POSTGRES_USER: paperless
+      POSTGRES_PASSWORD: paperless
+      POSTGRES_DB: paperless
+  redis:
+    container_name:  {{ pillar.paperless.id }}-redis
+    image: redis:{{ pillar.paperless.version_redis }}
+    hostname: paperless-redis
+    restart: always
+    volumes:
+      - {{ pillar.paperless.data_dir }}/redis:/root/redis
+    environment:
+      - REDIS_PASSWORD=paperless
