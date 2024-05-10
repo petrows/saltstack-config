@@ -9,7 +9,7 @@ include:
 
 jenkins:
   # https://hub.docker.com/r/jenkins/jenkins/tags
-  version: 2.387
+  version: 2.440.3
   data_dir: /srv/jenkins-data
   dirs:
     - /srv/jenkins-data
