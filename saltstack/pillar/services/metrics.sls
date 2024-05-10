@@ -17,7 +17,7 @@ metrics:
     version: v1.70.0
   # https://hub.docker.com/r/grafana/grafana
   grafana:
-    version: 8.2.2
+    version: 10.4.2
   # https://hub.docker.com/_/telegraf
   telegraf:
     version: 1.20.3
