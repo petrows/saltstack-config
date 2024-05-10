@@ -125,13 +125,11 @@ base:
     - users.www-data
     - services.wiki
     - services.nextcloud
-    - services.jenkins
     - services.gitlab
 
   'web-vm.pws':
     - services.wiki-prod
     - services.nextcloud-prod
-    - services.jenkins-prod
     - services.gitlab-prod
     - pws.web-vm-prod
 
@@ -142,13 +140,6 @@ base:
   'backup.*':
     - services.crashplan
     - services.crashplan-prod
-
-  'build-linux.*':
-    - pws.build-linux
-    - users.master
-    - users.jenkins
-    - services.docker
-    - services.jenkins-node
 
   'home.*':
     - pws.home

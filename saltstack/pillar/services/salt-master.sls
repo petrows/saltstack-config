@@ -9,7 +9,6 @@ salt:
     # DMZ
     home.pws: {}
     web-vm.pws: {}
-    build-linux.pws: {}
     bank.pws: {}
     nexum.pws: {}
     # Julia
