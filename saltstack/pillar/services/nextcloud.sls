@@ -9,7 +9,7 @@ include:
 
 nextcloud:
   # https://hub.docker.com/_/nextcloud?tab=tags
-  version: 25.0.3-apache
+  version: 28.0.5-apache
   version_db: 10.10.2
   data_dir: /srv/nextcloud-data
   dirs:
