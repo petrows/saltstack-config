@@ -51,7 +51,7 @@ openhab:
   # https://hub.docker.com/r/grafana/grafana
   grafana:
     id: Openhab-grafana-dev
-    version: 9.3.2
+    version: 10.4.2
     data_dir: /srv/grafana-data
     dirs:
       - /srv/grafana-data
