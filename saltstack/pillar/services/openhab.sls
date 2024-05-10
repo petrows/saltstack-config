@@ -8,8 +8,9 @@ include:
   - services.nginx
 
 openhab:
+  # https://hub.docker.com/r/openhab/openhab/tags
   id: Openhab-dev
-  version: 4.0.4
+  version: 4.1.2
   data_dir: /srv/openhab-data
   dirs:
     - /srv/openhab-data/conf
