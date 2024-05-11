@@ -18,6 +18,7 @@ class PetroBackup:
 
 	force_weekly = False
 	force_monthly = False
+	syslog_enable = False
 
 	def __init__(self):
 		syslog.openlog(ident="backup")
@@ -27,20 +28,24 @@ class PetroBackup:
 		parser = argparse.ArgumentParser()
 		parser.add_argument('-w', help='Force weekly task', action='store_true')
 		parser.add_argument('-m', help='Force monthly task', action='store_true')
+		parser.add_argument('-s', help='Enable syslog', action='store_true')
 		args = parser.parse_args()
 
 		self.force_weekly = args.w
 		self.force_monthly = args.m
+		self.syslog_enable = args.s
 
 		systemd.daemon.notify('READY=1')
 
 	def log(self, msg):
-		print(datetime.today().isoformat() + ": " + msg)
-		syslog.syslog(msg)
+		print(msg)
+		if self.syslog_enable:
+			syslog.syslog(msg)
 
 	def log_erorr(self, msg):
-		print(datetime.today().isoformat() + ": " + msg, file=sys.stderr)
-		syslog.syslog(syslog.LOG_ERR, msg)
+		print(msg, file=sys.stderr)
+		if self.syslog_enable:
+			syslog.syslog(syslog.LOG_ERR, msg)
 
 	def exec(self, command):
 		command_base = os.path.basename(command[0])
