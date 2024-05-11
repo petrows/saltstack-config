@@ -1,85 +1,161 @@
-#!/bin/bash -e
+#!/usr/bin/env python-app
 
-MODE=$1
-FNAME=$2
-if [[ -z "$FNAME" ]]; then
-    FNAME="scan-$(date +%s)"
-fi
+import datetime
+import time
+import fcntl
+import logging
+import argparse
+import os
+from pathlib import Path
+import subprocess
+import sys
 
-OUTPUT="/srv/storage/common/archive/$(date +%Y)/$FNAME.pdf"
-OPTS=""
-TMP="/tmp"
+file_tmp_raw = Path("/tmp/scan-raw.pdf")
+file_tmp_out = Path("/tmp/scan-out.pdf")
 
-if [[ -f "$OUTPUT" ]] && [[ "page-add" != "$MODE" ]] && [[ "adf-back" != "$MODE" ]] ; then
-    echo "Error: file already exists: $OUTPUT"
-    exit 1
-fi
+def exec(command, throw_error=True):
+    command_base = os.path.basename(command[0])
+    p = subprocess.Popen(
+        command,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
 
-DEVICE="hpaio:/net/officejet_pro_6970?ip=10.80.0.9&queue=false"
+    fl = fcntl.fcntl(p.stdout, fcntl.F_GETFL)
+    fcntl.fcntl(p.stdout, fcntl.F_SETFL, fl | os.O_NONBLOCK)
 
-if [[ -z "$MODE" ]] ; then
-    echo "Mode: adf adf-back duplex page page-add"
-    echo "Scan manual duplex:"
-    echo " 1. Scan document front pages using adf"
-    echo " 2. Scan document back pages using adf-back"
-    exit 1
-fi
+    fl = fcntl.fcntl(p.stderr, fcntl.F_GETFL)
+    fcntl.fcntl(p.stderr, fcntl.F_SETFL, fl | os.O_NONBLOCK)
 
-if [[ "adf" == "$MODE" ]]; then
-    echo "If you need manual duplex, rotate document to back pages and call scan again with adf-back mode"
-fi
+    while None == p.poll():
+        try:
+            line = p.stdout.readline()
+            if line :
+                sys.stdout.write(line.decode('utf-8'))
+        except OSError:
+            pass
+        try:
+            line = p.stderr.readline()
+            if line :
+                logging.error("%s! %s", command_base, line.decode('utf-8').strip())
+        except OSError:
+            pass
 
-if [[ "adf" == "$MODE" ]] || [[ "adf-back" == "$MODE" ]] ; then
-    OPTS="--adf"
-fi
+    p.wait()
 
-if [[ "duplex" == "$MODE" ]] ; then
-    OPTS="--adf --duplex"
-fi
+    if 0 != p.returncode:
+        if throw_error:
+            raise RuntimeError(f"Command '{' '.join(command)}' return code {p.returncode}")
+        else:
+            logging.error("Command '%s' return code %d", ' '.join(command), p.returncode)
 
-rm -rf /tmp/hpscan*
-rm -rf $TMP/scan-raw.pdf
+    return 0 == p.returncode
 
-echo "Run: hp-scan --device=$DEVICE --mode=color --dest=file --size=a4 --compression=none  --resolution=300 $OPTS --output=/tmp/scan-raw.pdf"
-hp-scan --device=$DEVICE --mode=color --dest=file --size=a4 --compression=none  --resolution=300 $OPTS --output=/tmp/scan-raw.pdf
 
-if [[ ! -f $TMP/scan-raw.pdf ]] ; then
-    echo "Scan result not found"
-    exit 1
-fi
+def scan(mode: str, file_name: Path):
+    # Cleanup hp-scan files
+    exec(["bash", "-c", "rm -rf /tmp/hpscan*"])
+    scanner_tmp = Path("/tmp/scanner-raw.pdf")
+    cmd = ["hp-scan", "--device=hpaio:/net/officejet_pro_6970?ip=10.80.0.9&queue=false", "--mode=color", "--dest=file", "--size=a4", "--compression=none", "--resolution=300", f"--output={str(scanner_tmp)}"]
+    if mode == "adf":
+        cmd.append("--adf")
+    exec(cmd)
+    exec(["ps2pdf", str(scanner_tmp), str(file_name)])
+    scanner_tmp.unlink()
 
-if [[ "page-add" == "$MODE" ]] || [[ "adf-back" == "$MODE" ]] ; then
-    echo "Copy prev document for page add"
-    cp $TMP/scan-last.pdf $TMP/scan-prev.pdf
-fi
+def pdf_append(doc_a: Path, doc_b: Path, out: Path):
+    # Merge to tmp doc, then move
+    exec(["pdfunite", str(doc_a), str(doc_b), "/tmp/pdf_merge.pdf"])
+    exec(["mv", "/tmp/pdf_merge.pdf", str(out)])
 
-# Process PDF to reduce size
-ps2pdf $TMP/scan-raw.pdf $TMP/scan-raw-opt.pdf
-# Process via OCR (use desired filename)
-scan-ocr $TMP/scan-raw-opt.pdf "$TMP/$FNAME.pdf"
-rm -rf $TMP/scan-last.pdf
-mv "$TMP/$FNAME.pdf" $TMP/scan-last.pdf
+def pdf_merge_adf(doc_a: Path, doc_b: Path, out: Path):
+    # Merge ADF front/back pages
+    exec(["pdftk", f"A={str(doc_a)}", f"B={str(doc_b)}", "shuffle", "A", "Bend-1", "output", "/tmp/pdf_merge.pdf"])
+    exec(["mv", "/tmp/pdf_merge.pdf", str(out)])
 
-# Cleanup
-rm -rf $TMP/scan-raw*.pdf
 
-if [[ "page-add" == "$MODE" ]] || [[ "adf-back" == "$MODE" ]] ; then
+parser = argparse.ArgumentParser(
+    description='Scan document into archive folder')
 
-    mv $TMP/scan-last.pdf $TMP/scan-prev-pg.pdf
+parser.add_argument(
+    '-l', '--log',
+    choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
+    default='INFO',
+    help='set log level',
+)
 
-    if [[ "page-add" == "$MODE" ]] ; then
-        pdfunite $TMP/scan-prev.pdf $TMP/scan-prev-pg.pdf $TMP/scan-last.pdf
-    fi
-    if [[ "adf-back" == "$MODE" ]] ; then
-        pdftk A=$TMP/scan-prev.pdf B=$TMP/scan-prev-pg.pdf shuffle A Bend-1 output $TMP/scan-last.pdf
-    fi
+parser.add_argument(
+    '-d', '--date',
+    type=str,
+    action='store',
+    default=None,
+    help='override document date (YYYY-MM-DD)',
+)
 
-    rm -rf $TMP/scan-prev.pdf
-    rm -rf $TMP/scan-prev-pg.pdf
-fi
+parser.add_argument(
+    'mode',
+    choices=['page', 'adf'],
+    action='store',
+    help='feeder type (page - document glass, adf - document feeder)',
+)
 
-echo "Output: $OUTPUT"
+parser.add_argument(
+    'name',
+    type=str,
+    action='store',
+    help='document name',
+)
 
-echo "$OUTPUT" > $TMP/scan-output.txt
+args = parser.parse_args()
 
-cp $TMP/scan-last.pdf "$OUTPUT"
+log_level = args.log
+logging.basicConfig(level=log_level)
+
+logging.info("Scanning: %s, type %s", args.name, args.mode)
+
+# Clean temporary files
+if file_tmp_raw.exists(): file_tmp_raw.unlink()
+if file_tmp_out.exists(): file_tmp_out.unlink()
+
+# Document date
+file_date = datetime.date.today()
+if args.date:
+    file_date = datetime.date.fromisoformat(args.date)
+file_tms = int(round(time.mktime(file_date.timetuple())))
+
+file_output = Path("/srv/storage/common/archive") / str(file_date.year) / f"{args.name}.pdf"
+
+if file_output.exists():
+    logging.error("Ouput file exists: %s", str(file_output))
+    sys.exit(1)
+
+for page_n in range(128):
+    logging.info("Scanning page: %d", page_n)
+    scan(args.mode, file_tmp_raw)
+    # New page: copy previous file and merge PDF
+    if file_tmp_out.exists():
+        if args.mode == 'page':
+            pdf_append(file_tmp_out, file_tmp_raw, file_tmp_out)
+        if args.mode == 'adf':
+            pdf_merge_adf(file_tmp_out, file_tmp_raw, file_tmp_out)
+    else:
+        file_tmp_raw.rename(str(file_tmp_out))
+
+    # ADF: abort on 2-nd side
+    if args.mode == 'adf' and page_n == 1:
+        break
+    try:
+        page_ask = input("Scan another page?\nFor ADF: Rotate document in ADF\n\nPress ENTER for new page, Ctrl+D to stop\n")
+        logging.info("New page requested")
+    except EOFError:
+        # Ctrl+D
+        break
+
+logging.info("Scan done, prepare final document to %s", str(file_output))
+
+# Perform OCR
+exec(["scan-ocr", str(file_tmp_out), str(file_output)])
+# Set file mtime
+os.utime(str(file_output), (file_tms, file_tms))
+
+logging.info("Done")

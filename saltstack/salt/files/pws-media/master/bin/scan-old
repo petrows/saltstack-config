@@ -1,0 +1,85 @@
+#!/bin/bash -e
+
+MODE=$1
+FNAME=$2
+if [[ -z "$FNAME" ]]; then
+    FNAME="scan-$(date +%s)"
+fi
+
+OUTPUT="/srv/storage/common/archive/$(date +%Y)/$FNAME.pdf"
+OPTS=""
+TMP="/tmp"
+
+if [[ -f "$OUTPUT" ]] && [[ "page-add" != "$MODE" ]] && [[ "adf-back" != "$MODE" ]] ; then
+    echo "Error: file already exists: $OUTPUT"
+    exit 1
+fi
+
+DEVICE="hpaio:/net/officejet_pro_6970?ip=10.80.0.9&queue=false"
+
+if [[ -z "$MODE" ]] ; then
+    echo "Mode: adf adf-back duplex page page-add"
+    echo "Scan manual duplex:"
+    echo " 1. Scan document front pages using adf"
+    echo " 2. Scan document back pages using adf-back"
+    exit 1
+fi
+
+if [[ "adf" == "$MODE" ]]; then
+    echo "If you need manual duplex, rotate document to back pages and call scan again with adf-back mode"
+fi
+
+if [[ "adf" == "$MODE" ]] || [[ "adf-back" == "$MODE" ]] ; then
+    OPTS="--adf"
+fi
+
+if [[ "duplex" == "$MODE" ]] ; then
+    OPTS="--adf --duplex"
+fi
+
+rm -rf /tmp/hpscan*
+rm -rf $TMP/scan-raw.pdf
+
+echo "Run: hp-scan --device=$DEVICE --mode=color --dest=file --size=a4 --compression=none  --resolution=300 $OPTS --output=/tmp/scan-raw.pdf"
+hp-scan --device=$DEVICE --mode=color --dest=file --size=a4 --compression=none  --resolution=300 $OPTS --output=/tmp/scan-raw.pdf
+
+if [[ ! -f $TMP/scan-raw.pdf ]] ; then
+    echo "Scan result not found"
+    exit 1
+fi
+
+if [[ "page-add" == "$MODE" ]] || [[ "adf-back" == "$MODE" ]] ; then
+    echo "Copy prev document for page add"
+    cp $TMP/scan-last.pdf $TMP/scan-prev.pdf
+fi
+
+# Process PDF to reduce size
+ps2pdf $TMP/scan-raw.pdf $TMP/scan-raw-opt.pdf
+# Process via OCR (use desired filename)
+scan-ocr $TMP/scan-raw-opt.pdf "$TMP/$FNAME.pdf"
+rm -rf $TMP/scan-last.pdf
+mv "$TMP/$FNAME.pdf" $TMP/scan-last.pdf
+
+# Cleanup
+rm -rf $TMP/scan-raw*.pdf
+
+if [[ "page-add" == "$MODE" ]] || [[ "adf-back" == "$MODE" ]] ; then
+
+    mv $TMP/scan-last.pdf $TMP/scan-prev-pg.pdf
+
+    if [[ "page-add" == "$MODE" ]] ; then
+        pdfunite $TMP/scan-prev.pdf $TMP/scan-prev-pg.pdf $TMP/scan-last.pdf
+    fi
+    if [[ "adf-back" == "$MODE" ]] ; then
+        pdftk A=$TMP/scan-prev.pdf B=$TMP/scan-prev-pg.pdf shuffle A Bend-1 output $TMP/scan-last.pdf
+    fi
+
+    rm -rf $TMP/scan-prev.pdf
+    rm -rf $TMP/scan-prev-pg.pdf
+fi
+
+echo "Output: $OUTPUT"
+
+echo "$OUTPUT" > $TMP/scan-output.txt
+
+cp $TMP/scan-last.pdf "$OUTPUT"
