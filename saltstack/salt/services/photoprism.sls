@@ -42,8 +42,7 @@ photoprism-watch.service:
         Group=root
         Type=notify
         WorkingDirectory=/
-        ExecStartPre=/bin/sleep 60
-        ExecStart=/opt/venv/app/bin/python /usr/bin/photoprism-watch --container "{{ pillar.photoprism.id }}" "{{ pillar.photoprism.volumes.originals.path }}"
+        ExecStart=/opt/venv/app/bin/python /usr/bin/photoprism-watch --delay 60 --container "{{ pillar.photoprism.id }}" "{{ pillar.photoprism.volumes.originals.path }}"
         [Install]
         WantedBy=multi-user.target
   service.running:
