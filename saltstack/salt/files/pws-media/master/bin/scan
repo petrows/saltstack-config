@@ -94,6 +94,14 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    '-p', '--pages',
+    type=int,
+    action='store',
+    default=0,
+    help='limit pages to scan',
+)
+
+parser.add_argument(
     'mode',
     choices=['page', 'adf'],
     action='store',
@@ -146,14 +154,21 @@ for page_n in range(128):
     # ADF: abort on 2-nd side
     if args.mode == 'adf' and page_n == 1:
         break
+    # Pages limit: stop if requested
+    if args.pages and page_n+1 == args.pages:
+        logging.info("Pages lmimit reached: %d", args.pages)
+        break
     try:
-        page_ask = input("Scan another page?\nFor ADF: Rotate document in ADF\n\nPress ENTER for new page, Ctrl+D to stop\n")
+        page_ask_text = ''
+        if args.mode == 'adf':
+            page_ask_text = "\nRotate document in ADF - back side up"
+        page_ask = input(f"\n\nScan another page?{page_ask_text}\nPress ENTER for new page, Ctrl+D to finish, Ctrl+C to cancel scan\n")
         logging.info("New page requested")
     except EOFError:
         # Ctrl+D
         break
 
-logging.info("Scan done, prepare final document to %s", str(file_output))
+logging.info("Scan done, prepare final document")
 
 # Perform OCR
 exec(["scan-ocr", str(file_tmp_out), str(file_tmp_ocr)])
