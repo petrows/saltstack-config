@@ -10,7 +10,7 @@ include:
 paperless:
   id: Paperless-dev
   # https://github.com/paperless-ngx/paperless-ngx/pkgs/container/paperless-ngx/versions?filters%5Bversion_type%5D=tagged
-  version: 2.7.2
+  version: 2.8.3
   version_db: 16.2
   version_redis: 7.2.4
   data_dir: /srv/paperless-data
