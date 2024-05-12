@@ -179,13 +179,13 @@ for page_n in range(128):
         # Ctrl+D
         break
 
-logging.info("Scan done, prepare final document")
-
+# Prepare final tmp file with proper name, scan-ocr expects that
+file_tmp_ocr = Path("/tmp") / file_output.name
+logging.info("Scan done, prepare final document: %s", str(file_tmp_ocr))
 # Perform OCR
 exec(["scan-ocr", str(file_tmp_out), str(file_tmp_ocr)])
 # Set file mtime
 os.utime(str(file_tmp_ocr), (file_tms, file_tms))
-
 # Move result file
 exec(["mv", str(file_tmp_ocr), str(file_output)])
 

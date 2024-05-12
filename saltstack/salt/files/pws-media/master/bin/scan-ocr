@@ -11,6 +11,7 @@ ocrmypdf \
     -l deu+rus+eng \
     --keywords pws-ocr,pws-scan \
     --rotate-pages \
+    --clean \
     --title "${BNAME} / $(date +'%F %H:%M')" \
     "$1" \
     "$2"
