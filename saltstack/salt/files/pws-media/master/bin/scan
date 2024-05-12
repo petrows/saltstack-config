@@ -12,6 +12,7 @@ import sys
 
 file_tmp_raw = Path("/tmp/scan-raw.pdf")
 file_tmp_out = Path("/tmp/scan-out.pdf")
+file_tmp_ocr = Path("/tmp/scan-ocr.pdf")
 
 def exec(command, throw_error=True):
     command_base = os.path.basename(command[0])
@@ -116,6 +117,7 @@ logging.info("Scanning: %s, type %s", args.name, args.mode)
 # Clean temporary files
 if file_tmp_raw.exists(): file_tmp_raw.unlink()
 if file_tmp_out.exists(): file_tmp_out.unlink()
+if file_tmp_ocr.exists(): file_tmp_ocr.unlink()
 
 # Document date
 file_date = datetime.date.today()
@@ -154,8 +156,11 @@ for page_n in range(128):
 logging.info("Scan done, prepare final document to %s", str(file_output))
 
 # Perform OCR
-exec(["scan-ocr", str(file_tmp_out), str(file_output)])
+exec(["scan-ocr", str(file_tmp_out), str(file_tmp_ocr)])
 # Set file mtime
-os.utime(str(file_output), (file_tms, file_tms))
+os.utime(str(file_tmp_ocr), (file_tms, file_tms))
 
-logging.info("Done")
+# Move result file
+exec(["mv", str(file_tmp_ocr), str(file_output)])
+
+logging.info("Done, result is %s", str(file_output))
