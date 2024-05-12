@@ -178,6 +178,14 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    '--delay',
+    type=int,
+    default=0,
+    action='store',
+    help='delay before actual watch (seconds)',
+)
+
+parser.add_argument(
     '--url',
     type=str,
     required=True,
@@ -226,6 +234,10 @@ systemd.daemon.notify('READY=1')
 
 if args.rescan:
     rescan_function()
+
+if args.delay:
+    logging.info("Delay requested, wait for %d seconds", args.delay)
+    time.sleep(args.delay)
 
 try:
     process_function()

@@ -28,8 +28,7 @@ paperless-watch.service:
         Group=root
         Type=notify
         WorkingDirectory=/
-        ExecStartPre=/bin/sleep 60
-        ExecStart=/opt/venv/app/bin/python /usr/bin/paperless-watch -l INFO --url https://{{ pillar.proxy_vhosts.paperless.domain }} --token {{ pillar.pws_secrets.paperless.api_token }} {{ pillar.paperless.dirs_watch|join(' ')}}
+        ExecStart=/opt/venv/app/bin/python /usr/bin/paperless-watch -l INFO --delay 60 --url https://{{ pillar.proxy_vhosts.paperless.domain }} --token {{ pillar.pws_secrets.paperless.api_token }} {{ pillar.paperless.dirs_watch|join(' ')}}
         [Install]
         WantedBy=multi-user.target
   service.running:
