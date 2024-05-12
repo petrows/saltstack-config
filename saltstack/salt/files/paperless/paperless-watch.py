@@ -92,6 +92,10 @@ def process_function():
 
         f = Path(task)
 
+        if not f.exists():
+            logging.info("File not exists: %s", str(f))
+            continue
+
         # Check file extension
         file_ext = f.suffix.lower()
         if file_ext not in ['.pdf', '.jpg', '.jpeg', '.png']:
