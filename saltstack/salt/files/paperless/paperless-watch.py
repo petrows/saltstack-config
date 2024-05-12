@@ -118,11 +118,19 @@ def process_function():
         # Detect document date
         file_date = datetime.datetime.fromtimestamp(f.stat().st_mtime)
         # From path?
-        file_date_from_path = search_date_in_path(f)
+        try:
+            file_date_from_path = search_date_in_path(f)
+        except Exception as e:
+            logging.error("Error date in path %s: %s", str(f), str(e))
+            file_date_from_path = None
         if (file_date_from_path):
             file_date = file_date_from_path
         else:
-            file_date_from_path = search_year_in_path(f)
+            try:
+                file_date_from_path = search_year_in_path(f)
+            except Exception as e:
+                logging.error("Error year in path %s: %s", str(f), str(e))
+                file_date_from_path = None
             if (file_date_from_path):
                 file_date = file_date_from_path
 
