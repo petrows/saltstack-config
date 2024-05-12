@@ -19,6 +19,9 @@ packages:
   - ocrmypdf
   - pdftk-java
 
+packages_pip3:
+  - PyPDF2
+
 rslsync:
   instances:
     petro:

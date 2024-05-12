@@ -7,6 +7,7 @@ import logging
 import argparse
 import os
 from pathlib import Path
+from PyPDF2 import PdfReader
 import subprocess
 import sys
 
@@ -74,6 +75,10 @@ def pdf_merge_adf(doc_a: Path, doc_b: Path, out: Path):
     exec(["pdftk", f"A={str(doc_a)}", f"B={str(doc_b)}", "shuffle", "A", "Bend-1", "output", "/tmp/pdf_merge.pdf"])
     exec(["mv", "/tmp/pdf_merge.pdf", str(out)])
 
+def pdf_get_pages_count(doc: Path):
+    file = open(doc, 'rb')
+    reader = PdfReader(file)
+    return len(reader.pages)
 
 parser = argparse.ArgumentParser(
     description='Scan document into archive folder')
@@ -147,6 +152,12 @@ for page_n in range(128):
         if args.mode == 'page':
             pdf_append(file_tmp_out, file_tmp_raw, file_tmp_out)
         if args.mode == 'adf':
+            # Test pages count consistent?
+            pages_old = pdf_get_pages_count(file_tmp_out)
+            pages_new = pdf_get_pages_count(file_tmp_raw)
+            if pages_old != pages_new:
+                logging.error("ADF pages count mismatch! %d != %d", pages_old, pages_new)
+                sys.exit(2)
             pdf_merge_adf(file_tmp_out, file_tmp_raw, file_tmp_out)
     else:
         file_tmp_raw.rename(str(file_tmp_out))
