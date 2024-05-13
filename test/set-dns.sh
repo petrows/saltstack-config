@@ -15,6 +15,8 @@ fi
 
 # Set DNS config for netplan
 if [[ -f /etc/netplan/01-netcfg.yaml ]]; then
+    echo "Fix perms"
+    chmod 600 /etc/netplan/*
     echo "Update netplan"
     sed -i 's/addresses:.*/addresses: ['$ips_list']/g' /etc/netplan/01-netcfg.yaml
     netplan generate

@@ -157,6 +157,14 @@ vscode-repo:
     - key_url: https://packages.microsoft.com/keys/microsoft.asc
     - clean_file: True
 
+# Vagrant
+vagrant-repo:
+  pkgrepo.managed:
+    - name: deb [arch={{ grains.osarch }}] https://apt.releases.hashicorp.com {{ grains.oscodename }} main
+    - file: /etc/apt/sources.list.d/vagrant.list
+    - key_url: https://apt.releases.hashicorp.com/gpg
+    - clean_file: True
+
 # Loop over allowed users on this server
 {% for user_id, user in salt['pillar.get']('users', {}).items() %}
 local-pc-configs-{{ user_id }}:
