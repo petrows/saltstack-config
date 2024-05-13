@@ -97,6 +97,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       minion_config.vm.hostname = "#{vmname}"
       minion_config.vm.network "private_network", ip: "#{ip}"
 
+      minion_config.vm.provider :virtualbox do |vb|
+        vb.customize [
+          'modifyvm', :id,
+          '--hpet', 'on'
+        ]
+      end
+
       # Do not update VBox additions (VBox only) - speedup of machine creation
       if Vagrant.has_plugin?("vagrant-vbguest")
         minion_config.vbguest.auto_update = false
