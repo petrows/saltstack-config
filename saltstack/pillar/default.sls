@@ -70,6 +70,9 @@ git_config:
   alias.cb: checkout -b
   alias.pb: push --set-upstream origin HEAD
   alias.pf: push --force
+  alias.ri: rebase -i
+  alias.rim: rebase -i origin/master
+  alias.rc: rebase --continue
   alias.d: diff
   alias.dh: diff HEAD
   alias.ds: diff --cached
