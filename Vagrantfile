@@ -63,17 +63,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   [
     ["system.dev", "#{net_ip}.12", os_ram, os_u24],
     ["pve.dev", "#{net_ip}.13", os_ram, "debian/buster64"],
-    ["web-vm.dev", "#{net_ip}.14", 8192, os_u20],
-    ["backup.dev", "#{net_ip}.15", os_ram, os_u20],
-    ["home.dev", "#{net_ip}.17", os_ram, os_u20],
-    ["media.dev", "#{net_ip}.18", os_ram, os_u20],
-    ["eu.petro.dev", "#{net_ip}.19", os_ram, os_d10],
-    ["build-linux.dev", "#{net_ip}.20", os_ram, os_u20],
-    ["metrics.dev", "#{net_ip}.21", os_ram, os_u20],
-    ["rpi.office.dev", "#{net_ip}.22", os_ram, os_d11],
-    ["ru.vds.dev", "#{net_ip}.23", os_ram, os_u20],
-    ["rpi.j.dev", "#{net_ip}.24", os_ram, os_u22],
-    ["bank.dev", "#{net_ip}.25", os_ram, os_u22],
+    ["web-vm.dev", "#{net_ip}.14", 8192, os_u24],
   ].each do |vmname, ip, mem, os|
     config.vm.define "#{vmname}" do |minion_config|
       minion_config.vm.provider "virtualbox" do |vb|
@@ -102,7 +92,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         minion_config.vm.synced_folder "test/srv/#{vmname}", "/srv", type: "rsync", rsync__auto: false, rsync__chown: false, rsync__args: ['--verbose', '-r', '-z', '--copy-links']
       end
 
-      #minion_config.vm.provision :shell, run: "once", path: "test/set-dns.sh", args: net_dns_ip
+      minion_config.vm.provision :shell, run: "once", path: "test/set-dns.sh", args: net_dns_ip
       minion_config.vm.provision :shell, run: "once", path: "test/setup-salt.sh", args: "minion"
       minion_config.vm.provision :shell, run: "once", path: "test/configure-minion.sh", args: ["#{net_ip}.10", "#{vmname}"]
 
