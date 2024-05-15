@@ -64,7 +64,11 @@ local-pc-soft:
       - bat
       # File manager
       - doublecmd-qt
+      {% if grains.osfinger in ['Ubuntu-24.04'] %}
+      - libunrar5t64
+      {% else %}
       - libunrar5
+      {% endif %}
       - unrar
       # Clipboard manipulation
       - xclip
@@ -94,8 +98,6 @@ local-pc-soft-cleanup:
       - notify-osd
       # Displays annoying popups as windows
       - notification-daemon
-      # Pipewire (i use Pulseaudio)
-      - pipewire
 
 # Bluetooth - configure for hi-res profiles
 /etc/bluetooth/main.conf:

@@ -241,7 +241,7 @@ include ~/.config/i3/layout.d/`get-i3-display-config`.conf
 # Start desktop notification daemon
 exec --no-startup-id systemctl start --user dunst.service
 # Restart pulseaudio
-exec --no-startup-id systemctl --user restart pulseaudio.service
+# exec --no-startup-id systemctl --user restart pulseaudio.service
 
 # Startup config
 {{ pillar.i3.startup }}

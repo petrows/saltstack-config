@@ -35,7 +35,7 @@ i3:
 # PHP development
 php:
   # PHP version avaliable in packages, to be replaced by grains-driven pillar
-  version: 8.1
+  version: 8.3
   # User to run pool under
   user_sock: www-data
   # User to own process (but NOT socket)
