@@ -1,11 +1,3 @@
-services-upgrade-checker-deps:
-  pip.installed:
-    - pkgs:
-      - docker
-      - objectpath
-      - packaging
-    - bin_env: {{ pillar.pip3_bin }}
-
 # Updates-checker script
 services-upgrade-checker.service:
   file.managed:

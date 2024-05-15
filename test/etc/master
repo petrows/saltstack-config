@@ -8,6 +8,10 @@ pillar_merge_lists: True
 
 gather_job_timeout: 360
 
+# VM mount folders may return invalid time date -> disable cache
+job_cache: False
+minion_data_cache: False
+
 # log_level: debug
 
 # Disable display of non-chaged services by default
@@ -16,10 +20,10 @@ state_verbose: False
 
 file_roots:
   base:
-    - /srv/salt
-    - /srv/secrets/salt
+    - /vg/salt
+    - /vg/secrets/salt
 
 pillar_roots:
   base:
-    - /srv/pillar
-    - /srv/secrets/pillar
+    - /vg/pillar
+    - /vg/secrets/pillar

@@ -73,19 +73,12 @@ fish_git_packages:
 
 # User vars
 {% set ns = namespace() %}
-{#{% set ns.groups = user.groups|default([]) %}
-{% if user.sudo|default(False) %}
-{% set ns.groups = ns.groups.append('sudoers') %}
-{% endif %} #}
 {% set user_groups = user.groups|default([]) %}
-{# {% if user.sudo|default(False) %}
-{% set user_groups = user_groups + ['sudoers'] %}
-{% endif %} #}
 
 user_{{user_id}}_group:
   group.present:
     - name: {{ user_id }}
-{% if user.uid %}
+{% if user.get('uid') %}
     - gid: {{ user.uid }}
 {% endif %}
 
@@ -94,7 +87,7 @@ user_{{user_id}}_config:
     - name: {{ user_id }}
     - home: {{ user.home }}
     - createhome: True
-{% if user.uid %}
+{% if user.get('uid') %}
     - uid: {{ user.uid }}
     - gid: {{ user.uid }}
 {% endif %}

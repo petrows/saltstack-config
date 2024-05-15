@@ -8,3 +8,5 @@ packages_pip3:
   - systemd-python
   - dnspython
   - netifaces
+  - objectpath
+  - packaging
