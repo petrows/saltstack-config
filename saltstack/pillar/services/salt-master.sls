@@ -6,7 +6,9 @@ packages:
   - salt-master
 
 packages_pip3:
-  - salt-ssh
+  - salt-ssh==3005.1
+  - setuptools
+  - backports.ssl_match_hostname
 
 salt:
   roster_hosts:
