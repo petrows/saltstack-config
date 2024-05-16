@@ -36,7 +36,6 @@
     - mode: 755
     - contents: |
         #!/bin/bash -xe
-        source /opt/venv/app/bin/activate
         cd /srv/salt-config/
         git pull
         cd secrets
