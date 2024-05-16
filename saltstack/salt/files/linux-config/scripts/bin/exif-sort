@@ -1,6 +1,7 @@
 #!/opt/venv/app/bin/python
 
 import datetime
+import logging
 import shutil
 import exifread
 import argparse
@@ -42,6 +43,13 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    '-l', '--log',
+    choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
+    default='INFO',
+    help='set log level',
+)
+
+parser.add_argument(
     '-d', '--dry-run',
     action='store_true',
     help='dry run',
@@ -55,10 +63,13 @@ parser.add_argument(
 
 args = parser.parse_args()
 
+log_level = args.log
+logging.basicConfig(level=log_level)
+
 def scanDir(pn: Path):
     ret = []
     if pn.name.startswith('.'):
-        print(f"Warning: {pn} skipped")
+        logging.info("Dotfile skipped: %s", str(pn))
         return ret
     if pn.is_file():
         return [pn]
@@ -80,7 +91,7 @@ def detectFileDate(file: Path) -> datetime.datetime:
             imageDate = datetime.datetime.strptime(dateTaken, "%Y:%m:%d %H:%M:%S")
             return imageDate
         except:
-            # print(f"Warning: no EXIF loaded for {file}")
+            logging.debug("No EXIF loaded for %s", str(file))
             pass # ignore
     # No exif -> use file modified time
     return datetime.datetime.fromtimestamp(file.stat().st_mtime)
@@ -94,7 +105,6 @@ for pattern in args.file:
     files = files + scanDir(p)
 
 files = list(set(files))
-# files = [x for x in files if x != None]
 
 # print(files)
 
@@ -108,12 +118,12 @@ if args.lastmarker and Path(args.lastmarker).exists():
     except:
         pass
     newest_file_dt = previous_file_dt
-    print(f"Last processed file previous time: {previous_file_dt}")
+    logging.info("Last processed file previous time: %s", str(previous_file_dt))
 
-print(f"Found {len(files)} files")
+logging.info("Found %s files", len(files))
 
 if len(files) == 0:
-    print("No files found, exitting")
+    logging.info("No files found, exitting")
     sys.exit(0)
 
 for file in files:
@@ -130,7 +140,7 @@ for file in files:
         if previous_file_dt and file_dt < previous_file_dt:
             continue
         if newest_file_dt == None or file_dt > newest_file_dt:
-            print(f"Newest file: {file_dt}")
+            logging.info("Newest file: %s", str(file_dt))
             newest_file_dt = file_dt
 
     # Check placeholders in out path
@@ -142,10 +152,10 @@ for file in files:
     out_path = Path(out_path_tpl) / file.name
 
     if out_path.exists():
-        # print(f"Warning: {out_path} already exists, skipping")
+        logging.info("File exists, skipping: %s", str(out_path))
         continue
 
-    print(f"{file_dt}, {file} -> {out_path}")
+    logging.warning(f"{file_dt}, {file} -> {out_path}")
 
     if args.dry_run:
         # Do nothing
@@ -169,4 +179,4 @@ else:
         with open(Path(args.lastmarker), 'w') as f:
             f.write(str(newest_file_dt.timestamp()))
 
-print("Finished")
+logging.info("Finished")
