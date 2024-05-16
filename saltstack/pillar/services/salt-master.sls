@@ -1,5 +1,6 @@
 roles:
   - salt-master
+  - salt-minion
 
 packages:
   - salt-master

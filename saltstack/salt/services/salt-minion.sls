@@ -12,11 +12,18 @@ salt-minion-config:
 {% set key_url = 'https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/SALT-PROJECT-GPG-PUBKEY-2023.gpg' %}
 {% set osname = grains.os|lower %}
 {% set oscodename = grains.oscodename %}
+{% set osrelease = grains.osrelease %}
+{% if grains.os == 'Ubuntu' and grains.osmajorrelease >= 24 %}
+  # We have to use 22.04 version, while no new repo yet
+  {% set osname = grains.os|lower %}
+  {% set oscodename = 'jammy' %}
+  {% set osrelease = '22.04' %}
+{% endif %}
 {% if osname == 'raspbian' %}
-  {% set os_url = 'https://repo.saltproject.io/py3/debian/' + grains.osrelease + '/' + grains.osarch + '/latest' %}
+  {% set os_url = 'https://repo.saltproject.io/py3/debian/' + osrelease + '/' + grains.osarch + '/latest' %}
 {% else %}
 # Repo path
-  {% set os_url = 'https://repo.saltproject.io/salt/py3/' + osname + '/' + grains.osrelease + '/' + grains.osarch + '/latest' %}
+  {% set os_url = 'https://repo.saltproject.io/salt/py3/' + osname + '/' + osrelease + '/' + grains.osarch + '/latest' %}
 {% endif %}
 saltstack-repo:
   pkgrepo.managed:
