@@ -32,6 +32,7 @@ base:
 
 # All dev servers should have virtual user config
   '*.dev':
+    - grains.vagrant
     - users.vagrant
     - common.server-dev
 
