@@ -47,6 +47,9 @@ local-pc-soft:
       - feh
       - network-manager-gnome
       - numlockx
+      # Audio
+      - pipewire-audio
+      - pipewire-alsa
       - pasystray
       - playerctl
       # Set default QT-Driven apps
@@ -55,9 +58,7 @@ local-pc-soft:
       - gtk-chtheme
       # GTK Front for Libreoffice
       - libreoffice-gtk3
-      # BT support and audio
-      - bluez-alsa-utils
-      - bluez
+      # BT tooling
       - blueman
       - rfkill
       # Bat-cat tool: https://github.com/sharkdp/bat
