@@ -1,6 +1,9 @@
 roles:
   - salt-master
 
+packages:
+  - salt-master
+
 packages_pip3:
   - salt-ssh
 
