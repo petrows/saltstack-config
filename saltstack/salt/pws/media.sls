@@ -53,7 +53,7 @@ sync-fotos.service:
         User=master
         Group=master
         WorkingDirectory=/
-        ExecStart=/home/master/bin/sync-fotos
+        ExecStart=/home/master/bin/sync-fotos 30
   service.enabled: []
 
 sync-fotos.timer:
