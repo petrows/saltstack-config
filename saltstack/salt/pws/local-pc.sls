@@ -13,15 +13,6 @@ local-pc-custom-etc:
     - source: salt://files/linux-config/etc-local-pc
     - template: jinja
 
-# Local mount folders
-{% for d in ['/home/pws', '/home/pws-home'] %}
-{{ d }}:
-  file.directory:
-    - user: 1000
-    - group: 1000
-    - dir_mode: 755
-{% endfor %}
-
 # Allow direct control of Scroll lock
 /usr/share/X11/xkb/compat/ledcaps:
   file.managed:
@@ -85,6 +76,8 @@ local-pc-soft:
       # Video player
       - vlc
       - vlc-plugin-base
+      # PW manager
+      - keepassxc
       # Text editor
       - kate
       # Media viewers
