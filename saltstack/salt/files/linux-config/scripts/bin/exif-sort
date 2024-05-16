@@ -63,7 +63,7 @@ def scanDir(pn: Path):
     if pn.is_file():
         return [pn]
     if pn.is_dir():
-        for path in Path(pn).rglob('*'):
+        for path in Path(pn).glob('*'):
             ret = ret + scanDir(path)
 
     return ret
@@ -94,6 +94,9 @@ for pattern in args.file:
     files = files + scanDir(p)
 
 files = list(set(files))
+# files = [x for x in files if x != None]
+
+# print(files)
 
 # Store the newest processed file, to track state, if --lastmarker is set
 newest_file_dt = None
@@ -120,6 +123,7 @@ for file in files:
     if args.older:
         time_between = datetime.datetime.now() - file_dt
         if time_between.days < args.older:
+            # print(f"File: {file}, {time_between}")
             continue
 
     if args.lastmarker:
