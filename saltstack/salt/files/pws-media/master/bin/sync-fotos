@@ -13,13 +13,13 @@ if [[ -n "$RETAIN_DAYS" ]]; then
 fi
 
 # Petro mobile DCIM
-/home/master/bin/exif-sort $RETAIN_DAYS --out '/srv/storage/common/photo/photos/%Y/%Y - Mobile Petro/%Y-%m/' '/srv/storage/home/petro/mobile-photos/Camera/'
+/home/master/bin/exif-sort $RETAIN_DAYS --out '/mnt/pws-data/storage/common/photo/photos/%Y/%Y - Mobile Petro/%Y-%m/' '/mnt/pws-data/storage/home/petro/mobile-photos/Camera/'
 
 # Petro Meta-view photos
-/home/master/bin/exif-sort $RETAIN_DAYS --out '/srv/storage/common/photo/photos/%Y/%Y - MetaView/%Y-%m/' '/srv/storage/home/petro/mobile-metaview/'
+/home/master/bin/exif-sort $RETAIN_DAYS --out '/mnt/pws-data/storage/common/photo/photos/%Y/%Y - MetaView/%Y-%m/' '/mnt/pws-data/storage/home/petro/mobile-metaview/'
 
 # Petro Mobile screenshots
-/home/master/bin/exif-sort $RETAIN_DAYS --out '/srv/storage/home/petro/screenshots/%Y/' '/srv/storage/home/petro/mobile-pics/Screenshots/'
+/home/master/bin/exif-sort $RETAIN_DAYS --out '/mnt/pws-data/storage/home/petro/screenshots/%Y/' '/mnt/pws-data/storage/home/petro/mobile-pics/Screenshots/'
 
 # Petro instagram pics
-/home/master/bin/exif-sort $RETAIN_DAYS --out '/srv/storage/common/photo/photos/%Y/%Y - Instagram/' '/srv/storage/home/petro/mobile-pics/Instagram/'
+/home/master/bin/exif-sort $RETAIN_DAYS --out '/mnt/pws-data/storage/common/photo/photos/%Y/%Y - Instagram/' '/mnt/pws-data/storage/home/petro/mobile-pics/Instagram/'

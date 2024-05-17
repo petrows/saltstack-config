@@ -21,13 +21,13 @@ swap_size_mb: {{ 4 * 1024 }}
 # VM configs
 pve_vms_config:
   {{ static.vm_ids.media }}:
-    - 'mp0: /srv/hdd2/media,mp=/srv/media'
-    - 'mp1: /srv/pws-data/storage,mp=/srv/storage'
-    - 'mp2: /srv/pws-data/storage-old,mp=/srv/storage-old'
-    - 'mp3: /srv/pws-data/share,mp=/srv/share'
-    - 'mp4: /srv/pws-data/tmp,mp=/srv/storage-tmp'
+    - 'mp0: /srv/hdd2/media,mp=/mnt/pws-media/media'
+    - 'mp1: /srv/pws-data/storage,mp=/mnt/pws-data/storage'
+    - 'mp2: /srv/pws-data/storage-old,mp=/mnt/pws-data/storage-old'
+    - 'mp3: /srv/pws-data/share,mp=/mnt/pws-data/share'
+    - 'mp4: /srv/pws-data/tmp,mp=/mnt/pws-data/tmp'
   {{ static.vm_ids.fabian }}:
-    - 'mp0: /srv/hdd2/media,mp=/srv/media'
+    - 'mp0: /srv/hdd2/media,mp=/mnt/pws-media/media'
     - 'mp1: /srv/pws-data/tmp,mp=/srv/tmp'
   {{ static.vm_ids.home }}:
     - 'lxc.cgroup.devices.allow: c 188:* rwm'

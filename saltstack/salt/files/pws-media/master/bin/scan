@@ -138,7 +138,7 @@ if args.date:
     file_date = datetime.date.fromisoformat(args.date)
 file_tms = int(round(time.mktime(file_date.timetuple())))
 
-file_output = Path("/srv/storage/common/archive") / str(file_date.year) / f"{args.name}.pdf"
+file_output = Path("/mnt/pws-data/storage/common/archive") / str(file_date.year) / f"{args.name}.pdf"
 
 if file_output.exists():
     logging.error("Ouput file exists: %s", str(file_output))

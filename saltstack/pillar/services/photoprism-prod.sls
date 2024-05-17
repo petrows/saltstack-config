@@ -2,7 +2,7 @@ photoprism:
   id: Photoprism
   volumes:
     cache:
-      path: /srv/cache/photoprism/cache
+      path: /mnt/pws-cache/photoprism/cache
     import:
       path: /srv/photoprism-data/import
     originals:

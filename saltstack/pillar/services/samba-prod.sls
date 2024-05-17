@@ -4,36 +4,36 @@ samba:
   workgroup: PETROWS
   shares:
     media:
-      path: /srv/media
+      path: /mnt/pws-media/media
       comment: Media
       guest: True
     media-rw:
-      path: /srv/media
+      path: /mnt/pws-media/media
       comment: Media R/W
       user: share-root master
       rw: True
     media-nexum:
-      path: /srv/media-private
+      path: /mnt/pws-media/private
       comment: Media nexum
       user: share-root
       rw: True
     share:
-      path: /srv/share
+      path: /mnt/pws-data/share
       comment: Public share
       rw: True
       guest: True
     common:
-      path: /srv/storage/common
+      path: /mnt/pws-data/storage/common
       comment: Documents
       user: share-root master julia
     common-old:
-      path: /srv/storage-old
+      path: /mnt/pws-data/storage-old
       comment: Documents (old)
       user: share-root julia
     # common-tmp:
-    #   path: /srv/storage-tmp
+    #   path: /mnt/pws-data/tmp
     #   user: share-root
     julia:
-      path: /srv/storage/home/julia
+      path: /mnt/pws-data/storage/home/julia
       user: julia
       rw: True

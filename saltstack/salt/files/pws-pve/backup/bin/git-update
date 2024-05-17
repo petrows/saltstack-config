@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /srv/storage/local/devel/git
+cd /mnt/pws-data/storage/local/devel/git
 
 GIT_ROOT=$(pwd)
 
@@ -8,12 +8,12 @@ echo "Updating GIT storage in $(pwd)"
 
 for fl in * ; do
 	cd "$GIT_ROOT"
-	
+
 	if [ ! -d "$fl" ]; then continue; fi
-	echo "Updating: $fl"	
-	
+	echo "Updating: $fl"
+
 	cd "$fl"
-	
+
 	git pull -q --all
-	
+
 done

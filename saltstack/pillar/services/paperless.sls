@@ -20,7 +20,7 @@ paperless:
     - /srv/paperless-data/app/media
   # Dirs to watch new documents
   dirs_watch:
-    - /srv/storage/common/archive
+    - /mnt/pws-data/storage/common/archive
 
 proxy_vhosts:
   paperless:

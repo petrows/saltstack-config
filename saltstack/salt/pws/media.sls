@@ -25,7 +25,7 @@ instaloader-petro.service:
         User=master
         Group=master
         WorkingDirectory=/
-        ExecStart=/home/master/bin/instaloader-folder /srv/storage/home/petro/instaloader
+        ExecStart=/home/master/bin/instaloader-folder /mnt/pws-data/storage/home/petro/instaloader
   service.disabled: []
 
 instaloader-petro.timer:
