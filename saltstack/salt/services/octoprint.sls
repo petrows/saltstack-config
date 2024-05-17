@@ -49,10 +49,10 @@ octoprint-stream.service:
         [Unit]
         Description=Octoprint video stream
         [Service]
-        User=octoprint
-        Group=octoprint
+        User=root
+        Group=root
         WorkingDirectory={{ pillar.octoprint.home }}
-        ExecStart=/usr/bin/ustreamer --host 0.0.0.0 --port {{ pillar.octoprint.stream.port }} --device {{ pillar.octoprint.stream.device }}
+        ExecStart=/usr/bin/ustreamer --host 0.0.0.0 --port {{ pillar.octoprint.stream.port }} --device {{ pillar.octoprint.stream.device }} --resolution {{ pillar.octoprint.stream.resolution }}
         [Install]
         WantedBy=multi-user.target
   service.running:

@@ -6,5 +6,6 @@ users:
     groups:
       - tty
       - dialout
+      - video
     sudo: True
     sudo_nopassword: True

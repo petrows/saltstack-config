@@ -60,6 +60,7 @@ octoprint:
   stream:
     device: /dev/video0
     port: {{ static.proxy_ports.octoprint_video }}
+    resolution: 1280x720
 
 proxy_vhosts:
   octoprint:
@@ -69,9 +70,9 @@ proxy_vhosts:
     ssl_name: local
     ssl_force: False
     custom_config: |
-        location /video {
+        location ~ ^/video/(.*)$ {
             postpone_output 0;
             proxy_buffering off;
             proxy_ignore_headers X-Accel-Buffering;
-            proxy_pass http://127.0.0.1:{{ static.proxy_ports.octoprint_video }};
+            proxy_pass http://127.0.0.1:{{ static.proxy_ports.octoprint_video }}/$1$is_args$args;
         }
