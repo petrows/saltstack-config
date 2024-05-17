@@ -62,6 +62,9 @@ base:
   'roles:iphone-copy':
     - match: pillar
     - roles.iphone-copy
+  'roles:proxmox':
+    - match: pillar
+    - roles.proxmox
 
   # Services
   'roles:salt-master':
@@ -124,9 +127,9 @@ base:
   'roles:k8s':
     - match: pillar
     - services.k8s
-  'roles:proxmox':
+  'roles:octoprint':
     - match: pillar
-    - roles.proxmox
+    - services.octoprint
 
   # Hosts configs
   'pve.pws':

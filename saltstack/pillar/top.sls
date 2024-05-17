@@ -81,6 +81,10 @@ base:
     # FS honeypots
     - common.integrity-pve
 
+  'octoprint.*':
+    - users.octoprint
+    - services.octoprint
+
   'octoprint.pws':
     - pws.octoprint
 

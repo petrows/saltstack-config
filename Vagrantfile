@@ -64,6 +64,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ["system.dev", "#{net_ip}.12", os_ram, os_u24],
     ["pve.dev", "#{net_ip}.13", os_ram, "debian/buster64"],
     ["web-vm.dev", "#{net_ip}.14", 8192, os_u24],
+    ["octoprint.dev", "#{net_ip}.15", 8192, os_u24],
   ].each do |vmname, ip, mem, os|
     config.vm.define "#{vmname}" do |minion_config|
       minion_config.vm.provider "virtualbox" do |vb|
