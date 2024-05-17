@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /mnt/pws-data/storage/local/devel/git
+cd /srv/storage/local/devel/git
 
 GIT_ROOT=$(pwd)
 
