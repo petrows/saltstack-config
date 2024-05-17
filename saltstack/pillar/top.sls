@@ -87,6 +87,7 @@ base:
 
   'octoprint.pws':
     - pws.octoprint
+    - services.octoprint-prod
 
   {# 'pve.ows':
     - ows.pve
