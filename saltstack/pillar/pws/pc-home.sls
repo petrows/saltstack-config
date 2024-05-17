@@ -18,7 +18,7 @@ i3:
       exec --no-startup-id konsole
       exec --no-startup-id keepassxc
       exec --no-startup-id spotify --uri=/
-  temp_read: /sys/devices/platform/coretemp.0/hwmon/hwmon0/temp1_input
+  temp_read: /sys/devices/platform/coretemp.0/hwmon/hwmon2/temp1_input
 
 # At home i have 4 disK
 xsession:
