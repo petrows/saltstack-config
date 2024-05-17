@@ -19,8 +19,8 @@ octoprint:
       name: PWS Octoprint
       color: red
     webcam:
-      stream: http://octoprint-dev.local.pws:{{ static.proxy_ports.octoprint_video }}/?action=stream
-      snapshot: http://octoprint-dev.local.pws:{{ static.proxy_ports.octoprint_video }}/?action=snapshot
+      stream: http://127.0.0.1:{{ static.proxy_ports.octoprint_video }}/?action=stream
+      snapshot: http://127.0.0.1:{{ static.proxy_ports.octoprint_video }}/?action=snapshot
 
     plugins:
       psucontrol:
@@ -67,7 +67,11 @@ proxy_vhosts:
     port: {{ static.proxy_ports.octoprint_http }}
     ssl: internal
     ssl_name: local
+    ssl_force: False
     custom_config: |
-        location ~ ^/video {
+        location /video {
+            postpone_output 0;
+            proxy_buffering off;
+            proxy_ignore_headers X-Accel-Buffering;
             proxy_pass http://127.0.0.1:{{ static.proxy_ports.octoprint_video }};
         }
