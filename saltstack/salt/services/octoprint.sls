@@ -1,9 +1,10 @@
-{{ pillar.octoprint.home }}/app:
+{% for d in ['app', 'cfg', 'venv'] %}
+{{ pillar.octoprint.home }}/{{ d }}:
   file.directory:
     - user: octoprint
     - group: octoprint
     - dir_mode: 755
-    - file_mode: 644
+{% endfor %}
 
 # Config overlay provision
 {{ pillar.octoprint.home }}/cfg/salt.yaml:
@@ -12,8 +13,9 @@
     - dataset_pillar: octoprint:cfg
 
 # Application venv
-{{ pillar.octoprint.home }}/venv:
+octoprint-venv:
   virtualenv.managed:
+    - name: {{ pillar.octoprint.home }}/venv
     - user: octoprint
     - python: {{ pillar.python_system_bin }}
     - pip_pkgs:
