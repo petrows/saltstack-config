@@ -13,26 +13,26 @@ proxy_vhosts:
 mount-folders:
   photoprism-photos-archive:
     device: /mnt/pws-data/storage/common/photo/photos
-    name: /srv/photoprism-data/originals/photos
+    name: /mnt/photoprism-originals/photos
     user: {{ static.uids.master }}
     group: {{ static.uids.master }}
   photoprism-photos-old:
     device: /mnt/pws-data/storage-old/photo-old/photos/
-    name: /srv/photoprism-data/originals/photos-old
+    name: /mnt/photoprism-originals/photos-old
     user: {{ static.uids.master }}
     group: {{ static.uids.master }}
   photoprism-photos-sync-petro:
     device: /mnt/pws-data/storage/home/petro/mobile-photos/Camera
-    name: /srv/photoprism-data/originals/mobile-petro
+    name: /mnt/photoprism-originals/mobile-petro
     user: {{ static.uids.master }}
     group: {{ static.uids.master }}
   photoprism-photos-metaview-sync-petro:
     device: /mnt/pws-data/storage/home/petro/mobile-metaview/
-    name: /srv/photoprism-data/originals/metaview
+    name: /mnt/photoprism-originals/metaview
     user: {{ static.uids.master }}
     group: {{ static.uids.master }}
   photoprism-photos-julia:
     device: /mnt/pws-data/storage/home/julia/Фото/
-    name: /srv/photoprism-data/originals/photos-julia
+    name: /mnt/photoprism-originals/photos-julia
     user: {{ static.uids.master }}
     group: {{ static.uids.master }}

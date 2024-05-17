@@ -6,7 +6,7 @@ photoprism:
     import:
       path: /srv/photoprism-data/import
     originals:
-      path: /srv/photoprism-data/originals
+      path: /mnt/photoprism-originals
 
   mariadb:
     id: Photoprism-db

@@ -7,38 +7,38 @@ media-scripts:
     - group: master
     - file_mode: 755
 
-instaloader-pkg:
-  pip.installed:
-    - pkgs:
-      - instaloader
-    - bin_env: {{ pillar.pip3_bin }}
+# instaloader-pkg:
+#   pip.installed:
+#     - pkgs:
+#       - instaloader
+#     - bin_env: {{ pillar.pip3_bin }}
 
-instaloader-petro.service:
-  file.managed:
-    - name: /etc/systemd/system/instaloader-petro.service
-    - contents: |
-        [Unit]
-        Description=Instaloader petro
-        [Service]
-        Type=oneshot
-        RemainAfterExit=no
-        User=master
-        Group=master
-        WorkingDirectory=/
-        ExecStart=/home/master/bin/instaloader-folder /mnt/pws-data/storage/home/petro/instaloader
-  service.disabled: []
+# instaloader-petro.service:
+#   file.managed:
+#     - name: /etc/systemd/system/instaloader-petro.service
+#     - contents: |
+#         [Unit]
+#         Description=Instaloader petro
+#         [Service]
+#         Type=oneshot
+#         RemainAfterExit=no
+#         User=master
+#         Group=master
+#         WorkingDirectory=/
+#         ExecStart=/home/master/bin/instaloader-folder /mnt/pws-data/storage/home/petro/instaloader
+#   service.disabled: []
 
-instaloader-petro.timer:
-  file.managed:
-    - name: /etc/systemd/system/instaloader-petro.timer
-    - contents: |
-        [Unit]
-        Description=Instaloader petro timer
-        [Timer]
-        Unit=instaloader-petro.service
-        OnCalendar=6,16,23:00:00
-        RandomizedDelaySec=3600
-  service.disabled: []
+# instaloader-petro.timer:
+#   file.managed:
+#     - name: /etc/systemd/system/instaloader-petro.timer
+#     - contents: |
+#         [Unit]
+#         Description=Instaloader petro timer
+#         [Timer]
+#         Unit=instaloader-petro.service
+#         OnCalendar=6,16,23:00:00
+#         RandomizedDelaySec=3600
+#   service.disabled: []
 
 sync-fotos.service:
   file.managed:
