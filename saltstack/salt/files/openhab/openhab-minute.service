@@ -1,6 +1,7 @@
 [Unit]
 Description=Openhab in-minute script
 After=network.target
+OnFailure=status-email@%n.service
 
 [Service]
 User=master

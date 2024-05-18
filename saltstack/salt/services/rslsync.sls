@@ -22,6 +22,7 @@ rslsync-{{conf_id}}.service:
         [Unit]
         Description=Resillio sync {{conf_id}}
         After=network.target
+        OnFailure=status-email@%n.service
         [Service]
         User={{ conf.user }}
         Group={{ conf.user }}

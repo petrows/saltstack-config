@@ -47,6 +47,7 @@ sync-fotos.service:
         [Unit]
         Description=Sync fotos
         After=network.target
+        OnFailure=status-email@%n.service
         [Service]
         Type=oneshot
         RemainAfterExit=no

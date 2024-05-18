@@ -2,6 +2,7 @@
 Description=SOCKS (v4 and v5) proxy daemon (danted)
 Documentation=man:danted(8) man:danted.conf(5)
 After=network.target
+OnFailure=status-email@%n.service
 
 [Service]
 Type=simple

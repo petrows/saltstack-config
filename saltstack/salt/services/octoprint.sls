@@ -29,6 +29,7 @@ octoprint.service:
         [Unit]
         Description=Octoprint
         After=network.target
+        OnFailure=status-email@%n.service
         [Service]
         User=octoprint
         Group=octoprint
@@ -48,6 +49,7 @@ octoprint-stream.service:
     - contents: |
         [Unit]
         Description=Octoprint video stream
+        OnFailure=status-email@%n.service
         [Service]
         User=root
         Group=root

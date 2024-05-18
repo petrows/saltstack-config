@@ -1,6 +1,7 @@
 [Unit]
 Description=Updates-checker script
 After=network.target
+OnFailure=status-email@%n.service
 
 [Service]
 User=root

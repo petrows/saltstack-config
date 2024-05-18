@@ -65,6 +65,7 @@ php-docker-fpm-nginx-conf:
     - contents: |
         [Unit]
         Description=Systemd cron: {{ systemd_id }}
+        OnFailure=status-email@%n.service
         [Service]
         Type=simple
         RemainAfterExit=no

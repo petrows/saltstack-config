@@ -23,6 +23,7 @@ paperless-watch.service:
         [Unit]
         Description=Paperless watch for updates
         After=network.target paperless.service
+        OnFailure=status-email@%n.service
         [Service]
         User=root
         Group=root

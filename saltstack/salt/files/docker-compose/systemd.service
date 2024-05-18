@@ -2,6 +2,7 @@
 Description=Docker-Compose Service for {{ compose_path }}
 Requires=docker.service
 BindsTo=docker.service
+OnFailure=status-email@%n.service
 
 [Service]
 Type=oneshot

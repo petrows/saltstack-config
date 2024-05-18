@@ -5,6 +5,7 @@ pws-backup-petro-pc.service:
         [Unit]
         Description=Backup local PC
         After=network.target
+        OnFailure=status-email@%n.service
         [Install]
         WantedBy=multi-user.target
         [Service]

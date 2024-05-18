@@ -37,6 +37,7 @@ photoprism-watch.service:
         [Unit]
         Description=Photoprism watch for updates
         After=network.target photoprism.service
+        OnFailure=status-email@%n.service
         [Service]
         User=root
         Group=root
