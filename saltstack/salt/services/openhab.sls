@@ -45,12 +45,6 @@ openhab-deps:
       - python3-paho-mqtt
       - python3-dateparser
 
-openhab-deps-pip:
-  pip.installed:
-    - pkgs:
-      - diskcache
-    - bin_env: {{ pillar.pip3_bin }}
-
 # Config files
 {{ pillar.openhab.mosquitto.data_dir }}/config/mosquitto.conf:
   file.managed:
