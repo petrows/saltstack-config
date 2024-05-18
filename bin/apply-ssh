@@ -59,6 +59,13 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    '--ip',
+    action='store',
+    default=None,
+    help='set host IP (override DNS resolve)',
+)
+
+parser.add_argument(
     '--sudo',
     dest='sudo',
     action='store_true',
@@ -113,7 +120,10 @@ roster_local = Path(root / f"tmp/{host}-roster.yml")
 
 if (not roster_local.exists() or roster_local.stat().st_mtime < cache_max_time) or args.no_cache:
     # Resolve remote machine IP
-    host_ip = socket.gethostbyname(host)
+    if args.ip:
+        host_ip = args.ip
+    else:
+        host_ip = socket.gethostbyname(host)
 
     # Prepare user@host
     host_ssh = f"{args.user}@{host_ip}"
