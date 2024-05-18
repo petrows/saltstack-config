@@ -118,7 +118,8 @@ remote_cache_file = Path(root / f"tmp/{host}-remote-minion.yml")
 # Local roster
 roster_local = Path(root / f"tmp/{host}-roster.yml")
 
-if (not roster_local.exists() or roster_local.stat().st_mtime < cache_max_time) or args.no_cache:
+#if (not roster_local.exists() or roster_local.stat().st_mtime < cache_max_time) or args.no_cache:
+if True:
     # Resolve remote machine IP
     if args.ip:
         host_ip = args.ip
