@@ -7,7 +7,7 @@ OnFailure=status-email@%n.service
 User=root
 Group=root
 WorkingDirectory=/srv/salt-config/
-ExecStart=/srv/salt-config/saltstack/salt/files/upgrade-checker/upgrade-checker.py
+ExecStart=/opt/venv/app/bin/python /srv/salt-config/saltstack/salt/files/upgrade-checker/upgrade-checker.py
 
 [Install]
 WantedBy=multi-user.target
