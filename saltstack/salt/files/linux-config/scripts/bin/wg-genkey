@@ -1,8 +1,7 @@
 #!/bin/bash
 
-wg genkey | tee /tmp/wg-priv | wg pubkey > /tmp/wg-pub
+KEY_PRIV=$(wg genkey)
+KEY_PUB=$(echo "$KEY_PRIV" | wg pubkey)
 
-echo "public: $(cat /tmp/wg-pub)"
-echo "private: $(cat /tmp/wg-priv)"
-
-rm -rf /tmp/wg-priv /tmp/wg-pub
+echo "public: $KEY_PUB"
+echo "private: $KEY_PRIV"
