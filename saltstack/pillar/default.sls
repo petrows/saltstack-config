@@ -136,8 +136,8 @@ ssh_machines:
       port: 6446
     eu.vds.pws:
       port: 8144
-    ru.vds.pws:
-      port: 8144
+    # ru.vds.pws:
+    #   port: 8144
     pve.ext.j.pws:
       port: 34123
     media.ext.j.pws:

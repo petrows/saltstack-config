@@ -20,8 +20,8 @@ salt:
     # External
     eu.vds.pws:
       port: 8144
-    ru.vds.pws:
-      port: 8144
+    # ru.vds.pws:
+    #   port: 8144
   master:
     file_roots:
       base:
