@@ -61,6 +61,7 @@ git_config:
   pull.rebase: "true"
   alias.ca: commit -am
   alias.cap: "commit --author='Petro <petro@petro.ws>' -am"
+  alias.apf: "!f() { git commit -a --amend --no-edit; git pf; }; f"
   alias.l: "log --graph --decorate --pretty=format:'%C(yellow)%h%Creset %s %C(green)(%cr)%Creset' --abbrev-commit --date=relative"
   alias.s: status --short
   alias.checkout-pr: "!f() { git fetch origin pull/$1/head:pr-$1 && git checkout pr-$1; }; f"
