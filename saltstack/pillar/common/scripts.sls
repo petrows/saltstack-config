@@ -10,3 +10,7 @@ packages_pip3:
   - netifaces
   - objectpath
   - packaging
+
+packages:
+  # Requered by pip systemd
+  - libsystemd-dev

@@ -223,6 +223,7 @@ base:
     - common.tmp-ramdisk
     - common.mail-relay
     - common.firefox
+    - common.scripts
     - users.root
     - pws.powerline-gitstatus
     - services.rslsync
