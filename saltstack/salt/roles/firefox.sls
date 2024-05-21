@@ -33,3 +33,16 @@ firefox-desktop:
   file.managed:
     - name: /usr/local/share/applications
     - source: salt://files/firefox/firefox.desktop
+
+{% set browser_def = ['x-www-browser', 'gnome-www-browser'] %}
+
+{% for def in browser_def %}
+firefox-def-{{ def }}:
+  cmd.run:
+    - shell: /bin/bash
+    - name: |
+        update-alternatives --install /usr/bin/{{ def }} {{ def }} /opt/firefox/firefox 10
+        update-alternatives --set {{ def }} /opt/firefox/firefox
+    - unless:
+      - update-alternatives --query {{ def }} | grep Value | grep --fixed-string '/opt/firefox/firefox'
+{% endfor %}

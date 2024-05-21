@@ -101,6 +101,9 @@ local-pc-soft-cleanup:
       - notify-osd
       # Displays annoying popups as windows
       - notification-daemon
+      # Catches KB layout switch
+      - fcitx5
+      - fcitx
 
 # Bluetooth - configure for hi-res profiles
 /etc/bluetooth/main.conf:

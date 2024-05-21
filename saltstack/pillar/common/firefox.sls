@@ -4,4 +4,4 @@ roles:
   - firefox
 
 firefox:
-  version: 119.0
+  version: 126.0
