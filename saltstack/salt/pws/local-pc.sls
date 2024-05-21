@@ -234,3 +234,11 @@ udev-user:
   file.recurse:
     - name: /etc/udev/rules.d/
     - source: salt://files/linux-config/udev/
+
+# Fix wine config:
+# See: https://bugs.launchpad.net/ubuntu/+source/wine/+bug/2045127
+/etc/binfmt.d/wine.conf:
+  file.managed:
+    - makedirs: True
+    - contents: |
+        :Wine:M::MZ::/usr/bin/wine:
