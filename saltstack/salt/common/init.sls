@@ -161,3 +161,23 @@ nfs-export-{{ id }}:
 # See: https://forum.checkmk.com/t/mk-apt-and-latest-idea-from-ubuntu/34135
 /etc/apt/apt.conf.d/20apt-esm-hook.conf:
   file.absent: []
+
+{% if pillar.network.ntp %}
+# Configure Systemd-timesync
+# It will use DHCP-provided, and we set ours, if not set
+/etc/systemd/timesyncd.conf:
+  file.managed:
+    - contents: |
+        [Time]
+        NTP={{ pillar.network.ntp }}
+        RootDistanceMaxSec=5
+        PollIntervalMinSec=32
+        PollIntervalMaxSec=2048
+        ConnectionRetrySec=30
+        SaveIntervalSec=60
+timesyncd-reload:
+  cmd.run:
+    - name: |
+        timedatectl set-ntp true
+        systemctl restart systemd-timesyncd
+{% endif %}
