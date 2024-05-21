@@ -168,8 +168,10 @@ nfs-export-{{ id }}:
 /etc/systemd/timesyncd.conf:
   file.managed:
     - contents: |
+        # Managed by SALT
         [Time]
-        NTP={{ pillar.network.ntp }}
+        # We leave NTP as default (network-provided) and provide secondary
+        FallbackNTP={{ pillar.network.ntp }}
         RootDistanceMaxSec=5
         PollIntervalMinSec=32
         PollIntervalMaxSec=2048
@@ -177,7 +179,10 @@ nfs-export-{{ id }}:
         SaveIntervalSec=60
 timesyncd-reload:
   cmd.run:
+    - shell: /bin/bash
     - name: |
-        timedatectl set-ntp true
-        systemctl restart systemd-timesyncd
+        if systemctl is-enabled systemd-timesyncd.service ; then
+          timedatectl set-ntp true
+          systemctl restart systemd-timesyncd
+        fi
 {% endif %}
