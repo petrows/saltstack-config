@@ -17,6 +17,7 @@ PyYAML==6.0.1
 pyzmq==26.0.3
 qrcode==7.3.1
 requests==2.31.0
-salt==3006.2
+salt==3007.0
 salt-ssh==3003
 urllib3==2.2.0
+backports.ssl_match_hostname==3.7.0.1
