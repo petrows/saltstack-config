@@ -199,6 +199,10 @@ base:
     - grains.host-hdd
     - users.master
 
+# All VDS defaults
+  '*.vds.pws':
+    - grains.network-dmz
+    - grains.network-external
 # External VDS
   'ru.vds.*':
     - pws.ru-vds
@@ -207,12 +211,9 @@ base:
     - pws.ua-vds
 # External VDS
   'eu.vds.*':
+    - grains.region-it
     - common.no-torrent
     - pws.eu-vds
-# All VDS defaults
-  '*.vds.pws':
-    - grains.network-dmz
-    - grains.network-external
 # Test machine
   'ru.vds.dev':
     - common.no-torrent
