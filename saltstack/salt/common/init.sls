@@ -185,4 +185,6 @@ timesyncd-reload:
           timedatectl set-ntp true
           systemctl restart systemd-timesyncd
         fi
+    - onchanges:
+      - file: /etc/systemd/timesyncd.conf
 {% endif %}
