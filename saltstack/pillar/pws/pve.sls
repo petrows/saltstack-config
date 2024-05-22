@@ -18,6 +18,9 @@ integrity:
 
 swap_size_mb: {{ 4 * 1024 }}
 
+pve:
+  ssl_certs: pws_secrets:ssl_pws_pve
+
 # VM configs
 pve_vms_config:
   {{ static.vm_ids.media }}:

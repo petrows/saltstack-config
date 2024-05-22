@@ -13,6 +13,9 @@ check_mk_plugins:
 iptables:
   strict_mode: False
 
+pve:
+  ssl_certs: pws_secrets:ssl_pws_j_pws
+
 # Mount external data storage via USB
 mounts:
   j_data:

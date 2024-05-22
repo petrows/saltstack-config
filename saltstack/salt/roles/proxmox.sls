@@ -85,3 +85,17 @@ pve-repository:
   file.absent: []
 /etc/apt/sources.list.d/ceph.list:
   file.absent: []
+
+# PVE UI certificates
+/etc/pve/local/pveproxy-ssl.pem:
+  file.managed:
+    - mode: 640
+    - contents_pillar: {{ pillar.pve.ssl_certs }}:crt
+/etc/pve/local/pveproxy-ssl.key:
+  file.managed:
+    - mode: 640
+    - contents_pillar: {{ pillar.pve.ssl_certs }}:key
+pveproxy.service:
+  service.running:
+    - watch:
+      - file: /etc/pve/local/*
