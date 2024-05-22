@@ -17,6 +17,7 @@ salt:
     pve.j.pws: {}
     home.j.pws: {}
     vpn.j.pws: {}
+    media.j.pws: {}
     # External
     eu.vds.pws:
       port: 8144

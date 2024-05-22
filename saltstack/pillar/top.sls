@@ -250,6 +250,11 @@ base:
     - services.iphone-copy
     - j.pve
 
+  'media.j.*':
+    - users.master
+    - services.rslsync
+    - j.media
+
   'home.j.*':
     - users.ssh-pve
     - users.master

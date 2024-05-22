@@ -34,4 +34,5 @@ rslsync-{{conf_id}}.service:
     - enable: True
     - watch:
       - archive: rslsync-extract
+      - file: /etc/systemd/system/rslsync-{{conf_id}}.service
 {% endfor %}
