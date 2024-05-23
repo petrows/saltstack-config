@@ -1,5 +1,8 @@
 #!/bin/bash -e
 
+# Wait system to boot up
+sleep 60
+
 BACKUP_USER=petro
 BACKUP_USER_REMOTE=2017
 BACKUP_HOST=root@pve.pws

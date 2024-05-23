@@ -93,6 +93,8 @@ local-pc-soft:
       - fd-find
       # Wine formats
       - binfmt-support
+      # Monitoring
+      - nagstamon
 
 local-pc-soft-cleanup:
   pkg.purged:
