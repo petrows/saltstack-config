@@ -173,6 +173,14 @@ vagrant-repo:
     - key_url: https://apt.releases.hashicorp.com/gpg
     - clean_file: True
 
+# Lens IDE
+lens-repo:
+  pkgrepo.managed:
+    - name: deb https://downloads.k8slens.dev/apt/debian stable main
+    - file: /etc/apt/sources.list.d/lens.list
+    - key_url: https://downloads.k8slens.dev/keys/gpg
+    - clean_file: True
+
 # Loop over allowed users on this server
 {% for user_id, user in salt['pillar.get']('users', {}).items() %}
 local-pc-configs-{{ user_id }}:
