@@ -31,7 +31,7 @@ firefox-binary:
 
 firefox-desktop:
   file.managed:
-    - name: /usr/local/share/applications
+    - name: /usr/share/applications/firefox.desktop
     - source: salt://files/firefox/firefox.desktop
 
 {% set browser_def = ['x-www-browser', 'gnome-www-browser'] %}
@@ -46,3 +46,15 @@ firefox-def-{{ def }}:
     - unless:
       - update-alternatives --query {{ def }} | grep Value | grep --fixed-string '/opt/firefox/firefox'
 {% endfor %}
+
+# Apply XDG settings
+firefox-xdg:
+  cmd.run:
+    - name : |
+        xdg-settings set default-web-browser firefox.desktop
+        xdg-settings set default-url-scheme-handler http firefox.desktop
+        xdg-settings set default-url-scheme-handler https firefox.desktop
+    - unless:
+      - xdg-settings get default-web-browser | grep firefox
+      - xdg-settings get default-url-scheme-handler http | grep firefox
+      - xdg-settings get default-url-scheme-handler https | grep firefox

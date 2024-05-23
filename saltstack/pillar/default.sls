@@ -215,6 +215,17 @@ i3:
       video/x-ms-wmv: vlc.desktop
       video/x-matroska: vlc.desktop
       video/x-msvideo: vlc.desktop
+      # Default browser - firefox
+      application/rdf+xml: firefox.desktop
+      application/rss+xml: firefox.desktop
+      application/xhtml+xml: firefox.desktop
+      application/xhtml_xml: firefox.desktop
+      application/xml: firefox.desktop
+      text/html: firefox.desktop
+      text/xml: firefox.desktop
+      x-scheme-handler/http: firefox.desktop
+      x-scheme-handler/https: firefox.desktop
+
   # Apps config, uses [ini] format in ~/.config,
   # true for most KDE apps
   apps_config_ini:
