@@ -41,6 +41,7 @@ saltstack-repo:
     - contents: |
         #!/bin/bash -x
         # Update software
+        export DEBIAN_FRONTEND=noninteractive
         apt-get update
         apt-get install --only-upgrade -y -q -o DPkg::Options::="--force-confold" --no-install-recommends salt-minion
         # Update Salt user to OUR defaults
