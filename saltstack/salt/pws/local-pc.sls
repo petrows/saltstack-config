@@ -51,6 +51,7 @@ local-pc-soft:
       - pipewire-audio
       - pipewire-alsa
       - pasystray
+      - pavucontrol
       - playerctl
       # Set default QT-Driven apps
       - qt5ct
