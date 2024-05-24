@@ -45,12 +45,12 @@ php-fpm-pool-conf:
     - require:
       - pkg: php-fpm-pkg
 
-php-fpm-tmp:
-  file.directory:
-    - name: "/tmp/php-fpm"
-    - user: {{ pillar.php.user }}
-    - group: {{ pillar.php.user }}
-    - makedirs: True
+# Set systemd-tmpfiles to manage our temporary dir
+/usr/lib/tmpfiles.d/php-fpm-tmp.conf:
+  file.managed:
+    - contents: |
+        # TMP files config for PHP (fpm)
+        d /tmp/php-fpm 0777 {{ pillar.php.user }} {{ pillar.php.user }}
 
 # Hosts config
 {%- for conf_id, conf in (salt['pillar.get']('proxy_vhosts', {})).items() if conf.type == 'php' %}

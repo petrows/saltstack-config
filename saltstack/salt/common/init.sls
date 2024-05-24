@@ -188,3 +188,14 @@ timesyncd-reload:
     - onchanges:
       - file: /etc/systemd/timesyncd.conf
 {% endif %}
+
+# Dummy file to allow watch
+/usr/lib/tmpfiles.d/salt.conf:
+  file.managed:
+    - contents: ''
+
+systemd-tmpfiles-restart:
+  cmd.run:
+    - name: systemd-tmpfiles --create
+    - onchanges:
+      - file: /usr/lib/tmpfiles.d/*.conf

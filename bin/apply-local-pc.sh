@@ -14,4 +14,9 @@ PC_ID=$1
 
 shift
 
-sudo -E env PATH=$PATH salt-call --id="$PC_ID" --state-verbose=False --config-dir local --local $@
+sudo -E env PATH=$PATH salt-call \
+    --id="$PC_ID" \
+    --state-verbose=False \
+    --config-dir local \
+    --local \
+    $@
