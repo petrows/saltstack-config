@@ -13,13 +13,28 @@ if [[ -n "$RETAIN_DAYS" ]]; then
 fi
 
 # Petro mobile DCIM
-exif-sort $RETAIN_DAYS --out '/mnt/pws-data/storage/common/photo/photos/%Y/%Y - Mobile Petro/%Y-%m/' '/mnt/pws-data/storage/home/petro/mobile-photos/Camera/'
+exif-sort $RETAIN_DAYS \
+    --out '/mnt/pws-data/storage/common/photo/photos/%Y/%Y - Mobile Petro/%Y-%m/' \
+    '/mnt/pws-data/storage/home/petro/mobile-photos/Camera/'
 
 # Petro Meta-view photos
-exif-sort $RETAIN_DAYS --out '/mnt/pws-data/storage/common/photo/photos/%Y/%Y - MetaView/%Y-%m/' '/mnt/pws-data/storage/home/petro/mobile-metaview/'
+exif-sort $RETAIN_DAYS \
+    --out '/mnt/pws-data/storage/common/photo/photos/%Y/%Y - MetaView/%Y-%m/' \
+    '/mnt/pws-data/storage/home/petro/mobile-metaview/'
 
 # Petro Mobile screenshots
-exif-sort $RETAIN_DAYS --out '/mnt/pws-data/storage/home/petro/screenshots/%Y/' '/mnt/pws-data/storage/home/petro/mobile-pics/Screenshots/'
+exif-sort $RETAIN_DAYS \
+    --out '/mnt/pws-data/storage/home/petro/screenshots/%Y/' \
+    '/mnt/pws-data/storage/home/petro/mobile-pics/Screenshots/'
 
 # Petro instagram pics
-exif-sort $RETAIN_DAYS --out '/mnt/pws-data/storage/common/photo/photos/%Y/%Y - Instagram/' '/mnt/pws-data/storage/home/petro/mobile-pics/Instagram/'
+exif-sort $RETAIN_DAYS \
+    --out '/mnt/pws-data/storage/common/photo/photos/%Y/%Y - Instagram/' \
+    '/mnt/pws-data/storage/home/petro/mobile-pics/Instagram/'
+
+# Julia iPhone
+exif-sort \
+    --lastmarker /srv/exif-sort/lastmarker-iPhone-Julia-camera.txt \
+    --copy \
+    --out '/mnt/pws-data/storage/home/julia/Фото/%Y/%Y - Julia iPhone' \
+    '/mnt/pws-data/storage/home/julia/iPhone-Julia-camera'
