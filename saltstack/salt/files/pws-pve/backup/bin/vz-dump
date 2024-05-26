@@ -4,19 +4,36 @@ set -e
 
 # How much backups to store
 VMZ_RETAIN="2"
-# Included
-VMZ_BACKUP="--all"
-# Excluded
-VMZ_EXCLUDE="--exclude 102,104,108"
+
 
 DIR_BACKUP=/srv/backup/vz
 DIR_TMP=/srv/backup/tmp
 
 cd $DIR_BACKUP
 
+# Generate full list of objects, having tag 'backup'
+VMZ_BACKUP=''
+
+# List of CT's
+CTS=$(pct list | sed 's/|/ /' | awk '{print $1}' | sed 1,1d)
+for ct in $CTS ; do
+    if pct config $ct | grep -F 'tags:' | grep backup ; then
+        echo "Backup CT: $ct"
+        VMZ_BACKUP+="$ct "
+    fi
+done
+
+# List of VM's
+VMS=$(qm list | sed 's/|/ /' | awk '{print $1}' | sed 1,1d)
+for ct in $VMS ; do
+    if qm config $ct | grep -F 'tags:' | grep backup ; then
+        echo "Backup VM: $ct"
+        VMZ_BACKUP+="$ct "
+    fi
+done
+
 for vz in $VMZ_BACKUP ; do
-
-	echo "Backung up VZ $vz"
-
+    # Check that VM has
+	echo "Backung up $vz"
 	vzdump $vz $VMZ_EXCLUDE -compress lzo -mailto root -dumpdir ./ -tmpdir $DIR_TMP -maxfiles $VMZ_RETAIN
 done
