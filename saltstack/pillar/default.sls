@@ -6,7 +6,10 @@ timezone: Europe/Berlin
 tmp_ramdisk: False
 
 # Additional software
-packages: []
+packages:
+  # Packages, going to be installed for all
+  - pwgen
+  - multitail
 
 # List of packages, will be installed to system venv,
 # Use `/opt/venv/system/bin/python` as interpreter
