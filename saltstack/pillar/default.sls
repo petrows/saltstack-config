@@ -187,6 +187,7 @@ telegram:
 
 xsession:
   gtk_scale: 1.0
+  qt_dpi: 138
 
 # i3 config options
 i3:

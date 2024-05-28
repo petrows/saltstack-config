@@ -7,6 +7,7 @@ export QT_QPA_PLATFORMTHEME=qt5ct
 export SAL_USE_VCLPLUGIN=gtk3
 # Default apps scaling for HDPI
 export GDK_DPI_SCALE={{ pillar.xsession.gtk_scale }}
+export QT_FONT_DPI={{ pillar.xsession.qt_dpi }}
 
 # Ask python to use system CA bundle
 export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
