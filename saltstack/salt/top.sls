@@ -154,8 +154,8 @@ base:
   'nexum.*':
     - pws.nexum
 
-  'eu.petro.*':
-    - pws.eu-petrows
+  'eu.vds.*':
+    - pws.eu-vds
 
 # Remote host config
 
