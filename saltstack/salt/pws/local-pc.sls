@@ -253,3 +253,28 @@ udev-user:
     - makedirs: True
     - contents: |
         :Wine:M::MZ::/usr/bin/wine:
+
+# Configure local NM connection
+/etc/NetworkManager/system-connections/lan.nmconnection:
+  file.managed:
+    - mode: 0600
+    - contents: |
+        [connection]
+        id=lan
+        type=ethernet
+        permissions=
+        [ethernet]
+        wake-on-lan=1
+        [ipv4]
+        method=auto
+        [ipv6]
+        method=auto
+        addr-gen-mode=1
+        [proxy]
+
+/etc/netplan/:
+  file.recurse:
+    - source: salt://files/linux-config/local-pc/netplan/
+    - clean: True
+    - file_mode: 0600
+
