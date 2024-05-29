@@ -78,6 +78,7 @@ base:
     - grains.host-hdd
     - grains.proxmox
     - pws.powerline-gitstatus
+    - users.ssh-pve
 
   'pve.pws':
     - pws.pve
@@ -85,6 +86,7 @@ base:
     - common.integrity-pve
 
   'octoprint.*':
+    - users.ssh-pve
     - users.octoprint
     - services.octoprint
 
@@ -132,6 +134,7 @@ base:
     - pws.web-vm
     - users.www
     - users.www-data
+    - users.ssh-pve
     - services.wiki
     - services.nextcloud
     - services.gitlab
@@ -162,6 +165,7 @@ base:
   'bank.*':
     - pws.bank
     - users.master
+    - users.ssh-pve
     - services.firefly
   'bank.dev':
     - services.firefly-dev
