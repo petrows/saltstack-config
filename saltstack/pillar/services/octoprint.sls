@@ -68,7 +68,7 @@ proxy_vhosts:
     port: {{ static.proxy_ports.octoprint_http }}
     ssl: internal
     ssl_name: local
-    ssl_force: False
+    ssl_force: True
     custom_config: |
         location ~ ^/video/(.*)$ {
             postpone_output 0;
