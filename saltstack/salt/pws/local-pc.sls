@@ -47,6 +47,8 @@ local-pc-soft:
       - feh
       - network-manager-gnome
       - numlockx
+      - apt-file
+      - ncal
       # Audio
       - pipewire-audio
       - pipewire-alsa
