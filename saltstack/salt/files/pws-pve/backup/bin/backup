@@ -38,12 +38,12 @@ class PetroBackup:
 		systemd.daemon.notify('READY=1')
 
 	def log(self, msg):
-		print(msg)
+		print(msg, flush=True)
 		if self.syslog_enable:
 			syslog.syslog(msg)
 
 	def log_erorr(self, msg):
-		print(msg, file=sys.stderr)
+		print(msg, file=sys.stderr, flush=True)
 		if self.syslog_enable:
 			syslog.syslog(syslog.LOG_ERR, msg)
 
