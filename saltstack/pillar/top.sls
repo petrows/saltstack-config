@@ -56,6 +56,7 @@ base:
   # Julia
   '10.82.0.0/16':
     - match: ipcidr
+    - grains.region-ru
     - grains.network-dmz
     - grains.network-dmz-julia
 

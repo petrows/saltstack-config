@@ -8,6 +8,9 @@
     {%- if pillar.docker.dns|default({}) %}
     "dns": ["{{ pillar.docker.dns.split(' ')|join('","') }}"],
     {%- endif %}
+    {%- if pillar.docker.mirror|default(None) %}
+    "registry-mirrors": ["{{ pillar.docker.mirror.split(' ')|join('","') }}"],
+    {%- endif %}
     "default-address-pools": [
         {
             "base": "{{ pillar.docker.subnet }}",
