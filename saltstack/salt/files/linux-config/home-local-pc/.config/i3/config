@@ -240,8 +240,6 @@ include ~/.config/i3/layout.d/`get-i3-display-config`.conf
 
 # Start desktop notification daemon
 exec --no-startup-id systemctl start --user dunst.service
-# Restart pulseaudio
-# exec --no-startup-id systemctl --user restart pulseaudio.service
 
 # Startup config
 {{ pillar.i3.startup }}
@@ -255,8 +253,6 @@ exec --no-startup-id feh --randomize --bg-fill ~/Pictures/wp/*
 exec --no-startup-id udiskie -ans &
 # Network status applet
 exec --no-startup-id nm-applet
-# Bt restart (required for A2DP)
-exec --no-startup-id bash -c 'sleep 10; sudo systemctl restart bluetooth'
 # BT status
 exec --no-startup-id blueman-applet
 # Audio
