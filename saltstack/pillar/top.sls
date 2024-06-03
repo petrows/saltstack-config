@@ -271,3 +271,8 @@ base:
     - users.ssh-pve
     - users.master
     - j.vpn
+
+  'web.j.*':
+    - users.ssh-pve
+    - users.master
+    - j.web
