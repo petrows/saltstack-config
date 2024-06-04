@@ -130,6 +130,9 @@ base:
   'roles:octoprint':
     - match: pillar
     - services.octoprint
+  'roles:privatebin':
+    - match: pillar
+    - services.privatebin
 
   # Hosts configs
   'pve.pws':

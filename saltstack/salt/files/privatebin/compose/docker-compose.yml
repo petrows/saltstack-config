@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  privatebin:
+    container_name: privatebin-app
+    image: privatebin/nginx-fpm-alpine:{{ pillar.privatebin.version }}
+    restart: always
+    user: {{ salt['pillar.get']('static:uids:master') }}:{{ salt['pillar.get']('static:uids:master') }}
+    ports:
+      - {{ pillar.static.proxy_ports.privatebin_http }}:8080
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - {{ pillar.privatebin.data_dir }}/conf.php:/srv/cfg/conf.php:ro
+      - {{ pillar.privatebin.data_dir }}/data:/srv/data

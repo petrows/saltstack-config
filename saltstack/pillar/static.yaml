@@ -37,6 +37,7 @@ proxy_ports:
   paperless_http:   7017
   octoprint_http:   7018
   octoprint_video:  7019
+  privatebin_http:  7020
 
   # Resillio sync
   rslsync_petro:    8888

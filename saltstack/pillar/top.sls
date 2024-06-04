@@ -139,6 +139,7 @@ base:
     - services.wiki
     - services.nextcloud
     - services.gitlab
+    - services.privatebin
 
   'web-vm.pws':
     - services.wiki-prod
