@@ -9,7 +9,7 @@ include:
 
 # https://hub.docker.com/r/adguard/adguardhome
 adguard:
-  version: v0.106.3
+  version: v0.107.50
   data_dir: /srv/adguard-data
 
 proxy_vhosts:
