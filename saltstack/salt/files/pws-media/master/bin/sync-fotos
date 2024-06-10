@@ -5,7 +5,7 @@
 RETAIN_DAYS=$1
 
 if [[ -z "$RETAIN_DAYS" ]]; then
-    RETAIN_DAYS=30
+    RETAIN_DAYS=14
 fi
 
 if [[ -n "$RETAIN_DAYS" ]]; then
