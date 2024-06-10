@@ -162,12 +162,12 @@ for file in files:
         pass
     else:
         out_path.parent.mkdir(parents=True, exist_ok=True)
+        # Copy permissions
+        st = os.stat(file)
         if args.copy:
             shutil.copy2(file, out_path)
         else:
             shutil.move(file, out_path)
-        # Copy permissions
-        st = os.stat(file)
         os.chown(out_path, st.st_uid, st.st_gid)
 
 if args.dry_run:
