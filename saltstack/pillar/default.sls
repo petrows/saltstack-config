@@ -1,5 +1,7 @@
 # Default pillar values
 
+{% import_yaml 'static.yaml' as static %}
+
 timezone: Europe/Berlin
 
 # Mount /tmp as ramdisk?
@@ -33,8 +35,7 @@ check_mk_local: {}
 check_mk_agent:
   install: False
   base: https://cmk.system.pws/cmk/check_mk/agents/
-  filename: check-mk-agent_2.2.0p25-1_all.deb
-  checksum: edcc2e324ac6f41950be173977f53275
+  filename: {{ static.check_mk.filename }}
 
 # If set, salt will be armed to auto-apply on connect (default for servers)
 salt_auto_apply: False

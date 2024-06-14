@@ -56,3 +56,8 @@ vm_ids:
   backup:           107
   system:           106
   web-vm:           108
+
+# Check-mk config, reused in pillar
+check_mk:
+  version: 2.3.0p3
+  filename: check-mk-agent_2.3.0p3-1_all.deb

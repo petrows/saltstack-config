@@ -26,7 +26,7 @@
 /srv/salt-config/saltstack/salt/packages/{{ pillar.check_mk_agent.filename }}:
   file.managed:
     - source: {{ pillar.check_mk_agent.base }}{{ pillar.check_mk_agent.filename }}
-    - source_hash: {{ pillar.check_mk_agent.checksum }}
+    - skip_verify: True
     - makedirs: True
 
 # Salt-sync service
