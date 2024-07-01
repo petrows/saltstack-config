@@ -1,0 +1,24 @@
+#!/bin/bash -e
+
+if [[ -z "$1" ]]; then
+    echo "Usage $0 <in-file>"
+    exit 1
+fi
+
+args=("$@")
+
+for input in "${args[@]}"; do
+    echo "Processing: $input"
+    BNAME=$(basename "$input" | cut -d. -f1)
+
+    TMP_NAME="/tmp/ocr-$(date +%s).pdf"
+    BACKUP_NAME="/tmp/ocr-backup-$(date +%s).pdf"
+    # Make backup
+    echo "Save backup as: $BACKUP_NAME"
+    cp "$input" "$BACKUP_NAME"
+
+    scan-ocr "$input" "$TMP_NAME"
+
+    rm -rf "$input"
+    mv "$TMP_NAME" "$input"
+done

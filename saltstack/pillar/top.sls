@@ -180,6 +180,7 @@ base:
   'media.pws or media.dev':
     - match: compound
     - users.master
+    - common.scan
     - services.samba
     - services.rslsync
     - services.photoprism
@@ -231,6 +232,7 @@ base:
     - common.mail-relay
     - common.firefox
     - common.scripts
+    - common.scan
     - users.root
     - pws.powerline-gitstatus
     - services.rslsync

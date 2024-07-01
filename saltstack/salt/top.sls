@@ -65,6 +65,9 @@ base:
   'roles:proxmox':
     - match: pillar
     - roles.proxmox
+  'roles:scan':
+    - match: pillar
+    - roles.scan
 
   # Services
   'roles:salt-master':
