@@ -2,16 +2,16 @@
 
 k8s-repository:
   pkgrepo.managed:
-    - name: deb https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /
-    - key_url: https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key
+    - name: deb https://pkgs.k8s.io/core:/stable:/v{{ pillar.k8s.version }}/deb/ /
+    - key_url: https://pkgs.k8s.io/core:/stable:/v{{ pillar.k8s.version }}/deb/Release.key
     - file: /etc/apt/sources.list.d/k8s.list
 
 k8s-pkg:
   pkg.installed:
     - pkgs:
-      - kubelet: '1.28.*'
-      - kubeadm: '1.28.*'
-      - kubectl: '1.28.*'
+      - kubelet: '{{ pillar.k8s.version }}.*'
+      - kubeadm: '{{ pillar.k8s.version }}.*'
+      - kubectl: '{{ pillar.k8s.version }}.*'
     - refresh: True
     - require:
       - pkgrepo: k8s-repository
@@ -29,6 +29,8 @@ helm-repository:
     - name: deb https://baltocdn.com/helm/stable/debian/ all main
     - key_url: https://baltocdn.com/helm/signing.asc
     - file: /etc/apt/sources.list.d/helm.list
+
+{% if pillar.k8s.node %}
 
 # k8s require ip fw
 net.ipv4.ip_forward:
@@ -54,6 +56,8 @@ containerd.service:
     - enable: True
     - watch:
       - file: /etc/containerd/*
+
+{% endif %}
 
 # {%- set default_interface = (salt['network.default_route']('inet')|first)['interface']|default('none') %}
 # {%- if default_interface %}

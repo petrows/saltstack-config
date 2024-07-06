@@ -200,6 +200,7 @@ base:
 # Test k8s machines
   'k8s-*.pws':
     - services.k8s
+    - services.k8s-node
 
 # External backup system
   'backup-ext.pws':
@@ -236,6 +237,7 @@ base:
     - users.root
     - pws.powerline-gitstatus
     - services.rslsync
+    - services.k8s
     - pws.pc
 
   'pc-home':
