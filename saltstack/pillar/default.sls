@@ -149,6 +149,7 @@ ssh_machines:
       port: 20124
 
 iptables:
+  managed: True # Enable management and persistance
   strict_mode: False # If true all input traffic will be blocked by default
   allow_ping: True
   ports_open: {} # Ports, which are open for all

@@ -1,5 +1,7 @@
 # Firewall configuration
 
+{% if pillar.iptables.managed %}
+
 iptables-pkg:
   pkg.installed:
     - pkgs:
@@ -106,3 +108,10 @@ iptables-str-block-{{ name }}:
     - string: {{ str.string }}
     - save: True
 {% endfor %}
+
+{% else %}
+iptables-pkg:
+  pkg.purged:
+    - pkgs:
+      - iptables-persistent
+{% endif %}

@@ -6,3 +6,7 @@ kernel-modules:
 k8s:
   # Start services as node?
   node: True
+
+# Disable iptables management
+iptables:
+  managed: False
