@@ -5,6 +5,7 @@ k8s-repository:
     - name: deb https://pkgs.k8s.io/core:/stable:/v{{ pillar.k8s.version }}/deb/ /
     - key_url: https://pkgs.k8s.io/core:/stable:/v{{ pillar.k8s.version }}/deb/Release.key
     - file: /etc/apt/sources.list.d/k8s.list
+    - clean_file: True
 
 k8s-pkg:
   pkg.installed:
@@ -29,6 +30,7 @@ helm-repository:
     - name: deb https://baltocdn.com/helm/stable/debian/ all main
     - key_url: https://baltocdn.com/helm/signing.asc
     - file: /etc/apt/sources.list.d/helm.list
+    - clean_file: True
 
 {% if pillar.k8s.node %}
 
@@ -56,6 +58,12 @@ containerd.service:
     - enable: True
     - watch:
       - file: /etc/containerd/*
+
+kubelet.service:
+  service.running:
+    - enable: True
+    - watch:
+      - pkg: k8s-pkg
 
 {% endif %}
 
