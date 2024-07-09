@@ -12,6 +12,11 @@ for p in $test_user_path;
     end
 end
 
+# Alias
+{%- for alias, cmd in pillar.shell_alias.items() %}
+alias {{ alias }}="{{ cmd }}"
+{%- endfor %}
+
 # Load local config, if exists
 if test -f $HOME/.profile_local.fish
     source $HOME/.profile_local.fish

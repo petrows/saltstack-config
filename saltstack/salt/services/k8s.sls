@@ -13,6 +13,7 @@ k8s-pkg:
       - kubelet: '{{ pillar.k8s.version }}.*'
       - kubeadm: '{{ pillar.k8s.version }}.*'
       - kubectl: '{{ pillar.k8s.version }}.*'
+      - kubectx
     - refresh: True
     - require:
       - pkgrepo: k8s-repository

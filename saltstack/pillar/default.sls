@@ -57,6 +57,10 @@ docker:
 # This option forces to update bash / fish profile
 force_user_update: False
 
+shell_alias:
+  k: kubectl
+  kx: kubectx
+
 # Values to ge set as git config for all users passed in 'users' role
 git_config:
   core.whitespace: fix, trailing-space
