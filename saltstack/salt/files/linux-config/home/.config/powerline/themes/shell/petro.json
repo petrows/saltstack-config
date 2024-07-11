@@ -29,10 +29,6 @@
 				"priority": 10
 			},
 			{
-				"function": "powerline.segments.common.env.virtualenv",
-				"priority": 50
-			},
-			{
 				"function": "powerline.segments.shell.cwd",
 				"priority": 10,
 				"args": {"dir_shorten_len": 1, "dir_limit_depth": 0, "use_path_separator": true}

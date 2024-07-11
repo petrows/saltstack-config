@@ -1,3 +1,4 @@
+# This block called only on "human" shells
 if status --is-interactive
     # Include powerline (if exists)
     if test -d /usr/share/powerline
@@ -17,9 +18,23 @@ if status --is-interactive
         end
     end
 
+    # Python VENV: functions to (if not exists) create and activate
+    # virtual env in current folder with `.env` path, or specified as arg
     function venv
-        python -m virtualenv .env
-        source .env/bin/activate.fish
+        set env_name $argv[1]
+        if test -z "$env_name"
+            set env_name ".env"
+        end
+        echo "Activating python venv: $env_name"
+        if not test -f $env_name/bin/activate.fish
+            echo "Creating new venv"
+            python -m virtualenv $env_name
+        end
+        source $env_name/bin/activate.fish
+    end
+    # Python VENV: shortcut for venv <system default venv>
+    function vapp
+        venv /opt/venv/app
     end
 end
 
