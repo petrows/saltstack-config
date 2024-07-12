@@ -60,6 +60,10 @@ force_user_update: False
 shell_alias:
   k: kubectl
   kx: kubectx
+  kns: kubectl config set-context --current --namespace
+  kpa: kubectl get po -A -o wide
+  ksa: kubectl get svc -A -o wide
+  kna: kubectl get node -o wide
 
 # Values to ge set as git config for all users passed in 'users' role
 git_config:
