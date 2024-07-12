@@ -1,5 +1,9 @@
 #!/bin/bash -xe
 
+# https://askubuntu.com/questions/1478647/how-do-i-skip-the-interactive-prompts-asking-to-restart-services-on-apt-upgrade
+export DEBIAN_FRONTEND=noninteractive
+export NEEDRESTART_MODE=a
+
 apt update
 
 apt upgrade -y -q -o DPkg::Options::="--force-confold" --no-install-recommends
