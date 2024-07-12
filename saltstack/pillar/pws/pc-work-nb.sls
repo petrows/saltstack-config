@@ -11,6 +11,10 @@ i3:
 xsession:
   gtk_scale: 1.5
   script: |
+      # Configure backlight
+      # Minimal value
+      light -N 1
+      light -S 10
       # Detect lid state and decide - what to use
       if grep -q closed /proc/acpi/button/lid/LID0/state; then
         # Closed lid
