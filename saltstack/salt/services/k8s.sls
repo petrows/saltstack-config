@@ -33,6 +33,15 @@ helm-repository:
     - file: /etc/apt/sources.list.d/helm.list
     - clean_file: True
 
+# Krew
+# To isntall for current user, run:
+# /opt/krew/krew-linux_amd64 install krew
+k8s-krew:
+  archive.extracted:
+    - name: /opt/krew/
+    - source: https://github.com/kubernetes-sigs/krew/releases/download/v{{ pillar.k8s.krew.version }}/krew-linux_{{ grains.osarch }}.tar.gz
+    - skip_verify: True
+
 {% if pillar.k8s.node %}
 
 # k8s require ip fw

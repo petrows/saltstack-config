@@ -8,3 +8,6 @@ k8s:
   version: '1.30'
   # Start services as node?
   node: False
+  # Support software
+  krew:
+    version: '0.4.4'
