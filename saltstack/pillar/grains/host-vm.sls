@@ -4,7 +4,7 @@ roles:
   - server-dedicated
   - server-vm
 
-{% if salt['grains.get']('virtual:kvm', False) %}
+{% if salt['grains.get']('virtual', None) == 'kvm' %}
 packages:
   - qemu-guest-agent
 {% endif %}
