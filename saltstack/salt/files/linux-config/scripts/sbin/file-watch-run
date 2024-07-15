@@ -1,0 +1,138 @@
+#!/usr/bin/env python
+
+import argparse
+import logging
+import systemd.daemon
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+import threading
+import os
+import sys
+import subprocess
+import fcntl
+
+parser = argparse.ArgumentParser(
+    description='Watch folder for file updates and trigger command')
+
+parser.add_argument(
+    '-l', '--log',
+    choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
+    default='INFO',
+    help='set log level',
+)
+
+parser.add_argument(
+    '--delay',
+    type=int,
+    default=30,
+    action='store',
+    help='delay before starting command from LAST activity detected',
+)
+
+parser.add_argument(
+    '--folder',
+    nargs='+',
+    required=True,
+    help='path(s) to directory to watch',
+)
+
+parser.add_argument(
+    '--command',
+    type=str,
+    nargs=argparse.ONE_OR_MORE,
+    action='store',
+    required=True,
+    help='command(s) to execute',
+)
+
+args = parser.parse_args()
+
+log_level = args.log
+logging.basicConfig(level=log_level)
+
+cmd_running = threading.Lock()
+update_event = threading.Event()
+tm = None
+running = True
+exit_code = 0
+
+class Handler(FileSystemEventHandler):
+    @staticmethod
+    def on_any_event(event):
+        global tm
+        if event.is_directory:
+            return None
+        elif event.event_type == 'created':
+            # Take any action here when a file is first created.
+            logging.info("Created: %s" % event.src_path)
+            with cmd_running:
+                if tm and tm.is_alive(): tm.cancel()
+                tm = threading.Timer(args.delay, timer_function)
+                tm.start()
+
+def timer_function():
+    global exit_code
+    with cmd_running:
+        logging.debug("Timer event")
+        for cmd in args.command:
+            logging.info("Starting command: %s", cmd)
+            ret = exec(cmd)
+            logging.info("Return code: %d", ret)
+            if ret != 0:
+                exit_code = ret
+                update_event.set()
+
+def exec(command):
+    command = ['/bin/bash', '-c', command]
+    command_base = os.path.basename(command[0])
+    p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    fl = fcntl.fcntl(p.stdout, fcntl.F_GETFL)
+    fcntl.fcntl(p.stdout, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+
+    fl = fcntl.fcntl(p.stderr, fcntl.F_GETFL)
+    fcntl.fcntl(p.stderr, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+
+    while None == p.poll():
+        try:
+            line = p.stdout.readline()
+            if line :
+                logging.info(command_base + ": " + line.decode('utf-8').strip())
+        except OSError:
+            pass
+
+        try:
+            line = p.stderr.readline()
+            if line :
+                logging.error(command_base + "! " + line.decode('utf-8').strip())
+        except OSError:
+            pass
+
+    p.wait()
+    if 0 != p.returncode:
+        logging.error("Command '" + ' '.join(command) + "' return code " + "{0}".format(p.returncode))
+    return p.returncode
+
+update_event = threading.Event()
+observer = Observer()
+event_handler = Handler()
+for dir in args.folder:
+    observer.schedule(
+        event_handler,
+        dir,
+        recursive=True,
+    )
+observer.start()
+
+systemd.daemon.notify('READY=1')
+
+# Lock main thread
+while running:
+    flag = update_event.wait(3600)
+    if flag:
+        break
+
+observer.stop()
+observer.join()
+
+sys.exit(exit_code)
