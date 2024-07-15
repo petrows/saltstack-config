@@ -72,3 +72,23 @@ sync-fotos.timer:
   service.running:
     - enable: True
 
+# Timer and service to watch iPhone sync
+
+sync-fotos-watch.service:
+  file.managed:
+    - name: /etc/systemd/system/sync-fotos-watch.service
+    - contents: |
+        [Unit]
+        Description=Sync fotos (watch)
+        After=network.target
+        OnFailure=status-email@%n.service
+        [Service]
+        Type=notify
+        WorkingDirectory=/
+        ExecStart=/opt/venv/app/bin/python /usr/local/sbin/file-watch-run -l INFO --delay 60 --folder /mnt/pws-data/storage/home/julia/iPhone-Julia-camera --command "systemctl start sync-fotos.service"
+        [Install]
+        WantedBy=multi-user.target
+  service.running:
+    - enable: True
+    - watch:
+      - file: /etc/systemd/system/sync-fotos-watch.service

@@ -48,6 +48,8 @@ photoprism-watch.service:
         WantedBy=multi-user.target
   service.running:
     - enable: True
+    - watch:
+      - file: /etc/systemd/system/sync-fotos-watch.service
 
 {% import "roles/docker-compose-macro.sls" as compose %}
 {{ compose.service('photoprism') }}
