@@ -11,4 +11,4 @@ VMZ_BACKUP="--all"
 VMZ_EXCLUDE="--exclude 100"
 
 # Backup all CT and VM
-vzdump $VMZ_BACKUP $VMZ_EXCLUDE -compress lzo -dumpdir ./ -tmpdir ./ -mailto root --maxfiles $VMZ_RETAIN
+vzdump $VMZ_BACKUP $VMZ_EXCLUDE -compress lzo -dumpdir $PWD/ -tmpdir $PWD/ -mailto root --maxfiles $VMZ_RETAIN
