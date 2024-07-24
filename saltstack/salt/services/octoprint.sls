@@ -99,3 +99,29 @@ octoprint-stream.service:
 #     - template: jinja
 #     - user: pi
 #     - group: pi
+
+# TMP: Script to capture water counter
+
+/usr/bin/capture-water:
+  file.managed:
+    - mode: 755
+    - contents: |
+        #!/bin/bash -xe
+
+        FDIR=/srv/wz/$(date +"%Y-%m-%d")
+        FNAME=$FDIR/$(date +%s).jpg
+        FDATE=$(date +"%Y-%m-%d %H:%M:%S")
+
+        mosquitto_pub -h home.pws -u openhabian -P {{ pillar.pws_secrets.openhab.mosquitto_home.password }} -t cmnd/kg_lager1_main_light/POWER -m ON
+
+        sleep 5
+
+        mkdir -p $FDIR
+        rm -rf /tmp/wz-*.jpg
+
+        ffmpeg -f video4linux2 -input_format mjpeg -s 2560x1440 -i /dev/video2 -ss 0:0:2 -frames 1 /tmp/wz-out.jpg
+        convert /tmp/wz-out.jpg -resize 1024x -rotate 180 $FNAME
+        exiftool -overwrite_original -AllDates="$FDATE" $FNAME
+
+        mosquitto_pub -h home.pws -u openhabian -P {{ pillar.pws_secrets.openhab.mosquitto_home.password }} -t cmnd/kg_lager1_main_light/POWER -m OFF
+

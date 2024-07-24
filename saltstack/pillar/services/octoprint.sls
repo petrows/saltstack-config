@@ -10,6 +10,9 @@ packages:
   - ffmpeg
   - v4l-utils
   - ustreamer
+  - imagemagick
+  - mosquitto-clients
+  - libimage-exiftool-perl
 
 octoprint:
   home: /srv/octoprint-data
@@ -76,3 +79,12 @@ proxy_vhosts:
             proxy_ignore_headers X-Accel-Buffering;
             proxy_pass http://127.0.0.1:{{ static.proxy_ports.octoprint_video }}/$1$is_args$args;
         }
+
+# TMP Water watch
+systemd-cron:
+  wz-cron:
+    user: root
+    calendar: '*:0/5'
+    randomize: 0
+    cwd: /
+    cmd: /usr/bin/capture-water

@@ -114,6 +114,7 @@ nfs-export-{{ id }}:
 # Systemd cronjobs?
 {% for id, cron in salt['pillar.get']('systemd-cron', {}).items() %}
 {% set service_enabled = cron.enable | default(True) %}
+{% set service_rnd = cron.randomize | default(60) %}
 {{ id }}.service:
   file.managed:
     - name: /etc/systemd/system/{{ id }}.service
@@ -141,7 +142,7 @@ nfs-export-{{ id }}:
         Description=Systemd cron timer: {{ id }}
         [Timer]
         OnCalendar={{ cron.calendar }}
-        RandomizedDelaySec=60
+        RandomizedDelaySec={{ service_rnd }}
         [Install]
         WantedBy=timers.target
 {% if service_enabled %}
