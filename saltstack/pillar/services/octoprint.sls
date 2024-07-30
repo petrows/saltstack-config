@@ -84,7 +84,7 @@ proxy_vhosts:
 systemd-cron:
   wz-cron:
     user: root
-    calendar: '*:0/5'
+    calendar: '*:00'
     randomize: 0
     cwd: /
     cmd: /usr/bin/capture-water
