@@ -102,6 +102,7 @@ octoprint-stream.service:
 
 # TMP: Script to capture water counter
 
+{#
 /usr/bin/capture-water:
   file.managed:
     - mode: 755
@@ -124,4 +125,4 @@ octoprint-stream.service:
         exiftool -overwrite_original -AllDates="$FDATE" $FNAME
 
         mosquitto_pub -h home.pws -u openhabian -P {{ pillar.pws_secrets.openhab.mosquitto_home.password }} -t cmnd/kg_lager1_main_light/POWER -m OFF
-
+#}

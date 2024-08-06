@@ -86,5 +86,6 @@ systemd-cron:
     user: root
     calendar: '*:00'
     randomize: 0
+    enable: False
     cwd: /
     cmd: /usr/bin/capture-water
