@@ -176,12 +176,16 @@ bindsym $mod+l exec lock-screen &
 bindsym $mod+t exec --no-startup-id bash -c 'date "+%F" | xclip -rmlastnl -selection clipboard'
 
 # Take screenshot
+# Printscr also as win+p alternative
 # Printscr - normal
 bindsym Print exec --no-startup-id spectacle --fullscreen --copy-image
+bindsym $mod+p exec --no-startup-id spectacle --fullscreen --copy-image
 # Shift+Printscr - rectangular
 bindsym $mod+Shift+Print exec --no-startup-id spectacle --region --copy-image
+bindsym $mod+Shift+p exec --no-startup-id spectacle --region --copy-image
 # Win+Printscr - active window
 bindsym $mod+Control+Print exec --no-startup-id spectacle --windowundercursor --copy-image
+bindsym $mod+Control+p exec --no-startup-id spectacle --windowundercursor --copy-image
 
 # Switch display modes
 # Built-in only
