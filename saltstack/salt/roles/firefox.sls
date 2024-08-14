@@ -58,3 +58,17 @@ firefox-xdg:
       - xdg-settings get default-web-browser | grep firefox
       - xdg-settings get default-url-scheme-handler http | grep firefox
       - xdg-settings get default-url-scheme-handler https | grep firefox
+
+# Apply apparmor config
+/etc/apparmor.d/firefox-local:
+  file.managed:
+    - contents: |
+        # This profile allows everything and only exists to give the
+        # application a name instead of having the label "unconfined"
+        abi <abi/4.0>,
+        include <tunables/global>
+        profile firefox-local /opt/firefox/{firefox,firefox-bin,updater} flags=(unconfined) {
+            userns,
+            # Site-specific additions and overrides. See local/README for details.
+            include if exists <local/firefox>
+        }
