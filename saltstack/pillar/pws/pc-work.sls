@@ -11,6 +11,7 @@ i3:
   startup: |
       # exec --no-startup-id firefox
       exec --no-startup-id bash -c 'is-working-hours && google-chrome --app=https://teams.microsoft.com'
+      exec --no-startup-id bash -c 'is-working-hours && xkb-teams-activity'
       exec --no-startup-id bash -c 'is-working-hours && evolution'
       exec --no-startup-id telegram-desktop
       exec --no-startup-id doublecmd --no-splash

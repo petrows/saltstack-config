@@ -1,0 +1,24 @@
+#!/bin/bash -xe
+
+while true; do
+    sleep 180
+
+    WINDOWS=$(xdotool search --onlyvisible --name "Microsoft Teams")
+    ACTIVE_WINDOW=$(xdotool getactivewindow)
+
+    if [[ -z "$WINDOWS" ]] ; then
+        echo "No Teams found"
+        continue
+    fi
+
+    if [[ -z "$ACTIVE_WINDOW" ]] || (echo "$WINDOWS" | grep "$ACTIVE_WINDOW") ; then
+        echo "One of windows has focus already"
+        continue
+    fi
+
+    for w in $WINDOWS; do
+        xdotool windowactivate --sync $w key Shift
+    done
+
+    xdotool windowactivate "$ACTIVE_WINDOW"
+done
