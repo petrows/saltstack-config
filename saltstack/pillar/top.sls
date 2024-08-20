@@ -60,6 +60,11 @@ base:
     - grains.network-dmz
     - grains.network-dmz-julia
 
+  # Special network conig
+  # Mobile devices
+  '*-nb':
+    - grains.network-laptop
+
 # Config by-type
 # CT machines
   'G@virtual:container':
