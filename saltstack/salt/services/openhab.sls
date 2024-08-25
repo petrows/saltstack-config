@@ -37,6 +37,21 @@ zigbee2mqtt-dir-data:
     - group:  {{ pillar.static.uids.master }}
     - mode:  755
 
+zigbee2mqtt-logrotate:
+  file.managed:
+    - name: /etc/logrotate.d/zigbee2mqtt-{{ pillar.openhab.id }}
+    - makedirs: True
+    - contents: |
+        {{ pillar.openhab.zigbee2mqtt.data_dir }}/log/*.txt
+        {
+          missingok
+          daily
+          copytruncate
+          rotate 7
+          compress
+          notifempty
+        }
+
 openhab-deps:
   pkg.installed:
     - pkgs:
