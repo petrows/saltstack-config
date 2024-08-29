@@ -1,0 +1,4 @@
+#!/bin/bash -xe
+# Download and update winbox mikrotik tooling
+wget https://mt.lv/winbox64 -O ~/bin/winbox
+chmod +x ~/bin/winbox
