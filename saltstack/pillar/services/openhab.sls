@@ -10,7 +10,7 @@ include:
 openhab:
   # https://hub.docker.com/r/openhab/openhab/tags
   id: Openhab-dev
-  version: 4.1.2
+  version: 4.2.1
   data_dir: /srv/openhab-data
   dirs:
     - /srv/openhab-data/conf
