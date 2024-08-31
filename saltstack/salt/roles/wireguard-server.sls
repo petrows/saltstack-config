@@ -2,6 +2,13 @@
 
 {% set default_if = salt['network.default_route']('inet')[0]['interface'] %}
 {% set default_ip = salt['network.ip_addrs'](default_if)[0] %}
+{% set ns = namespace (cfg = {'awg': False}) %}
+
+{% for server_id, server in salt['pillar.get']('wireguard-server', {}).items() %}
+{% if server.get('type', 'wg') == 'awg' %}
+{% set _ = ns.cfg.update({'awg':True}) %}
+{% endif %}
+{% endfor %}
 
 wireguard-pkg:
   pkg.installed:
@@ -11,19 +18,60 @@ wireguard-pkg:
       - iptables
       - iptables-persistent
 
+# Install Amneziawg?
+{% if ns.cfg.awg %}
+# FIXME: move to grains
+/etc/apt/sources.list.d/ubuntu.sources:
+  file.managed:
+    - contents: |
+        Types: deb deb-src
+        URIs: http://de.archive.ubuntu.com/ubuntu
+        Suites: {{ grains.oscodename }} {{ grains.oscodename }}-updates {{ grains.oscodename }}-backports
+        Components: main restricted universe multiverse
+        Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+        Types: deb deb-src
+        URIs: http://security.ubuntu.com/ubuntu
+        Suites: {{ grains.oscodename }}-security
+        Components: main restricted universe multiverse
+        Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+amnezia-repo:
+  pkgrepo.managed:
+    - name: deb https://ppa.launchpadcontent.net/amnezia/ppa/ubuntu {{ grains.oscodename }} main
+    - file: /etc/apt/sources.list.d/amnezia.list
+    - clean_file: True
+    - keyid: 75C9DD72C799870E310542E24166F2C257290828
+    - keyserver: keyserver.ubuntu.com
+amnezia-src-repo:
+  pkgrepo.managed:
+    - name: deb-src https://ppa.launchpadcontent.net/amnezia/ppa/ubuntu {{ grains.oscodename }} main
+    - file: /etc/apt/sources.list.d/amnezia-src.list
+    - clean_file: True
+    - keyid: 75C9DD72C799870E310542E24166F2C257290828
+    - keyserver: keyserver.ubuntu.com
+amnezia-pkg:
+  pkg.installed:
+    - pkgs:
+      - amneziawg
+{% endif %}
+
 # Server config(s)
 
-{%- set iptables_enable =  salt['pillar.get']('wireguard:iptables', True) %}
+{% set iptables_enable =  salt['pillar.get']('wireguard:iptables', True) %}
 
-{%- for server_id, server in salt['pillar.get']('wireguard-server', {}).items() %}
-{%- set server_secrets =  salt['pillar.get']('pws_secrets:wireguard:'+server_id+':server', {}) %}
-{%- set peers =  salt['pillar.get']('pws_secrets:wireguard:'+server_id+':client', {}) %}
+{% for server_id, server in salt['pillar.get']('wireguard-server', {}).items() %}
+{% set server_type = server.get('type', 'wg') %}
+{% set server_secrets = salt['pillar.get']('pws_secrets:wireguard:'+server_id+':server', {}) %}
+{% set peers = salt['pillar.get']('pws_secrets:wireguard:'+server_id+':client', {}) %}
+{% if server_type == 'wg' %}
+{% set server_conf_path = '/etc/wireguard/wg-' + server_id + '.conf' %}
+{% elif server_type == 'awg' %}
+{% set server_conf_path = '/etc/amnezia/amneziawg/awg-' + server_id + '.conf' %}
+{% endif %}
 
 # Deploy server config
 
-wireguard-{{ server_id }}-config:
+{{ server_conf_path }}:
   file.managed:
-    - name: /etc/wireguard/wg-{{ server_id }}.conf
     - contents: |
         [Interface]
         Address = {{ server.address }}
@@ -31,6 +79,17 @@ wireguard-{{ server_id }}-config:
         {% if server_secrets.get('server_dns') %}PostUp = resolvectl dns %i {{server_secrets.server_dns.dns}}; resolvectl domain %i ~{{ server_secrets.server_dns.domain | join(' ~') }}{% endif %}
         PrivateKey = {{ server_secrets.private }}
         {% if server.get('fwmark', False) %}FwMark = {{ server.fwmark }}{% endif %}
+{%- if server_type == 'awg' %}
+        Jc = {{ server_secrets.awg.jc }}
+        Jmin = {{ server_secrets.awg.jmin }}
+        Jmax = {{ server_secrets.awg.jmax }}
+        S1 = 0
+        S2 = 0
+        H1 = 1
+        H2 = 2
+        H3 = 3
+        H4 = 4
+{%- endif %}
 {%- for peer_id, peer in peers.items() %}
   {%- set peer_ip, peer_netmask = peer.address.split('/') %}
   {%- set peer_ports = peer.ports|default([]) %}
@@ -50,11 +109,11 @@ wireguard-{{ server_id }}-config:
 {% endfor %}
 
 {% if server.get('autorun', True) %}
-wg-quick@wg-{{ server_id }}.service:
+{{ server_type }}-quick@{{ server_type }}-{{ server_id }}.service:
   service.running:
     - enable: True
     - watch:
-      - file: /etc/wireguard/wg-{{ server_id }}.conf
+      - file: {{ server_conf_path }}
 {% endif %}
 
 # Create iptables rules?
