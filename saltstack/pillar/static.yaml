@@ -38,6 +38,7 @@ proxy_ports:
   octoprint_http:   7018
   octoprint_video:  7019
   privatebin_http:  7020
+  trss_http:        7021
 
   # Resillio sync
   rslsync_petro:    8888

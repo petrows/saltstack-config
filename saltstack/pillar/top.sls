@@ -145,11 +145,13 @@ base:
     - services.nextcloud
     - services.gitlab
     - services.privatebin
+    - services.trss
 
   'web-vm.pws':
     - services.wiki-prod
     - services.nextcloud-prod
     - services.gitlab-prod
+    - services.trss-prod
     - pws.web-vm-prod
 
   'web-vm.dev':

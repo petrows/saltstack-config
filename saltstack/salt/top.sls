@@ -136,6 +136,9 @@ base:
   'roles:privatebin':
     - match: pillar
     - services.privatebin
+  'roles:trss':
+    - match: pillar
+    - services.trss
 
   # Hosts configs
   'pve.pws':

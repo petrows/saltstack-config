@@ -1,0 +1,67 @@
+# Tiny-RSS (tt-rss) service
+{%- set default_interface = (salt['network.default_route']('inet')|first)['interface']|default('none') %}
+{%- set default_ip = salt['network.interface_ip'](default_interface) %}
+version: '3'
+
+services:
+  app:
+    container_name: {{ pillar.trss.id }}-app
+    image: cthulhoo/ttrss-fpm-pgsql-static:{{ pillar.trss.version }}
+    restart: unless-stopped
+    depends_on:
+      - db
+    env_file:
+      - trss.env
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - {{ pillar.trss.data_dir }}/app:/var/www/html
+      - {{ pillar.trss.data_dir }}/config.d:/opt/tt-rss/config.d:ro
+    extra_hosts:
+    {%- for _, all_cfg in salt['pillar.get']('proxy_vhosts', {}).items() %}
+      - "{{ all_cfg.domain }}:{{ all_cfg.host|default(default_ip) }}"
+    {%- endfor %}
+
+  updater:
+    container_name: {{ pillar.trss.id }}-updater
+    image: cthulhoo/ttrss-fpm-pgsql-static:{{ pillar.trss.version }}
+    restart: unless-stopped
+    depends_on:
+      - app
+    env_file:
+      - trss.env
+    volumes:
+      - {{ pillar.trss.data_dir }}/app:/var/www/html
+      - {{ pillar.trss.data_dir }}/config.d:/opt/tt-rss/config.d:ro
+    command: /opt/tt-rss/updater.sh
+    extra_hosts:
+    {%- for _, all_cfg in salt['pillar.get']('proxy_vhosts', {}).items() %}
+      - "{{ all_cfg.domain }}:{{ all_cfg.host|default(default_ip) }}"
+    {%- endfor %}
+
+  web:
+    container_name: {{ pillar.trss.id }}-web
+    image: cthulhoo/ttrss-web-nginx:{{ pillar.trss.version }}
+    restart: unless-stopped
+    env_file:
+      - trss.env
+    ports:
+      - {{ pillar.static.proxy_ports.trss_http }}:80
+    volumes:
+      - {{ pillar.trss.data_dir }}/app:/var/www/html:ro
+    depends_on:
+      - app
+
+  db:
+    container_name: {{ pillar.trss.id }}-db
+    image: postgres:{{ pillar.trss.version_db }}
+    restart: unless-stopped
+    environment:
+      LANG: en_US.utf8
+      POSTGRES_USER: trs
+      POSTGRES_PASSWORD: {{ pillar.pws_secrets.db_password }}
+      POSTGRES_DB: trs
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - {{ pillar.trss.data_dir }}/db:/var/lib/postgresql/data
