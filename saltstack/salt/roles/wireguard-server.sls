@@ -19,7 +19,7 @@ wireguard-pkg:
       - iptables-persistent
 
 # Install Amneziawg?
-{% if ns.cfg.awg %}
+{% if ns.cfg.awg or salt['pillar.get']('wireguard:awg', None) %}
 # FIXME: move to grains
 /etc/apt/sources.list.d/ubuntu.sources:
   file.managed:
@@ -29,6 +29,7 @@ wireguard-pkg:
         Suites: {{ grains.oscodename }} {{ grains.oscodename }}-updates {{ grains.oscodename }}-backports
         Components: main restricted universe multiverse
         Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
         Types: deb deb-src
         URIs: http://security.ubuntu.com/ubuntu
         Suites: {{ grains.oscodename }}-security
@@ -103,7 +104,10 @@ amnezia-pkg:
 {%- for peer_id, peer in peers.items() %}
         # {{ peer_id }}: {{ peer.comment | default('') }}
         [Peer]
-        {% if peer.get('endpoint', False) %}Endpoint = {{ peer.endpoint }}{% endif %}
+        {% if peer.get('endpoint', False) %}
+        Endpoint = {{ peer.endpoint }}
+        PersistentKeepalive = 20
+        {% endif %}
         PublicKey = {{ peer.public }}
         AllowedIPs = {{ peer.address }}
 {% endfor %}
@@ -137,7 +141,7 @@ wireguard-forward-in-{{ server_id }}:
     - table: filter
     - chain: FORWARD
     - jump: ACCEPT
-    - in-interface: wg-{{ server_id }}
+    - in-interface: {{ server_type }}-{{ server_id }}
     - comment: "WG {{ server_id }}"
     - save: True
 
@@ -146,7 +150,7 @@ wireguard-forward-out-{{ server_id }}:
     - table: filter
     - chain: FORWARD
     - jump: ACCEPT
-    - out-interface: wg-{{ server_id }}
+    - out-interface: {{ server_type }}-{{ server_id }}
     - comment: "WG {{ server_id }}"
     - save: True
 
