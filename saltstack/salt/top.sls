@@ -163,8 +163,8 @@ base:
   'nexum.*':
     - pws.nexum
 
-  'eu.vds.*':
-    - pws.eu-vds
+  'cz.vds.*':
+    - pws.cz-vds
 
 # Remote host config
 

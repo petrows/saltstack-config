@@ -20,12 +20,8 @@ salt:
     media.j.pws: {}
     web.j.pws: {}
     # External
-    # eu.vds.pws:
-    #   port: 8144
     cz.vds.pws:
       port: 8144
-    # ru.vds.pws:
-    #   port: 8144
   master:
     file_roots:
       base:

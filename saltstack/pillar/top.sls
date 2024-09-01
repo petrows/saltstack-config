@@ -225,10 +225,6 @@ base:
   'ua.vds.*':
     - pws.ua-vds
 # External VDS
-  # 'eu.vds.*':
-  #   - grains.region-it
-  #   - common.no-torrent
-  #   - pws.eu-vds
   'cz.vds.*':
     - grains.region-cz
     - common.no-torrent
