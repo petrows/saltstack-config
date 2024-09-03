@@ -65,12 +65,17 @@ check_mk:
 
 # Hosts
 hosts:
+  pve:
+    ipv6: 2001:470:73fe:1::2
   web_vm:
-    ipv6: 2001:470:73fe:30::3/64
+    ipv6: 2001:470:73fe:30::3
 
 # IPv6 networks
 ipv6:
   pws:
+    lan:
+      prefix: 2001:470:73fe:1::/64
+      gw: 2001:470:73fe:1::1
     dmz:
       prefix: 2001:470:73fe:30::/64
       gw: 2001:470:73fe:30::1

@@ -17,7 +17,7 @@ network:
           set-name: lan
           dhcp4: yes
           addresses:
-            - {{ static.hosts.web_vm.ipv6 }}
+            - {{ static.hosts.web_vm.ipv6 }}/64
           routes:
             - to: "::/0"
               via: {{ static.ipv6.pws.dmz.gw }}
