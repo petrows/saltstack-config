@@ -200,3 +200,16 @@ systemd-tmpfiles-restart:
     - name: systemd-tmpfiles --create
     - onchanges:
       - file: /usr/lib/tmpfiles.d/*.conf
+
+# Netplan config?
+{% if pillar.network.netplan %}
+/etc/netplan/50-cloud-init.yaml:
+  file.absent: []
+
+/etc/netplan/00-pws.yaml:
+  file.serialize:
+    - makedirs: True
+    - mode: 600
+    - serializer: yaml
+    - dataset_pillar: 'network:netplan'
+{% endif %}

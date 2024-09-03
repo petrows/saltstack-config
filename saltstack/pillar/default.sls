@@ -290,6 +290,8 @@ network:
   domain: pws
   # Add hostname as 127.0.0.1?
   hostname_local: True
+  # Configure netplan?
+  netplan: False
 
 networks:
   pws:

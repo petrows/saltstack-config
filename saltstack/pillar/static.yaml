@@ -62,3 +62,15 @@ vm_ids:
 check_mk:
   version: 2.3.0p3
   filename: check-mk-agent_2.3.0p3-1_all.deb
+
+# Hosts
+hosts:
+  web_vm:
+    ipv6: 2001:470:73fe:30::3/64
+
+# IPv6 networks
+ipv6:
+  pws:
+    dmz:
+      prefix: 2001:470:73fe:30::/64
+      gw: 2001:470:73fe:30::1

@@ -18,6 +18,7 @@
 # HTTP must redirect to HTTPS
 server {
     listen 80;
+    listen [::]:80;
     server_name {{ conf.domain }};
 
     location / {
@@ -31,6 +32,7 @@ server {
 
 server {
     listen 443 ssl{% if enable_http2 %} http2{% endif %};
+    listen [::]:443 ssl{% if enable_http2 %} http2{% endif %};
 {%- if not force_ssl %}
     # SSL is not forced for this vhost, we can allow http connections
     listen 80;

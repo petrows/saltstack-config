@@ -4,6 +4,25 @@ roles:
   - php-docker
   - mounts
 
+# Static network config
+network:
+  netplan:
+    network:
+      version: 2
+      renderer: networkd
+      ethernets:
+        eth0:
+          match:
+            macaddress: ea:5f:a5:bd:84:81
+          set-name: lan
+          dhcp4: yes
+          addresses:
+            - {{ static.hosts.web_vm.ipv6 }}
+          routes:
+            - to: "::/0"
+              via: {{ static.ipv6.pws.dmz.gw }}
+              on-link: true
+
 # Force generate new dhparm keys for Nginx (required for external servers)
 nginx:
   dhparam: True
