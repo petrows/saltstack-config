@@ -80,6 +80,7 @@ def main():
         # This option disables partial DNS config (for full traffic mode)
         # User will have DNS option always, even if VPN defines domain
         force_full_dns = client.get("full_dns", False)
+        dns_servers = re.split(r'\s*,\s*', secrets["server"]["dns"])
 
         client_config = []
 
@@ -98,15 +99,15 @@ def main():
             # Domain record is set?
             if "domain" in secrets["server"] and secrets["server"]["domain"] and not force_full_dns:
                 # We are using resolvectl as DNS backend, resolvconf may break old domains on use
-                client_config += [f'PostUp = resolvectl dns %i {secrets["server"]["address"]}; resolvectl domain %i ~' + ' ~'.join(secrets["server"]["domain"])]
+                client_config += [f'PostUp = resolvectl dns %i {' '.join(dns_servers)}; resolvectl domain %i ~' + ' ~'.join(secrets["server"]["domain"])]
             # Just simple DNS server (no domain)
             else:
-                client_config += [f'DNS = {secrets["server"]["dns"]}']
+                client_config += [f'DNS = {', '.join(dns_servers)}']
 
         client_config += [f'[Peer]']
         client_config += [f'PublicKey = {secrets["server"]["public"]}']
         client_config += [f'Endpoint = {secrets["server"]["endpoint"]}']
-        client_config += [f'AllowedIPs = 0.0.0.0/0']
+        client_config += [f'AllowedIPs = 0.0.0.0/0, ::/0']
         client_config = '\n'.join(client_config)
 
         # Output client config path
