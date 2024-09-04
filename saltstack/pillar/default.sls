@@ -12,6 +12,10 @@ packages:
   # Packages, going to be installed for all
   - pwgen
   - multitail
+  - traceroute
+  - iperf3
+  - iproute2
+  - net-tools
 
 # List of packages, will be installed to system venv,
 # Use `/opt/venv/system/bin/python` as interpreter
