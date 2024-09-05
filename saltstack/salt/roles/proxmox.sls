@@ -72,14 +72,6 @@ pve-repository:
     - name: deb http://download.proxmox.com/debian/pve {{ grains['oscodename'] }} pve-no-subscription
     - clean_file: True
 
-{% if pillar.apt.use_src %}
-pve-repository-src:
-  pkgrepo.managed:
-    - file: /etc/apt/sources.list.d/pve-src.list
-    - name: deb-src http://download.proxmox.com/debian/pve {{ grains['oscodename'] }} pve-no-subscription
-    - clean_file: True
-{% endif %}
-
 # Remove proprietary repos
 /etc/apt/sources.list.d/pve-enterprise.list:
   file.absent: []
