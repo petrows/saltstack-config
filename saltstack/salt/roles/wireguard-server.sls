@@ -65,8 +65,14 @@ amnezia-pkg:
 {% set peers = salt['pillar.get']('pws_secrets:wireguard:'+server_id+':client', {}) %}
 {% if server_type == 'wg' %}
 {% set server_conf_path = '/etc/wireguard/wg-' + server_id + '.conf' %}
+# Cleanup "opposite"
+{{ '/etc/amnezia/amneziawg/awg-' + server_id + '.conf'}}:
+  file.absent: []
 {% elif server_type == 'awg' %}
 {% set server_conf_path = '/etc/amnezia/amneziawg/awg-' + server_id + '.conf' %}
+# Cleanup "opposite"
+{{ '/etc/wireguard/wg-' + server_id + '.conf'}}:
+  file.absent: []
 {% endif %}
 
 # Deploy server config
