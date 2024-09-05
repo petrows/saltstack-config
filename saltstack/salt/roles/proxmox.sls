@@ -91,3 +91,25 @@ pveproxy.service:
   service.running:
     - watch:
       - file: /etc/pve/local/*
+
+# Install AmneziaWG as kernel module
+amnezia-repo:
+  pkgrepo.managed:
+    - name: deb https://ppa.launchpadcontent.net/amnezia/ppa/ubuntu focal main
+    - file: /etc/apt/sources.list.d/amnezia.list
+    - clean_file: True
+    - keyid: 75C9DD72C799870E310542E24166F2C257290828
+    - keyserver: keyserver.ubuntu.com
+
+amnezia-src-repo:
+  pkgrepo.managed:
+    - name: deb-src https://ppa.launchpadcontent.net/amnezia/ppa/ubuntu focal main
+    - file: /etc/apt/sources.list.d/amnezia-src.list
+    - clean_file: True
+    - keyid: 75C9DD72C799870E310542E24166F2C257290828
+    - keyserver: keyserver.ubuntu.com
+
+amnezia-pkg:
+  pkg.installed:
+    - pkgs:
+      - amneziawg

@@ -12,3 +12,7 @@ ssh:
   # Root authorized_keys is symlink to pve virtual folder,
   # it will fail if hypervisor is unable to start!
   allow_pw: True
+
+# AWG requires to setup deb-src!
+apt:
+  use_src: True

@@ -3,6 +3,10 @@
 roles:
   - wireguard-server
 
+# AWG requires to setup deb-src!
+apt:
+  use_src: True
+
 {#
 
 Configuration example for pillar:
