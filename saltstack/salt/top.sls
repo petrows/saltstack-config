@@ -20,9 +20,6 @@ base:
   'roles:monitoring':
     - match: pillar
     - roles.monitoring
-  'tmp_ramdisk:True':
-    - match: pillar
-    - roles.tmp-ramdisk
   'roles:mail-relay':
     - match: pillar
     - roles.mail-relay

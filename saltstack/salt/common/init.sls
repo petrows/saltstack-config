@@ -213,3 +213,20 @@ systemd-tmpfiles-restart:
     - serializer: yaml
     - dataset_pillar: 'network:netplan'
 {% endif %}
+
+# TMP ramdisk?
+{% if pillar.tmp_ramdisk %}
+tmp_ramdisk:
+  mount.mounted:
+    - name: /tmp
+    - device: tmpfs
+    - fstype: tmpfs
+    - mkmnt: True
+    - opts:
+      - defaults
+{% else %}
+tmp_ramdisk:
+  mount.unmounted:
+    - name: /tmp
+    - persist: True
+{% endif %}

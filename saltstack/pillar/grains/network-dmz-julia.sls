@@ -1,5 +1,8 @@
 # Config for machines in Julia network
 
+# Set ramdisk as default, to save flash resource
+tmp_ramdisk: True
+
 upgrades:
   # Do not install upgrades on remote hosts
   auto: False
