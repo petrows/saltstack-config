@@ -1,5 +1,14 @@
 base:
 
+  # Grains
+  'os:Ubuntu':
+    - match: grain
+    - grains.ubuntu
+
+  'os:Debian':
+    - match: grain
+    - grains.debian
+
   '*':
     - common
     - common.users

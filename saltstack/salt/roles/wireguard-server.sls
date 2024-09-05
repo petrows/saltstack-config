@@ -20,21 +20,6 @@ wireguard-pkg:
 
 # Install Amneziawg?
 {% if ns.cfg.awg or salt['pillar.get']('wireguard:awg', None) %}
-# FIXME: move to grains
-/etc/apt/sources.list.d/ubuntu.sources:
-  file.managed:
-    - contents: |
-        Types: deb deb-src
-        URIs: http://de.archive.ubuntu.com/ubuntu
-        Suites: {{ grains.oscodename }} {{ grains.oscodename }}-updates {{ grains.oscodename }}-backports
-        Components: main restricted universe multiverse
-        Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
-
-        Types: deb deb-src
-        URIs: http://security.ubuntu.com/ubuntu
-        Suites: {{ grains.oscodename }}-security
-        Components: main restricted universe multiverse
-        Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 amnezia-repo:
   pkgrepo.managed:
     - name: deb https://ppa.launchpadcontent.net/amnezia/ppa/ubuntu {{ grains.oscodename }} main

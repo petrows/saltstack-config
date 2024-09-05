@@ -17,6 +17,11 @@ packages:
   - iproute2
   - net-tools
 
+# Apt options
+apt:
+  # Add deb-src to default sources?
+  use_src: False
+
 # List of packages, will be installed to system venv,
 # Use `/opt/venv/system/bin/python` as interpreter
 packages_pip3: []
