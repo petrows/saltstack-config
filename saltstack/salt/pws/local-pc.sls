@@ -83,6 +83,7 @@ local-pc-soft:
       - keepassxc
       # Text editor
       - kate
+      - okteta
       # Media viewers
       - okular
       - gwenview

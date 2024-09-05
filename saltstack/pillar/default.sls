@@ -219,6 +219,7 @@ i3:
       text/plain: org.kde.kate.desktop
       text/markdown: org.kde.kate.desktop
       text/x-patch: org.kde.kate.desktop
+      application/octet-stream: org.kde.okteta.desktop
       # Use KDE apps to open media types
       application/pdf: org.kde.okular.desktop
       application/x-fictionbook+xml: org.kde.okular.desktop
