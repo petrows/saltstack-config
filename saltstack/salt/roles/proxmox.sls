@@ -72,6 +72,14 @@ pve-repository:
     - name: deb http://download.proxmox.com/debian/pve {{ grains['oscodename'] }} pve-no-subscription
     - clean_file: True
 
+{% if pillar.apt.use_src %}
+pve-repository-src:
+  pkgrepo.managed:
+    - file: /etc/apt/sources.list.d/pve-src.list
+    - name: deb-src http://download.proxmox.com/debian/pve {{ grains['oscodename'] }} pve-no-subscription
+    - clean_file: True
+{% endif %}
+
 # Remove proprietary repos
 /etc/apt/sources.list.d/pve-enterprise.list:
   file.absent: []
@@ -93,23 +101,23 @@ pveproxy.service:
       - file: /etc/pve/local/*
 
 # Install AmneziaWG as kernel module
-amnezia-repo:
-  pkgrepo.managed:
-    - name: deb https://ppa.launchpadcontent.net/amnezia/ppa/ubuntu focal main
-    - file: /etc/apt/sources.list.d/amnezia.list
-    - clean_file: True
-    - keyid: 75C9DD72C799870E310542E24166F2C257290828
-    - keyserver: keyserver.ubuntu.com
+# amnezia-repo:
+#   pkgrepo.managed:
+#     - name: deb https://ppa.launchpadcontent.net/amnezia/ppa/ubuntu focal main
+#     - file: /etc/apt/sources.list.d/amnezia.list
+#     - clean_file: True
+#     - keyid: 75C9DD72C799870E310542E24166F2C257290828
+#     - keyserver: keyserver.ubuntu.com
 
-amnezia-src-repo:
-  pkgrepo.managed:
-    - name: deb-src https://ppa.launchpadcontent.net/amnezia/ppa/ubuntu focal main
-    - file: /etc/apt/sources.list.d/amnezia-src.list
-    - clean_file: True
-    - keyid: 75C9DD72C799870E310542E24166F2C257290828
-    - keyserver: keyserver.ubuntu.com
+# amnezia-src-repo:
+#   pkgrepo.managed:
+#     - name: deb-src https://ppa.launchpadcontent.net/amnezia/ppa/ubuntu focal main
+#     - file: /etc/apt/sources.list.d/amnezia-src.list
+#     - clean_file: True
+#     - keyid: 75C9DD72C799870E310542E24166F2C257290828
+#     - keyserver: keyserver.ubuntu.com
 
-amnezia-pkg:
-  pkg.installed:
-    - pkgs:
-      - amneziawg
+# amnezia-pkg:
+#   pkg.installed:
+#     - pkgs:
+#       - amneziawg
