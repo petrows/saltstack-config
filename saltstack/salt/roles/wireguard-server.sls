@@ -1,5 +1,8 @@
 # Role for generic wireguard server
 
+{% set iptables_enable =  salt['pillar.get']('wireguard:iptables', True) %}
+{% set iptables_persistent =  salt['pillar.get']('wireguard:iptables_persistent', True) %}
+
 {% set default_if = salt['network.default_route']('inet')[0]['interface'] %}
 {% set default_ip = salt['network.ip_addrs'](default_if)[0] %}
 {% set ns = namespace (cfg = {'awg': False}) %}
@@ -16,7 +19,9 @@ wireguard-pkg:
       - wireguard
       - wireguard-tools
       - iptables
+      {% if iptables_persistent %}
       - iptables-persistent
+      {% endif %}
 
 # Install Amneziawg?
 {% if ns.cfg.awg or salt['pillar.get']('wireguard:awg', None) %}
@@ -42,7 +47,6 @@ amnezia-pkg:
 
 # Server config(s)
 
-{% set iptables_enable =  salt['pillar.get']('wireguard:iptables', True) %}
 
 {% for server_id, server in salt['pillar.get']('wireguard-server', {}).items() %}
 {% set server_type = server.get('type', 'wg') %}
