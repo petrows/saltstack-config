@@ -169,6 +169,9 @@ base:
   'nexum.*':
     - pws.nexum
 
+  'vpn-gw.pws':
+    - pws.vpn-gw
+
   'cz.vds.*':
     - pws.cz-vds
 

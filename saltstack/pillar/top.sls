@@ -181,6 +181,9 @@ base:
   'bank.pws':
     - services.firefly-prod
 
+  'vpn-gw.pws':
+    - pws.vpn-gw
+
   #'home.ows':
   #  - services.openhab-office
 
