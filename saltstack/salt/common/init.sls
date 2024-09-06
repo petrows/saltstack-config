@@ -216,6 +216,12 @@ systemd-tmpfiles-restart:
     - mode: 600
     - serializer: yaml
     - dataset_pillar: 'network:netplan'
+# Test config if changed
+netplan-validate:
+  cmd.run:
+    - name: 'netplan generate'
+    - onchanges:
+      - file: /etc/netplan/*
 {% endif %}
 
 # TMP ramdisk?
