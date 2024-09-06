@@ -29,13 +29,19 @@ net.ipv4.ip_forward:
         auto vmbr0
         iface vmbr0 inet static
             hwaddress 00:4d:54:62:ac:00
-            address 10.82.0.4/24
-            gateway 10.82.0.1
+            address {{ pillar.static_network.hosts.j_pve.lan.ipv4.addr }}/{{ pillar.static_network.hosts.j_pve.lan.ipv4.size }}
+            gateway {{ pillar.static_network.networks.j_lan.ipv4.gw }}
             bridge_ports eth-lan
             bridge_vlan_aware yes
             bridge-vids 2-4094
             bridge_stp off
             bridge_fd 0
+            post-up iptables -t nat -A PREROUTING -p tcp -d {{ pillar.static_network.hosts.j_pve.lan.ipv4.addr }} --dport 443 -j REDIRECT --to-ports 8006
+
+        iface vmbr0 inet6 static
+            address {{ pillar.static_network.hosts.j_pve.lan.ipv6.addr }}/{{ pillar.static_network.hosts.j_pve.lan.ipv6.size }}
+            gateway {{ pillar.static_network.networks.j_lan.ipv6.gw }}
+            post-up ip6tables -t nat -A PREROUTING -p tcp -d {{ pillar.static_network.hosts.j_pve.lan.ipv6.addr }} --dport 443 -j REDIRECT --to-ports 8006
 
         # GUEST
         auto vmbr0.3

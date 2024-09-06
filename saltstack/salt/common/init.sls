@@ -203,9 +203,13 @@ systemd-tmpfiles-restart:
 
 # Netplan config?
 {% if pillar.network.netplan %}
+# Remove legacy direct config
+/etc/systemd/network/10-interface-lan.link:
+  file.absent: []
+# Remove default ubuntu config file
 /etc/netplan/50-cloud-init.yaml:
   file.absent: []
-
+# Our PWS config
 /etc/netplan/00-pws.yaml:
   file.serialize:
     - makedirs: True

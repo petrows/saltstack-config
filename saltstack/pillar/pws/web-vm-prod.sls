@@ -12,13 +12,15 @@ network:
       version: 2
       renderer: networkd
       ethernets:
-        eth0:
+        eth-lan:
           match:
             macaddress: ea:5f:a5:bd:84:81
-          set-name: lan
+          set-name: eth-lan
+          # ipv4: auto
           dhcp4: yes
+          # ipv6: static
           addresses:
-            - {{ static_network.hosts.pws_web_vm.ipv6 }}/{{ static_network.networks.pws_dmz.ipv6.size }}
+            - {{ static_network.hosts.pws_web_vm.lan.ipv6.addr }}/{{ static_network.hosts.pws_web_vm.lan.ipv6.size }}
           routes:
             - to: "::/0"
               via: {{ static_network.networks.pws_dmz.ipv6.gw }}

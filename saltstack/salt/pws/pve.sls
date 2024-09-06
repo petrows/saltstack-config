@@ -27,20 +27,19 @@ pve-net-deps:
         auto vmbr0
         iface vmbr0 inet static
             hwaddress 00:1b:21:3a:52:c6
-            address 10.80.0.2
-            netmask 255.255.255.0
-            gateway 10.80.0.1
+            address {{ pillar.static_network.hosts.pws_pve.lan.ipv4.addr }}/{{ pillar.static_network.hosts.pws_pve.lan.ipv4.size }}
+            gateway {{ pillar.static_network.networks.pws_lan.ipv4.gw }}
             bridge_ports eth-lan eth-pc
             bridge_vlan_aware yes
             bridge-vids 2-4094
             bridge_stp off
             bridge_fd 0
-            post-up iptables -t nat -A PREROUTING -p tcp -d 10.80.0.2 --dport 443 -j REDIRECT --to-ports 8006
+            post-up iptables -t nat -A PREROUTING -p tcp -d {{ pillar.static_network.hosts.pws_pve.lan.ipv4.addr }} --dport 443 -j REDIRECT --to-ports 8006
 
         iface vmbr0 inet6 static
-            address {{ pillar.static_network.hosts.pws_pve.ipv6 }}/{{ pillar.static_network.networks.pws_lan.ipv6.size }}
+            address {{ pillar.static_network.hosts.pws_pve.lan.ipv6.addr }}/{{ pillar.static_network.hosts.pws_pve.lan.ipv6.size }}
             gateway {{ pillar.static_network.networks.pws_lan.ipv6.gw }}
-            post-up ip6tables -t nat -A PREROUTING -p tcp -d {{ pillar.static_network.hosts.pws_pve.ipv6 }} --dport 443 -j REDIRECT --to-ports 8006
+            post-up ip6tables -t nat -A PREROUTING -p tcp -d {{ pillar.static_network.hosts.pws_pve.lan.ipv6.addr }} --dport 443 -j REDIRECT --to-ports 8006
 
         # GUEST
         auto vmbr0.20

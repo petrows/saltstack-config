@@ -28,19 +28,24 @@ pve-modules:
     - mods:
       - overlay
 
-systemd-timesyncd.service:
-  service.masked: []
-
-pve-ntp-packages:
+# Common packages
+pve-packages:
   pkg.installed:
     - pkgs:
+      - ifupdown2
+      # Time sync
       - ntp
+      # Wireguard for LXC
+      - wireguard
+
+systemd-timesyncd.service:
+  service.masked: []
 
 ntp.service:
   service.running:
     - enable: True
     - require:
-      - pkg: pve-ntp-packages
+      - pkg: pve-packages
 
 # Users mapping for unprevileged containers
 
@@ -57,13 +62,6 @@ ntp.service:
         root:0:6553600
         salt:6553600:65536
         master:6619136:65536
-
-# Wireguard for LXC
-
-pve-wireguard-pkg:
-  pkg.installed:
-    - pkgs:
-      - wireguard
 
 # PVE repos
 pve-repository:
