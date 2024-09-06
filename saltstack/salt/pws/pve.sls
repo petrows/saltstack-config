@@ -38,9 +38,9 @@ pve-net-deps:
             post-up iptables -t nat -A PREROUTING -p tcp -d 10.80.0.2 --dport 443 -j REDIRECT --to-ports 8006
 
         iface vmbr0 inet6 static
-            address {{ pillar.static.hosts.pve.ipv6 }}/64
-            gateway {{ pillar.static.ipv6.pws.lan.gw }}
-            post-up ip6tables -t nat -A PREROUTING -p tcp -d {{ pillar.static.hosts.pve.ipv6 }} --dport 443 -j REDIRECT --to-ports 8006
+            address {{ pillar.static_network.hosts.pws_pve.ipv6 }}/{{ pillar.static_network.networks.pws_lan.ipv6.size }}
+            gateway {{ pillar.static_network.networks.pws_lan.ipv6.gw }}
+            post-up ip6tables -t nat -A PREROUTING -p tcp -d {{ pillar.static_network.hosts.pws_pve.ipv6 }} --dport 443 -j REDIRECT --to-ports 8006
 
         # GUEST
         auto vmbr0.20

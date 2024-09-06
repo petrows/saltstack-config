@@ -1,4 +1,5 @@
 {% import_yaml 'static.yaml' as static %}
+{% import_yaml 'network.yaml' as static_network %}
 
 roles:
   - php-docker
@@ -17,10 +18,10 @@ network:
           set-name: lan
           dhcp4: yes
           addresses:
-            - {{ static.hosts.web_vm.ipv6 }}/64
+            - {{ static_network.hosts.pws_web_vm.ipv6 }}/{{ static_network.networks.pws_dmz.ipv6.size }}
           routes:
             - to: "::/0"
-              via: {{ static.ipv6.pws.dmz.gw }}
+              via: {{ static_network.networks.pws_dmz.ipv6.gw }}
               on-link: true
 
 # Force generate new dhparm keys for Nginx (required for external servers)

@@ -337,3 +337,6 @@ systemd-cron: {}
 # Export static registry as pillar to be used in SLS
 {% import_yaml 'static.yaml' as static %}
 static: {{ static|yaml }}
+# Export static network config as pillar
+{% import_yaml 'network.yaml' as static %}
+static_network: {{ static|yaml }}
