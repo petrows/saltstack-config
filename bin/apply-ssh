@@ -36,6 +36,7 @@ parser.add_argument(
 parser.add_argument(
     '-l', '--log',
     choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
+    default='INFO',
     help='set log level',
 )
 
@@ -124,7 +125,12 @@ if True:
     if args.ip:
         host_ip = args.ip
     else:
-        host_ip = socket.gethostbyname(host)
+        host_ip_list = socket.getaddrinfo(host, 'ssh')
+        if not host_ip_list:
+            logging.error("DNS resolution error")
+            sys.exit(1)
+        host_ip = host_ip_list[0][4][0]
+    logging.info("Connecting: %s", host_ip)
 
     # Prepare user@host
     host_ssh = f"{args.user}@{host_ip}"
