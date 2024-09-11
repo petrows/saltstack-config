@@ -13,6 +13,7 @@ salt:
     web-vm.pws: {}
     bank.pws: {}
     nexum.pws: {}
+    vpn-gw.pws: {}
     # Julia
     pve.j.pws: {}
     home.j.pws: {}
