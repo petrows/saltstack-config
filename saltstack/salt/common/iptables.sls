@@ -2,59 +2,63 @@
 
 {% if pillar.iptables.managed %}
 
+{% set ipf = ['ipv4', 'ipv6'] %}
+
 iptables-pkg:
   pkg.installed:
     - pkgs:
       - iptables
       - iptables-persistent
 
-iptables-default-input:
+{% for f in ipf %}
+iptables-default-input-{{ f }}:
   iptables.set_policy:
     - chain: INPUT
-    - family: ipv4
+    - family: {{ f }}
     - policy: {% if pillar.iptables.strict_mode %}DROP{% else %}ACCEPT{% endif %}
     - save: True
 
-iptables-default-forward:
+iptables-default-forward-{{ f }}:
   iptables.set_policy:
     - chain: FORWARD
-    - family: ipv4
+    - family: {{ f }}
     - policy: {% if pillar.iptables.strict_mode %}DROP{% else %}ACCEPT{% endif %}
     - save: True
 
-iptables-port-allow-opened:
+iptables-port-allow-opened-{{ f }}:
   iptables.append:
     - table: filter
+    - family: {{ f }}
     - chain: INPUT
     - jump: ACCEPT
     - connstate: RELATED,ESTABLISHED
     - save: True
 
 # Allow localhost
-iptables-port-open-localhost:
+iptables-port-open-localhost-{{ f }}:
   iptables.append:
     - table: filter
+    - family: {{ f }}
     - chain: INPUT
     - jump: ACCEPT
     - source: localhost
     - save: True
 
-# Allow ping?
-{% if pillar.iptables.allow_ping %}
-iptables-port-open-ping:
+# Allow ping and ICMP always
+iptables-port-open-icmp-{{ f }}:
   iptables.append:
     - table: filter
+    - family: {{ f }}
     - chain: INPUT
     - jump: ACCEPT
     - proto: icmp
-    - icmp-type: echo-request
     - save: True
-{% endif %}
 
 # DNS
-iptables-port-open-dns:
+iptables-port-open-dns-{{ f }}:
   iptables.append:
     - table: filter
+    - family: {{ f }}
     - chain: INPUT
     - jump: ACCEPT
     - dport: 53
@@ -62,9 +66,10 @@ iptables-port-open-dns:
     - save: True
 
 # SSH port
-iptables-port-open-ssh:
+iptables-port-open-ssh-{{ f }}:
   iptables.append:
     - table: filter
+    - family: {{ f }}
     - chain: INPUT
     - jump: ACCEPT
     - dport: {{pillar.ssh.port }}
@@ -73,9 +78,10 @@ iptables-port-open-ssh:
 
 # Allowed ports
 {% for name, port in pillar.iptables.ports_open.items() %}
-iptables-port-open-{{ name }}:
+iptables-port-open-{{ name }}-{{ f }}:
   iptables.append:
     - table: filter
+    - family: {{ f }}
     - chain: INPUT
     - jump: ACCEPT
     - dport: {{ port.dst }}
@@ -85,9 +91,10 @@ iptables-port-open-{{ name }}:
 
 # Allowed hosts
 {% for name, host in pillar.iptables.hosts_open.items() %}
-iptables-host-open-{{ name }}:
+iptables-host-open-{{ name }}-{{ f }}:
   iptables.append:
     - table: filter
+    - family: {{ f }}
     - chain: INPUT
     - jump: ACCEPT
     - source: {{ host.source }}
@@ -97,10 +104,11 @@ iptables-host-open-{{ name }}:
 
 # Blocked filters?
 {% for name, str in pillar.iptables.strings_block.items() %}
-iptables-str-block-{{ name }}:
+iptables-str-block-{{ name }}-{{ f }}:
   iptables.append:
     - position: 0
     - table: filter
+    - family: {{ f }}
     - chain: FORWARD
     - jump: DROP
     - match: string
@@ -108,6 +116,8 @@ iptables-str-block-{{ name }}:
     - string: {{ str.string }}
     - save: True
 {% endfor %}
+
+{% endfor %} # Family
 
 {% else %}
 iptables-pkg:
