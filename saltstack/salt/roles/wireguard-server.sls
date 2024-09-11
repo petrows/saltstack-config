@@ -76,15 +76,9 @@ amnezia-pkg:
         PrivateKey = {{ server_secrets.private }}
         {% if server.get('fwmark', False) %}FwMark = {{ server.fwmark }}{% endif %}
 {%- if server_type == 'awg' %}
-        Jc = {{ server_secrets.awg.jc }}
-        Jmin = {{ server_secrets.awg.jmin }}
-        Jmax = {{ server_secrets.awg.jmax }}
-        S1 = 0
-        S2 = 0
-        H1 = 1
-        H2 = 2
-        H3 = 3
-        H4 = 4
+        {%- for k, v in server_secrets.awg.items() %}
+        {{ k }} = {{ v }}
+        {%- endfor %}
 {%- endif %}
 {%- for peer_id, peer in peers.items() %}
   {%- set peer_ip, peer_netmask = peer.address.split('/') %}
