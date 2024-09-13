@@ -287,6 +287,10 @@ base:
     - users.master
     - j.vpn
 
+  'vpn-gw.j.*':
+    - users.ssh-pve
+    - j.vpn-gw
+
   'web.j.*':
     - users.ssh-pve
     - users.master

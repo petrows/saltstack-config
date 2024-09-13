@@ -53,6 +53,9 @@ base:
   'roles:wireguard-server':
     - match: pillar
     - roles.wireguard-server
+  'roles:awg-server':
+    - match: pillar
+    - roles.awg-server
   'roles:l2tp-server':
     - match: pillar
     - roles.l2tp-server
@@ -197,3 +200,6 @@ base:
 
   'vpn.j.pws':
     - j.vpn
+
+  'vpn-gw.j.pws':
+    - j.vpn-gw
