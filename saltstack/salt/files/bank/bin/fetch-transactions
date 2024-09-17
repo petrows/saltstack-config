@@ -68,6 +68,15 @@ transaction_import_config = {
 
 iso_date_regex = re.compile(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}')
 
+transaction_replace_text = [
+    {
+        'regex': r'^(PayPal Europe S\.a\.r\.l\. et Cie S\.C\.A \d+)/\. (.*)$',
+        'replace': r'\2 / \1',
+        'start_date': datetime.datetime(2024, 9, 17),
+    },
+]
+
+
 # Max errors per service, to throw an error
 max_errors = 5
 
@@ -330,6 +339,14 @@ def main():
                     # )
                     transaction_csv['date_book'] = iso_date_match
                     transaction_csv['date_transaction'] = iso_date_match
+
+            # Calculate final transaction date (if any)
+            transaction_date = datetime.datetime.fromisoformat(transaction_csv['date_transaction'])
+
+            # Replace description, if requested
+            for repl in transaction_replace_text:
+                if transaction_date >= repl['start_date']:
+                    transaction_csv['description'] = re.sub(repl['regex'], repl['replace'], transaction_csv['description'])
 
             # Build tags
             transaction_csv['tags-comma'] = ','.join(transaction_tags)
