@@ -1,7 +1,10 @@
 #!/opt/venv/app/bin/python
 
 import datetime
+from pathlib import Path
 import sys
+
+is_vacation = Path('/etc/is-vacation').exists()
 
 x = datetime.datetime.now()
 
@@ -9,6 +12,8 @@ hour = int(x.strftime('%H'))
 wday = int(x.strftime('%w'))
 
 if (
+    not is_vacation
+    and
     (hour >= 6 and hour <= 18)
     and (wday >= 1 and wday <= 5)
 ):
