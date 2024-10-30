@@ -11,6 +11,13 @@ if [[ -f /proc/acpi/button/lid/LID0/state ]]; then
     fi
 fi
 
+# Check that we have only one display?
+DISPLAY_COUNT=$(xrandr | grep -w connected | wc -l)
+# One display (built-in + 1)
+if [[ "$DISPLAY_COUNT" -eq "2" ]] && [[ -f ~/.config/i3/layout.d/${CFG_ID}-1.conf ]]; then
+    CFG_ID="${CFG_ID}-1"
+fi
+
 # Default: return hostname
 if [[ -f ~/.config/i3/layout.d/$CFG_ID.conf ]]; then
     echo "$CFG_ID"
