@@ -1,4 +1,6 @@
 #!/bin/bash -xe
+# Detect current version
+DOWNLOAD_URL=$(curl -q 'https://mikrotik.com/download' | grep -oP 'https://download.mikrotik.com/routeros/winbox/(.*)/winbox64.exe')
 # Download and update winbox mikrotik tooling
-wget https://mt.lv/winbox64 -O ~/bin/winbox
+wget $DOWNLOAD_URL -O ~/bin/winbox
 chmod +x ~/bin/winbox
