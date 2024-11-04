@@ -1,6 +1,6 @@
 # Config salt-minion for servers
 
-{% if pillar.salt_auto_apply %}
+{% if pillar.saltstack.auto_apply %}
 # Apply state on startup
 startup_states: highstate
 {%- endif %}

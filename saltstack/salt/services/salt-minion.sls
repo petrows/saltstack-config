@@ -9,26 +9,20 @@ salt-minion-config:
     - template: jinja
 
 # Manage Slatstack repo
-{% set key_url = 'https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/SALT-PROJECT-GPG-PUBKEY-2023.gpg' %}
-{% set osname = grains.os|lower %}
-{% set oscodename = grains.oscodename %}
-{% set osrelease = grains.osrelease %}
-{% if grains.os == 'Ubuntu' and grains.osmajorrelease >= 24 %}
-  # We have to use 22.04 version, while no new repo yet
-  {% set osname = grains.os|lower %}
-  {% set oscodename = 'jammy' %}
-  {% set osrelease = '22.04' %}
-{% endif %}
-{% if osname == 'raspbian' %}
-  {% set os_url = 'https://repo.saltproject.io/py3/debian/' + osrelease + '/' + grains.osarch + '/latest' %}
-{% else %}
-# Repo path
-  {% set os_url = 'https://repo.saltproject.io/salt/py3/' + osname + '/' + osrelease + '/' + grains.osarch + '/latest' %}
-{% endif %}
+{% set key_url = 'https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public' %}
+
+saltstack-version:
+  file.managed:
+    - name: /etc/apt/preferences.d/saltstack-version
+    - contents: |
+        Package: salt-*
+        Pin: version {{ pillar.saltstack.version }}.*
+        Pin-Priority: 1001
+
 saltstack-repo:
   pkgrepo.managed:
     - file: /etc/apt/sources.list.d/saltstack.list
-    - name: deb {{ os_url }} {{ oscodename }} main
+    - name: deb https://packages.broadcom.com/artifactory/saltproject-deb/ stable main
     - key_url: {{ key_url }}
     - clean_file: True
 

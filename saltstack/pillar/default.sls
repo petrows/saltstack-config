@@ -47,7 +47,9 @@ check_mk_agent:
   filename: {{ static.check_mk.filename }}
 
 # If set, salt will be armed to auto-apply on connect (default for servers)
-salt_auto_apply: False
+saltstack:
+  version: 3007
+  auto_apply: False
 
 # All local emails will be delivered to this one
 maintainer_email: petro@petro.ws

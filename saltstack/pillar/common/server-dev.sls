@@ -1,5 +1,6 @@
 # Do not auto update server from -dev scope
-salt_auto_apply: False
+saltstack:
+  auto_apply: False
 
 # Do not erase Vagrant SSH keys
 ssh:
