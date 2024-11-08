@@ -1,0 +1,12 @@
+service check_mk
+{
+        type           = UNLISTED
+        port           = 6556
+        socket_type    = stream
+        protocol       = tcp
+        wait           = no
+        user           = root
+        server         = /usr/sbin/check_mk_agent
+        only_from      = 10.80.0.0/24
+        disable        = no
+}
