@@ -61,7 +61,7 @@ docker_compose:
   services: {}
 
 docker:
-  subnet: 172.16.0.0/12
+  subnet: 172.18.0.0/12
   subnet_size: 24
   ipv6_cidr: fdfd:8b2c:086d:ecbd::/64
 
