@@ -11,6 +11,7 @@
     {%- if pillar.docker.mirror|default(None) %}
     "registry-mirrors": ["{{ pillar.docker.mirror.split(' ')|join('","') }}"],
     {%- endif %}
+    "bip": "{{ pillar.docker.bip }}",
     "default-address-pools": [
         {
             "base": "{{ pillar.docker.subnet }}",
