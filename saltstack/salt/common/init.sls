@@ -173,7 +173,7 @@ nfs-export-{{ id }}:
         [Time]
         # We leave NTP as default (network-provided) and provide secondary
         FallbackNTP={{ pillar.network.ntp }}
-        RootDistanceMaxSec=5
+        RootDistanceMaxSec=30
         PollIntervalMinSec=32
         PollIntervalMaxSec=2048
         ConnectionRetrySec=30
