@@ -78,6 +78,10 @@ base:
   'G@virtual:physical':
     - match: compound
     - grains.host-physical
+# RPI machines
+  'G@productname:Raspberry*':
+    - match: compound
+    - grains.rpi
 
 # Separate hosts config
   'pve.*':
