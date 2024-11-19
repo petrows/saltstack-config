@@ -269,3 +269,6 @@ exec --no-startup-id bash -c 'killall kilpper ; sleep 5 ; XDG_CURRENT_DESKTOP="k
 # Composite
 exec --no-startup-id compton -b --config ~/.config/compton/compton.conf
 {% endif %}
+# KDE polkit manager
+# See: https://wiki.ubuntuusers.de/PolicyKit/
+exec --no-startup-id /usr/lib/x86_64-linux-gnu/libexec/polkit-kde-authentication-agent-1
