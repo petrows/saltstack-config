@@ -187,6 +187,21 @@ lens-repo:
     - key_url: https://downloads.k8slens.dev/keys/gpg
     - clean_file: True
 
+# Kustomize
+kustomize-installer:
+  archive.extracted:
+    - name: /opt/kustomize-{{ pillar.kustomize.version }}/
+    - source: https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv{{ pillar.kustomize.version }}/kustomize_v{{ pillar.kustomize.version }}_linux_amd64.tar.gz
+    - skip_verify: True
+    - enforce_toplevel: False
+
+/usr/local/bin/kustomize:
+  file.symlink:
+    - target: /opt/kustomize-{{ pillar.kustomize.version }}/kustomize
+    - force: True
+    - require:
+      - archive: kustomize-installer
+
 # Loop over allowed users on this server
 {% for user_id, user in salt['pillar.get']('users', {}).items() %}
 local-pc-configs-{{ user_id }}:

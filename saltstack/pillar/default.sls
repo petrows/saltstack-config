@@ -204,6 +204,9 @@ php-docker:
 telegram:
   version: 4.16.6
 
+kustomize:
+  version: 5.5.0
+
 xsession:
   gtk_scale: 1.0
   qt_dpi: 138
