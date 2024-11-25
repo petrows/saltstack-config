@@ -215,6 +215,8 @@ base:
   'k8s-*.pws':
     - services.k8s
     - services.k8s-node
+  'k8s-cp.pws':
+    - services.k8s-cp
 
 # External backup system
   'backup-ext.pws':

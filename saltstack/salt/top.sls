@@ -139,6 +139,9 @@ base:
   'roles:k8s':
     - match: pillar
     - services.k8s
+  'roles:k8s-cp':
+    - match: pillar
+    - services.k8s-cp
   'roles:octoprint':
     - match: pillar
     - services.octoprint
