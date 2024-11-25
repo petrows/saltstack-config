@@ -5,7 +5,7 @@ roles:
   - docker
 
 k8s:
-  version: '1.30'
+  version: '1.31'
   # Start services as node?
   node: False
   # Support software
