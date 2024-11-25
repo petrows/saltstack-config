@@ -21,4 +21,5 @@
         kubernetesVersion: {{ pillar.k8s.version }}.0
         controlPlaneEndpoint: "{{ pillar.k8s.init.controlPlaneEndpoint}}"
         networking:
+          serviceSubnet: {{ pillar.k8s.init.networking.serviceSubnet}}
           podSubnet: {{ pillar.k8s.init.networking.podSubnet}}
