@@ -3,6 +3,9 @@
 kernel-modules:
   br_netfilter: True
 
+# No swap allowed
+swap_size_mb: 0
+
 k8s:
   # Start services as node?
   node: True

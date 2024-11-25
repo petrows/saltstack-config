@@ -2,6 +2,9 @@
 
 {% import_yaml 'static.yaml' as static %}
 
+# No swap allowed
+swap_size_mb: 0
+
 roles:
   - k8s-cp
 
