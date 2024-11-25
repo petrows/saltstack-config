@@ -10,6 +10,8 @@ roles:
 
 k8s:
   init:
-    controlPlaneEndpoint: "k8s-cp.pws:6443"
+    # We should use ip-address here, for nodes, where internal DNS
+    # is not avalaible
+    controlPlaneEndpoint: "10.80.0.7:6443"
     networking:
       podSubnet: 10.99.0.0/16
