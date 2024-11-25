@@ -2,7 +2,6 @@
 
 roles:
   - k8s
-  - docker
 
 k8s:
   version: '1.31'
