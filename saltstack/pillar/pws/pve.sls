@@ -58,16 +58,28 @@ mounts:
     type: ext4
     opts: rw,noexec,nosuid
 
+{%
+  set allow_nfs = [
+    '10.80.0.0/24',
+    '10.80.7.0/24',
+    '2001:470:73fe:1::/64',
+    '2001:470:73fe:7::/64',
+  ]
+%}
+
 nfs-exports:
   media:
-    path: /srv/pws-media/media/video
-    hosts: '10.80.0.0/24'
-    opts:
-     - ro
-     - sync
-     - insecure
-     - no_root_squash
-     - no_subtree_check
+    path: /srv/pws-media/media
+    hosts:
+    {% for net in allow_nfs %}
+    - host: '{{ net }}'
+      opts:
+      - ro
+      - sync
+      - insecure
+      - no_root_squash
+      - no_subtree_check
+    {% endfor %}
 
 # Backup service
 ssh:

@@ -102,10 +102,13 @@ nfs-packages:
 nfs-export-{{ id }}:
   nfs_export.present:
     - name: {{ export.path }}
-    - hosts: {{ export.hosts }}
-    - options:
-    {% for opt in export.opts %}
-      - {{ opt }}
+    - clients:
+    {% for host in export.hosts %}
+      - hosts: {{ host.host }}
+        options:
+      {% for opt in host.opts %}
+        - {{ opt }}
+      {% endfor %}
     {% endfor %}
     - require:
       - pkg: nfs-packages
