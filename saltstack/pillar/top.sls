@@ -63,6 +63,7 @@ base:
   '10.88.0.0/16':
     - match: ipcidr
     - grains.network-dmz
+    - grains.network-dmz-w
 
   # Special network conig
   # Mobile devices
@@ -308,6 +309,5 @@ base:
 
 # W hosts
   'pve.w.*':
-    #'pve.t.*':
-      - grains.host-hdd
-      - w.pve
+    - grains.host-hdd
+    - w.pve
