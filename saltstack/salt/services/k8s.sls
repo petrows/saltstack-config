@@ -14,6 +14,7 @@ k8s-pkg:
       - kubeadm: '{{ pillar.k8s.version }}.*'
       - kubectl: '{{ pillar.k8s.version }}.*'
       - kubectx
+      - containerd
     - refresh: True
     - require:
       - pkgrepo: k8s-repository
@@ -55,6 +56,7 @@ net.bridge.bridge-nf-call-iptables:
 
 /etc/containerd/config.toml:
   file.managed:
+    - makedirs: True
     - contents: |
         version = 2
         [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
