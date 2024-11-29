@@ -59,6 +59,10 @@ base:
     - grains.region-ru
     - grains.network-dmz
     - grains.network-dmz-julia
+  # w
+  '10.88.0.0/16':
+    - match: ipcidr
+    - grains.network-dmz
 
   # Special network conig
   # Mobile devices
@@ -301,3 +305,9 @@ base:
     - users.ssh-pve
     - users.master
     - j.web
+
+# W hosts
+  'pve.w.*':
+    #'pve.t.*':
+      - grains.host-hdd
+      - w.pve
