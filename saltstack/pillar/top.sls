@@ -216,11 +216,11 @@ base:
   'metrics.dev':
     - services.metrics
 
-# Test k8s machines
+# K8S Nodes
   'k8s-*.pws':
     - services.k8s
     - services.k8s-node
-  'k8s-cp.pws':
+  'k8s-cp-*.pws':
     - services.k8s-cp
 
 # External backup system
@@ -311,7 +311,4 @@ base:
   'pve.w.*':
     - grains.host-hdd
     - w.pve
-  'k8s-cp.w.*':
-    - w.k8s-cp
-  'k8s-node-1.w.*':
-    - w.k8s-node-1
+

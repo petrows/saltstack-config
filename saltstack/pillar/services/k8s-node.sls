@@ -13,3 +13,19 @@ k8s:
 # Disable iptables management
 iptables:
   managed: False
+
+# Static network config: use root NS
+network:
+  netplan:
+    network:
+      version: 2
+      renderer: networkd
+      ethernets:
+        eth-lan:
+          match:
+            name: ens*
+          set-name: eth-lan
+          # ipv4: auto
+          dhcp4: yes
+          nameservers:
+            addresses: [10.80.0.1]

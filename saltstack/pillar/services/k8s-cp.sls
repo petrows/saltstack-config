@@ -12,7 +12,7 @@ k8s:
   init:
     # We should use ip-address here, for nodes, where internal DNS
     # is not avalaible
-    controlPlaneEndpoint: "k8s-cp.pws:6443"
+    controlPlaneEndpoint: "k8s-cp-h1.pws:6443"
     networking:
       serviceSubnet: "10.98.0.0/16"
       podSubnet: "10.99.0.0/16"
