@@ -1,0 +1,26 @@
+#!/bin/bash -xe
+
+MASTER_IP=system.pws
+
+useradd -m --uid 2021 salt
+
+curl -fsSL -o /etc/apt/keyrings/salt-archive-keyring-2023.pgp https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public
+
+echo "deb [signed-by=/etc/apt/keyrings/salt-archive-keyring-2023.pgp arch=amd64] https://packages.broadcom.com/artifactory/saltproject-deb/ stable main" | tee /etc/apt/sources.list.d/saltstack.list
+
+apt update
+apt install -y salt-minion
+
+echo "Apply custom config for dev-minion, id = ${hostname}, master = ${MASTER_IP}"
+
+echo $MINION_ID>/etc/salt/minion_id
+
+tee /etc/salt/minion <<EOT
+# Master to connect
+master: ${MASTER_IP}
+# Enable some logging for watch
+log_level: info
+log_file: /var/log/salt/minion
+EOT
+
+systemctl restart salt-minion.service
