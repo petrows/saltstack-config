@@ -313,3 +313,5 @@ base:
     - w.pve
   'k8s-node-w*':
     - w.k8s-node
+  'k8s-node-j*':
+    - w.k8s-node
