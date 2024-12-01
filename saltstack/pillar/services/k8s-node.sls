@@ -1,5 +1,8 @@
 {% import_yaml 'static.yaml' as static %}
 
+roles:
+  - k8s-node
+
 kernel-modules:
   br_netfilter: True
 
@@ -29,3 +32,4 @@ network:
           dhcp4: yes
           nameservers:
             addresses: [10.80.0.1]
+

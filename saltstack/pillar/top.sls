@@ -222,6 +222,8 @@ base:
     - services.k8s-node
   'k8s-cp-*.pws':
     - services.k8s-cp
+  'k8s-node-*.pws':
+    - services.k8s-worker
 
 # External backup system
   'backup-ext.pws':
@@ -311,7 +313,4 @@ base:
   'pve.w.*':
     - grains.host-hdd
     - w.pve
-  'k8s-node-w*':
-    - w.k8s-node
-  'k8s-node-j*':
-    - w.k8s-node
+
