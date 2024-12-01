@@ -311,4 +311,5 @@ base:
   'pve.w.*':
     - grains.host-hdd
     - w.pve
-
+  'k8s-node-w*':
+    - w.k8s-node
