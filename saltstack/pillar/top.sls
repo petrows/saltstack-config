@@ -121,14 +121,14 @@ base:
     - users.master
     - services.salt-master
     - services.cmk-server
-    - services.graylog
-    - services.metrics
+  #  - services.graylog
+  #  - services.metrics
     - services.adguard
   'system.pws':
     - services.salt-master-prod
     - services.cmk-server-prod
-    - services.graylog-prod
-    - services.metrics-prod
+  #  - services.graylog-prod
+  #  - services.metrics-prod
   'system.dev':
     - pws.system-dev
 
