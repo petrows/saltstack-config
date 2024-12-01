@@ -45,6 +45,11 @@ k8s-krew:
 
 {% if pillar.k8s.node %}
 
+k8s-banned-pkg:
+  pkg.purged:
+    - pkgs:
+      - apparmor
+
 # k8s require ip fw
 net.ipv4.ip_forward:
   sysctl.present:
