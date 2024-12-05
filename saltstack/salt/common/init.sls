@@ -67,7 +67,7 @@ coreutils:
     - persist: true
 {% endif %}
 
-{% if salt['pillar.get']('roles:server-dedicated', False) or salt['pillar.get']('swap_size_mb', 0) %}
+{% if salt['pillar.get']('roles:server-dedicated', False) and salt['pillar.get']('swap_size_mb', 0) > 0 %}
 # Configure less aggressive swap usage
 vm.swappiness:
   sysctl.present:

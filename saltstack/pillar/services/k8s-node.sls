@@ -30,6 +30,11 @@ network:
           set-name: eth-lan
           # ipv4: auto
           dhcp4: yes
+          # Do not use DNS from dhcp
+          dhcp4-overrides:
+            use-dns: no
+          # Enforce primary one
           nameservers:
             addresses: [10.80.0.1]
-
+          # Disable ipv6
+          link-local: [ ipv4 ]
