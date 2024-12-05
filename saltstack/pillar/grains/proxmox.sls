@@ -1,6 +1,12 @@
 roles:
   - proxmox
 
+# Disable swap for pve (required by k8s)
+# https://kevingoos.medium.com/kubernetes-inside-proxmox-lxc-cce5c9927942
+swap_size_mb: 0
+sysctl:
+  vm.swappiness: 0
+
 # Do not set hostname as 127.0.0.1!
 # This will BREAK hypervisor!
 network:

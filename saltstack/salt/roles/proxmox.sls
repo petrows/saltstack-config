@@ -1,5 +1,12 @@
 # Common config for ProxMox hosts
 
+# Umount swap
+pve-swap-umnount:
+  mount.unmounted:
+    - name: none
+    - device: /dev/pve/swap
+    - persist: True
+
 /usr/sbin/pct-stop-all:
   file.managed:
     - mode: 755
