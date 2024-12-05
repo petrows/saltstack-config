@@ -142,6 +142,9 @@ base:
   'roles:k8s-node':
     - match: pillar
     - services.k8s-node
+  'roles:k8s-node-ct':
+    - match: pillar
+    - services.k8s-node-ct
   'roles:k8s-cp':
     - match: pillar
     - services.k8s-cp

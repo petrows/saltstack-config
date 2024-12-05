@@ -1,9 +1,9 @@
 {% import_yaml 'static.yaml' as static %}
-{% set is_ct = grains.get('virtual:container') %}
+{% set is_ct = (grains.get('virtual') == 'container') %}
 
 roles:
   - k8s-node
-{% if not is_ct %}
+{% if is_ct %}
   - k8s-node-ct
 {% endif %}
 
@@ -13,7 +13,7 @@ swap_size_mb: 0
 k8s:
   # Start services as node?
   node: True
-  {% if not is_ct %}
+  {% if is_ct %}
   ct: True
   {% endif %}
 
