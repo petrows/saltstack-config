@@ -1,10 +1,11 @@
 {% import_yaml 'static.yaml' as static %}
+{% set is_ct = grains.get('virtual:container') %}
 
 roles:
   - k8s-node
-
-kernel-modules:
-  br_netfilter: True
+{% if not is_ct %}
+  - k8s-node-ct
+{% endif %}
 
 # No swap allowed
 swap_size_mb: 0
@@ -12,10 +13,19 @@ swap_size_mb: 0
 k8s:
   # Start services as node?
   node: True
+  {% if not is_ct %}
+  ct: True
+  {% endif %}
 
 # Disable iptables management
 iptables:
   managed: False
+
+# VM only
+{% if not is_ct %}
+
+kernel-modules:
+  br_netfilter: True
 
 # Static network config: use root NS
 network:
@@ -38,3 +48,4 @@ network:
             addresses: [10.80.0.1]
           # Disable ipv6
           link-local: [ ipv4 ]
+{% endif %}
