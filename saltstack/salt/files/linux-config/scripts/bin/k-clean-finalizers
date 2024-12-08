@@ -1,0 +1,15 @@
+#!/bin/bash
+# Cleanup all resources in current namespace: patch to drop finalizers object
+
+NS=$1
+TYP=$2
+
+if [[ -z "$NS" ]] || [[ -z "$TYP" ]]; then
+    echo "Usage $0 <NS> <TYPE>"
+    exit 1
+fi
+
+for e in $(kubectl get $TYP -o go-template --template '{{range .items}}{{.metadata.name}}{{" "}}{{end}}'); do
+    echo $e
+    kubectl patch $TYP $e -p '{"metadata": {"finalizers": null}}' --type merge
+done
