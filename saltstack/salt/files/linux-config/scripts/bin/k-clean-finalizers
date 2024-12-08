@@ -1,6 +1,7 @@
 #!/bin/bash
 # Cleanup all resources in current namespace: patch to drop finalizers object
 # {% raw %}
+
 NS=$1
 TYP=$2
 
