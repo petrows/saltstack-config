@@ -4,6 +4,16 @@ k8s-banned-pkg:
     - pkgs:
       - apparmor
 
+# k8s requires no swap
+umount-swap:
+  mount.unmounted:
+    - name: none
+    - device: /swap.img
+    - persist: True
+
+/swap.img:
+  file.absent: []
+
 # k8s require ip fw
 net.ipv4.ip_forward:
   sysctl.present:
