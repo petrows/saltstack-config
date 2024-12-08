@@ -59,7 +59,7 @@ mounts:
     opts: rw,noexec,nosuid
 
 {%
-  set allow_nfs = [
+  set allow_nfs_media = [
     '10.80.0.0/24',
     '10.80.7.0/24',
     '2001:470:73fe:1::/64',
@@ -67,15 +67,34 @@ mounts:
   ]
 %}
 
+{%
+  set allow_nfs_backup = [
+    '10.80.0.7/32',
+    '10.80.0.8/32',
+  ]
+%}
+
 nfs-exports:
   media:
     path: /srv/pws-media/media
     hosts:
-    {% for net in allow_nfs %}
+    {% for net in allow_nfs_media %}
     - host: '{{ net }}'
       opts:
       - ro
-      - sync
+      - async
+      - insecure
+      - no_subtree_check
+    {% endfor %}
+# Allow NFS mounts for k8s-related shit
+  k8s_backup:
+    path: /srv/pws-cache/backup
+    hosts:
+    {% for net in allow_nfs_backup %}
+    - host: '{{ net }}'
+      opts:
+      - rw
+      - async
       - insecure
       - no_root_squash
       - no_subtree_check
