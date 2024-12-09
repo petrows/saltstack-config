@@ -10,6 +10,7 @@ packages_pip3:
   - netifaces
   - objectpath
   - packaging
+  - pyyaml
 
 packages:
   # Requered by pip systemd

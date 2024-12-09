@@ -1,0 +1,119 @@
+#!/opt/venv/app/bin/python
+
+import logging
+import argparse
+import os
+import subprocess
+import yaml
+from pathlib import Path
+from pprint import pprint
+import sys
+
+parser = argparse.ArgumentParser(
+    description='Download and add k8s keys to local config',
+)
+
+parser.add_argument(
+    '--local',
+    action='store',
+    type=str,
+    default='~/.kube/config',
+    help='path to local kube-config file',
+)
+
+parser.add_argument(
+    '-l', '--log',
+    choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
+    default='INFO',
+    help='set log level',
+)
+
+parser.add_argument(
+    '-3', '--k3s',
+    action='store_true',
+    help='Use remote file location from k3s',
+)
+
+parser.add_argument(
+    'name',
+    type=str,
+    help='name of downloaded context',
+)
+
+parser.add_argument(
+    'host',
+    type=str,
+    help='hostname to fetch key',
+)
+
+args = parser.parse_args()
+
+log_level = args.log
+logging.basicConfig(level=log_level)
+
+conf_local_path = os.path.expanduser(args.local)
+
+logging.info('Downloading context %s from %s', args.name, args.host)
+
+remote_path = '/etc/kubernetes/admin.conf'
+if args.k3s:
+    remote_path = '/etc/rancher/k3s/k3s.yaml'
+
+# Scp file from host
+ret = subprocess.run(["scp", f"root@{args.host}:{remote_path}", "/tmp/k8s-config.yaml"])
+if ret.returncode != 0:
+    logging.error('Download error')
+    sys.exit(1)
+
+with open('/tmp/k8s-config.yaml', 'r') as f:
+    conf_remote = yaml.safe_load(f)
+
+subprocess.run(["rm", "-rf", "/tmp/k8s-config.yaml"])
+
+with open(conf_local_path, 'r') as f:
+    conf_local = yaml.safe_load(f)
+
+config_is_new = True
+
+remote_cluster = conf_remote['clusters'][0]
+# Update remote parameters to match with local usage
+remote_cluster['name'] = args.name
+remote_cluster['cluster']['server'] = f'https://{args.host}:6443'
+
+remote_user = conf_remote['users'][0]
+remote_user['name'] = args.name
+
+# Find context by name
+context_pos = None
+context_local = None
+for pos, context in enumerate(conf_local['contexts']):
+    if context['name'] == args.name:
+        context_pos = pos
+        context_local = context
+        config_is_new = False
+        logging.info('Found local context config for %s at pos %d', args.name, pos)
+        break
+
+# If we already have this context: remove old from config
+if context_local:
+    for pos, cluster in enumerate(conf_local['clusters']):
+        if cluster['name'] == context['context']['cluster']:
+            conf_local['clusters'].pop(pos)
+            break
+    for pos, user in enumerate(conf_local['users']):
+        if user['name'] == context['context']['user']:
+            conf_local['users'].pop(pos)
+            break
+
+conf_local['clusters'].append(remote_cluster)
+conf_local['users'].append(remote_user)
+
+context_new = {'context':{'cluster': args.name, 'user': args.name}, 'name': args.name}
+
+if context_pos == None:
+    conf_local['contexts'].append(context_new)
+else:
+    conf_local['contexts'][context_pos] = context_new
+
+with open(conf_local_path, 'w') as f:
+    yaml.dump(conf_local, f)
