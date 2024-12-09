@@ -14,7 +14,6 @@ k8s-pkg:
       - kubeadm: '{{ pillar.k8s.version }}.*'
       - kubectl: '{{ pillar.k8s.version }}.*'
       - kubectx
-      - containerd
     - refresh: True
     - require:
       - pkgrepo: k8s-repository

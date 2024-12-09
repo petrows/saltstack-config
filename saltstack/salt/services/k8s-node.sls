@@ -34,6 +34,13 @@ net.bridge.bridge-nf-call-iptables:
         SystemdCgroup = true
         disabled_plugins = []
 
+k8s-pkg-node:
+  pkg.installed:
+    - pkgs:
+      - containerd
+      - nfs-common
+    - refresh: True
+
 containerd.service:
   service.running:
     - enable: True
