@@ -26,7 +26,7 @@ salt:
     # K8s
     k8s-cp-h1.pws: {}
     k8s-node-h1.pws: {}
-    k8s-cp-w1.pws: {}
+    # k8s-cp-w1.pws: {}
     k8s-node-w1.pws: {}
     k8s-node-w2.pws: {}
   master:
