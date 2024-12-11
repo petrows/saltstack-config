@@ -159,6 +159,8 @@ ssh_machines:
       port: 6446
     root.m.pws:
       port: 6446
+    root.v.pws:
+      port: 6446
     cz.vds.pws:
       port: 8144
     pve.ext.j.pws:
