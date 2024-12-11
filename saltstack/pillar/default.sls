@@ -207,6 +207,9 @@ telegram:
 kustomize:
   version: 5.5.0
 
+vlogscli:
+  version: 1.3.2
+
 xsession:
   gtk_scale: 1.0
   qt_dpi: 138

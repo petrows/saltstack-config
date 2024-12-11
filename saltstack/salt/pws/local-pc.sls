@@ -202,6 +202,21 @@ kustomize-installer:
     - require:
       - archive: kustomize-installer
 
+# Victoria logs cli
+vlogscli-installer:
+  archive.extracted:
+    - name: /opt/vlogscli-{{ pillar.vlogscli.version }}/
+    - source: https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v{{ pillar.vlogscli.version }}-victorialogs/vlogscli-linux-amd64-v{{ pillar.vlogscli.version }}-victorialogs.tar.gz
+    - skip_verify: True
+    - enforce_toplevel: False
+
+/usr/local/bin/vlogscli:
+  file.symlink:
+    - target: /opt/vlogscli-{{ pillar.vlogscli.version }}/vlogscli-prod
+    - force: True
+    - require:
+      - archive: vlogscli-installer
+
 # Loop over allowed users on this server
 {% for user_id, user in salt['pillar.get']('users', {}).items() %}
 local-pc-configs-{{ user_id }}:
