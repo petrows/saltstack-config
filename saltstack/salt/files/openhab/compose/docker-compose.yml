@@ -105,7 +105,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
       - /etc/ssl/certs/pws.ca.pem:/etc/ssl/certs/pws.ca.pem:ro
-      - ./influxdb-mirror.conf:/etc/nginx/conf.d/influxd-mirror.conf:ro
+      - ./influxdb-mirror:/etc/nginx/conf.d:ro
 
 {% if pillar.openhab.grafana.id %}
   grafana:
