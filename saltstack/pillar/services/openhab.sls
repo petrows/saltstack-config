@@ -42,6 +42,15 @@ openhab:
     version: 3.0.4-amd64
     data_dir: /srv/openhab-data/conf/tuya-mqtt
 
+  vmagent:
+    id: Openhab-vmagent-dev
+    version: 1.107.0
+    # Remote URL to send data to prometheus/victoriametrics
+    remote_url: https://vmagent.k8s.pws/api/v1/write
+    data_dir: /srv/influxdb-vmagent-data
+    dirs:
+      - /srv/influxdb-vmagent-data
+
   influxdb:
     id: Openhab-influxdb-dev
     version: 1.8

@@ -9,6 +9,8 @@ openhab:
     id: Openhab-julia-mosquitto
   tuyamqtt:
     id: False
+  vmagent:
+    id: Openhab-julia-vmagent
   influxdb:
     id: Openhab-julia-influxdb
   grafana:

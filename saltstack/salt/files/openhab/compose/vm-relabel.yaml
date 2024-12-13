@@ -1,0 +1,6 @@
+- target_label: system
+  replacement: openhab
+- target_label: smarthome
+  replacement: {{ pillar.openhab.id }}
+- target_label: vm_project_id
+  replacement: {{ pillar.openhab.id }}

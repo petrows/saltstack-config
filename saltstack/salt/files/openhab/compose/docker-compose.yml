@@ -64,16 +64,48 @@ services:
       - {{ pillar.openhab.tuyamqtt.data_dir }}/devices.conf:/app/devices.conf:ro
   {%- endif %}
 
+  vmagent:
+    container_name: {{ pillar.openhab.vmagent.id }}
+    hostname: vmagent
+    image: victoriametrics/vmagent:v{{ pillar.openhab.vmagent.version }}
+    ports:
+      - '8429:8429'
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/ssl/certs/pws.ca.pem:/etc/ssl/certs/pws.ca.pem:ro
+      - ./vm-relabel.yaml:/cfg/vm-relabel.yaml:ro
+      - {{ pillar.openhab.vmagent.data_dir }}/data:/vmagentdata
+    command:
+      - '--remoteWrite.url={{ pillar.openhab.vmagent.remote_url }}'
+      # Extra config to mark this instance
+      - '--remoteWrite.urlRelabelConfig=/cfg/vm-relabel.yaml'
+
   influxdb:
     container_name: {{ pillar.openhab.influxdb.id }}
+    hostname: influxdb
     image: influxdb:{{ pillar.openhab.influxdb.version }}
     restart: always
     ports:
-      - '8086:8086'
+      # Expose port as 9086 for debug
+      - '9086:8086'
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
       - {{ pillar.openhab.influxdb.data_dir }}:/var/lib/influxdb
+
+  influxdb-redirect:
+    container_name: {{ pillar.openhab.influxdb.id }}-redirect
+    hostname: influxdb-redirect
+    image: nginx:1.27.3
+    restart: always
+    ports:
+      - '8086:80'
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/ssl/certs/pws.ca.pem:/etc/ssl/certs/pws.ca.pem:ro
+      - ./influxdb-mirror.conf:/etc/nginx/conf.d/influxd-mirror.conf:ro
 
 {% if pillar.openhab.grafana.id %}
   grafana:
