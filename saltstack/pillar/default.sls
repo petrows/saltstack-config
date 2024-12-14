@@ -212,6 +212,9 @@ kustomize:
 vlogscli:
   version: 1.3.2
 
+vmutils:
+  version: 1.107.0
+
 xsession:
   gtk_scale: 1.0
   qt_dpi: 138

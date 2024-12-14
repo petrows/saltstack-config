@@ -217,6 +217,21 @@ vlogscli-installer:
     - require:
       - archive: vlogscli-installer
 
+# Victoria metrics cli
+vmutils-installer:
+  archive.extracted:
+    - name: /opt/vmutils-{{ pillar.vmutils.version }}/
+    - source: https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v{{ pillar.vmutils.version }}/vmutils-linux-amd64-v{{ pillar.vmutils.version }}.tar.gz
+    - skip_verify: True
+    - enforce_toplevel: False
+
+/usr/local/bin/vmctl:
+  file.symlink:
+    - target: /opt/vmutils-{{ pillar.vmutils.version }}/vmctl-prod
+    - force: True
+    - require:
+      - archive: vmutils-installer
+
 # Loop over allowed users on this server
 {% for user_id, user in salt['pillar.get']('users', {}).items() %}
 local-pc-configs-{{ user_id }}:
