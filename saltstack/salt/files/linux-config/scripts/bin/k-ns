@@ -1,0 +1,5 @@
+#!/bin/bash
+
+CTX=$1
+
+kubectl config set-context --current --namespace=$CTX
