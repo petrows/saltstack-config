@@ -282,6 +282,8 @@ base:
     - users.ssh-pve
     - users.master
     - services.iphone-copy
+    - services.vmagent
+    - services.vmagent-pve-j
     - j.pve
 
   'media.j.*':
@@ -298,6 +300,8 @@ base:
   'vpn.j.*':
     - users.ssh-pve
     - users.master
+    - services.vmagent
+    - services.vmagent-passive
     - j.vpn
 
   'vpn-gw.j.*':

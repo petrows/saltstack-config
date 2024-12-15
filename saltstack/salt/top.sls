@@ -77,6 +77,12 @@ base:
   'roles:scan':
     - match: pillar
     - roles.scan
+  'roles:node-exporter':
+    - match: pillar
+    - roles.node-exporter
+  'roles:vmagent':
+    - match: pillar
+    - roles.vmagent
 
   # Services
   'roles:salt-master':
