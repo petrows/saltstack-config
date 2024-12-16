@@ -36,6 +36,16 @@ vmagent-installer:
               replacement: ${1}
 
 {% if pillar.vmagent.enable %}
+# Local buffer to collect data
+# https://docs.victoriametrics.com/vmagent/#disabling-on-disk-persistence
+/srv/vmagent-data/cache:
+  file.directory:
+    - user: root
+    - group: root
+    - dir_mode: 755
+    - file_mode: 644
+    - makedirs: True
+# Main service
 vmagent.service:
   file.managed:
     - name: /etc/systemd/system/vmagent.service
@@ -48,7 +58,7 @@ vmagent.service:
         User=root
         Group=root
         WorkingDirectory=/etc/prometheus
-        ExecStart=/usr/local/bin/vmagent -promscrape.config=/etc/prometheus/vmagent.yaml {% if pillar.vmagent.endpoint %} -remoteWrite.url={{ pillar.vmagent.endpoint }}{% endif %}
+        ExecStart=/usr/local/bin/vmagent -promscrape.config=/etc/prometheus/vmagent.yaml {% if pillar.vmagent.endpoint %} -remoteWrite.url={{ pillar.vmagent.endpoint }} -remoteWrite.tmpDataPath=/srv/vmagent-data/cache{% endif %}
         [Install]
         WantedBy=multi-user.target
   service.running:

@@ -80,6 +80,9 @@ services:
       - '--remoteWrite.url={{ pillar.openhab.vmagent.remote_url }}'
       # Extra config to mark this instance
       - '--remoteWrite.urlRelabelConfig=/cfg/vm-relabel.yaml'
+      # Enable disk cache to store data on network loss
+      # https://docs.victoriametrics.com/vmagent/#disabling-on-disk-persistence
+      - '--remoteWrite.tmpDataPath=/vmagentdata/buffer'
 
   influxdb:
     container_name: {{ pillar.openhab.influxdb.id }}
