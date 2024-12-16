@@ -23,6 +23,8 @@ salt:
     # External
     cz.vds.pws:
       port: 8144
+    # W
+    pve.w.pws: {}
     # K8s
     k8s-cp-h1.pws: {}
     k8s-node-h1.pws: {}
