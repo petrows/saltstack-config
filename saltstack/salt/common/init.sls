@@ -29,6 +29,7 @@ ban-packages:
   pkg.purged:
     - pkgs:
       - cloud-init
+      - openipmi
 
 # PWS root CA
 pws-root-ca:
