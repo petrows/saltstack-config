@@ -97,6 +97,9 @@ base:
 
   'pve.pws':
     - pws.pve
+    # Metrics service
+    - services.vmagent
+    - services.vmagent-pve
     # FS honeypots
     - common.integrity-pve
 
@@ -316,5 +319,6 @@ base:
 # W hosts
   'pve.w.*':
     - grains.host-hdd
+    - services.vmagent
+    - services.vmagent-pve-w
     - w.pve
-
