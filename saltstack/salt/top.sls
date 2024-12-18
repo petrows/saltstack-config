@@ -215,3 +215,7 @@ base:
 
   'vpn-gw.j.pws':
     - j.vpn-gw
+
+# W
+  'pve.w.pws':
+    - w.pve
