@@ -16,9 +16,13 @@ while true; do
         continue
     fi
 
+    # Save current kb layout
+    LAY=$(xkb-switch)
+
     for w in $WINDOWS; do
         xdotool windowactivate --sync $w key Shift
     done
-
+    # Revert layout
+    xkb-switch -s "$LAY"
     xdotool windowactivate "$ACTIVE_WINDOW"
 done
