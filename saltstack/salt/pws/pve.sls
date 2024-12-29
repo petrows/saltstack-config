@@ -121,3 +121,43 @@ pve-backup-code:
     - name: /opt/backup
     - source: salt://files/pws-pve/backup
     - file_mode: keep
+
+# APC config
+/etc/apcupsd/apcupsd.conf:
+  file.managed:
+    - makedirs: True
+    - contents: |
+        ## apcupsd.conf v1.1 ##
+        UPSCABLE usb
+        UPSTYPE usb
+        # The ONBATTERYDELAY is the time in seconds from when a power failure
+        #   is detected until we react to it with an onbattery event.
+        #
+        #   This means that, apccontrol will be called with the powerout argument
+        #   immediately when a power failure is detected.  However, the
+        #   onbattery argument is passed to apccontrol only after the
+        #   ONBATTERYDELAY time.  If you don't want to be annoyed by short
+        #   powerfailures, make sure that apccontrol powerout does nothing
+        #   i.e. comment out the wall.
+        ONBATTERYDELAY 6
+        # If during a power failure, the remaining battery percentage
+        # (as reported by the UPS) is below or equal to BATTERYLEVEL,
+        # apcupsd will initiate a system shutdown.
+        BATTERYLEVEL 30
+        # If during a power failure, the remaining runtime in minutes
+        # (as calculated internally by the UPS) is below or equal to MINUTES,
+        # apcupsd, will initiate a system shutdown.
+        MINUTES 10
+        # Location of files
+        LOCKFILE /var/lock
+        SCRIPTDIR /etc/apcupsd
+        PWRFAILDIR /etc/apcupsd
+        NOLOGINDIR /etc
+        STATFILE /var/log/apcupsd.status
+        EVENTSFILE /var/log/apcupsd.events
+
+apcupsd.service:
+  service.running:
+    - enable: True
+    - watch:
+      - file: /etc/apcupsd/*

@@ -4,6 +4,10 @@ roles:
   - mounts
   - integrity_client
 
+# Additional software
+packages:
+  - apcupsd
+
 check_mk_plugins:
   - lvm
   - apcaccess

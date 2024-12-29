@@ -112,13 +112,6 @@ base:
     - pws.octoprint
     - services.octoprint-prod
 
-  {# 'pve.ows':
-    - ows.pve
-
-  'office.ows':
-    - users.master
-    - ows.office #}
-
   'system.*':
     - pws.system
     - users.master
