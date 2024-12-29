@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd /tmp
+
+nohup firefox -p RU > firefox-ru.log &

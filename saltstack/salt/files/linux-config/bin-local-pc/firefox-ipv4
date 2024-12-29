@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd /tmp
+
+nohup firefox -p IPV4 > firefox-ipv4.log &
