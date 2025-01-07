@@ -25,4 +25,6 @@ while true; do
     # Revert layout
     xkb-switch -s "$LAY"
     xdotool windowactivate "$ACTIVE_WINDOW"
+    sleep 1
+    xkb-switch -s "$LAY"
 done
