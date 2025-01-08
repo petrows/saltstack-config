@@ -219,3 +219,6 @@ base:
 # W
   'pve.w.pws':
     - w.pve
+# M
+  'pve.m.pws':
+    - m.pve

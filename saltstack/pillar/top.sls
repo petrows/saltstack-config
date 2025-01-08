@@ -59,6 +59,11 @@ base:
     - grains.region-ru
     - grains.network-dmz
     - grains.network-dmz-julia
+  # m
+  '10.87.0.0/16':
+    - match: ipcidr
+    - grains.network-dmz
+    - grains.network-dmz-m
   # w
   '10.88.0.0/16':
     - match: ipcidr
@@ -315,3 +320,8 @@ base:
     - services.vmagent
     - services.vmagent-pve-w
     - w.pve
+
+# M hosts
+  'pve.m.*':
+    - grains.host-hdd
+    - m.pve
