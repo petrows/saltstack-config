@@ -35,6 +35,19 @@ def main():
         help='pillar file to parse, default is <root>/secrets/pillar/secrets.sls',
     )
     parser.add_argument(
+        '--format',
+        type=int,
+        choices=[1, 2],
+        default=2,
+        help='file format, 1 for old one, 2 for new',
+    )
+    parser.add_argument(
+        '--server',
+        type=str,
+        default='',
+        help='(format 2 only) ID of server peer',
+    )
+    parser.add_argument(
         '--zip',
         '-z',
         action='store_true',
@@ -43,13 +56,19 @@ def main():
 
     args = parser.parse_args()
 
+    if 2 == args.format and not args.server:
+        print("Error: format is 2 and not --server peer set")
+
     secrets_f = open(args.file, "r").read()
 
     # Remove Jinja comments
     secrets_f = re.sub('\\{#.*#\\}', '', secrets_f, flags=re.DOTALL)
 
     secrets = yaml.safe_load(secrets_f)
-    secrets = secrets['pws_secrets']['wireguard']
+    if 1 == args.format:
+        secrets = secrets['pws_secrets']['wireguard']
+    if 2 == args.format:
+        secrets = secrets['pws_secrets']['wg2']
 
     # Check that server is here
     if args.server_id not in secrets:
@@ -58,10 +77,18 @@ def main():
 
     secrets = secrets[args.server_id]
 
+    if 1 == args.format:
+        server_peer = secrets["server"]
+        clients_config = secrets['client']
+    if 2 == args.format:
+        server_peer = secrets['peers'][args.server]
+        clients_config = secrets['peers']
+
     client_ips = []
 
     # Print clients
-    for client_id, client in secrets['client'].items():
+    for client_id, client in clients_config.items():
+        if client_id == args.server: continue
         print(f"{client_id}\t{client['address']}\t{client['public']}")
         if client['address'] in client_ips:
             print(f"ERROR! Duplicating IP address {client['address']}")
@@ -72,7 +99,8 @@ def main():
     os.system(f'rm -rf "{args.server_id}"')
 
     # Iterate clients
-    for client_id, client in secrets['client'].items():
+    for client_id, client in clients_config.items():
+        if client_id == args.server: continue
         print(f'Client: {client_id}')
 
         private_key = client.get("private", "< place-your-private-key-here >")
@@ -94,6 +122,11 @@ def main():
         client_config += [f'Address = {client["address"]}']
         # client_config += [f'ListenPort = 21841']
 
+        # AWG?
+        if secrets["server"].get('awg'):
+            for awg_id, awg_key in secrets["server"].get('awg').items():
+                client_config += [f'{awg_id} = {awg_key}']
+
         # DNS record is set?
         if 'dns' in secrets["server"]:
             # Domain record is set?
@@ -105,7 +138,7 @@ def main():
                 client_config += [f'DNS = {', '.join(dns_servers)}']
 
         client_config += [f'[Peer]']
-        client_config += [f'PublicKey = {secrets["server"]["public"]}']
+        client_config += [f'PublicKey = {server_peer["public"]}']
         client_config += [f'Endpoint = {secrets["server"]["endpoint"]}']
         client_config += [f'AllowedIPs = 0.0.0.0/0, ::/0']
         client_config = '\n'.join(client_config)
