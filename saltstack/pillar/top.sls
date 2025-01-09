@@ -324,4 +324,6 @@ base:
 # M hosts
   'pve.m.*':
     - grains.host-hdd
+    - services.vmagent
+    - services.vmagent-pve-m
     - m.pve
