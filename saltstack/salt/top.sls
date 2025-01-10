@@ -160,6 +160,9 @@ base:
   'roles:trss':
     - match: pillar
     - services.trss
+  'roles:jvpn':
+    - match: pillar
+    - services.jvpn
 
   # Hosts configs
   'pve.pws':
@@ -209,12 +212,6 @@ base:
 # Julia
   'pve.j.pws':
     - j.pve
-
-  'vpn.j.pws':
-    - j.vpn
-
-  'vpn-gw.j.pws':
-    - j.vpn-gw
 
 # W
   'pve.w.pws':

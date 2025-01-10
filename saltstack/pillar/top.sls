@@ -303,6 +303,7 @@ base:
     - users.master
     - services.vmagent
     - services.vmagent-passive
+    - services.jvpn
     - j.vpn
 
   'vpn-gw.j.*':
@@ -327,3 +328,10 @@ base:
     - services.vmagent
     - services.vmagent-pve-m
     - m.pve
+  'vpn.m.*':
+    - users.ssh-pve
+    - users.master
+    - services.vmagent
+    - services.vmagent-passive
+    - services.jvpn
+    - m.vpn
