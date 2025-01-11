@@ -315,6 +315,7 @@ network:
   hostname_local: True
   # Configure netplan?
   netplan: False
+  netplan_filename: /etc/netplan/00-pws.yaml
 
 networks:
   pws:

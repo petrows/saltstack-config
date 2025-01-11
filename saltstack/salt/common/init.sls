@@ -214,7 +214,7 @@ systemd-tmpfiles-restart:
 /etc/netplan/50-cloud-init.yaml:
   file.absent: []
 # Our PWS config
-/etc/netplan/00-pws.yaml:
+{{ pillar.network.netplan_filename }}:
   file.serialize:
     - makedirs: True
     - mode: 600

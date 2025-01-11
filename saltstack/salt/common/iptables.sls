@@ -51,7 +51,7 @@ iptables-port-open-icmp-{{ f }}:
     - family: {{ f }}
     - chain: INPUT
     - jump: ACCEPT
-    - proto: icmp
+    - proto: {% if 'ipv6' == f %}ipv6-icmp{% else %}icmp{% endif %}
     - save: True
 
 # DNS
