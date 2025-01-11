@@ -70,6 +70,7 @@ docker:
 force_user_update: False
 
 shell_alias:
+  ip: ip --color=auto
   k: kubectl
   kx: kubectx
   kns: kubectl config set-context --current --namespace
