@@ -11,7 +11,6 @@ packages:
 check_mk_plugins:
   - lvm
   - apcaccess
-  - mk_logwatch.py
 
 check_mk_local:
   - backup_stats

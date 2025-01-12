@@ -13,7 +13,6 @@ saltstack:
 # Physical machines should check their logs
 check_mk_plugins:
   - netstat.linux
-  - mk_logwatch.py
 
 # Monitoring agent (local site)
 check_mk_agent:
