@@ -208,6 +208,7 @@ base:
 
   'pc-work-nb':
     - pws.local-laptop
+    - pws.pc-work-private
 
 # Julia
   'pve.j.pws':
