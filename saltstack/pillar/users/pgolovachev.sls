@@ -9,7 +9,7 @@ users:
       - docker
       - video
       - dialout
-      - admin
+    #  - admin
     sudo: True
     sudo_nopassword: True
     polkit: True
