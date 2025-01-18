@@ -102,6 +102,7 @@ local-pc-soft:
       # Prepare to migrate
       - ansible
       - ansible-lint
+      - ssh-askpass
 
 local-pc-soft-cleanup:
   pkg.purged:

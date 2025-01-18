@@ -168,6 +168,8 @@ ssh_machines:
       port: 34123
     media.ext.j.pws:
       port: 20124
+    openwrt-test.pws:
+      port: 6446
 
 iptables:
   managed: True # Enable management and persistance
