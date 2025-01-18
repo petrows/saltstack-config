@@ -99,6 +99,9 @@ local-pc-soft:
       - binfmt-support
       # Monitoring
       - nagstamon
+      # Prepare to migrate
+      - ansible
+      - ansible-lint
 
 local-pc-soft-cleanup:
   pkg.purged:
