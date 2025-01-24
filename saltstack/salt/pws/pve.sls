@@ -26,7 +26,7 @@ pve-net-deps:
         # LAN VMs
         auto vmbr0
         iface vmbr0 inet static
-            hwaddress 00:1b:21:3a:52:c6
+            hwaddress 4c:ed:fb:98:0d:91
             address {{ pillar.static_network.hosts.pws_pve.lan.ipv4.addr }}/{{ pillar.static_network.hosts.pws_pve.lan.ipv4.size }}
             gateway {{ pillar.static_network.networks.pws_lan.ipv4.gw }}
             bridge_ports eth-lan eth-pc
@@ -40,14 +40,6 @@ pve-net-deps:
             address {{ pillar.static_network.hosts.pws_pve.lan.ipv6.addr }}/{{ pillar.static_network.hosts.pws_pve.lan.ipv6.size }}
             gateway {{ pillar.static_network.networks.pws_lan.ipv6.gw }}
             post-up ip6tables -t nat -A PREROUTING -p tcp -d {{ pillar.static_network.hosts.pws_pve.lan.ipv6.addr }} --dport 443 -j REDIRECT --to-ports 8006
-
-        # GUEST
-        auto vmbr0.20
-        iface vmbr0.20 inet manual
-
-        # DMZ
-        auto vmbr0.30
-        iface vmbr0.30 inet manual
 
 # Interfaces names
 /etc/systemd/network/10-interface-lan.link:
