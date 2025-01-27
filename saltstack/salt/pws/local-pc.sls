@@ -327,6 +327,5 @@ udev-user:
 /etc/netplan/:
   file.recurse:
     - source: salt://files/linux-config/local-pc/netplan/
-    - clean: True
     - file_mode: 0600
 

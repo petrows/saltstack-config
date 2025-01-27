@@ -335,3 +335,12 @@ base:
     - services.vmagent-passive
     - services.jvpn
     - m.vpn
+
+# B hosts
+  'vpn.b.*':
+    - users.ssh-pve
+    - users.master
+    - services.vmagent
+    - services.vmagent-passive
+    - services.jvpn
+    - b.vpn

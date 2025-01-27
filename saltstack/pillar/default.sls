@@ -168,6 +168,8 @@ ssh_machines:
       port: 34123
     media.ext.j.pws:
       port: 20124
+    vpn.b.pws:
+      port: 2224
 
 iptables:
   managed: True # Enable management and persistance
