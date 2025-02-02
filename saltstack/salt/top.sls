@@ -83,6 +83,9 @@ base:
   'roles:vmagent':
     - match: pillar
     - roles.vmagent
+  'roles:vector':
+    - match: pillar
+    - roles.vector
 
   # Services
   'roles:salt-master':

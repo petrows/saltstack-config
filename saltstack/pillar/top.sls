@@ -105,6 +105,7 @@ base:
     # Metrics service
     - services.vmagent
     - services.vmagent-pve
+    - services.vector
     # FS honeypots
     - common.integrity-pve
 
