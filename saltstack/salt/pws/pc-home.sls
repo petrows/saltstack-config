@@ -34,3 +34,21 @@ pws-backup-petro-pc.timer:
   service.running:
     - enable: True # dummy value
 
+# Interfaces names
+/etc/systemd/network/10-interface-lan.link:
+  file.managed:
+    - contents: |
+        # Oboard 1gbe lan uplink
+        [Match]
+        MACAddress=40:b0:76:a4:31:45
+        [Link]
+        Name=eth-lan
+
+/etc/systemd/network/10-interface-pve.link:
+  file.managed:
+    - contents: |
+        # 2.5Gbe card to PVE
+        [Match]
+        MACAddress=1c:86:0b:23:a2:66
+        [Link]
+        Name=eth-pve
