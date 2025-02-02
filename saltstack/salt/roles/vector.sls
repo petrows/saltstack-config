@@ -28,7 +28,11 @@ vector-pkg:
             inputs:
               - syslog
             encoding:
-              codec: "json"
+              # codec: "text"
+              codec: "logfmt"
+              only_fields:
+                - host
+                - message
           vlogs:
             type: elasticsearch
             inputs:
