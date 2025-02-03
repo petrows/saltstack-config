@@ -36,15 +36,17 @@ vector-pkg:
           vlogs:
             inputs:
               - syslog
-            type: http
-            uri: {{ pillar.vector.endpoint }}/insert/jsonline?_stream_fields=host,container_name&_msg_field=message&_time_field=timestamp
+            type: elasticsearch
+            endpoints:
+              - {{ pillar.vector.endpoint }}/insert/elasticsearch/
+            api_version: v8
             compression: gzip
-            encoding:
-              codec: json
-            framing:
-              method: newline_delimited
             healthcheck:
               enabled: false
+            query:
+              _msg_field: message
+              _time_field: timestamp
+              _stream_fields: host
 
 # Main service
 vector.service:
