@@ -5,6 +5,6 @@ roles:
 
 vector:
   enable: True
-  endpoint: https://vlog.k8s.pws/insert/elasticsearch
+  endpoint: https://vlog.k8s.pws
   syslog:
     {{ grains.id }}: True
