@@ -156,8 +156,8 @@ ssh:
 ssh_machines:
     root.j.pws:
       port: 6446
-    wlan.j.pws:
-      port: 6446
+    # wlan.j.pws:
+    #   port: 6446
     root.m.pws:
       port: 6446
     root.v.pws:
