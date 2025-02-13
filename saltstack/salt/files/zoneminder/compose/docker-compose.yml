@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  # !! WARNING: !!
+  # If using linuxserver/mariadb, you will need to add
+  # skip-log-bin to mysqld and disable all log_bin options
+  db:
+    image: mariadb
+    restart: always
+    volumes:
+      - {{ pillar.zoneminder.data_dir }}/db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: zm
+    env_file:
+      - ./env
+
+  zoneminder:
+    image: ghcr.io/zoneminder-containers/zoneminder-base:{{ pillar.zoneminder.version }}
+    restart: always
+    stop_grace_period: 45s
+    depends_on:
+      - db
+    ports:
+      - '127.0.0.1:{{ pillar.static.proxy_ports.zoneminder_http }}:80'
+    volumes:
+      - {{ pillar.zoneminder.data_dir }}/data:/data
+      - {{ pillar.zoneminder.data_dir }}/config:/config
+      - {{ pillar.zoneminder.data_dir }}/log:/log
+      - type: tmpfs
+        target: /dev/shm
+        tmpfs:
+          size: 1000000000
+    env_file:
+      - ./env

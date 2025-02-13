@@ -166,6 +166,9 @@ base:
   'roles:jvpn':
     - match: pillar
     - services.jvpn
+  'roles:zoneminder':
+    - match: pillar
+    - services.zoneminder
 
   # Hosts configs
   'pve.pws':
