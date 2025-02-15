@@ -34,6 +34,9 @@ salt:
     # M
     pve.m.pws: {}
     vpn.m.pws: {}
+    # B
+    vpn.b.pws:
+      port: 2224
   master:
     file_roots:
       base:

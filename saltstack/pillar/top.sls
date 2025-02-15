@@ -340,6 +340,7 @@ base:
 
 # B hosts
   'vpn.b.*':
+    - grains.network-dmz
     - users.ssh-pve
     - users.master
     - services.vmagent
