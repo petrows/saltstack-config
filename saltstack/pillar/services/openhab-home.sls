@@ -27,6 +27,3 @@ proxy_vhosts:
     domain: z2m.home.pws
     ssl: internal
     ssl_name: home
-  yandex2mqtt:
-    domain: y2m.petro.ws
-    ssl: external

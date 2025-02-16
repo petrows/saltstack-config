@@ -98,3 +98,11 @@ proxy_vhosts:
     domain: bank.petro.ws
     ssl: external
     enable_robots: False
+  # Yandex-alice endpoint
+  yandex-home:
+    port: 4001
+    host: 10.80.6.2
+    proto: https
+    domain: y2m.eh.petro.ws
+    ssl: external
+    enable_robots: False
