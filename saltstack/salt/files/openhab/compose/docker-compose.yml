@@ -144,4 +144,5 @@ services:
       - /srv/openhab-data/conf/yandex2mqtt.codegen.js:/opt/yandex2mqtt/yandex2mqtt.codegen.js:ro
       - /srv/openhab-data/conf/yandex2mqtt.template.js:/opt/yandex2mqtt/yandex2mqtt.template.js:ro
       - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /etc/ssl/certs:/etc/ssl/certs:ro
 {% endif %}
