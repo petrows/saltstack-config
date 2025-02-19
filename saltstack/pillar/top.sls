@@ -69,6 +69,11 @@ base:
     - match: ipcidr
     - grains.network-dmz
     - grains.network-dmz-w
+  # b
+  '*.b.pws':
+    - match: compound
+    - grains.network-dmz
+    - grains.network-dmz-b
 
   # Special network conig
   # Mobile devices
