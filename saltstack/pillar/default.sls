@@ -84,6 +84,16 @@ git_config:
   color.ui: auto
   push.default: tracking
   pull.rebase: "true"
+  # Some values from Habr: https://habr.com/ru/articles/886538/
+  column.ui: auto
+  tag.sort: version:refname
+  diff.algorithm: histogram
+  diff.colorMoved: plain
+  diff.mnemonicPrefix: "true"
+  diff.renames: "true"
+  rerere.enabled: "true"
+  rerere.autoupdate: "true"
+  # My aliases
   alias.ca: commit -am
   alias.cap: "commit --author='Petro <petro@petro.ws>' -am"
   alias.apf: "!f() { git commit -a --amend --no-edit; git pf; }; f"
