@@ -36,6 +36,7 @@ awg-pkg:
 {{ server_type }}-quick@{{ server_type }}-{{ server_id }}.service:
   service.running:
     - enable: True
+    - full_restart: True
     - watch:
       - file: {{ server_conf_path }}
 {% endif %}
