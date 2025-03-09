@@ -86,6 +86,9 @@ base:
   'roles:vector':
     - match: pillar
     - roles.vector
+  'roles:dns-dot':
+    - match: pillar
+    - roles.dns-dot
 
   # Services
   'roles:salt-master':
