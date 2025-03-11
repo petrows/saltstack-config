@@ -75,6 +75,11 @@ amnezia-pkg:
         {% if server_secrets.get('server_dns') %}PostUp = resolvectl dns %i {{server_secrets.server_dns.dns}}; resolvectl domain %i ~{{ server_secrets.server_dns.domain | join(' ~') }}{% endif %}
         PrivateKey = {{ server_secrets.private }}
         {% if server.get('fwmark', False) %}FwMark = {{ server.fwmark }}{% endif %}
+{%- if server.get('autorun', True) %}
+        # PreUp & PostUp delay, to fix config changes not applied
+        PreUp = sleep 1
+        PostDown = sleep 1
+{%- endif %}
 {%- if server_type == 'awg' %}
         {%- for k, v in server_secrets.awg.items() %}
         {{ k }} = {{ v }}
