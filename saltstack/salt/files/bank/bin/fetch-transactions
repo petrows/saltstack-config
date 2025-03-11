@@ -225,7 +225,9 @@ def main():
             except requests.exceptions.HTTPError as e:
                 logging.error("HTTP error: %s", str(e))
 
-                if e.response.status_code == 503:
+                # 503: Service down
+                # 429: Rate limit
+                if e.response.status_code in [503, 429]:
                     # Institution service unavailable
                     logging.error("Service unavailable")
                     session['account'][account_id]['connection_errors'] = session['account'][account_id]['connection_errors'] + 1
@@ -236,14 +238,16 @@ def main():
                     session_save()
                     continue
 
-                if e.response.status_code == 409:
+                if e.response.status_code in [400, 409]:
                     # Account suspended!
                     logging.error("Account suspended!")
                     session['account'][account_id]['status'] = 'suspend'
                     session_save()
                     exit(42)
 
-                if e.response.json()['type'] == 'AccessExpiredError':
+                resp_json = e.response.json()
+
+                if 'type' in resp_json and resp_json['type'] == 'AccessExpiredError':
                     # We have expired token!
                     logging.error("Token expired! We have to get new connection!")
                     session['account'][account_id]['status'] = 'suspend'
