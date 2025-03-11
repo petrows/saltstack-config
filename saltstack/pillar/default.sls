@@ -39,6 +39,10 @@ powerline_git_pkg: ''
 check_mk_plugins: {}
 # If check-mk used, we can install additional local checks
 check_mk_local: {}
+# Custom plugins configuration
+check_mk_config:
+  # AWG interfaces to watch
+  check_mk_awg: {}
 
 # check-mk settings
 check_mk_agent:
