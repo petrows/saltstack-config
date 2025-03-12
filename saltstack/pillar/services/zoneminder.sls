@@ -10,7 +10,8 @@ include:
 # https://github.com/ZoneMinder/zoneminder
 zoneminder:
   version: 1.36.35
-  data_dir: /mnt/pws-cache/zoneminder
+  # Dedicated disk on media.pws
+  data_dir: /mnt/zoneminder-data
 
 proxy_vhosts:
   zoneminder:
