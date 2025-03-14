@@ -106,10 +106,23 @@ proxy_vhosts:
     domain: y2m.eh.petro.ws
     ssl: external
     enable_robots: False
-  # Sb0y endpoint
+  # Sb0y vhost (for certbot)
+  sb0y-proxy:
+    type: redirect
+    domain: eu-ptr.bagrintsev.me
+    redirect_target: https://bagrintsev.me/
+    ssl: external
+    enable_robots: False
+
+# Proxies
+iptables:
+    stream-sb0y-proxy:
+      dst: 4343
+
+proxy_streams:
+  # Sb0y stream endpoint
   sb0y-proxy:
     port: 4343
     host: 10.80.1.7
     domain: eu-ptr.bagrintsev.me
     ssl: external
-    enable_robots: False

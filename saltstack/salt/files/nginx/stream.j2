@@ -1,0 +1,24 @@
+# NGINX stream config for {{ conf_id }}
+# domain: {{ conf.domain }}
+# stream: {{ conf_id }}
+
+server {
+    listen {{ conf.port }} ssl;
+    listen [::]:{{ conf.port }} ssl;
+
+{%- if conf.port|default(False) %}
+    set $proxy_dst {{ conf.host|default('127.0.0.1') }}:{{ conf.port }};
+{%- endif %}
+
+{%- if ssl_cert %}
+    ssl_certificate {{ ssl_cert }};
+{%- endif %}
+{%- if ssl_key %}
+    ssl_certificate_key {{ ssl_key }};
+{%- endif %}
+
+    proxy_pass $proxy_dst;
+    proxy_timeout 10s;
+    proxy_connect_timeout 5s;
+    proxy_socket_keepalive on;
+}

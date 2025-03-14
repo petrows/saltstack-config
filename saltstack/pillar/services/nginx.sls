@@ -10,3 +10,5 @@ iptables:
       dst: 80
     nginx-https:
       dst: 443
+    nginx-stream:
+      dst: 4343

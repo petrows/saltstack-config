@@ -3,6 +3,9 @@ nginx-common-packages:
     - pkgs:
       - certbot
       - openssl
+{% if pillar.get('proxy_streams') %}
+      - nginx-extras
+{% endif %}
 
 nginx:
   pkg:
@@ -65,16 +68,14 @@ acme-certbot-dns:
 {% set ssl_cert = '/etc/ssl/certs/pws-internal-'+conf.ssl_name+'.crt' %}
 {% set ssl_key = '/etc/ssl/certs/pws-internal-'+conf.ssl_name+'.key' %}
 # Deploy internal key
-nginx-ssl-iternal-pem-{{ conf_id }}:
+{{ ssl_cert }}:
   file.managed:
-    - name: {{ ssl_cert }}
     - contents: {{ pillar['pws_secrets']['ssl_pws_'+conf.ssl_name]['crt']|yaml }}
     - user: root
     - group: root
     - mode: 644
-nginx-ssl-iternal-key-{{ conf_id }}:
+{{ ssl_key }}:
   file.managed:
-    - name:  {{ ssl_key }}
     - contents: {{ pillar['pws_secrets']['ssl_pws_'+conf.ssl_name]['key']|yaml }}
     - user: root
     - group: root
@@ -87,9 +88,8 @@ nginx-ssl-iternal-key-{{ conf_id }}:
   {% set ssl_key = '/etc/ssl/certs/ssl-selfsigned.key' %}
 {% endif %}
 
-nginx-proxy-conf-{{ conf_id }}:
+/etc/nginx/conf.d/{{ conf_id }}.conf:
   file.managed:
-    - name: /etc/nginx/conf.d/{{ conf_id }}.conf
     - source: salt://files/nginx/vhost.j2
     - template: jinja
     - user: root
@@ -106,6 +106,59 @@ nginx-proxy-conf-{{ conf_id }}:
     - require:
       - file: php-fpm-pool-conf
     {% endif %}
+{% endfor %}
+
+# Streams config
+{%- for conf_id, conf in (salt['pillar.get']('proxy_streams', {})).items() %}
+
+# Prepare SSL config
+{% set ssl_type = conf['ssl']|default(None) %}
+{% set ssl_cert = None %}
+{% set ssl_key = None %}
+
+{% if ssl_type == 'external' and salt['file.file_exists']('/etc/letsencrypt/live/'+conf.domain+'/fullchain.pem') %}
+  {% set ssl_cert = '/etc/letsencrypt/live/'+conf.domain+'/fullchain.pem' %}
+  {% set ssl_key = '/etc/letsencrypt/live/'+conf.domain+'/privkey.pem' %}
+{% endif %} # / external
+
+{% if ssl_type == 'internal' %}
+{% set ssl_cert = '/etc/ssl/certs/pws-internal-'+conf.ssl_name+'-stream.crt' %}
+{% set ssl_key = '/etc/ssl/certs/pws-internal-'+conf.ssl_name+'-stream.key' %}
+# Deploy internal key
+{{ ssl_cert }}:
+  file.managed:
+    - contents: {{ pillar['pws_secrets']['ssl_pws_'+conf.ssl_name]['crt']|yaml }}
+    - user: root
+    - group: root
+    - mode: 644
+{{ ssl_key }}:
+  file.managed:
+    - contents: {{ pillar['pws_secrets']['ssl_pws_'+conf.ssl_name]['key']|yaml }}
+    - user: root
+    - group: root
+    - mode: 644
+{% endif %} # / internal
+
+# Fallback
+{% if not ssl_cert and ssl_type %}
+  {% set ssl_cert = '/etc/ssl/certs/ssl-selfsigned.crt' %}
+  {% set ssl_key = '/etc/ssl/certs/ssl-selfsigned.key' %}
+{% endif %}
+
+/etc/nginx/stream.d/{{ conf_id }}.conf:
+  file.managed:
+    - source: salt://files/nginx/stream.j2
+    - makedirs: True
+    - template: jinja
+    - user: root
+    - group: root
+    - mode: 644
+    - context:
+      conf_id: {{ conf_id }}
+      conf: {{ conf|yaml }}
+      ssl_type: {{ ssl_type }}
+      ssl_cert: {{ ssl_cert }}
+      ssl_key: {{ ssl_key }}
 {% endfor %}
 
 {% if pillar.nginx.dhparam %}
@@ -129,6 +182,7 @@ nginx-rootconf:
   file.managed:
     - name: /etc/nginx/nginx.conf
     - source: salt://files/nginx/nginx.conf
+    - template: jinja
     - user: root
     - group: root
     - mode: 644
@@ -137,6 +191,7 @@ nginx-acme:
   file.managed:
     - name: /etc/nginx/acme.conf
     - source: salt://files/nginx/acme.conf
+    - template: jinja
     - user: root
     - group: root
     - mode: 644
