@@ -106,3 +106,10 @@ proxy_vhosts:
     domain: y2m.eh.petro.ws
     ssl: external
     enable_robots: False
+  # Sb0y endpoint
+  sb0y-proxy:
+    port: 4343
+    host: 10.80.1.7
+    domain: eu-ptr.bagrintsev.me
+    ssl: external
+    enable_robots: False
