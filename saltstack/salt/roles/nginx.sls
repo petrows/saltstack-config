@@ -68,14 +68,16 @@ acme-certbot-dns:
 {% set ssl_cert = '/etc/ssl/certs/pws-internal-'+conf.ssl_name+'.crt' %}
 {% set ssl_key = '/etc/ssl/certs/pws-internal-'+conf.ssl_name+'.key' %}
 # Deploy internal key
-{{ ssl_cert }}:
+nginx-ssl-iternal-pem-{{ conf_id }}:
   file.managed:
+    - name: {{ ssl_cert }}
     - contents: {{ pillar['pws_secrets']['ssl_pws_'+conf.ssl_name]['crt']|yaml }}
     - user: root
     - group: root
     - mode: 644
-{{ ssl_key }}:
+nginx-ssl-iternal-key-{{ conf_id }}:
   file.managed:
+    - name:  {{ ssl_key }}
     - contents: {{ pillar['pws_secrets']['ssl_pws_'+conf.ssl_name]['key']|yaml }}
     - user: root
     - group: root
@@ -125,14 +127,16 @@ acme-certbot-dns:
 {% set ssl_cert = '/etc/ssl/certs/pws-internal-'+conf.ssl_name+'-stream.crt' %}
 {% set ssl_key = '/etc/ssl/certs/pws-internal-'+conf.ssl_name+'-stream.key' %}
 # Deploy internal key
-{{ ssl_cert }}:
+nginx-ssl-iternal-pem-{{ conf_id }}-stream:
   file.managed:
+    - name: {{ ssl_cert }}
     - contents: {{ pillar['pws_secrets']['ssl_pws_'+conf.ssl_name]['crt']|yaml }}
     - user: root
     - group: root
     - mode: 644
-{{ ssl_key }}:
+nginx-ssl-iternal-key-{{ conf_id }}-stream:
   file.managed:
+    - name:  {{ ssl_key }}
     - contents: {{ pillar['pws_secrets']['ssl_pws_'+conf.ssl_name]['key']|yaml }}
     - user: root
     - group: root
