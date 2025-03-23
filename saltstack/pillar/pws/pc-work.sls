@@ -26,8 +26,10 @@ i3:
 xsession:
   gtk_scale: 1.5
   script: |
-      xrandr --output DP-4 --mode 3840x2160 --dpi 138 --pos 0x0 --primary
-      xrandr --output DP-2 --mode 3840x2160 --dpi 138 --right-of DP-4
+      # xrandr --output DP-4 --mode 3840x2160 --dpi 138 --pos 0x0 --primary
+      # xrandr --output DP-2 --mode 3840x2160 --dpi 138 --right-of DP-4
+      xrandr --output DP-1-1 --mode 3840x2160 --dpi 138 --pos 0x0 --primary
+      xrandr --output DP-2 --mode 3840x2160 --dpi 138 --right-of DP-1-1
 
 # PHP development
 php:
