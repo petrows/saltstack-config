@@ -21,7 +21,7 @@ openhab:
   # https://github.com/Koenkk/zigbee2mqtt/releases
   zigbee2mqtt:
     id: Openhab-zigbee2mqtt-dev
-    version: 2.1.3
+    version: 2.2.1
     device: ''
     data_dir: /srv/zigbee2mqtt-data
     dirs:
