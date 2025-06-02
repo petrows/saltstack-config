@@ -172,6 +172,9 @@ base:
   'roles:zoneminder':
     - match: pillar
     - services.zoneminder
+  'roles:file-storage':
+    - match: pillar
+    - services.file-storage
 
   # Hosts configs
   'pve.pws':

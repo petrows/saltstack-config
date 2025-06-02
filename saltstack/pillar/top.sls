@@ -343,6 +343,10 @@ base:
     - services.jvpn
     - m.vpn
 
+  'fs.m.*':
+    - users.master
+    - services.file-storage
+
 # B hosts
   'vpn.b.*':
     - grains.network-dmz

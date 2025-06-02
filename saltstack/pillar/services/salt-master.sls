@@ -34,6 +34,7 @@ salt:
     # M
     pve.m.pws: {}
     vpn.m.pws: {}
+    fs.m.pws: {}
     # B
     vpn.b.pws:
       port: 2224

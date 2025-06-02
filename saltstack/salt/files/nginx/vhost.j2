@@ -14,6 +14,7 @@
 {%- set redirect_target = conf.redirect_target|default('') %}
 {%- set redirect_type = conf.redirect_type|default('301') %}
 {%- set php = conf.php|default({}) %}
+{%- set folder_index = conf.folder_index|default(True) %}
 {% if force_ssl %}
 # HTTP must redirect to HTTPS
 server {
@@ -113,7 +114,7 @@ server {
 {%- if conf_type == 'folder' %}
     charset UTF-8;
     location / {
-        autoindex on;
+        autoindex {% if folder_index %}on{% else %}off{% endif %};
         autoindex_exact_size off;
         autoindex_format html;
         autoindex_localtime on;
