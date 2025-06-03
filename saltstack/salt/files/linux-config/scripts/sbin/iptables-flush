@@ -1,0 +1,26 @@
+#!/bin/bash
+# Flush all iptables rules
+
+# Check if the script is run as root
+if [ "$(id -u)" -ne 0 ]; then
+    echo "This script must be run as root."
+    exit 1
+fi
+
+# Default policy set to ACCEPT
+iptables -P INPUT ACCEPT
+iptables -P FORWARD ACCEPT
+iptables -P OUTPUT ACCEPT
+
+# Flush all iptables rules
+iptables -F
+iptables -X
+iptables -t nat -F
+iptables -t nat -X
+iptables -t mangle -F
+iptables -t mangle -X
+
+echo "All iptables rules have been flushed."
+
+# Save the changes
+echo "" > /etc/iptables/rules.v4
