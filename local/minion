@@ -1,14 +1,15 @@
 # Local-apply PC config
+# This file is TEMPLATE due to freaking bug: https://github.com/saltstack/salt/issues/6658
 
 file_roots:
   base:
-    - saltstack/salt
-    - secrets/salt
+    - ${PWD}/saltstack/salt
+    - ${PWD}/secrets/salt
 
 pillar_roots:
   base:
-    - saltstack/pillar
-    - secrets/pillar
+    - ${PWD}/saltstack/pillar
+    - ${PWD}/secrets/pillar
 
 # Merge lsist (roles)
 pillar_merge_lists: True

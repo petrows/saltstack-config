@@ -10,6 +10,9 @@ if [[ ! -d saltstack/salt ]]; then
     exit 1
 fi
 
+mkdir -p tmp/salt-local
+cat local/minion | envsubst > tmp/salt-local/minion
+
 PC_ID=$1
 
 shift
@@ -17,6 +20,6 @@ shift
 sudo -E env PATH=$PATH salt-call \
     --id="$PC_ID" \
     --state-verbose=False \
-    --config-dir local \
+    --config-dir tmp/salt-local \
     --local \
     $@

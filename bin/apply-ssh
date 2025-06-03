@@ -172,6 +172,10 @@ if True:
 
     yaml.dump(roster_data, open(roster_local, 'w'))
 
+# Prepare local config
+# Call envsubst to replace variables in the config file
+subprocess.run('mkdir -p tmp/salt-ssh; cat salt-ssh/master | envsubst > tmp/salt-ssh/master', shell=True)
+
 # Call SALT-SSH
 
 call_raw(
@@ -179,7 +183,7 @@ call_raw(
         'salt-ssh',
         '-l', str(logging.getLevelName(logging.root.level)).lower(),
         '--roster-file', str(roster_local),
-        '-c', str(root / "salt-ssh"),
+        '-c', str(root / "tmp/salt-ssh"),
         '--ignore-host-keys',
         '--log-file', str(root / "tmp" / "ssh.log"),
         '--log-file-level', 'debug',
