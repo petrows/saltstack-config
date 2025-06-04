@@ -8,16 +8,6 @@ rslsync:
 i3:
   bar_font_size: 12
   display_config_id: petro-pc
-  startup: |
-      # exec --no-startup-id firefox
-      exec --no-startup-id telegram-desktop
-      # exec --no-startup-id spotify
-      exec --no-startup-id run-nagstamon
-      exec --no-startup-id bash -c 'sleep 5; firefox'
-      exec --no-startup-id doublecmd --no-splash
-      exec --no-startup-id konsole
-      exec --no-startup-id keepassxc
-      exec --no-startup-id spotify --uri=/
   temp_read: /sys/devices/platform/coretemp.0/hwmon/hwmon2/temp1_input
 
 # At home i have 4 disK
