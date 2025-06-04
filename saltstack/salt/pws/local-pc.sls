@@ -172,28 +172,51 @@ local-tg-binary:
     - makedirs: True
 
 # VS Code
-vscode-repo:
-  pkgrepo.managed:
-    - name: deb [arch={{ grains.osarch }}] https://packages.microsoft.com/repos/code stable main
-    - file: /etc/apt/sources.list.d/vscode.list
-    - key_url: https://packages.microsoft.com/keys/microsoft.asc
-    - clean_file: True
+/etc/apt/sources.list.d/vscode.sources:
+  file.managed:
+    - contents: |
+        X-Repolib-Name: Visual Studio Code
+        Description: Visual Studio Code is a code editor redefined and optimized for building and debugging modern web and cloud applications.
+          - Website: https://code.visualstudio.com
+          - Public key: https://packages.microsoft.com/keys/microsoft.asc
+        Enabled: yes
+        Types: deb
+        URIs: https://packages.microsoft.com/repos/vscode
+        Signed-By: /etc/apt/keyrings/microsoft.gpg
+        Suites: stable
+        Components: main
 
-# Vagrant
-vagrant-repo:
-  pkgrepo.managed:
-    - name: deb [arch={{ grains.osarch }}] https://apt.releases.hashicorp.com {{ grains.oscodename }} main
-    - file: /etc/apt/sources.list.d/vagrant.list
-    - key_url: https://apt.releases.hashicorp.com/gpg
-    - clean_file: True
+# # Vagrant
+/etc/apt/sources.list.d/vagrant.sources:
+  file.managed:
+    - contents: |
+        X-Repolib-Name: Vagrant
+        Description: Vagrant is a tool for building and managing virtual machine environments in a single workflow.
+          - Website: https://www.vagrantup.com
+          - Public key: https://apt.releases.hashicorp.com/gpg
+        Enabled: yes
+        Types: deb
+        URIs: https://apt.releases.hashicorp.com
+        Signed-By: /etc/apt/keyrings/vagrant.gpg
+        # Broken on Ubuntu 25.X
+        # Suites: {{ grains.oscodename }}
+        Suites: noble
+        Components: main
 
 # Lens IDE
-lens-repo:
-  pkgrepo.managed:
-    - name: deb https://downloads.k8slens.dev/apt/debian stable main
-    - file: /etc/apt/sources.list.d/lens.list
-    - key_url: https://downloads.k8slens.dev/keys/gpg
-    - clean_file: True
+/etc/apt/sources.list.d/lens.sources:
+  file.managed:
+    - contents: |
+        X-Repolib-Name: Lens IDE
+        Description: Lens is the only IDE you need to take control of your Kubernetes clusters.
+          - Website: https://k8slens.dev
+          - Public key: https://downloads.k8slens.dev/keys/gpg
+        Enabled: yes
+        Types: deb
+        URIs: https://downloads.k8slens.dev/apt/debian
+        Signed-By: /etc/apt/keyrings/lens.gpg
+        Suites: stable
+        Components: main
 
 # Kustomize
 kustomize-installer:

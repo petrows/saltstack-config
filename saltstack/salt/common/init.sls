@@ -244,3 +244,17 @@ tmp_ramdisk:
     - name: /tmp
     - persist: True
 {% endif %}
+
+# Import new keys in modern APT
+{% for key_name, key_url in pillar.apt.keys_import.items() %}
+{{ key_name }}-source:
+  file.managed:
+    - name: /etc/apt/keyrings/{{ key_name }}.source
+    - source: {{ key_url }}
+    - skip_verify: True
+{{ key_name }}-import:
+  cmd.wait:
+    - name: cat /etc/apt/keyrings/{{ key_name }}.source | gpg --dearmor > /etc/apt/keyrings/{{ key_name }}.gpg
+    - watch:
+      - file: /etc/apt/keyrings/{{ key_name }}.source
+{% endfor %}

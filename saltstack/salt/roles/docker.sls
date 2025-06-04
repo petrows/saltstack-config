@@ -1,10 +1,21 @@
 # Install docker repos
-docker-repository:
-  pkgrepo.managed:
-    - name: deb [arch={{ grains.osarch }}] https://download.docker.com/linux/{{ grains.os|lower }} {{ grains['oscodename'] }} stable
-    - file: /etc/apt/sources.list.d/docker.list
-    - key_url: https://download.docker.com/linux/{{ grains.os|lower }}/gpg
-    - clean_file: True
+
+/etc/apt/sources.list.d/docker.list:
+  file.absent: []
+
+/etc/apt/sources.list.d/docker.sources:
+  file.managed:
+    - contents: |
+        X-Repolib-Name: Docker
+        Description: Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers.
+          - Website: https://www.docker.com
+          - Public key: https://download.docker.com/linux/{{ grains.os|lower }}/gpg
+        Enabled: yes
+        Types: deb
+        URIs: https://download.docker.com/linux/{{ grains.os|lower }}
+        Signed-By: /etc/apt/keyrings/docker.gpg
+        Suites: {{ grains['oscodename'] }}
+        Components: stable
 
 docker-pkg:
   pkg.installed:
@@ -14,7 +25,7 @@ docker-pkg:
       - containerd.io
     - refresh: True
     - require:
-      - pkgrepo: docker-repository
+      - file: /etc/apt/sources.list.d/docker.sources
 
 docker-config:
   file.managed:

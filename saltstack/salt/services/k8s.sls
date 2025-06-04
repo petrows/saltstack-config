@@ -1,11 +1,22 @@
 # The K8S services role
+/etc/apt/sources.list.d/k8s.list:
+  file.absent: []
 
-k8s-repository:
-  pkgrepo.managed:
-    - name: deb https://pkgs.k8s.io/core:/stable:/v{{ pillar.k8s.version }}/deb/ /
-    - key_url: https://pkgs.k8s.io/core:/stable:/v{{ pillar.k8s.version }}/deb/Release.key
-    - file: /etc/apt/sources.list.d/k8s.list
-    - clean_file: True
+/etc/apt/sources.list.d/k8s.sources:
+  file.managed:
+    - name: /etc/apt/sources.list.d/k8s.sources
+    - contents: |
+        X-Repolib-Name: Kubernetes
+        Description: Kubernetes is an open-source system for automating deployment, scaling, and management of containerized applications.
+          It groups containers that make up an application into logical units for easy management and discovery.
+          - Website: https://kubernetes.io
+          - Public key: https://pkgs.k8s.io/core:/stable:/v{{ pillar.k8s.version }}/deb/Release.key
+        Enabled: yes
+        Types: deb
+        URIs: https://pkgs.k8s.io/core:/stable:/v{{ pillar.k8s.version }}/deb/
+        Signed-By: /etc/apt/keyrings/k8s.pgp
+        Suites: main
+        Components: all
 
 k8s-pkg:
   pkg.installed:
@@ -16,7 +27,7 @@ k8s-pkg:
       - kubectx
     - refresh: True
     - require:
-      - pkgrepo: k8s-repository
+      - file: /etc/apt/sources.list.d/k8s.sources
 
 k8s-pkg-hold:
   cmd.wait:
@@ -26,12 +37,25 @@ k8s-pkg-hold:
       - pkg: k8s-pkg
 
 # Helm
-helm-repository:
-  pkgrepo.managed:
-    - name: deb https://baltocdn.com/helm/stable/debian/ all main
-    - key_url: https://baltocdn.com/helm/signing.asc
-    - file: /etc/apt/sources.list.d/helm.list
-    - clean_file: True
+/etc/apt/sources.list.d/helm.list:
+  file.absent: []
+
+/etc/apt/sources.list.d/helm.sources:
+  file.managed:
+    - name: /etc/apt/sources.list.d/helm.sources
+    - contents: |
+        X-Repolib-Name: Helm
+        Description: Helm is a tool for managing Kubernetes charts.
+          It allows you to define, install, and upgrade even the most complex Kubernetes applications.
+          Helm uses a packaging format called charts.
+          - Website: https://helm.sh
+          - Public key: https://baltocdn.com/helm/signing.asc
+        Enabled: yes
+        Types: deb
+        URIs: https://baltocdn.com/helm/stable/debian/
+        Signed-By: /etc/apt/keyrings/helm.pgp
+        Suites: main
+        Components: all
 
 # Krew
 # To isntall for current user, run:

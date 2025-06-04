@@ -21,6 +21,15 @@ packages:
 apt:
   # Add deb-src to default sources?
   use_src: False
+  # What keys to import for 3rd-party repos
+  keys_import:
+    microsoft: https://packages.microsoft.com/keys/microsoft.asc
+    vagrant: https://apt.releases.hashicorp.com/gpg
+    lens: https://downloads.k8slens.dev/keys/gpg
+    docker: https://download.docker.com/linux/ubuntu/gpg
+    helm: https://baltocdn.com/helm/signing.asc
+    # The same signing key is used for all repositories so you can disregard the version in the URL:
+    k8s: https://pkgs.k8s.io/core:/stable:/v1.31/deb/Release.key
 
 # List of packages, will be installed to system venv,
 # Use `/opt/venv/system/bin/python` as interpreter
