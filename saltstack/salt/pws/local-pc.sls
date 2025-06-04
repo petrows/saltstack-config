@@ -68,7 +68,7 @@ local-pc-soft:
       - bat
       # File manager
       - doublecmd-qt
-      {% if grains.osfinger in ['Ubuntu-24.04'] %}
+      {% if grains.osfinger in ['Ubuntu-24.04'] or grains.osmajorrelease >= 25 %}
       - libunrar5t64
       {% else %}
       - libunrar5

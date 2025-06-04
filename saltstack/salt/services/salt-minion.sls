@@ -19,15 +19,40 @@ saltstack-version:
         Pin: version {{ pillar.saltstack.version }}.*
         Pin-Priority: 1001
 
-saltstack-repo:
-  pkgrepo.managed:
-    - file: /etc/apt/sources.list.d/saltstack.list
-    - name: deb https://packages.broadcom.com/artifactory/saltproject-deb/ stable main
-    - key_url: {{ key_url }}
-    - clean_file: True
+/etc/apt/sources.list.d/saltstack.list:
+  file.absent: []
 
 /etc/apt/sources.list.d/salt.list:
   file.absent: []
+
+/etc/apt/keyrings/salt-archive-keyring.pgp.source:
+  file.managed:
+    - source: https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public
+    - skip_verify: True
+
+salt-keyring-import:
+  cmd.wait:
+    - name: cat /etc/apt/keyrings/salt-archive-keyring.pgp.source | gpg --dearmor > /etc/apt/keyrings/salt-archive-keyring.pgp
+    - watch:
+      - file: /etc/apt/keyrings/salt-archive-keyring.pgp.source
+
+/etc/apt/sources.list.d/salt.sources:
+  file.managed:
+    - contents: |
+        X-Repolib-Name: Salt Project
+        Description: Salt has many possible uses, including configuration management.
+          Built on Python, Salt is an event-driven automation tool and framework to deploy,
+          configure, and manage complex IT systems. Use Salt to automate common
+          infrastructure administration tasks and ensure that all the components of your
+          infrastructure are operating in a consistent desired state.
+          - Website: https://saltproject.io
+          - Public key: https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public
+        Enabled: yes
+        Types: deb
+        URIs: https://packages.broadcom.com/artifactory/saltproject-deb
+        Signed-By: /etc/apt/keyrings/salt-archive-keyring.pgp
+        Suites: stable
+        Components: main
 
 /usr/sbin/salt-minion-update:
   file.managed:
@@ -57,4 +82,4 @@ salt-minion-update.timer:
   service.running:
     - enable: True
 
-{%endif %}
+{% endif %}

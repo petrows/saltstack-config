@@ -35,8 +35,9 @@ sudo sh bootstrap-salt.sh -P -A system.pws -i pws-server-name stable
 
 Manual add minion
 ```bash
-wget -O- https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/SALT-PROJECT-GPG-PUBKEY-2023.gpg | apt-key add -
-echo "deb https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/latest jammy main" > /etc/apt/sources.list.d/saltstack.list
+mkdir -p /etc/apt/keyrings
+wget -O- https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public | gpg --dearmor > /etc/apt/keyrings/salt-archive-keyring.pgp
+wget -O- https://github.com/saltstack/salt-install-guide/releases/latest/download/salt.sources > /etc/apt/sources.list.d/salt.sources
 apt update && apt install -y salt-minion
 echo $hostname > /etc/salt/minion_id
 echo "master: system.pws" > /etc/salt/minion
