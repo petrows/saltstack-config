@@ -81,6 +81,9 @@ local-pc-soft:
       - vlc-plugin-base
       # PW manager
       - keepassxc
+      # Clipboard manager
+      # - xfce4-clipman
+      - copyq
       # Text editor
       - kate
       - okteta
