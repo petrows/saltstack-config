@@ -2,7 +2,7 @@
 # Warning: executed by /bin/sh
 
 # Force all QT apps to use this theme
-export QT_QPA_PLATFORMTHEME=kde
+export QT_QPA_PLATFORMTHEME=qt6ct
 # Force libreoffice to use this theme
 export SAL_USE_VCLPLUGIN=gtk3
 # Default apps scaling for HDPI

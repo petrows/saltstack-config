@@ -57,6 +57,7 @@ local-pc-soft:
       - playerctl
       # Set default QT-Driven apps
       - qt5ct
+      - qt6ct
       # Set default GTK-Driven apps
       - gtk-chtheme
       # GTK Front for Libreoffice
