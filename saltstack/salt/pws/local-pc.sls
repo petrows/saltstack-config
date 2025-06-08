@@ -13,6 +13,12 @@ local-pc-custom-etc:
     - source: salt://files/linux-config/etc-local-pc
     - template: jinja
 
+# Fuse group to allow fuse mounts
+fuse-group:
+  group.present:
+    - name: fuse
+    - system: True
+
 # Allow direct control of Scroll lock
 /usr/share/X11/xkb/compat/ledcaps:
   file.managed:

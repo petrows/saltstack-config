@@ -9,6 +9,7 @@ users:
       - docker
       - video
       - dialout
+      - fuse
     #  - admin
     sudo: True
     sudo_nopassword: True
