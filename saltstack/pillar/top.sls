@@ -20,6 +20,9 @@ base:
   'G@oscodename:noble':
     - match: compound
     - grains.ubuntu-24
+  'G@oscodename:plucky':
+    - match: compound
+    - grains.ubuntu-25
 
 # All PWS servers should have at least advanced config for root
   '*.pws or *.ows or *.dev':
