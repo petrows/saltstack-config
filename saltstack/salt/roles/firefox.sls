@@ -51,9 +51,9 @@ firefox-def-{{ def }}:
 firefox-xdg:
   cmd.run:
     - name : |
-        xdg-settings set default-web-browser firefox.desktop
-        xdg-settings set default-url-scheme-handler http firefox.desktop
-        xdg-settings set default-url-scheme-handler https firefox.desktop
+        echo 'y' | xdg-settings set default-web-browser firefox.desktop
+        echo 'y' | xdg-settings set default-url-scheme-handler http firefox.desktop
+        echo 'y' | xdg-settings set default-url-scheme-handler https firefox.desktop
     - unless:
       - xdg-settings get default-web-browser | grep firefox
       - xdg-settings get default-url-scheme-handler http | grep firefox
