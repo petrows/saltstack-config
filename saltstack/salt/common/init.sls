@@ -254,7 +254,9 @@ tmp_ramdisk:
     - skip_verify: True
 {{ key_name }}-import:
   cmd.wait:
-    - name: cat /etc/apt/keyrings/{{ key_name }}.source | gpg --dearmor > /etc/apt/keyrings/{{ key_name }}.gpg
+    - name: |
+        rm -rf /etc/apt/keyrings/{{ key_name }}.gpg
+        cat /etc/apt/keyrings/{{ key_name }}.source | gpg --dearmor -o /etc/apt/keyrings/{{ key_name }}.gpg
     - watch:
       - file: /etc/apt/keyrings/{{ key_name }}.source
 {% endfor %}

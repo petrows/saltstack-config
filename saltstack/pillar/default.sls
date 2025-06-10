@@ -30,7 +30,7 @@ apt:
     docker: https://download.docker.com/linux/ubuntu/gpg
     helm: https://baltocdn.com/helm/signing.asc
     # The same signing key is used for all repositories so you can disregard the version in the URL:
-    k8s: https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key
+    k8s: https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key
 
 # List of packages, will be installed to system venv,
 # Use `/opt/venv/system/bin/python` as interpreter
