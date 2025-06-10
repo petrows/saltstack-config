@@ -245,6 +245,13 @@ tmp_ramdisk:
     - persist: True
 {% endif %}
 
+# Prepare apt-key folder
+/etc/apt/keyrings:
+  file.directory:
+    - name: /etc/apt/keyrings
+    - user: root
+    - group: root
+    - mode: 755
 # Import new keys in modern APT
 {% for key_name, key_url in pillar.apt.keys_import.items() %}
 {{ key_name }}-source:

@@ -25,17 +25,6 @@ saltstack-version:
 /etc/apt/sources.list.d/salt.list:
   file.absent: []
 
-/etc/apt/keyrings/salt-archive-keyring.pgp.source:
-  file.managed:
-    - source: https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public
-    - skip_verify: True
-
-salt-keyring-import:
-  cmd.wait:
-    - name: cat /etc/apt/keyrings/salt-archive-keyring.pgp.source | gpg --dearmor > /etc/apt/keyrings/salt-archive-keyring.pgp
-    - watch:
-      - file: /etc/apt/keyrings/salt-archive-keyring.pgp.source
-
 /etc/apt/sources.list.d/salt.sources:
   file.managed:
     - contents: |
