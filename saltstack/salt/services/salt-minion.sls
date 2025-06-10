@@ -50,7 +50,7 @@ salt-keyring-import:
         Enabled: yes
         Types: deb
         URIs: https://packages.broadcom.com/artifactory/saltproject-deb
-        Signed-By: /etc/apt/keyrings/salt-archive-keyring.pgp
+        Signed-By: /etc/apt/keyrings/saltstack.gpg
         Suites: stable
         Components: main
 

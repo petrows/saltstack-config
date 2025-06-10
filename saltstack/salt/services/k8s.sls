@@ -14,9 +14,8 @@
         Enabled: yes
         Types: deb
         URIs: https://pkgs.k8s.io/core:/stable:/v{{ pillar.k8s.version }}/deb/
-        Signed-By: /etc/apt/keyrings/k8s.pgp
-        Suites: main
-        Components: all
+        Signed-By: /etc/apt/keyrings/k8s.gpg
+        Suites: /
 
 k8s-pkg:
   pkg.installed:
@@ -53,9 +52,9 @@ k8s-pkg-hold:
         Enabled: yes
         Types: deb
         URIs: https://baltocdn.com/helm/stable/debian/
-        Signed-By: /etc/apt/keyrings/helm.pgp
-        Suites: main
-        Components: all
+        Signed-By: /etc/apt/keyrings/helm.gpg
+        Suites: all
+        Components: main
 
 # Krew
 # To isntall for current user, run:
