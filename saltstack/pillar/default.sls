@@ -24,8 +24,10 @@ apt:
   # What keys to import for 3rd-party repos
   keys_import:
     saltstack: https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public
-    microsoft: https://packages.microsoft.com/keys/microsoft.asc
-    vagrant: https://apt.releases.hashicorp.com/gpg
+    # wget https://packages.microsoft.com/keys/microsoft.asc -O saltstack/salt/files/apt-keyring/microsoft.gpg.source
+    microsoft: salt://files/apt-keyring/microsoft.gpg.source
+    # wget https://apt.releases.hashicorp.com/gpg -O saltstack/salt/files/apt-keyring/vagrant.gpg.source
+    vagrant: salt://files/apt-keyring/vagrant.gpg.source
     lens: https://downloads.k8slens.dev/keys/gpg
     docker: https://download.docker.com/linux/ubuntu/gpg
     helm: https://baltocdn.com/helm/signing.asc
