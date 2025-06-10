@@ -4,7 +4,7 @@ sudo umount /home/pws
 sudo umount -f /home/pws
 sudo umount -f /home/pws
 
-wg-quick down wg-pws
+sudo wg-quick down wg-pws
 
 sudo umount -f /home/pws
 sudo umount -f /home/pws
