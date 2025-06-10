@@ -19,6 +19,19 @@ fuse-group:
     - name: fuse
     - system: True
 
+# Allow mount PWS folders (mount fuse to /home/)
+# See: https://apparmor.narkive.com/J6ZaHFtg/mount-rules
+/etc/apparmor.d/local/fusermount3:
+  file.managed:
+    - contents: |
+        mount fstype=@{fuse_types} -> /home/**/,
+
+apparmor-reload:
+  cmd.wait:
+    - name: systemctl reload apparmor.service
+    - watch:
+      - file: /etc/apparmor.d/local/*
+
 # Allow direct control of Scroll lock
 /usr/share/X11/xkb/compat/ledcaps:
   file.managed:
