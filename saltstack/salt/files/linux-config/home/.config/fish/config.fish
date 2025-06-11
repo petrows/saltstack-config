@@ -36,6 +36,53 @@ if status --is-interactive
     function vapp
         venv /opt/venv/app
     end
+    # FSSH shortcut implementation (moved from script)
+    function fssh
+        set SSH_CONN $argv[1]
+        if test -z "$SSH_CONN"
+            echo "Usage: fssh <user@host>"
+            return 1
+        end
+
+        # Check - do we have SSH agent running?
+        if not set -q SSH_AGENT_PID
+            echo "SSH Agent seems to be not running, start it"
+            ssh-add
+        end
+
+        set SSH_HOSTNAME_SHORT (echo "$SSH_CONN" | cut -d '@' -f 2)
+
+        # If this is .pws domain -> cut off suffix
+        if string match -q "*.pws" $SSH_HOSTNAME_SHORT
+            set SSH_HOSTNAME_SHORT (string replace -r "\.pws\$" "" $SSH_HOSTNAME_SHORT)
+        else
+            # Cut hostname before 1st dot (short)
+            set SSH_HOSTNAME_SHORT (echo "$SSH_CONN" | cut -d '@' -f 2 | cut -d '.' -f 1)
+        end
+
+        # Cut username (if exists)
+        if string match -q "*@*" $SSH_CONN
+            set SSH_USERNAME (echo "$SSH_CONN" | cut -d '@' -f 1)
+            set SSH_HOSTNAME (echo "$SSH_CONN" | cut -d '@' -f 2)
+        else
+            set SSH_USERNAME root
+            set SSH_HOSTNAME $SSH_CONN
+        end
+
+        if test -z "$SSH_USERNAME"
+            echo "Invalid SSH user@host!"
+            return 1
+        end
+
+        # Fake konsole tab title: create and cd to "host"
+        set FAKE_NAME "($SSH_USERNAME) $SSH_HOSTNAME_SHORT"
+        set FAKE_PATH /tmp/fssh-fake-path/$FAKE_NAME
+        mkdir -p $FAKE_PATH
+        cd $FAKE_PATH
+
+        # Call SSH
+        ssh -A $SSH_USERNAME@$SSH_HOSTNAME -t fish
+    end
 end
 
 # User config
