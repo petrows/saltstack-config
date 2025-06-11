@@ -6,6 +6,7 @@ UseFontLineChararacters=false
 [General]
 Name=Petro
 Parent=FALLBACK/
+RemoteTabTitleFormat=%H
 
 [Interaction Options]
 AutoCopySelectedText=true
