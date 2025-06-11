@@ -74,14 +74,8 @@ if status --is-interactive
             return 1
         end
 
-        # Fake konsole tab title: create and cd to "host"
-        set FAKE_NAME "($SSH_USERNAME) $SSH_HOSTNAME_SHORT"
-        set FAKE_PATH /tmp/fssh-fake-path/$FAKE_NAME
-        mkdir -p $FAKE_PATH
-        cd $FAKE_PATH
-
         # Call SSH
-        ssh -A $SSH_USERNAME@$SSH_HOSTNAME -t fish
+        ssh -A $SSH_USERNAME@$SSH_HOSTNAME -t fish $argv[2..-1]
     end
 end
 
