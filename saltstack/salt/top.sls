@@ -213,6 +213,7 @@ base:
 # Local host config
   'pc-*':
     - common.users
+    - services.salt-repo
     - pws.local-pc
 
   'pc-home':
