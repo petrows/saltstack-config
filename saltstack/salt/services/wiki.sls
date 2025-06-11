@@ -13,7 +13,7 @@ wiki-dir-{{ dir }}:
 wiki-ext-tinyMCE:
   git.latest:
     - user: root
-    - name: https://gerrit.wikimedia.org/r/mediawiki/extensions/TinyMCE.git
+    - name: https://gerrit.wikimedia.org/r/mediawiki/extensions/TinyMCE
     - target: {{ pillar.wiki.data_dir }}/extensions/TinyMCE
     - force_fetch: True
     - force_reset: True
