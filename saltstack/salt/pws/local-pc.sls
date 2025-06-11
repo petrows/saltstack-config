@@ -307,6 +307,7 @@ local-pc-local-{{ user_id }}:
   ini.options_present:
     - separator: '='
     - strict: False
+    - no_spaces: True
     - sections:
         Default Applications:
           {% for app_mime,app_desktop in pillar.i3.mime_types.default.items() %}

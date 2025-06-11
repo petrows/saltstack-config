@@ -288,6 +288,7 @@ i3:
       application/xml: firefox.desktop
       text/html: firefox.desktop
       text/xml: firefox.desktop
+      x-scheme-handler/about: firefox.desktop
       x-scheme-handler/http: firefox.desktop
       x-scheme-handler/https: firefox.desktop
 
