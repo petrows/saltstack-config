@@ -96,6 +96,8 @@ local-pc-soft:
       - unrar
       # Clipboard manipulation
       - xclip
+      # Screenshot manipulation
+      - flameshot
       # Video player
       - vlc
       - vlc-plugin-base

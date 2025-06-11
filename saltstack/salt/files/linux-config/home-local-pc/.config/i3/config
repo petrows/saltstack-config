@@ -178,14 +178,14 @@ bindsym $mod+t exec --no-startup-id bash -c 'date "+%F" | xclip -rmlastnl -selec
 # Take screenshot
 # Printscr also as win+p alternative
 # Printscr - normal
-bindsym Print exec --no-startup-id spectacle --fullscreen --copy-image
-bindsym $mod+p exec --no-startup-id spectacle --fullscreen --copy-image
+bindsym Print exec --no-startup-id flameshot full
+bindsym $mod+p exec --no-startup-id flameshot full
 # Shift+Printscr - rectangular
-bindsym $mod+Shift+Print exec --no-startup-id spectacle --region --copy-image
-bindsym $mod+Shift+p exec --no-startup-id spectacle --region --copy-image
+bindsym $mod+Shift+Print exec --no-startup-id flameshot gui
+bindsym $mod+Shift+p exec --no-startup-id flameshot gui
 # Win+Printscr - active window
-bindsym $mod+Control+Print exec --no-startup-id spectacle --windowundercursor --copy-image
-bindsym $mod+Control+p exec --no-startup-id spectacle --windowundercursor --copy-image
+bindsym $mod+Control+Print exec --no-startup-id flameshot screen
+bindsym $mod+Control+p exec --no-startup-id flameshot screen
 
 # Switch display modes
 # Built-in only
@@ -275,7 +275,8 @@ exec --no-startup-id keepassxc
 # Crashes
 # exec --no-startup-id bash -c 'QT_QPA_PLATFORMTHEME=qt5ct run-nagstamon'
 exec --no-startup-id copyq
-exec --no-startup-id spotify --uri=/
+exec --no-startup-id flameshot
+# exec --no-startup-id spotify --uri=/
 
 {% if pillar.i3.composite %}
 # Composite
