@@ -22,6 +22,7 @@ for ct in $CTS ; do
         echo "Backup CT: $ct"
         VMZ_BACKUP+="$ct "
     else
+        echo "No backup CT: $ct"
         VMZ_BACKUP_EXLUDE+="$ct,"
     fi
 done
@@ -34,11 +35,11 @@ for ct in $VMS ; do
         VMZ_BACKUP+="$ct "
     else
         VMZ_BACKUP_EXLUDE+="$ct,"
+        echo "No backup VM: $ct"
     fi
 done
 
-for vz in $VMZ_BACKUP ; do
-    # Check that VM has
-	echo "Backung up $vz"
-	vzdump --all -exclude "$VMZ_BACKUP_EXLUDE" -compress lzo -mailto root -dumpdir ./ -tmpdir $DIR_TMP -maxfiles $VMZ_RETAIN
-done
+echo "Backup VMS: $VMZ_BACKUP"
+echo "Exclude VMS: $VMZ_BACKUP_EXLUDE"
+
+vzdump --all -exclude "$VMZ_BACKUP_EXLUDE" -compress lzo -mailto root -dumpdir ./ -tmpdir $DIR_TMP -maxfiles $VMZ_RETAIN
