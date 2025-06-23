@@ -22,6 +22,8 @@ services:
       - db
     ports:
       - '127.0.0.1:{{ pillar.static.proxy_ports.zoneminder_http }}:80'
+      # ZMTrigger port: https://wiki.zoneminder.com/ZMTrigger#Example_Setup
+      - '6802:6802'
     volumes:
       - {{ pillar.zoneminder.data_dir }}/data:/data
       - {{ pillar.zoneminder.data_dir }}/config:/config
