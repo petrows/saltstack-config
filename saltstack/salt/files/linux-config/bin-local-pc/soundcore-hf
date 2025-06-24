@@ -12,5 +12,5 @@ fi
 for device in $DEVICES; do
     echo "Soundcore device: $device"
 
-    bt-force-profile handsfree_head_unit $device
+    bt-force-profile headset-head-unit $device
 done

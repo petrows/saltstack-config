@@ -12,5 +12,5 @@ fi
 for device in $DEVICES; do
     echo "Soundcore device: $device"
 
-    bt-force-profile a2dp_sink $device
+    bt-force-profile a2dp-sink-sbc_xq $device
 done

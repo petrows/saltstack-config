@@ -2,4 +2,4 @@
 
 # Force connection and call a2dp for WORK headset
 
-bt-force-profile a2dp_sink AC:12:2F:E6:56:A9
+bt-force-profile a2dp-sink-sbc_xq AC:12:2F:E6:56:A9

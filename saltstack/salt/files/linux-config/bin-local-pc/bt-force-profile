@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Profile to use: handsfree_head_unit, a2dp_sink
+# Profile to use: headset-head-unit, a2dp-sink-sbc_xq
 PROFILE=$1
 # Device mac to query
 MAC=$2
@@ -32,19 +32,19 @@ fi
 
 # Prepare services for work!
 # systemctl --user restart pulseaudio.service
-killall blueman-manager
-# Kill applet, to avoid annoying windows created
-killall blueman-applet
-killall pasystray
+# killall blueman-manager
+# # Kill applet, to avoid annoying windows created
+# killall blueman-applet
+# killall pasystray
 
 # this loops until a2dp is _actually used_ on the given MAC.
 while [ ${a2dpUsed} -ne 0 ];
 do
     #
-    echo "Restarting bluetooth."
-    rfkill unblock bluetooth
-    sudo service bluetooth restart
-    sudo hciconfig hci0 up
+    # echo "Restarting bluetooth."
+    # rfkill unblock bluetooth
+    # sudo service bluetooth restart
+    # sudo hciconfig hci0 up
 
     # reconnect
     echo -e "power on\nconnect ${MAC}" | bluetoothctl
@@ -55,7 +55,6 @@ do
 
     while [ ${btConnected} -gt 0 ];
     do
-
         sleep .1
         $(bluetoothctl <<< "info ${MAC}" | grep -qi "Connected: yes")
         btConnected=$?
@@ -63,6 +62,8 @@ do
 
     #
     echo "Bluetooth connected, waiting for profiles to register"
+
+    sleep 5
 
     cardFound=1
     while [ ${cardFound} -ne 0 ];
@@ -76,6 +77,12 @@ do
     pactl set-card-profile ${CARD} $PROFILE
     $(pactl list | grep -qi "Active Profile: $PROFILE")
     a2dpUsed=$?
+
+    if [[ ${a2dpUsed} -ne 0 ]]; then
+        echo "Profile $PROFILE is not working, retrying..."
+        echo -e "disconnect ${MAC}" | bluetoothctl
+        sleep 5
+    fi
 done
 
 echo "$PROFILE is working."
@@ -87,5 +94,5 @@ echo "$PROFILE is working."
 # fi
 
 # Start tray icon back
-blueman-applet &> /dev/null &
-pasystray &> /dev/null &
+# blueman-applet &> /dev/null &
+# pasystray &> /dev/null &
