@@ -65,8 +65,10 @@ check_mk_agent:
 # If set, salt will be armed to auto-apply on connect (default for servers)
 saltstack:
   version:
+    # Pin to version 3007.3, as 3007.4 has issues:
+    # https://github.com/saltstack/salt/issues/68071
     major: 3007
-    minor: '*'
+    minor: 3
   auto_apply: False
 
 # All local emails will be delivered to this one
