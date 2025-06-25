@@ -9,8 +9,6 @@ openhab:
     id: Openhab-tuyamqtt
   influxdb:
     id: Openhab-influxdb
-  grafana:
-    id: Openhab-grafana
   yandex2mqtt:
     id: Openhab-yandex2mqtt
 

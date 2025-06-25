@@ -13,8 +13,6 @@ openhab:
     id: Openhab-julia-vmagent
   influxdb:
     id: Openhab-julia-influxdb
-  grafana:
-    id: False
   yandex2mqtt:
     # id: Openhab-julia-yandex2mqtt
     # Not used for now

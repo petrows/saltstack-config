@@ -58,14 +58,6 @@ openhab:
     dirs:
       - /srv/influxdb-data
 
-  # https://hub.docker.com/r/grafana/grafana
-  grafana:
-    id: Openhab-grafana-dev
-    version: 10.4.2
-    data_dir: /srv/grafana-data
-    dirs:
-      - /srv/grafana-data
-
   # Yandex2mqtt proxy
   yandex2mqtt:
     id: False # Do not start by default
