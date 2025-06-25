@@ -64,7 +64,9 @@ check_mk_agent:
 
 # If set, salt will be armed to auto-apply on connect (default for servers)
 saltstack:
-  version: 3007
+  version:
+    major: 3007
+    minor: '*'
   auto_apply: False
 
 # All local emails will be delivered to this one

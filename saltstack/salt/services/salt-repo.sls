@@ -5,7 +5,7 @@ saltstack-version:
     - name: /etc/apt/preferences.d/saltstack-version
     - contents: |
         Package: salt-*
-        Pin: version {{ pillar.saltstack.version }}.*
+        Pin: version {{ pillar.saltstack.version.major }}.{{ pillar.saltstack.version.minor }}
         Pin-Priority: 1001
 
 /etc/apt/sources.list.d/saltstack.list:
