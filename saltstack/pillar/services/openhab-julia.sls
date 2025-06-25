@@ -16,7 +16,9 @@ openhab:
   grafana:
     id: False
   yandex2mqtt:
-    id: Openhab-julia-yandex2mqtt
+    # id: Openhab-julia-yandex2mqtt
+    # Not used for now
+    id: False
 
 proxy_vhosts:
   openhab:
