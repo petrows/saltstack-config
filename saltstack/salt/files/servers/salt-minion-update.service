@@ -1,7 +1,5 @@
 [Unit]
 Description=Auto update salt-minion
-Requires=salt-minion.service
-After=salt-minion.service
 OnFailure=status-email@%n.service
 
 [Service]

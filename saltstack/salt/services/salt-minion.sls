@@ -19,7 +19,7 @@ salt-minion-config:
         # Update software
         export DEBIAN_FRONTEND=noninteractive
         apt-get update
-        apt-get install --only-upgrade -y -q -o DPkg::Options::="--force-confold" --no-install-recommends salt-minion
+        apt-get install --only-upgrade --allow-downgrades -y -q -o DPkg::Options::="--force-confold" --no-install-recommends salt-minion
         # Update Salt user to OUR defaults
         usermod -d {{ pillar.users.salt.home }} -s {{ pillar.users.salt.shell }} salt
 
