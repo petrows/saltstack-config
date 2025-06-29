@@ -214,7 +214,6 @@ base:
     - services.rslsync
     - services.photoprism
     - services.paperless
-    - services.zoneminder
     - pws.media
   'media.pws':
     - pws.media-prod
