@@ -347,14 +347,6 @@ udev-user:
     - name: /etc/udev/rules.d/
     - source: salt://files/linux-config/udev/
 
-# Fix wine config:
-# See: https://bugs.launchpad.net/ubuntu/+source/wine/+bug/2045127
-/etc/binfmt.d/wine.conf:
-  file.managed:
-    - makedirs: True
-    - contents: |
-        :Wine:M::MZ::/usr/bin/wine:
-
 # Configure local NM connection
 /etc/NetworkManager/system-connections/lan.nmconnection:
   file.managed:
@@ -377,4 +369,38 @@ udev-user:
   file.recurse:
     - source: salt://files/linux-config/local-pc/netplan/
     - file_mode: 0600
+
+# Wine-staging
+/etc/apt/sources.list.d/wine.sources:
+  file.managed:
+    - contents: |
+        Types: deb
+        URIs: https://dl.winehq.org/wine-builds/ubuntu
+        Suites: {{ grains.oscodename }}
+        Components: main
+        Architectures: amd64 i386
+        Signed-By: /etc/apt/keyrings/winehq.gpg
+
+wine-soft-remove:
+  pkg.removed:
+    - pkgs:
+      - wine
+      - wine-binfmt
+      - wine64
+
+wine-soft:
+  pkg.latest:
+    - pkgs:
+      - wine-staging
+      - wine-staging-amd64
+
+# PATH is set in saltstack/salt/files/linux-config/home/.profile_common.fish
+
+# Fix wine config:
+# See: https://bugs.launchpad.net/ubuntu/+source/wine/+bug/2045127
+/etc/binfmt.d/wine.conf:
+  file.managed:
+    - makedirs: True
+    - contents: |
+        :Wine:M::MZ::/opt/wine-staging/bin/wine:
 
