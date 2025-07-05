@@ -1,0 +1,1 @@
+{{ pillar.pws_secrets.reolink_home_hub | yaml }}

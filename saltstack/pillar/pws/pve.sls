@@ -14,6 +14,7 @@ check_mk_plugins:
 
 check_mk_local:
   - backup_stats
+  - reolink_hub_stats
 
 integrity:
   check_targets:

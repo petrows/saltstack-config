@@ -67,6 +67,16 @@ check_mk_plugin_docker_cfg:
     - mode: 755
 {% endif %}
 
+{% if 'reolink_hub_stats' in salt['pillar.get']('check_mk_local', []) %}
+check_mk_plugin_docker_cfg:
+  file.managed:
+    - name: /etc/check_mk/reolink_hub_stats.yaml
+    - source: salt://files/check-mk/configs/reolink_hub_stats.yaml
+    - template: jinja
+    - makedirs: True
+    - mode: 755
+{% endif %}
+
 # Special plugins
 {% if salt['pillar.get']('check_mk_config:check_mk_awg', {}) %}
 /etc/check_mk/awg.json:
