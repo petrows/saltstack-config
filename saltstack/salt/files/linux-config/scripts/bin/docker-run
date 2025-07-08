@@ -13,8 +13,25 @@ DOCKER_IMAGE=$1
 
 shift
 
+if [[ -z "${SSH_AUTH_SOCK}" ]]; then
+    echo "Can't enable ssh on container, SSH_AUTH_SOCK is not set or is empty." 1>&2
+elif (( $(ssh-add -l | wc -l) < 1 )); then
+    echo "Can't enable ssh on the container. No key available on the ssh-agent." 1>&2
+else
+    FORWARD_SSH_AGENT="-v $SSH_AUTH_SOCK:$SSH_AUTH_SOCK -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK"
+    echo "Enabling SSH enabled in the container."
+fi
+
 # Detect home dir
 HOME_DIR=$(docker run -it --rm -u $(id -u):$(id -g) $DOCKER_IMAGE sh -c 'echo $HOME')
 HOME_DIR=$(trim "$HOME_DIR")
 
-docker run -it --rm --network host -u $(id -u):$(id -g) -v "$PWD":"$PWD" -v "$HOME/.bash_history":"/$HOME_DIR/.bash_history" -w "$PWD" $DOCKER_IMAGE $@
+docker run \
+    -it --rm \
+    --network host \
+    -u $(id -u):$(id -g) \
+    -v "$PWD":"$PWD" \
+    -v "$HOME/.bash_history":"/$HOME_DIR/.bash_history" \
+    -w "$PWD" \
+    ${FORWARD_SSH_AGENT} \
+    $DOCKER_IMAGE $@
