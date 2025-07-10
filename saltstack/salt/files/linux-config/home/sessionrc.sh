@@ -16,7 +16,7 @@ export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 
 # Start private autorun (if exists)
 if test -x $HOME/bin/autorun; then
-    $HOME/bin/autorun > /tmp/$USER-xsession-autorun.log 2>&1
+    $HOME/bin/autorun > /tmp/$USER-xsession-autorun.log 2>&1 &
 fi
 
 {{ pillar.xsession.script|default('') }}
