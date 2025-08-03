@@ -9,6 +9,10 @@ proxy_vhosts:
     domain: rslsync-julia.media.pws
     ssl: internal
     ssl_name: media
+  rslsync_jmama:
+    domain: rslsync-jmama.media.pws
+    ssl: internal
+    ssl_name: media
 
 mount-folders:
   photoprism-photos-archive:
