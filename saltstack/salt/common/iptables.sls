@@ -3,12 +3,22 @@
 {% if pillar.iptables.managed %}
 
 {% set ipf = ['ipv4', 'ipv6'] %}
+{% set iptables_persistent = pillar.iptables.persistent|default(True) %}
 
 iptables-pkg:
   pkg.installed:
     - pkgs:
       - iptables
+      {% if iptables_persistent %}
       - iptables-persistent
+      {% endif %}
+
+{% if not iptables_persistent %}
+iptables-pkg-purged:
+  pkg.purged:
+    - pkgs:
+      - iptables-persistent
+{% endif %}
 
 {% for f in ipf %}
 iptables-default-input-{{ f }}:
