@@ -3,7 +3,7 @@
 
 # Check if the script is run as root
 if [ "$(id -u)" -ne 0 ]; then
-    echo "This script must be run as root."
+    echo "This script must be run as root"
     exit 1
 fi
 
@@ -20,7 +20,12 @@ iptables -t nat -X
 iptables -t mangle -F
 iptables -t mangle -X
 
-echo "All iptables rules have been flushed."
+echo "All iptables rules have been flushed"
 
 # Save the changes
-echo "" > /etc/iptables/rules.v4
+if [[ -f /etc/iptables/rules.v4 ]]; then
+    echo "" > /etc/iptables/rules.v4
+    echo "Flushed rules have been saved to /etc/iptables/rules.v4"
+else
+    echo "/etc/iptables/rules.v4 does not exist"
+fi
