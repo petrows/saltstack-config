@@ -22,5 +22,6 @@ nftables-pkg:
     - group: root
     - mode: 0644
     - makedirs: True
+    - template: jinja
     - require:
       - pkg: nftables-pkg
