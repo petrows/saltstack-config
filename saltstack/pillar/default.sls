@@ -205,9 +205,7 @@ ssh_machines:
 
 iptables:
   managed: True # Enable management and persistance
-  strict_mode: False # If true all input traffic will be blocked by default
-  ports_open: {} # Ports, which are open for all
-  hosts_open: {} # IP's, which has no restrictions
+  # Not supported by NFT
   strings_block: {}
 
 # Common firewall config

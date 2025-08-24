@@ -10,7 +10,7 @@ packages:
 check_mk_plugins:
   - smart
 
-iptables:
+firewall:
   strict_mode: False
 
 pve:

@@ -7,7 +7,7 @@ dante:
   port: 1080
   if_external: eth0
 
-iptables:
+firewall:
   ports_open:
     dante:
       dst: 1080

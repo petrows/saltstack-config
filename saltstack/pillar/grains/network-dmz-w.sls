@@ -1,5 +1,5 @@
 # Config for machines in w network
 
-iptables:
+firewall:
   # Allow connections by default (hosts under firewall already)
   strict_mode: False

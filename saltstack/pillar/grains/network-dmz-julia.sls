@@ -7,7 +7,7 @@ upgrades:
   # Do not install upgrades on remote hosts
   auto: False
 
-iptables:
+firewall:
   # Allow connections by default (hosts under firewall already)
   strict_mode: False
 

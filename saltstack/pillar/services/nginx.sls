@@ -4,7 +4,7 @@ roles:
 check_mk_plugins:
   - nginx_status.py
 
-iptables:
+firewall:
   ports_open:
     nginx-http:
       dst: 80

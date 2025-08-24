@@ -1,6 +1,9 @@
 roles:
   - nftables
-  - docker
+#  - docker
+
+include:
+  - services.nginx
 
 iptables:
   managed: False
