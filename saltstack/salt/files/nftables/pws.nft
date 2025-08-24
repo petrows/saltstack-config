@@ -55,9 +55,10 @@ table inet pws-filter {
 
         # Logging
         # log prefix "[nftables] Inbound Denied: " flags all counter drop
-
-        log prefix "FINAL_REJECT: "
-        reject with icmpx admin-prohibited
+{%- if pillar.firewall.strict_mode %}
+        # log prefix "nftables drop in: "
+        counter drop
+{%- endif %}
     }
     # Chain for IPv4 specific rules (input)
     chain input_v4 {
@@ -68,6 +69,11 @@ table inet pws-filter {
     chain forward {
         type filter hook forward priority filter
         policy {{ strict_policy }}
+
+{%- if pillar.firewall.strict_mode %}
+        # log prefix "nftables drop fw: "
+        counter drop
+{%- endif %}
     }
     chain output {
         type filter hook output priority filter

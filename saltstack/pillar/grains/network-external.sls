@@ -3,7 +3,7 @@
 # * Avaliable from world
 # * Not behind LAN firewall (and DMZ)
 
-iptables:
+firewall:
   # All machines in DMZ / EXT network must be more secured via firewall
   strict_mode: True
 
