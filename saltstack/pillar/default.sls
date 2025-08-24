@@ -210,6 +210,17 @@ iptables:
   hosts_open: {} # IP's, which has no restrictions
   strings_block: {}
 
+# Common firewall config
+firewall:
+  # Enable firewall?
+  enabled: True
+  # Default policy for INPUT chain
+  strict_mode: False
+  # Ports, which are open for all
+  ports_open: {}
+  # IP's, which has no restrictions
+  hosts_open: {}
+
 nginx:
   # Force generate new dhparm keys for Nginx (required for external servers)
   dhparam: False

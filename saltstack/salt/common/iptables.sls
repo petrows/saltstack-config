@@ -82,7 +82,7 @@ iptables-port-open-ssh-{{ f }}:
     - family: {{ f }}
     - chain: INPUT
     - jump: ACCEPT
-    - dport: {{pillar.ssh.port }}
+    - dport: {{ pillar.ssh.port }}
     - protocol: tcp
     - save: True
 

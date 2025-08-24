@@ -1,6 +1,12 @@
 #!/usr/sbin/nft -f
 # Ruleset files related to PWS config
 
+{%- if pillar.firewall.strict_mode %}
+    {%- set strict_policy = 'drop' %}
+{%- else %}
+    {%- set strict_policy = 'accept' %}
+{%- endif %}
+
 # Reload all tables if (not)exists
 table inet pws-filter
 table inet pws-nat
@@ -14,7 +20,7 @@ flush table inet pws-mangle
 table inet pws-filter {
     chain input {
         type filter hook input priority filter
-        policy accept
+        policy {{ strict_policy }}
 
         # Allow traffic from established and related packets
         ct state established,related counter accept
@@ -25,30 +31,43 @@ table inet pws-filter {
         # Allow loopback traffic
         iifname lo accept
 
-        icmp type echo-request counter reject with icmp type admin-prohibited
+        # Allow all ICMP and IGMP traffic, but enforce a rate limit
+        # to help prevent some types of flood attacks.
+        ip protocol icmp limit rate 10/second accept
+        ip6 nexthdr ipv6-icmp limit rate 10/second accept
+        ip protocol igmp limit rate 10/second accept
 
-        # Allow SSH on port 22
-        tcp dport 22 counter accept
+        # Allow SSH
+        tcp dport {{ pillar.ssh.port }} counter accept comment "Allow SSH (port {{ pillar.ssh.port }})"
 
-        # Allow HTTP(S).
-        # -- From anywhere
-        tcp dport { http, https } counter accept
-        udp dport { http, https } counter accept
+        # Allow DNS (UDP and TCP)
+        udp dport 53 counter accept comment "Allow DNS (UDP)"
+        tcp dport 53 counter accept comment "Allow DNS (TCP)"
+
+        # Opened ports
+        {% for name, port in pillar.firewall.ports_open.items() %}
+        # Allow {{ name }}
+        {{ port.proto | default('tcp') }} dport {{ port.dst }} counter accept comment "Allow port: {{ name }}"
+        {% endfor %}
 
         # Jump to chain according to layer 3 protocol using a verdict map
-        meta protocol vmap { ip : jump input_v4, ip6 : jump input_v6 }
+        # meta protocol vmap { ip : jump input_v4, ip6 : jump input_v6 }
+
+        # Logging
+        # log prefix "[nftables] Inbound Denied: " flags all counter drop
+
+        log prefix "FINAL_REJECT: "
+        reject with icmpx admin-prohibited
     }
     # Chain for IPv4 specific rules (input)
     chain input_v4 {
     }
     # Chain for IPv6 specific rules (input)
     chain input_v6 {
-        # Allow ICMPv6
-        meta l4proto ipv6-icmp counter accept
     }
     chain forward {
         type filter hook forward priority filter
-        policy accept
+        policy {{ strict_policy }}
     }
     chain output {
         type filter hook output priority filter
