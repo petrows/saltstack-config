@@ -26,6 +26,9 @@
 
 {% set kube_open_ports = ['10257', '10259'] %}
 
+# -A PREROUTING ! -d 127.0.0.1/32 -p tcp -m tcp --dport 10259 -j DNAT --to-destination 127.0.0.1:10259
+# -A PREROUTING ! -d 127.0.0.1/32 -p tcp -m tcp --dport 10257 -j DNAT --to-destination 127.0.0.1:10257
+
 {% for port in kube_open_ports %}
 # Redirect localhost-only ports from external requests
 kube-port-{{ port }}:

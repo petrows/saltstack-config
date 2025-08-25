@@ -50,6 +50,10 @@ table inet pws-filter {
         {{ port.proto | default('tcp') }} dport {{ port.dst }} counter accept comment "Allow port: {{ name }}"
         {% endfor %}
 
+        {%- if pillar.check_mk_agent.ssh %}
+        tcp dport 6556 counter drop comment "Drop Check_MK agent port if SSH is enabled"
+        {%- endif %}
+
         # Jump to chain according to layer 3 protocol using a verdict map
         # meta protocol vmap { ip : jump input_v4, ip6 : jump input_v6 }
 
