@@ -13,7 +13,7 @@ check_mk_no_agent_port:
     - jump: DROP
     - protocol: tcp
     - dport: 6556
-    - save: True
+    - save: False
 {% endif %}
 {% endif %}
 
