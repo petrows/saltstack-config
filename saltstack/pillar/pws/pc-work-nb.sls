@@ -3,7 +3,7 @@
 # i3 config options
 i3:
   display_config_id: work-nb
-  temp_read: /sys/devices/platform/coretemp.0/hwmon/hwmon6/temp1_input
+  temp_read: /sys/devices/platform/coretemp.0/hwmon/hwmon7/temp1_input
   # Enable compton?
   composite: False
 
@@ -16,11 +16,13 @@ xsession:
       light -N 1
       light -S 10
       # Detect lid state and decide - what to use
-      if grep -q closed /proc/acpi/button/lid/LID0/state; then
+      if grep -q closed /proc/acpi/button/lid/LID1/state; then
         # Closed lid
+        echo "Lid is closed"
         /usr/local/sbin/setscreen-double
       else
         # Open lid
+        echo "Lid is open"
         export GDK_DPI_SCALE=1.2
         /usr/local/sbin/setscreen-onboard
       fi

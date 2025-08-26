@@ -1,6 +1,8 @@
 #!/bin/sh
 # Warning: executed by /bin/sh
 
+sleep 1
+
 # Force all QT apps to use this theme
 export QT_QPA_PLATFORMTHEME=qt6ct
 # Force libreoffice to use this theme
