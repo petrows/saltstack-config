@@ -5,8 +5,8 @@
 CFG_ID={{ pillar.i3.display_config_id }}
 
 # We are laptop?
-if [[ -f /proc/acpi/button/lid/LID0/state ]]; then
-    if grep -q open /proc/acpi/button/lid/LID0/state; then
+if [[ -f /proc/acpi/button/lid/LID1/state ]]; then
+    if grep -q open /proc/acpi/button/lid/LID1/state; then
         CFG_ID="${CFG_ID}-single"
     fi
 fi

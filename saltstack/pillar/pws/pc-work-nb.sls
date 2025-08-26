@@ -15,17 +15,11 @@ xsession:
       # Minimal value
       light -N 1
       light -S 10
-      # Detect lid state and decide - what to use
-      if grep -q closed /proc/acpi/button/lid/LID1/state; then
-        # Closed lid
-        echo "Lid is closed"
-        /usr/local/sbin/setscreen-double
-      else
-        # Open lid
-        echo "Lid is open"
-        export GDK_DPI_SCALE=1.2
-        /usr/local/sbin/setscreen-onboard
-      fi
+      # Detect and set screen layout
+      . /usr/local/sbin/setscreen-auto
 
 kernel-modules:
   nct6775: False
+
+# Swap file for hibernate or sleep
+swap_size_mb: 4096

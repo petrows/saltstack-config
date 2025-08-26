@@ -1,0 +1,3 @@
+#!/bin/bash
+
+xrandr | grep -q "$1 connected"
