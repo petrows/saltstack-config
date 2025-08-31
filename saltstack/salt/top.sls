@@ -17,10 +17,6 @@ base:
     - common.scripts
     - roles.docker-compose-macro
 
-  'roles:nftables':
-    - match: pillar
-    - common.nftables
-
   # HW based
   'roles:server-vm':
     - match: pillar

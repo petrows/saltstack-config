@@ -47,3 +47,11 @@ nftables.service:
   service.enabled:
     - require:
       - pkg: nftables-pkg
+
+# Remove legacy config
+iptables-pkg:
+  pkg.purged:
+    - pkgs:
+      - iptables-persistent
+/etc/iptables:
+  file.absent: []

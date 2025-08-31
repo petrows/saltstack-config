@@ -101,10 +101,11 @@ table inet pws-nat {
         {{ rule }} comment "Custom rule: {{ name }}"
         {%- endfor %}
     }
-    chain output {
-        type nat hook output priority dstnat
-        policy accept
-    }
+    # Not supported in old debian?
+    # chain output {
+    #     type nat hook output priority dstnat
+    #     policy accept
+    # }
 }
 
 table inet pws-mangle {

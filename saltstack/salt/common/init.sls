@@ -2,7 +2,7 @@ include:
   - common.packages
   - common.fzf
   - common.ssh
-  - common.iptables
+  - common.nftables
   - common.python
 
 locale-us:
