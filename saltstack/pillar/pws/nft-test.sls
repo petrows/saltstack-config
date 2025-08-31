@@ -5,9 +5,6 @@ roles:
 include:
   - services.nginx
 
-iptables:
-  managed: False
-
 # Common firewall config
 firewall:
   # Default policy for INPUT chain

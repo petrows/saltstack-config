@@ -18,9 +18,6 @@ k8s:
       serviceSubnet: "10.98.0.0/16"
       podSubnet: "10.99.0.0/16"
 
-iptables:
-  managed: False
-
 # Firewall rules for NAT
 {% set kube_open_ports = ['10257', '10259'] %}
 firewall:

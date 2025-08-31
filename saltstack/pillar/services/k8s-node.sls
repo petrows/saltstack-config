@@ -17,10 +17,6 @@ k8s:
   ct: True
   {% endif %}
 
-# Disable iptables management
-iptables:
-  managed: False
-
 # VM only
 {% if not is_ct %}
 
