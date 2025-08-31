@@ -5,16 +5,6 @@ install_check_mk:
   pkg.installed:
     - sources:
       - check-mk-agent: {{ pillar.check_mk_agent.base }}{{ pillar.check_mk_agent.filename }}
-{% if pillar.check_mk_agent.ssh %}
-check_mk_no_agent_port:
-  iptables.append:
-    - table: filter
-    - chain: INPUT
-    - jump: DROP
-    - protocol: tcp
-    - dport: 6556
-    - save: False
-{% endif %}
 {% endif %}
 
 # Install plugins?
