@@ -42,3 +42,8 @@ nftables-reload-main:
     - name: 'nft -f /etc/nftables.conf'
     - onchanges:
       - file: /etc/nftables.conf
+
+nftables.service:
+  service.enabled:
+    - require:
+      - pkg: nftables-pkg
