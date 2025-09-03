@@ -19,9 +19,9 @@ wireguard-pkg:
       - wireguard
       - wireguard-tools
       - iptables
-      {% if iptables_persistent %}
-      - iptables-persistent
-      {% endif %}
+      # {% if iptables_persistent %}
+      # - iptables-persistent
+      # {% endif %}
 
 # Install Amneziawg?
 {% if ns.cfg.awg or salt['pillar.get']('wireguard:awg', None) %}

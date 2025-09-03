@@ -6,10 +6,10 @@
 {% set default_if = salt['network.default_route']('inet')[0]['interface'] %}
 {% set default_ip = salt['network.ip_addrs'](default_if)[0] %}
 
-awg-pkg:
-  pkg.installed:
-    - pkgs:
-      - iptables-persistent
+# awg-pkg:
+#   pkg.installed:
+#     - pkgs:
+#       - iptables-persistent
 
 awg-repo:
   pkgrepo.managed:
