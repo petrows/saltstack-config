@@ -220,6 +220,7 @@ firewall:
   hosts_open: {}
   # Extra rules, format is rule_id: <text>
   rules_filter_input: {}
+  rules_filter_forward: {}
   rules_nat_prerouting: {}
   rules_mangle_prerouting: {}
   # Extra rule files to include, format is id: <enable>

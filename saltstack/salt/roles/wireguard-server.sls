@@ -116,10 +116,10 @@ amnezia-pkg:
   {%- set peer_ip, peer_netmask = peer.address.split('/') %}
   {%- set peer_ports = peer.ports|default([]) %}
   {%- for port in peer_ports %}
-        PreUp = iptables -t nat -A PREROUTING -d {{ default_ip }} -p tcp --dport {{ port }} -j DNAT --to-destination {{ peer_ip }}
-        PreUp = iptables -t nat -A PREROUTING -d {{ default_ip }} -p udp --dport {{ port }} -j DNAT --to-destination {{ peer_ip }}
-        PostDown = iptables -t nat -D PREROUTING -d {{ default_ip }} -p tcp --dport {{ port }} -j DNAT --to-destination {{ peer_ip }}
-        PostDown = iptables -t nat -D PREROUTING -d {{ default_ip }} -p udp --dport {{ port }} -j DNAT --to-destination {{ peer_ip }}
+        PreUp = iptables-nft -t nat -A PREROUTING -d {{ default_ip }} -p tcp --dport {{ port }} -j DNAT --to-destination {{ peer_ip }}
+        PreUp = iptables-nft -t nat -A PREROUTING -d {{ default_ip }} -p udp --dport {{ port }} -j DNAT --to-destination {{ peer_ip }}
+        PostDown = iptables-nft -t nat -D PREROUTING -d {{ default_ip }} -p tcp --dport {{ port }} -j DNAT --to-destination {{ peer_ip }}
+        PostDown = iptables-nft -t nat -D PREROUTING -d {{ default_ip }} -p udp --dport {{ port }} -j DNAT --to-destination {{ peer_ip }}
   {%- endfor %}
 {%- endfor %}
 {%- for peer_id, peer in peers.items() %}

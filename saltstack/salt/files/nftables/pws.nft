@@ -60,13 +60,6 @@ table inet pws-filter {
 
         # Jump to chain according to layer 3 protocol using a verdict map
         meta protocol vmap { ip : jump input_v4, ip6 : jump input_v6 }
-
-        # Logging
-        # log prefix "[nftables] Inbound Denied: " flags all counter drop
-{%- if pillar.firewall.strict_mode %}
-        # log prefix "nftables drop in: "
-        # counter drop
-{%- endif %}
     }
     # Chain for IPv4 specific rules (input)
     chain input_v4 {
@@ -77,11 +70,9 @@ table inet pws-filter {
     chain forward {
         type filter hook forward priority filter
         policy {{ strict_policy }}
-
-{%- if pillar.firewall.strict_mode %}
-        # log prefix "nftables drop fw: "
-        # counter drop
-{%- endif %}
+        {%- for name, rule in pillar.firewall.rules_filter_forward.items() %}
+        {{ rule }} comment "Custom rule: {{ name }}"
+        {%- endfor %}
     }
     chain output {
         type filter hook output priority filter
