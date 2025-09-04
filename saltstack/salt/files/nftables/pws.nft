@@ -69,7 +69,7 @@ table inet pws-filter {
     }
     chain forward {
         type filter hook forward priority filter
-        policy {{ strict_policy }}
+        policy accept
         {%- for name, rule in pillar.firewall.rules_filter_forward.items() %}
         {{ rule }} comment "Custom rule: {{ name }}"
         {%- endfor %}
@@ -131,7 +131,7 @@ table inet pws-filter {
     }
     chain forward {
         # log prefix "nftables drop fw: "
-        counter drop
+        # counter drop
     }
 }
 {%- endif %}
