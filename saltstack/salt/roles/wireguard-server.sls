@@ -1,7 +1,6 @@
 # Role for generic wireguard server
 
-{% set iptables_enable =  salt['pillar.get']('wireguard:iptables', True) %}
-{% set iptables_persistent =  salt['pillar.get']('wireguard:iptables_persistent', True) %}
+{% set firewall_enable =  salt['pillar.get']('wireguard:iptables', True) %}
 
 {% set default_if = salt['network.default_route']('inet')[0]['interface'] %}
 {% set default_ip = salt['network.ip_addrs'](default_if)[0] %}
@@ -19,9 +18,6 @@ wireguard-pkg:
       - wireguard
       - wireguard-tools
       - iptables
-      # {% if iptables_persistent %}
-      # - iptables-persistent
-      # {% endif %}
 
 # Install Amneziawg?
 {% if ns.cfg.awg or salt['pillar.get']('wireguard:awg', None) %}
@@ -44,6 +40,37 @@ amnezia-pkg:
     - pkgs:
       - amneziawg
 {% endif %}
+
+# Firewall config
+/etc/nftables.d/wg-server.nft:
+  file.managed:
+    - makedirs: True
+    - contents: |
+        {%- if firewall_enable %}
+        table inet pws-filter {
+            chain input {
+                {% for server_id, server in salt['pillar.get']('wireguard-server', {}).items() %}
+                {%- if server.get('port', False) %}
+                # Open incoming port for (A)WG {{ server_id }}
+                udp dport {{ server.port }} counter accept comment "(A)WG {{ server_id }}"
+                {%- endif %}
+                {%- endfor %}
+            }
+            chain forward {
+                {% for server_id, server in salt['pillar.get']('wireguard-server', {}).items() %}
+                {% set server_type = server.get('type', 'wg') %}
+                # Allow forwarding for {{ server_type|upper }} {{ server_id }}
+                iifname "{{ server_type }}-{{ server_id }}" counter accept comment "{{ server_type|upper }} {{ server_id }}"
+                oifname "{{ server_type }}-{{ server_id }}" counter accept comment "{{ server_type|upper }} {{ server_id }}"
+                {%- endfor %}
+            }
+        }
+        table inet pws-nat {
+            chain postrouting {
+                oifname "{{ default_if }}" counter masquerade comment "AWG Masquerade"
+            }
+        }
+        {%- endif %}
 
 # Server config(s)
 
@@ -114,54 +141,7 @@ amnezia-pkg:
     - watch:
       - file: {{ server_conf_path }}
 {% endif %}
-
-# Create iptables rules?
-{% if iptables_enable %}
-
-# If server defines port - open it
-{% if server.get('port', False) %}
-wireguard-input-{{ server_id }}:
-  iptables.append:
-    - table: filter
-    - chain: INPUT
-    - jump: ACCEPT
-    - protocol: udp
-    - dport: {{ server.port }}
-    - comment: "WG {{ server_id }}"
-    - save: True
-{%- endif %}
-
-wireguard-forward-in-{{ server_id }}:
-  iptables.append:
-    - table: filter
-    - chain: FORWARD
-    - jump: ACCEPT
-    - in-interface: {{ server_type }}-{{ server_id }}
-    - comment: "WG {{ server_id }}"
-    - save: True
-
-wireguard-forward-out-{{ server_id }}:
-  iptables.append:
-    - table: filter
-    - chain: FORWARD
-    - jump: ACCEPT
-    - out-interface: {{ server_type }}-{{ server_id }}
-    - comment: "WG {{ server_id }}"
-    - save: True
-
-{% endif %} # iptables option
-
 {% endfor %} # Servers
-
-{% if iptables_enable %}
-wireguard-masquerade:
-  iptables.append:
-    - table: nat
-    - chain: POSTROUTING
-    - jump: MASQUERADE
-    - out-interface: {{ default_if }}
-    - save: True
-{% endif %}
 
 iptables-masquerade-sysctl:
   sysctl.present:

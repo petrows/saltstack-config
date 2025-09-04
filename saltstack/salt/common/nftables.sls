@@ -23,6 +23,11 @@ nftables-reload-pws:
     - name: 'nft -f /etc/nftables.d/pws.nft'
     - onchanges:
       - file: /etc/nftables.d/pws.nft
+{%- for id, enable in pillar.firewall.include_files.items() %}
+{%- if enable %}
+      - file: /etc/nftables.d/{{ id }}.nft
+{%- endif %}
+{%- endfor %}
 
 # Primary config has to be checked last, because it loads all other files
 # and overwrites all if changed
@@ -34,6 +39,7 @@ nftables-reload-pws:
     - group: root
     - mode: 0644
     - makedirs: True
+    - template: jinja
     - require:
       - pkg: nftables-pkg
 

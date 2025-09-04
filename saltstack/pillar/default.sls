@@ -218,10 +218,13 @@ firewall:
   ports_open: {}
   # IP's, which has no restrictions
   hosts_open: {}
-  # Extra rules
+  # Extra rules, format is rule_id: <text>
   rules_filter_input: {}
   rules_nat_prerouting: {}
   rules_mangle_prerouting: {}
+  # Extra rule files to include, format is id: <enable>
+  # Location MUST be /etc/nftables.d/<id>.nft
+  include_files: {}
 
 nginx:
   # Force generate new dhparm keys for Nginx (required for external servers)
