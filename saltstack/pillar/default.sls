@@ -30,7 +30,7 @@ apt:
     vagrant: salt://files/apt-keyring/vagrant.gpg.source
     lens: https://downloads.k8slens.dev/keys/gpg
     docker: https://download.docker.com/linux/ubuntu/gpg
-    helm: https://baltocdn.com/helm/signing.asc
+    helm: https://packages.buildkite.com/helm-linux/helm-debian/gpgkey
     # The same signing key is used for all repositories so you can disregard the version in the URL:
     k8s: https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key
     # WineHQ keys
