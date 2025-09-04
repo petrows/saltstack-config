@@ -50,7 +50,7 @@ table inet pws-filter {
         {{ port.proto | default('tcp') }} dport {{ port.dst }} counter accept comment "Allow port: {{ name }}"
         {% endfor %}
 
-        {%- if pillar.check_mk_agent.ssh %}
+        {%- if pillar.check_mk_agent.ssh|default(False) %}
         tcp dport 6556 counter drop comment "Drop Check_MK agent port if SSH is enabled"
         {%- endif %}
 
