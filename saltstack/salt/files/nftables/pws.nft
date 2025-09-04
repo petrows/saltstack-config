@@ -8,18 +8,18 @@
 {%- endif %}
 
 # Reload all tables if (not)exists
-table inet pws-filter
+table ip pws-filter
 table inet pws-nat
 table inet pws-mangle
 
 # Flush old tables
-flush table inet pws-filter
+flush table ip pws-filter
 flush table inet pws-nat
 flush table inet pws-mangle
 
-table inet pws-filter {
+table ip pws-filter {
     chain input {
-        type filter hook input priority filter; policy {{ strict_policy }};
+        type filter hook input priority 1; policy drop;
         meta nftrace set 1
         log prefix "ip pws-filter input: " counter
 
@@ -35,7 +35,7 @@ table inet pws-filter {
         # Allow all ICMP and IGMP traffic, but enforce a rate limit
         # to help prevent some types of flood attacks.
         ip protocol icmp limit rate 10/second accept
-        ip6 nexthdr ipv6-icmp limit rate 10/second accept
+        # ip6 nexthdr ipv6-icmp limit rate 10/second accept
         ip protocol igmp limit rate 10/second accept
 
         # Allow SSH
@@ -60,7 +60,7 @@ table inet pws-filter {
         {%- endfor %}
 
         # Jump to chain according to layer 3 protocol using a verdict map
-        meta protocol vmap { ip : jump input_v4, ip6 : jump input_v6 }
+        # meta protocol vmap { ip : jump input_v4, ip6 : jump input_v6 }
     }
     # Chain for IPv4 specific rules (input)
     chain input_v4 {
@@ -69,7 +69,7 @@ table inet pws-filter {
     chain input_v6 {
     }
     chain forward {
-        type filter hook forward priority filter; policy {{ strict_policy }};
+        type filter hook forward priority 1; policy {{ strict_policy }};
         meta nftrace set 1
         log prefix "ip pws-filter forward: " counter
 
