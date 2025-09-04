@@ -47,7 +47,7 @@ amnezia-pkg:
     - makedirs: True
     - contents: |
         {%- if firewall_enable %}
-        table inet pws-filter {
+        table inet filter {
             chain input {
                 {% for server_id, server in salt['pillar.get']('wireguard-server', {}).items() %}
                 {%- if server.get('port', False) %}
@@ -65,7 +65,7 @@ amnezia-pkg:
                 {%- endfor %}
             }
         }
-        table inet pws-nat {
+        table inet nat {
             chain postrouting {
                 oifname "{{ default_if }}" counter masquerade comment "AWG Masquerade"
             }

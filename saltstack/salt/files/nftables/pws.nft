@@ -19,8 +19,9 @@ flush table inet pws-mangle
 
 table inet pws-filter {
     chain input {
-        type filter hook input priority filter
-        policy {{ strict_policy }}
+        type filter hook input priority filter; policy {{ strict_policy }};
+        meta nftrace set 1
+        log prefix "ip pws-filter input: " counter
 
         # Allow traffic from established and related packets
         ct state established,related counter accept
@@ -68,8 +69,10 @@ table inet pws-filter {
     chain input_v6 {
     }
     chain forward {
-        type filter hook forward priority filter
-        policy {{ strict_policy }}
+        type filter hook forward priority filter; policy {{ strict_policy }};
+        meta nftrace set 1
+        log prefix "ip pws-filter forward: " counter
+
         {%- for name, rule in pillar.firewall.rules_filter_forward.items() %}
         {{ rule }} comment "Custom rule: {{ name }}"
         {%- endfor %}
@@ -127,11 +130,11 @@ table inet pws-filter {
         # log prefix "[nftables] Inbound Denied: " flags all counter drop
 
         # log prefix "nftables drop in: "
-        counter drop
+        # counter drop
     }
     chain forward {
         # log prefix "nftables drop fw: "
-        counter drop
+        # counter drop
     }
 }
 {%- endif %}

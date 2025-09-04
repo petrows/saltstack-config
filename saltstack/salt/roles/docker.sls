@@ -39,6 +39,7 @@ docker.service:
     - watch:
       - pkg: docker-pkg
       - file: /etc/docker/*
+      - file: /etc/nftables.conf
 
 # We will remove (potentially outdated) package and install it from official source
 docker-compose-pkg-clean:
