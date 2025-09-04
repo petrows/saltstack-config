@@ -134,24 +134,6 @@ Add user to shares:
 docker exec -it Samba smbpasswd -a master
 ```
 
-## Generate new OpenVPN profile
-
-Basic usage:
-
-```bash
-./bin/secrets-get.sh
-./bin/easyrsa-gen.sh <server-name> <client-name>
-```
-
-Initalize **new** secrets folder:
-
-```bash
-./bin/secrets-get.sh
-sudo apt install easy-rsa
-mkdir -p secrets/salt/files/openvpn/
-cp -rva /usr/share/easy-rsa secrets/salt/files/openvpn/
-```
-
 ## Mikrotik monitoring
 
 Add user:

@@ -114,11 +114,6 @@ proxy_vhosts:
     ssl: external
     enable_robots: False
 
-# Proxies
-iptables:
-    stream-sb0y-proxy:
-      dst: 4343
-
 proxy_streams:
   # Sb0y stream endpoint
   sb0y-proxy:

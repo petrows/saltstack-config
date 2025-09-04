@@ -358,3 +358,6 @@ base:
     - services.vmagent-passive
     - services.jvpn
     - b.vpn
+
+  'nft-test.pws':
+    - pws.nft-test

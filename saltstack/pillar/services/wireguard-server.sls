@@ -7,6 +7,12 @@ roles:
 apt:
   use_src: True
 
+# Include specific firewall configs
+firewall:
+  include_files:
+    wg-server: True
+
+
 {#
 
 Configuration example for pillar:

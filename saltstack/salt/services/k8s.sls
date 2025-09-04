@@ -48,12 +48,12 @@ k8s-pkg-hold:
           It allows you to define, install, and upgrade even the most complex Kubernetes applications.
           Helm uses a packaging format called charts.
           - Website: https://helm.sh
-          - Public key: https://baltocdn.com/helm/signing.asc
+          - Public key: https://packages.buildkite.com/helm-linux/helm-debian/gpgkey
         Enabled: yes
         Types: deb
-        URIs: https://baltocdn.com/helm/stable/debian/
+        URIs: https://packages.buildkite.com/helm-linux/helm-debian/any/
         Signed-By: /etc/apt/keyrings/helm.gpg
-        Suites: all
+        Suites: any
         Components: main
 
 # Krew

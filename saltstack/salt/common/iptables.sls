@@ -25,14 +25,14 @@ iptables-default-input-{{ f }}:
   iptables.set_policy:
     - chain: INPUT
     - family: {{ f }}
-    - policy: {% if pillar.iptables.strict_mode %}DROP{% else %}ACCEPT{% endif %}
+    - policy: {% if pillar.firewall.strict_mode %}DROP{% else %}ACCEPT{% endif %}
     - save: True
 
 iptables-default-forward-{{ f }}:
   iptables.set_policy:
     - chain: FORWARD
     - family: {{ f }}
-    - policy: {% if pillar.iptables.strict_mode %}DROP{% else %}ACCEPT{% endif %}
+    - policy: {% if pillar.firewall.strict_mode %}DROP{% else %}ACCEPT{% endif %}
     - save: True
 
 iptables-port-allow-opened-{{ f }}:
@@ -82,12 +82,12 @@ iptables-port-open-ssh-{{ f }}:
     - family: {{ f }}
     - chain: INPUT
     - jump: ACCEPT
-    - dport: {{pillar.ssh.port }}
+    - dport: {{ pillar.ssh.port }}
     - protocol: tcp
     - save: True
 
 # Allowed ports
-{% for name, port in pillar.iptables.ports_open.items() %}
+{% for name, port in pillar.firewall.ports_open.items() %}
 iptables-port-open-{{ name }}-{{ f }}:
   iptables.append:
     - table: filter
@@ -100,7 +100,7 @@ iptables-port-open-{{ name }}-{{ f }}:
 {% endfor %}
 
 # Allowed hosts
-{% for name, host in pillar.iptables.hosts_open.items() %}
+{% for name, host in pillar.firewall.hosts_open.items() %}
 iptables-host-open-{{ name }}-{{ f }}:
   iptables.append:
     - table: filter
@@ -130,8 +130,11 @@ iptables-str-block-{{ name }}-{{ f }}:
 {% endfor %} # Family
 
 {% else %}
+# If managed == false, drop leftovers
 iptables-pkg:
   pkg.purged:
     - pkgs:
       - iptables-persistent
+/etc/iptables:
+  file.absent: []
 {% endif %}

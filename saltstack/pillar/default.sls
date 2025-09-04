@@ -30,7 +30,7 @@ apt:
     vagrant: salt://files/apt-keyring/vagrant.gpg.source
     lens: https://downloads.k8slens.dev/keys/gpg
     docker: https://download.docker.com/linux/ubuntu/gpg
-    helm: https://baltocdn.com/helm/signing.asc
+    helm: https://packages.buildkite.com/helm-linux/helm-debian/gpgkey
     # The same signing key is used for all repositories so you can disregard the version in the URL:
     k8s: https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key
     # WineHQ keys
@@ -205,10 +205,28 @@ ssh_machines:
 
 iptables:
   managed: True # Enable management and persistance
-  strict_mode: False # If true all input traffic will be blocked by default
-  ports_open: {} # Ports, which are open for all
-  hosts_open: {} # IP's, which has no restrictions
+  # Not supported by NFT
   strings_block: {}
+
+# Common firewall config
+firewall:
+  # Enable firewall?
+  enabled: True
+  # Default policy for INPUT chain
+  strict_mode: False
+  # Ports, which are open for all
+  ports_open: {}
+  # IP's, which has no restrictions
+  hosts_open: {}
+  # Extra rules, format is rule_id: <text>
+  rules_filter_input: {}
+  rules_filter_forward: {}
+  rules_filter_output: {}
+  rules_nat_prerouting: {}
+  rules_mangle_prerouting: {}
+  # Extra rule files to include, format is id: <enable>
+  # Location MUST be /etc/nftables.d/<id>.nft
+  include_files: {}
 
 nginx:
   # Force generate new dhparm keys for Nginx (required for external servers)

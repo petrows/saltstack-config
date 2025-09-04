@@ -11,7 +11,7 @@ wireguard-server:
     address: '10.80.3.1/24' # Server VPN address
 
 # Allow home VPN to access machine
-iptables:
+firewall:
   hosts_open:
     # Allow ping
     wg_pws:

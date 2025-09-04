@@ -10,7 +10,7 @@ check_mk_plugins:
 kernel-modules:
   nct6775: False
 
-iptables:
+firewall:
   strict_mode: False
 
 pve:

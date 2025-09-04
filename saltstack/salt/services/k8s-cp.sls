@@ -23,20 +23,3 @@
         networking:
           serviceSubnet: {{ pillar.k8s.init.networking.serviceSubnet}}
           podSubnet: {{ pillar.k8s.init.networking.podSubnet}}
-
-{% set kube_open_ports = ['10257', '10259'] %}
-
-{% for port in kube_open_ports %}
-# Redirect localhost-only ports from external requests
-kube-port-{{ port }}:
-  iptables.insert:
-    - position: 1
-    - table: nat
-    - chain: PREROUTING
-    - jump: DNAT
-    - destination: '! 127.0.0.1'
-    - dport: '{{ port }}'
-    - protocol: tcp
-    - to-destination: '127.0.0.1:{{ port }}'
-    - save: True
-{% endfor %}
