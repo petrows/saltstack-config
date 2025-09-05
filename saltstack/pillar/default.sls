@@ -221,6 +221,8 @@ firewall:
   # Extra rules, format is rule_id: <text>
   rules_filter_input: {}
   rules_filter_forward: {}
+  rules_filter_forward_v4: {}
+  rules_filter_forward_v6: {}
   rules_filter_output: {}
   rules_nat_prerouting: {}
   rules_mangle_prerouting: {}

@@ -47,8 +47,9 @@ amnezia-pkg:
     - makedirs: True
     - contents: |
         {%- if firewall_enable %}
-        table inet pws-filter {
-            chain input {
+        {%- for proto in ['ip','ip6'] %}
+        table {{ proto }} filter {
+            chain INPUT {
                 {% for server_id, server in salt['pillar.get']('wireguard-server', {}).items() %}
                 {%- if server.get('port', False) %}
                 # Open incoming port for (A)WG {{ server_id }}
@@ -56,7 +57,7 @@ amnezia-pkg:
                 {%- endif %}
                 {%- endfor %}
             }
-            chain forward {
+            chain FORWARD {
                 {% for server_id, server in salt['pillar.get']('wireguard-server', {}).items() %}
                 {% set server_type = server.get('type', 'wg') %}
                 # Allow forwarding for {{ server_type|upper }} {{ server_id }}
@@ -65,11 +66,12 @@ amnezia-pkg:
                 {%- endfor %}
             }
         }
-        table inet pws-nat {
-            chain postrouting {
+        table {{ proto }} nat {
+            chain POSTROUTING {
                 oifname "{{ default_if }}" counter masquerade comment "AWG Masquerade"
             }
         }
+        {%- endfor %}
         {%- endif %}
 
 # Server config(s)

@@ -39,6 +39,8 @@ docker.service:
     - watch:
       - pkg: docker-pkg
       - file: /etc/docker/*
+      # Restart Docker if firewall was changed
+      - cmd: nftables-reload-main
 
 # We will remove (potentially outdated) package and install it from official source
 docker-compose-pkg-clean:
