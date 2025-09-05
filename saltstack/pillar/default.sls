@@ -224,7 +224,7 @@ firewall:
   rules_filter_forward_v4: {}
   rules_filter_forward_v6: {}
   rules_filter_output: {}
-  rules_nat_prerouting: {}
+  rules_nat_prerouting_v4: {}
   rules_mangle_prerouting: {}
   # Extra rule files to include, format is id: <enable>
   # Location MUST be /etc/nftables.d/<id>.nft

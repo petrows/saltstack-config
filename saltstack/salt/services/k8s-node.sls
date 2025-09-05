@@ -52,3 +52,5 @@ kubelet.service:
     - enable: True
     - watch:
       - pkg: k8s-pkg
+      # Restart k8s if firewall was changed
+      - cmd: nftables-reload-main

@@ -21,7 +21,7 @@ k8s:
 # Firewall rules for NAT
 {% set kube_open_ports = ['10257', '10259'] %}
 firewall:
-  rules_nat_prerouting:
+  rules_nat_prerouting_v4:
     {% for port in kube_open_ports %}
     kube_cp_port_{{ port }}: "ip daddr != 127.0.0.1 tcp dport {{ port }} counter dnat to 127.0.0.1:{{ port }}"
     {% endfor %}
