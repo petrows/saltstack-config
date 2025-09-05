@@ -6,21 +6,25 @@
 {%- else %}
     {%- set strict_policy = 'accept' %}
 {%- endif %}
+{%- set proto_tables = ['ip', 'ip6'] %}
 
+{%- for proto in proto_tables %}
 # Reload all tables if (not)exists
-table ip pws-filter
-table inet pws-nat
-table inet pws-mangle
+table {{ proto }} filter
+table {{ proto }} nat
+table {{ proto }} mangle
 
 # Flush old tables
-flush table ip pws-filter
-flush table inet pws-nat
-flush table inet pws-mangle
+flush table {{ proto }} filter
+flush table {{ proto }} nat
+flush table {{ proto }} mangle
+{%- endfor %}
 
-table ip pws-filter {
+{%- for proto in proto_tables %}
+table {{ proto }} filter {
     chain input {
         type filter hook input priority 1; policy drop;
-        meta nftrace set 1
+        # meta nftrace set 1
         log prefix "ip pws-filter input: " counter
 
         # Allow traffic from established and related packets
@@ -34,9 +38,12 @@ table ip pws-filter {
 
         # Allow all ICMP and IGMP traffic, but enforce a rate limit
         # to help prevent some types of flood attacks.
+        {%- if proto == 'ip' %}
         ip protocol icmp limit rate 10/second accept
-        # ip6 nexthdr ipv6-icmp limit rate 10/second accept
         ip protocol igmp limit rate 10/second accept
+        {%- else %}
+        ip6 nexthdr ipv6-icmp limit rate 10/second accept
+        {%- endif %}
 
         # Allow SSH
         tcp dport {{ pillar.ssh.port }} counter accept comment "Allow SSH (port {{ pillar.ssh.port }})"
@@ -58,15 +65,6 @@ table ip pws-filter {
         {%- for name, rule in pillar.firewall.rules_filter_input.items() %}
         {{ rule }} comment "Custom rule: {{ name }}"
         {%- endfor %}
-
-        # Jump to chain according to layer 3 protocol using a verdict map
-        # meta protocol vmap { ip : jump input_v4, ip6 : jump input_v6 }
-    }
-    # Chain for IPv4 specific rules (input)
-    chain input_v4 {
-    }
-    # Chain for IPv6 specific rules (input)
-    chain input_v6 {
     }
     chain forward {
         type filter hook forward priority 1; policy {{ strict_policy }};
@@ -78,12 +76,12 @@ table ip pws-filter {
         {%- endfor %}
     }
     chain output {
-        type filter hook output priority filter
+        type filter hook output priority 1
         policy accept
     }
 }
 
-table inet pws-nat {
+table {{ proto }} nat {
     chain postrouting {
         type nat hook postrouting priority srcnat
         policy accept
@@ -102,7 +100,7 @@ table inet pws-nat {
     # }
 }
 
-table inet pws-mangle {
+table {{ proto }} mangle {
     chain prerouting {
         type filter hook prerouting priority mangle
         policy accept
@@ -115,6 +113,7 @@ table inet pws-mangle {
         policy accept
     }
 }
+{%- endfor %}
 
 {%- for id, enable in pillar.firewall.include_files.items() %}
 {%- if enable %}
@@ -122,19 +121,19 @@ include "/etc/nftables.d/{{ id }}.nft"
 {%- endif %}
 {%- endfor %}
 
-# Ruleset files related to PWS config (post-setup)
-{%- if pillar.firewall.strict_mode %}
-table inet pws-filter {
-    chain input {
-        # Logging
-        # log prefix "[nftables] Inbound Denied: " flags all counter drop
+# # Ruleset files related to PWS config (post-setup)
+# {%- if pillar.firewall.strict_mode %}
+# table inet pws-filter {
+#     chain input {
+#         # Logging
+#         # log prefix "[nftables] Inbound Denied: " flags all counter drop
 
-        # log prefix "nftables drop in: "
-        # counter drop
-    }
-    chain forward {
-        # log prefix "nftables drop fw: "
-        # counter drop
-    }
-}
-{%- endif %}
+#         # log prefix "nftables drop in: "
+#         # counter drop
+#     }
+#     chain forward {
+#         # log prefix "nftables drop fw: "
+#         # counter drop
+#     }
+# }
+# {%- endif %}
