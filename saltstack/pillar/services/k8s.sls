@@ -9,7 +9,7 @@ firewall:
   enabled: False
 
 k8s:
-  version: '1.32'
+  version: '1.34'
   # Start services as node?
   node: False
   # Support software
