@@ -64,3 +64,30 @@ k8s-krew:
     - name: /opt/krew/
     - source: https://github.com/kubernetes-sigs/krew/releases/download/v{{ pillar.k8s.krew.version }}/krew-linux_{{ grains.osarch }}.tar.gz
     - skip_verify: True
+
+/usr/sbin/k8s-upgrade-node:
+  file.managed:
+    - mode: '0755'
+    - contents: |
+        #!/bin/bash -xe
+
+        if [ -z "$1" ]; then
+          echo "Usage: $0 <version>"
+          exit 1
+        fi
+
+        VERSION="$1"
+
+        echo "Upgrading K8S node to version $VERSION"
+
+        sed -i -E "s/v1\.[0-9][0-9]*/v${VERSION}/g" /etc/apt/sources.list.d/k8s.sources
+
+        apt-get update
+        apt-mark unhold kubeadm
+        apt-get install kubeadm
+        apt-mark hold kubeadm
+        kubeadm upgrade node
+        apt-mark unhold kubelet kubectl
+        apt-get install -y kubelet kubectl
+        apt-mark hold kubelet kubectl
+        reboot

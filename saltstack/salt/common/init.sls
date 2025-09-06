@@ -2,7 +2,9 @@ include:
   - common.packages
   - common.fzf
   - common.ssh
+{% if pillar.firewall.enabled %}
   - common.nftables
+{% endif %}
   - common.python
 
 locale-us:

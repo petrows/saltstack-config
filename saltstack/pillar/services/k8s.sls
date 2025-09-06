@@ -3,8 +3,13 @@
 roles:
   - k8s
 
+# Common firewall config
+firewall:
+  # Enable firewall?
+  enabled: False
+
 k8s:
-  version: '1.31'
+  version: '1.32'
   # Start services as node?
   node: False
   # Support software
