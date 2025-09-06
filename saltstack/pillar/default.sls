@@ -220,6 +220,8 @@ firewall:
   hosts_open: {}
   # Extra rules, format is rule_id: <text>
   rules_filter_input: {}
+  rules_filter_input_v4: {}
+  rules_filter_input_v6: {}
   rules_filter_forward: {}
   rules_filter_forward_v4: {}
   rules_filter_forward_v6: {}

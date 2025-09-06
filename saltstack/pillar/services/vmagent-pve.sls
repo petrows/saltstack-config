@@ -2,7 +2,9 @@
 
 vmagent:
   node_exporters:
-    kg.sw.h.pws: True
-    kg.wlan.h.pws: True
-    sz.wlan.h.pws: True
-    ku.wlan.h.pws: True
+    kg.sw.h.pws: {}
+    kg.wlan.h.pws: {}
+    sz.wlan.h.pws: {}
+    ku.wlan.h.pws: {}
+    vpn.b.pws:
+      url: https://exporter.vpn.b.pws:4490/metrics

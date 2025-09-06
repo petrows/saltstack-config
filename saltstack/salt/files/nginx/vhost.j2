@@ -3,6 +3,8 @@
 # vhost: {{ conf_id }}
 # type: {{ conf_type }}
 
+{%- set port_http = conf.port_http|default(80) %}
+{%- set port_https = conf.port_https|default(443) %}
 {%- set force_ssl = conf.ssl_force|default(True) %}
 {%- set enable_frame = conf.enable_frame|default(False) %}
 {%- set enable_http2 = conf.enable_http2|default(False) %}
@@ -18,8 +20,8 @@
 {% if force_ssl %}
 # HTTP must redirect to HTTPS
 server {
-    listen 80;
-    listen [::]:80;
+    listen {{ port_http }};
+    listen [::]:{{ port_http }};
     server_name {{ conf.domain }};
 
     location / {
@@ -32,11 +34,11 @@ server {
 {%- endif %}
 
 server {
-    listen 443 ssl{% if enable_http2 %} http2{% endif %};
-    listen [::]:443 ssl{% if enable_http2 %} http2{% endif %};
+    listen {{ port_https }} ssl{% if enable_http2 %} http2{% endif %};
+    listen [::]:{{ port_https }} ssl{% if enable_http2 %} http2{% endif %};
 {%- if not force_ssl %}
     # SSL is not forced for this vhost, we can allow http connections
-    listen 80;
+    listen {{ port_http }};
 {%- endif %}
 
     server_name {{ conf.domain }};

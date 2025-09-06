@@ -26,14 +26,19 @@ vmagent-installer:
         scrape_configs:
           - job_name: node-exporter
             static_configs:
-            {% for node in pillar.vmagent.node_exporters %}
-            - targets: ['{{ node }}:9100']
-            {% endfor %}
+            {%- for node_id, node in pillar.vmagent.node_exporters.items() %}
+            {%- set url = node.url|default(node_id + ':9100') %}
+            - targets: ['{{ url }}']
+            {%- endfor %}
             metric_relabel_configs:
             - source_labels: [instance]
-              regex: (.*):(9100)
+              # Replace instance lable with:
+              # a) target definition: <target>:port
+              # b) URL like: https://exporter.<target>:port/path
+              # to plain <target> for better grouping in Grafana
+              regex: (https?://)?(exporter\.)?(.*):(.*)
               target_label: instance
-              replacement: ${1}
+              replacement: ${3}
 
 {% if pillar.vmagent.enable %}
 # Local buffer to collect data

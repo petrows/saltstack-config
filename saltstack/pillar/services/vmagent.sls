@@ -9,4 +9,4 @@ vmagent:
   version: 1.107.0
   endpoint: https://vmagent.k8s.pws/api/v1/write
   node_exporters:
-    {{ grains.id }}: True
+    {{ grains.id }}: {}

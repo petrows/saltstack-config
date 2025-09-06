@@ -2,6 +2,6 @@
 
 vmagent:
   node_exporters:
-    root.m.pws: True
-    vpn.m.pws: True
+    root.m.pws: {}
+    vpn.m.pws: {}
 
