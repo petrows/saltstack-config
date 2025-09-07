@@ -83,6 +83,9 @@ base:
   'roles:dns-dot':
     - match: pillar
     - roles.dns-dot
+  'roles:no-torrent':
+    - match: pillar
+    - roles.no-torrent
 
   # Services
   'roles:salt-master':
