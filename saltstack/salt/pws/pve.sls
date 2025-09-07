@@ -34,12 +34,10 @@ pve-net-deps:
             bridge-vids 2-4094
             bridge_stp off
             bridge_fd 0
-            post-up iptables-nft -t nat -A PREROUTING -p tcp -d {{ pillar.static_network.hosts.pws_pve.lan.ipv4.addr }} --dport 443 -j REDIRECT --to-ports 8006
 
         iface vmbr0 inet6 static
             address {{ pillar.static_network.hosts.pws_pve.lan.ipv6.addr }}/{{ pillar.static_network.hosts.pws_pve.lan.ipv6.size }}
             gateway {{ pillar.static_network.networks.pws_lan.ipv6.gw }}
-            post-up ip6tables-nft -t nat -A PREROUTING -p tcp -d {{ pillar.static_network.hosts.pws_pve.lan.ipv6.addr }} --dport 443 -j REDIRECT --to-ports 8006
 
 # Interfaces names
 /etc/systemd/network/10-interface-lan.link:
