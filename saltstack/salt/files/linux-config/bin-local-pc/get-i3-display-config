@@ -4,13 +4,6 @@
 
 CFG_ID={{ pillar.i3.display_config_id }}
 
-# We are laptop?
-if [[ -f /proc/acpi/button/lid/LID1/state ]]; then
-    if grep -q open /proc/acpi/button/lid/LID1/state; then
-        CFG_ID="${CFG_ID}-single"
-    fi
-fi
-
 # Check that we have only one display?
 DISPLAY_COUNT=$(xrandr | grep -w connected | wc -l)
 # One display (built-in + 1)
@@ -22,6 +15,15 @@ fi
 if [[ -f ~/.config/i3/layout.d/$CFG_ID.conf ]]; then
     echo "$CFG_ID"
     exit 0
+fi
+
+# We are laptop?
+if [[ -f /proc/acpi/button/lid/LID1/state ]]; then
+    if grep -q open /proc/acpi/button/lid/LID1/state; then
+        CFG_ID="${CFG_ID}-single"
+        echo "$CFG_ID"
+        exit 0
+    fi
 fi
 
 i3-nagbar -t warning -m "No layout config found to host '$CFG_ID'" &> /dev/null
