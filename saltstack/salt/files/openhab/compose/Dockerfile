@@ -21,3 +21,7 @@ RUN pip3 install --no-cache-dir \
     chmod -R 777 $VIRTUAL_ENV
 
 RUN echo -n "[telegram]\ntoken = {{ pillar.pws_secrets.telegram_notification_bot.token }}\nchat_id = {{ pillar.pws_secrets.telegram_notification_bot.chat_id }}" > /etc/telegram-send.conf
+
+# Fix problem with ping in openhab container
+# See here: https://community.openhab.org/t/network-pingdevice-breaks-after-4-3-6-5-0-1-update-docker/166175
+RUN setcap cap_net_raw+ep /bin/ping

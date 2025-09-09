@@ -10,9 +10,11 @@ services:
     restart: always
     ports:
       - '8080:8080'
+    cap_add:
+      - NET_RAW
     environment:
-      - USER_ID={{ pillar.static.uids.master }}
-      - GROUP_ID={{ pillar.static.uids.master }}
+      USER_ID: {{ pillar.static.uids.master }}
+      GROUP_ID: {{ pillar.static.uids.master }}
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
@@ -56,7 +58,7 @@ services:
     image: gugabguerra/tuya-mqtt:{{ pillar.openhab.tuyamqtt.version }}
     restart: always
     environment:
-      - DEBUG=tuya-mqtt:*
+      DEBUG: 'tuya-mqtt:*'
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
