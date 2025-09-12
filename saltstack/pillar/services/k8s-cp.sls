@@ -25,3 +25,7 @@ firewall:
     {% for port in kube_open_ports %}
     kube_cp_port_{{ port }}: "ip daddr != 127.0.0.1 tcp dport {{ port }} counter dnat to 127.0.0.1:{{ port }}"
     {% endfor %}
+
+# User env to allow use kubectl
+shell_env:
+  KUBECONFIG: "/etc/kubernetes/admin.conf"

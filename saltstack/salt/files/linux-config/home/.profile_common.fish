@@ -12,6 +12,11 @@ for p in $test_user_path;
     end
 end
 
+# Extra environment variables
+{%- for var, value in pillar.shell_env.items() %}
+set -gx {{ var }} "{{ value }}"
+{%- endfor %}
+
 # Alias
 {%- for alias, cmd in pillar.shell_alias.items() %}
 alias {{ alias }}="{{ cmd }}"

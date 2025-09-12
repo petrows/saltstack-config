@@ -91,6 +91,13 @@ docker:
 # This option forces to update bash / fish profile
 force_user_update: False
 
+shell_env: {}
+  # KUBECONFIG: "/etc/kubernetes/admin.conf"
+  # Add more env vars here
+  # EXAMPLE_VAR: "value"
+  # ANOTHER_VAR: "another value"
+  # Example to add path:
+
 shell_alias:
   ip: ip --color=auto
   k: kubectl
