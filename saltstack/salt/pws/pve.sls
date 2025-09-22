@@ -39,6 +39,12 @@ pve-net-deps:
             address {{ pillar.static_network.hosts.pws_pve.lan.ipv6.addr }}/{{ pillar.static_network.hosts.pws_pve.lan.ipv6.size }}
             gateway {{ pillar.static_network.networks.pws_lan.ipv6.gw }}
 
+        # Backup VLAN
+        #auto vmbr0.14
+        #iface vmbr0.14 inet static
+        #    address 10.80.14.3/24
+        #    gateway 10.80.14.1
+
 # Interfaces names
 /etc/systemd/network/10-interface-lan.link:
   file.managed:
