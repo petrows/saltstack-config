@@ -2,21 +2,8 @@
 
 set -e
 
-#HDD_DEVICE=/dev/disk/by-id/ata-TOSHIBA_DT01ACA300_Z2O51GXGS
-HDD_DEVICE=/dev/mapper/backup_vg-pws--backup
-
-echo "Mounting backup HDD"
-mkdir -p /srv/backup
-
-if $(mount | grep -q "on /srv/backup "); then
-    echo "/srv/backup already mounted"
-else
-    # Mount backup hdd
-    mount $HDD_DEVICE /srv/backup
-fi
-
-# Wait 10 seconds to HDD start up
-sleep 10
+# Mount backup HDD
+/opt/backup/bin/backup-mount
 
 # Test external backup flag
 if [[ -f /srv/backup/backup-ext.lock ]]; then
