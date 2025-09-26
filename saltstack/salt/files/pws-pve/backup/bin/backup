@@ -82,7 +82,10 @@ class PetroBackup:
 		command_path = self.root_path + "/bin/" + command
 		if os.path.isfile(command_path) and os.access(command_path, os.X_OK):
 			self.log("Exec: " + command)
-			self.exec(['/bin/bash', command_path])
+			ret = self.exec(['/bin/bash', command_path])
+			if not ret:
+				self.log("Error running " + command + "!")
+				raise Exception(command, 'Error run ' + command + '!')
 
 	def rsnapshot_run_parts(self, config, daytype):
 		rsnapshot_config_path = self.root_path + "/rsnapshot/" + config + ".conf"
