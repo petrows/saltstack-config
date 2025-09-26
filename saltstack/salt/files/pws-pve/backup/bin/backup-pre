@@ -8,11 +8,21 @@ HDD_DEVICE=/dev/mapper/backup_vg-pws--backup
 echo "Mounting backup HDD"
 mkdir -p /srv/backup
 
-# Mount backup hdd
-mount $HDD_DEVICE /srv/backup
+if $(mount | grep -q "on /srv/backup "); then
+    echo "/srv/backup already mounted"
+else
+    # Mount backup hdd
+    mount $HDD_DEVICE /srv/backup
+fi
 
 # Wait 10 seconds to HDD start up
 sleep 10
+
+# Test external backup flag
+if [[ -f /srv/backup/backup-ext.lock ]]; then
+    echo "External backup in progress, aborting"
+    exit 1
+fi
 
 exit 0
 
