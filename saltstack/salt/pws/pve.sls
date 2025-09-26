@@ -40,10 +40,9 @@ pve-net-deps:
             gateway {{ pillar.static_network.networks.pws_lan.ipv6.gw }}
 
         # Backup VLAN
-        #auto vmbr0.14
-        #iface vmbr0.14 inet static
-        #    address 10.80.14.3/24
-        #    gateway 10.80.14.1
+        auto eth-pc.14
+        iface eth-pc.14 inet static
+            address 10.80.14.3/24
 
 # Interfaces names
 /etc/systemd/network/10-interface-lan.link:
