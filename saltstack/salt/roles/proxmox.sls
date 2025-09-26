@@ -44,6 +44,10 @@ pve-packages:
       - ntp
       # Wireguard for LXC
       - wireguard
+      # PVE recommends to install intel-micode-ucode on Intel systems
+      {% if (grains.cpu_model | regex_search('intel', ignorecase=True)) is not none %}
+      - intel-microcode
+      {% endif %}
 
 systemd-timesyncd.service:
   service.masked: []
