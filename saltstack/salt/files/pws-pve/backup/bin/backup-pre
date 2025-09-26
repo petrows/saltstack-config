@@ -6,7 +6,7 @@ set -e
 /opt/backup/bin/backup-mount
 
 # Test external backup flag
-if [[ -f /srv/backup/backup-ext.lock ]]; then
+if [[ -f /etc/backup-ext.lock ]]; then
     echo "External backup in progress, aborting"
     exit 1
 fi
