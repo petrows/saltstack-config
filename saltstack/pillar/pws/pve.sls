@@ -114,7 +114,7 @@ nfs-exports:
 # Backup service
 ssh:
   keys:
-    root@backup-ext.pws:
+    root@backup.pws:
       user: root
       enc: ssh-ed25519
-      key: AAAAC3NzaC1lZDI1NTE5AAAAIMUGSf5BBIGEyq4skMbg3H4dqqCn3Adw9E56E1lYC9Ij
+      key: AAAAC3NzaC1lZDI1NTE5AAAAIAV0kq2k4/82rrOXtkaFgqEdt7tp7RoN7tV/eypJJv9o
