@@ -6,7 +6,9 @@ roles:
 # Common firewall config
 firewall:
   # Enable firewall?
-  enabled: False
+  enabled: True
+  # Require legacy mode, as iptables-nft is not fully compatible with nftables
+  legacy_mode: True
 
 k8s:
   version: '1.34'

@@ -91,3 +91,31 @@ k8s-krew:
         apt-get install -y kubelet kubectl
         apt-mark hold kubelet kubectl
         reboot
+
+/usr/sbin/k8s-stop-all-pods:
+  file.managed:
+    - mode: '0755'
+    - contents: |
+        #!/bin/bash -x
+
+        PODS=$(crictl pods -q)
+
+        # Stop pods
+        for POD in $PODS; do
+          echo "Stopping pod $POD"
+          crictl stopp $POD || true
+        done
+        # Remove pods
+        for POD in $PODS; do
+          echo "Removing pod $POD"
+          crictl rmp $POD || true
+        done
+
+# Kill / restart pods on node, if firewall config was updated
+k8s-restart-pods:
+  cmd.run:
+    - name: k8s-stop-all-pods
+    - cwd: /
+    - runas: root
+    - onchanges:
+      - cmd: nftables-reload-main

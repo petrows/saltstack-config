@@ -221,6 +221,8 @@ firewall:
   enabled: True
   # Default policy for INPUT chain
   strict_mode: False
+  # Keep iptables-nft as backend?
+  legacy_mode: False
   # Ports, which are open for all
   ports_open: {}
   # IP's, which has no restrictions
