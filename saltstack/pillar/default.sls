@@ -428,3 +428,8 @@ static: {{ static|yaml }}
 # Export static network config as pillar
 {% import_yaml 'network.yaml' as static %}
 static_network: {{ static|yaml }}
+
+# Config for VM hosts
+vm:
+  # Allow to configure KVM guest agent?
+  qemu-guest-agent: True

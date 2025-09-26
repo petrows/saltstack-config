@@ -56,6 +56,9 @@ base:
   '10.80.6.0/24':
     - match: ipcidr
     - grains.network-smarthome
+  '10.80.14.0/24':
+    - match: ipcidr
+    - grains.network-dmz
   # Julia
   '10.82.0.0/16':
     - match: ipcidr
@@ -177,10 +180,6 @@ base:
     - pws.web-vm-dev
     - grains.network-dmz
 
-  'backup.*':
-    - services.crashplan
-    - services.crashplan-prod
-
   'home.*':
     - pws.home
     - users.master
@@ -236,9 +235,10 @@ base:
     - services.k8s-worker
 
 # External backup system
-  'backup-ext.pws':
+  'backup.pws':
     - grains.host-hdd
     - users.master
+    - pws.backup
 
 # All VDS defaults
   '*.vds.pws':
