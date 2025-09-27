@@ -14,6 +14,8 @@ EXCLUDE_NOT_OWNED=$(sudo find $BACKUP_SRC ! -user $BACKUP_USER -printf %P\\n)
 echo "$EXCLUDE_NOT_OWNED" > /tmp/backup-exclude
 
 # Ignore tools and other folders
+echo "/tmp" >> /tmp/backup-exclude
+echo "/devices" >> /tmp/backup-exclude
 echo "/tools" >> /tmp/backup-exclude
 echo "/3rdparty" >> /tmp/backup-exclude
 
