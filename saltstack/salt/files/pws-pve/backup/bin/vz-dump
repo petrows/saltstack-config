@@ -3,8 +3,7 @@
 set -e
 
 # How much backups to store
-VMZ_RETAIN="2"
-
+VMZ_RETAIN="1"
 
 DIR_BACKUP=/srv/backup/vz
 DIR_TMP=/srv/backup/tmp
