@@ -172,6 +172,9 @@ base:
   'roles:file-storage':
     - match: pillar
     - services.file-storage
+  'roles:photosync-sftp':
+    - match: pillar
+    - services.photosync-sftp
 
   # Hosts configs
   'pve.pws':

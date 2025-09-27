@@ -1,0 +1,17 @@
+version: '3'
+{%- set user_creds = salt['pillar.get']('pws_secrets:photosync-sftp:' + args.instance) %}
+
+services:
+  sftp:
+    container_name: {{ service_id }}
+    image: atmoz/sftp:alpine
+    ports:
+      - '{{ args.cfg.port }}:22'
+    environment:
+      SFTP_USERS: '{{ user_creds.username }}:{{ user_creds.password }}:{{ args.cfg.uid }}:{{ args.cfg.uid }}'
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /srv/{{ service_id }}/ssh_host_ed25519_key:/etc/ssh/ssh_host_ed25519_key:ro
+      - {{ args.cfg.dir }}:/home/{{ user_creds.username }}/upload
+    restart: always

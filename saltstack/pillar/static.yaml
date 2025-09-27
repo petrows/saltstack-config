@@ -18,6 +18,9 @@ proxy_ports:
 
   gitlab_ssh:       2022
 
+  # Julia SFTP
+  photosync_sftp_julia:  2277
+
   wiki_http:        7001
   nextcloud_http:   7002
   jenkins_http:     7003
@@ -40,6 +43,7 @@ proxy_ports:
   privatebin_http:  7020
   trss_http:        7021
   zoneminder_http:  7022
+
 
   # Resillio sync
   rslsync_petro:    8888

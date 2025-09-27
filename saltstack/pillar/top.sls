@@ -213,6 +213,8 @@ base:
     - services.rslsync
     - services.photoprism
     - services.paperless
+    - services.photosync-sftp
+    - services.photosync-sftp-julia
     - pws.media
   'media.pws':
     - pws.media-prod
