@@ -1,0 +1,22 @@
+#!/bin/bash -xe
+
+FILE="$1"
+
+if [ -z "$FILE" ]; then
+  echo "Usage: $0 <file-to-upload>"
+  exit 1
+fi
+
+if [ ! -f "$FILE" ]; then
+  echo "Error: File '$FILE' not found!"
+  exit 1
+fi
+
+
+FILENAME=$(basename "$FILE")
+# Replace all spaces to _ for URL compatibility
+ENCODED_FILENAME="${FILENAME// /_}"
+
+scp "$FILE" master@fs.m.pws:/srv/file-storage/"$ENCODED_FILENAME"
+
+echo "File uploaded to: https://fs.petro.ws/$ENCODED_FILENAME"
