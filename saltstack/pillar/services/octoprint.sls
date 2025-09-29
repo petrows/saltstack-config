@@ -22,9 +22,11 @@ octoprint:
     appearance:
       name: PWS Octoprint
       color: red
-    webcam:
-      stream: http://127.0.0.1:{{ static.proxy_ports.octoprint_video }}/?action=stream
-      snapshot: http://127.0.0.1:{{ static.proxy_ports.octoprint_video }}/?action=snapshot
+    classicwebcam:
+      # Relative URL: for browser only
+      stream: /video/stream
+      # Absolute URL: for backend only
+      snapshot: http://127.0.0.1:{{ static.proxy_ports.octoprint_video }}/snapshot
 
     plugins:
       psucontrol:
