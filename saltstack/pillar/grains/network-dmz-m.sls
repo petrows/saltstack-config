@@ -18,3 +18,4 @@ ssh:
 network:
   cdn: ru
   domain: m.pws
+  dns: 10.87.0.1

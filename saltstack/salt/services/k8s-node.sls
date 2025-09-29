@@ -3,6 +3,7 @@ k8s-banned-pkg:
   pkg.purged:
     - pkgs:
       - apparmor
+      - systemd-resolved
 
 # k8s requires no swap
 umount-swap:
@@ -22,6 +23,14 @@ net.ipv4.ip_forward:
 net.bridge.bridge-nf-call-iptables:
   sysctl.present:
     - value: 1
+
+# DNS config: we should ignore systemd-resolved and use direct request,
+# as stub is not working correctly with k8s / containers
+/etc/resolv.conf:
+  file.managed:
+    - contents: |
+        # Direct DNS for k8s
+        nameserver {{ pillar.network.dns }}
 
 /etc/containerd/config.toml:
   file.managed:
