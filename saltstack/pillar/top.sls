@@ -229,6 +229,7 @@ base:
 
 # K8S Nodes
   'k8s-*.pws':
+    - grains.network-k8s
     - services.k8s
     - services.k8s-node
     # Backup user for k8s
