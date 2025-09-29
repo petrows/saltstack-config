@@ -22,3 +22,8 @@ ssh:
 # AWG requires to setup deb-src!
 apt:
   use_src: True
+
+firewall:
+  # Redirect local ports from 8006 to 443 for Proxmox web GUI access
+  rules_filter_input:
+    pve-https-input: tcp dport { 443, 8006 } counter accept
