@@ -231,6 +231,8 @@ base:
   'k8s-*.pws':
     - services.k8s
     - services.k8s-node
+    # Backup user for k8s
+    - users.ssh-pve
   'k8s-cp-*.pws':
     - services.k8s-cp
   'k8s-node-*.pws':
