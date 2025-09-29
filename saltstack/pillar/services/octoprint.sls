@@ -13,6 +13,7 @@ packages:
   - imagemagick
   - mosquitto-clients
   - libimage-exiftool-perl
+  - cpulimit
 
 octoprint:
   home: /srv/octoprint-data
