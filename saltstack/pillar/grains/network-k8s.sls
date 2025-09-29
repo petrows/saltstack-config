@@ -1,9 +1,9 @@
-# Config for machines in w network
+# Special network for k8s nodes
 
 firewall:
   # Allow connections by default (hosts under firewall already)
   strict_mode: False
 
 network:
-  domain: w.pws
-  dns: 10.88.0.1
+  # k8s nodes only uses plain .pws domain
+  domain: pws
