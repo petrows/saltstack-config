@@ -32,6 +32,13 @@ net.bridge.bridge-nf-call-iptables:
         # Direct DNS for k8s
         nameserver {{ pillar.network.dns }}
 
+# Enforce to use local resolv.conf
+/etc/default/kubelet:
+  file.managed:
+    - contents: |
+        # Direct DNS for k8s
+        KUBELET_EXTRA_ARGS="--resolv-conf=/etc/resolv.conf"
+
 /etc/containerd/config.toml:
   file.managed:
     - makedirs: True
@@ -61,5 +68,5 @@ kubelet.service:
     - enable: True
     - watch:
       - pkg: k8s-pkg
-      # Restart k8s if firewall was changed
-      # - cmd: nftables-reload-main
+      - file: /etc/default/kubelet
+      - file: /etc/resolv.conf

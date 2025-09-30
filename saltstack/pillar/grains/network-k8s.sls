@@ -7,3 +7,5 @@ firewall:
 network:
   # k8s nodes only uses plain .pws domain
   domain: pws
+  # k8s nodes use direct DNS
+  dns: 10.80.0.1
