@@ -37,3 +37,6 @@ proxy_vhosts:
     domain: z2m.j.pws
     ssl: internal
     ssl_name: j_pws
+
+# Devices:
+# usb-Silicon_Labs_Sonoff_Zigbee_3.0_USB_Dongle_Plus_0001-if00-port0
