@@ -81,12 +81,3 @@ proxy_vhosts:
     port: {{ static.proxy_ports.openhab_zigbee2mqtt }}
     ssl: internal
     ssl_name: local
-    enable_http2: True
-    custom_config: |
-        location /api {
-            proxy_pass http://127.0.0.1:3001/api;
-            proxy_set_header Host $host;
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "upgrade";
-        }
