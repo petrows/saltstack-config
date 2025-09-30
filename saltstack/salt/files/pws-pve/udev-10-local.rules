@@ -9,4 +9,4 @@
 # usb 1-12: Product: USB Serial
 # ch341 1-12:1.0: ch341-uart converter detected
 
-SUBSYSTEMS=="usb", KERNEL=="ttyUSB*", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", SYMLINK+="ttyUSB-Z-Stack", MODE="0666", GROUP="dialout"
+SUBSYSTEMS=="usb", KERNEL=="ttyUSB*", MODE="0666", GROUP="dialout"

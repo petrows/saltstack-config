@@ -44,6 +44,45 @@ proxy_vhosts:
     domain: z2m.home.pws
     ssl: internal
     ssl_name: home
+    port: 3001
+    enable_http2: True
+    custom_config: |
+        location /api {
+            proxy_pass http://127.0.0.1:3001/api;
+            proxy_set_header Host $host;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+        }
+
+  openhab-zigbee2mqtt-ikea:
+    domain: z2m-ikea.home.pws
+    ssl: internal
+    ssl_name: home
+    port: 3002
+    enable_http2: True
+    custom_config: |
+        location /api {
+            proxy_pass http://127.0.0.1:3002/api;
+            proxy_set_header Host $host;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+        }
+  openhab-zigbee2mqtt-common:
+    domain: z2m-common.home.pws
+    ssl: internal
+    ssl_name: home
+    port: 3003
+    enable_http2: True
+    custom_config: |
+        location /api {
+            proxy_pass http://127.0.0.1:3003/api;
+            proxy_set_header Host $host;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+        }
 
 # Devices:
 # Old: usb-1a86_USB_Serial-if00-port0
