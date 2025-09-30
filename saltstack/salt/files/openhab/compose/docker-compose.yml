@@ -23,20 +23,25 @@ services:
       - {{ pillar.openhab.data_dir }}/addons:/openhab/addons
       - {{ pillar.openhab.data_dir }}/java:/openhab/.java
 
-  zigbee2mqtt:
-    container_name: {{ pillar.openhab.zigbee2mqtt.id }}
+{% for z2m_id, z2m in  pillar.openhab.zigbee2mqtt.instances.items() %}
+{% set z2m_data_dir = pillar.openhab.zigbee2mqtt.data_dir + '/' + z2m_id %}
+  zigbee2mqtt-{{ z2m_id }}:
+    container_name: {{ pillar.openhab.zigbee2mqtt.id }}-{{ z2m_id }}
     image: koenkk/zigbee2mqtt:{{ pillar.openhab.zigbee2mqtt.version }}
     restart: always
     ports:
-      - '127.0.0.1:3001:3001'
+      - '127.0.0.1:{{ z2m.port }}:3001'
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-      - {{ pillar.openhab.zigbee2mqtt.data_dir }}:/app/data
-    {% if pillar.openhab.zigbee2mqtt.device %}
+      - {{ z2m_data_dir }}:/app/data
+      - {{ z2m_data_dir }}/configuration.yaml:/app/data/configuration.yaml:ro
+      - {{ z2m_data_dir }}/secrets.yaml:/app/data/secrets.yaml:ro
+    {% if z2m.device %}
     devices:
-      - {{ pillar.openhab.zigbee2mqtt.device }}:/dev/ttyUSB-Z-Stack
+      - /dev/serial/by-id/{{ z2m.device }}:/dev/serial/by-id/{{ z2m.device }}
     {% endif %}
+{% endfor %}
 
   mosquitto:
     container_name: {{ pillar.openhab.mosquitto.id }}

@@ -29,20 +29,23 @@ openhab-dir-mosquitto-{{ dir }}:
     - mode:  755
 {% endfor %}
 
-zigbee2mqtt-dir-data:
+{% for z2m_id, z2m in  pillar.openhab.zigbee2mqtt.instances.items() %}
+{% set z2m_data_dir = pillar.openhab.zigbee2mqtt.data_dir + '/' + z2m_id %}
+{% set z2m_container_base_id = pillar.openhab.zigbee2mqtt.id %}
+{% set z2m_secrets = salt['pillar.get']('pws_secrets:openhab:zigbee2mqtt:instances:' + z2m_id) %}
+
+{{ z2m_data_dir }}:
   file.directory:
-    - name:  {{ pillar.openhab.zigbee2mqtt.data_dir }}
     - makedirs: True
     - user:  {{ pillar.static.uids.master }}
     - group:  {{ pillar.static.uids.master }}
     - mode:  755
 
-zigbee2mqtt-logrotate:
+/etc/logrotate.d/zigbee2mqtt-{{ pillar.openhab.id }}-{{ z2m_id }}:
   file.managed:
-    - name: /etc/logrotate.d/zigbee2mqtt-{{ pillar.openhab.id }}
     - makedirs: True
     - contents: |
-        {{ pillar.openhab.zigbee2mqtt.data_dir }}/log/*.txt
+        {{ z2m_data_dir }}/log/*.txt
         {
           missingok
           daily
@@ -51,6 +54,55 @@ zigbee2mqtt-logrotate:
           compress
           notifempty
         }
+
+{{ z2m_data_dir }}/configuration.yaml:
+  file.managed:
+    - makedirs: True
+    - contents: |
+        homeassistant:
+          enabled: false
+        availability:
+          enabled: true
+          active:
+            timeout: 10
+          passive:
+            timeout: 1500
+        mqtt:
+          base_topic: {{ z2m.topic | default('z2m-' + z2m_id) }}
+          server: mqtt://mosquitto
+          user: {{ z2m_secrets.mqtt_user }}
+          password: {{ z2m_secrets.mqtt_password }}
+        serial:
+          adapter: zstack
+          port: /dev/serial/by-id/{{ z2m.device }}
+          rtscts: false
+        frontend:
+          enabled: true
+          port: 3001
+          host: 0.0.0.0
+          package: zigbee2mqtt-windfront
+        advanced:
+          log_output:
+            - file
+          log_rotation: false
+          log_symlink_current: false
+          log_directory: data/log
+          log_file: log.txt
+          pan_id: {{ z2m.pan_id }}
+          # (Note: use a ZLL channel: 11, 15, 20, or 25 to avoid problems)
+          channel: {{ z2m.channel }}
+          network_key: '!secrets.yaml network_key'
+          log_level: info
+        device_options: {}
+        devices: devices.yaml
+        version: 4
+
+{{ z2m_data_dir }}/secrets.yaml:
+  file.managed:
+    - makedirs: True
+    - contents: |
+        network_key: {{ z2m_secrets.key | yaml }}
+{% endfor %}
 
 openhab-deps:
   pkg.installed:
