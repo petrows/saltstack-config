@@ -22,10 +22,8 @@ openhab:
   zigbee2mqtt:
     id: Openhab-zigbee2mqtt-dev
     version: 2.6.0
-    device: ''
+    instances: {}
     data_dir: /srv/zigbee2mqtt-data
-    dirs:
-      - /srv/zigbee2mqtt-data
 
   # https://hub.docker.com/_/eclipse-mosquitto
   mosquitto:
