@@ -9,7 +9,7 @@ i3:
   bar_font_size: 10
   display_config_id: work-pc
   startup: |
-      exec --no-startup-id bash -c 'is-working-hours && google-chrome --app=https://teams.microsoft.com'
+      exec --no-startup-id bash -c 'is-working-hours && sleep 5 && ms-teams'
       exec --no-startup-id bash -c 'is-working-hours && xkb-teams-activity'
       exec --no-startup-id bash -c 'is-working-hours && evolution'
 
