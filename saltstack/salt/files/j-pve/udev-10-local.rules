@@ -1,4 +1,7 @@
 # Add USB Z-Stack stick as special device to be provided by VM
 # Sonoff Zigbee 3.0 dongle
 
-SUBSYSTEMS=="usb", KERNEL=="ttyUSB*", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", SYMLINK+="ttyUSB-Z-Stack", MODE="0666", GROUP="dialout"
+# SUBSYSTEMS=="usb", KERNEL=="ttyUSB*", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", SYMLINK+="ttyUSB-Z-Stack", MODE="0666", GROUP="dialout"
+
+# Add all serial devices
+SUBSYSTEMS=="usb", KERNEL=="ttyUSB*", MODE="0666", GROUP="dialout"

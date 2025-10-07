@@ -3,13 +3,6 @@ openhab:
   zigbee2mqtt:
     id: Openhab-zigbee2mqtt
     instances:
-      # Old setup
-      old:
-        topic: zigbee2mqtt
-        device: usb-1a86_USB_Serial-if00-port0
-        channel: 25
-        pan_id: 1872
-        port: 3001
       ikea:
         topic: z2m-ikea
         device: usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_90685fe8398aef11abb4c0a3ef8776e9-if00-port0
