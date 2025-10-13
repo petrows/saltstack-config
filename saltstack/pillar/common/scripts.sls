@@ -15,3 +15,5 @@ packages_pip3:
 packages:
   # Requered by pip systemd
   - libsystemd-dev
+  - pkg-config
+
