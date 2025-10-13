@@ -22,6 +22,10 @@ base:
     - match: pillar
     - roles.server-vm
 
+  'roles:tuxedo':
+    - match: pillar
+    - roles.tuxedo
+
   # Roles (optional features)
   'roles:server':
     - match: pillar

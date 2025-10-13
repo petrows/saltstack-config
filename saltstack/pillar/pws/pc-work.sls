@@ -12,6 +12,7 @@ i3:
       exec --no-startup-id bash -c 'is-working-hours && sleep 5 && ms-teams'
       exec --no-startup-id bash -c 'is-working-hours && xkb-teams-activity'
       exec --no-startup-id bash -c 'is-working-hours && evolution'
+      exec --no-startup-id bash -c 'tuxedo-control-center --tray'
 
 # At work i have 4K display
 xsession:
