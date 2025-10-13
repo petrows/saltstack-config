@@ -288,6 +288,8 @@ xsession:
 
 # i3 config options
 i3:
+  # What QT version is used?
+  qt_version: 6
   bar_font_size: 12
   display_config_id: petro-pc
   display: ''

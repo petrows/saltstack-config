@@ -4,7 +4,7 @@
 # sleep 1
 
 # Force all QT apps to use this theme
-export QT_QPA_PLATFORMTHEME=qt6ct
+export QT_QPA_PLATFORMTHEME=qt{{ pillar.i3.qt_version }}ct
 # Force libreoffice to use this theme
 export SAL_USE_VCLPLUGIN=gtk3
 # Default apps scaling for HDPI
