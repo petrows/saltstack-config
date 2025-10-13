@@ -27,6 +27,11 @@ pve:
   ssl_certs: pws_secrets:ssl_pws_pve
 
 firewall:
+  # Allow NFS mount for PWS internal network
+  rules_filter_input_v4:
+    allow_nfs: ip saddr {{ network.networks.pws_lan.ipv4.prefix }}/{{ network.networks.pws_lan.ipv4.size }} meta l4proto { tcp, udp } th dport { 111, 2049 } accept
+  rules_filter_input_v6:
+    allow_nfs: ip6 saddr {{ network.networks.pws_lan.ipv6.prefix }}/{{ network.networks.pws_lan.ipv6.size }} meta l4proto { tcp, udp } th dport { 111, 2049 } accept
   # Redirect local ports from 8006 to 443 for Proxmox web GUI access
   rules_nat_prerouting_v4:
     pve-https-v4: ip daddr {{ network.hosts.pws_pve.lan.ipv4.addr }} tcp dport 443 counter redirect to :8006
