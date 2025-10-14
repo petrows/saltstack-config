@@ -27,6 +27,10 @@ pve:
   ssl_certs: pws_secrets:ssl_pws_pve
 
 firewall:
+  # FIXME: NFS does not work with strict mode enabled, define and test proper config
+  # https://wiki.debian.org/SecuringNFS
+  #
+  strict_mode: False
   # Allow NFS mount for PWS internal network
   rules_filter_input_v4:
     allow_nfs: ip saddr {{ network.networks.pws_lan.ipv4.prefix }}/{{ network.networks.pws_lan.ipv4.size }} meta l4proto { tcp, udp } th dport { 111, 2049 } accept
