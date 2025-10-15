@@ -4,7 +4,7 @@
 trap 'kill $(jobs -p)' EXIT
 
 # Start background job to turn off display after 1 minute
-(sleep 60 && xset dpms force off) &
+(sleep 10 && xset dpms force suspend) &
 
 # Reset current layout to US
 # to allow password be always-correct
