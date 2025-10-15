@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Kill all background jobs on exit
+trap 'kill $(jobs -p)' EXIT
+
+# Start background job to turn off display after 1 minute
+(sleep 60 && xset dpms force off) &
+
 # Reset current layout to US
 # to allow password be always-correct
 xkb-switch -s 'us'
