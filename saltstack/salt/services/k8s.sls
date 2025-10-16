@@ -20,7 +20,6 @@
 k8s-pkg:
   pkg.installed:
     - pkgs:
-      - kubelet: '{{ pillar.k8s.version }}.*'
       - kubeadm: '{{ pillar.k8s.version }}.*'
       - kubectl: '{{ pillar.k8s.version }}.*'
       - kubectx
@@ -30,7 +29,7 @@ k8s-pkg:
 
 k8s-pkg-hold:
   cmd.wait:
-    - name: apt-mark hold kubelet kubeadm kubectl
+    - name: apt-mark hold kubeadm kubectl
     - cwd: /
     - watch:
       - pkg: k8s-pkg
