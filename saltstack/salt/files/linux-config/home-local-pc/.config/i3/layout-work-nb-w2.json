@@ -38,7 +38,7 @@
             "name": "Evolution",
             "swallows": [
                 {
-                    "instance": "^org\\.gnome\\.Evolution$"
+                    "instance": "^evolution$"
                 }
             ],
             "type": "con"
