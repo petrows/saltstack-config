@@ -3,7 +3,7 @@
 # Kill all background jobs on exit
 trap 'kill $(jobs -p)' EXIT
 
-logger -t i3-session "Lock screen called"
+logger -t i3-session "Lock screen"
 
 # Start background job to turn off display after 1 minute
 (sleep 10 && xset dpms force suspend) &
@@ -25,3 +25,5 @@ i3lock-fancy-rapid 20 ${fancy_radius[ $RANDOM % ${{ '{#' }}fancy_radius[@]} ]} -
 
 # Unlock done, make OFF scroll lock
 xset -led 3
+
+logger -t i3-session "Unlock screen"

@@ -170,7 +170,9 @@ bindsym $mod+o exec kde-open /home
 
 # Lock screen
 # See my custom script with keyboard revert and effects: saltstack/salt/files/linux-config/bin-local-pc/lock-screen
-bindsym $mod+l exec lock-screen &
+# bindsym $mod+l exec lock-screen &
+# Use XSession command to notify via xss-lock properly
+bindsym $mod+l exec xset s activate
 
 # Copy date to clipboard: Win+T
 bindsym $mod+t exec --no-startup-id bash -c 'date "+%F" | xclip -rmlastnl -selection clipboard'
@@ -254,7 +256,7 @@ exec --no-startup-id xkb-display &
 # Handle lock screen on signal from systemd
 # -n option defines what to call on 'screensaver' event
 # -- option defines what called on 'screen suspend' event
-exec --no-startup-id bash -c 'xss-lock -s $XDG_SESSION_ID -n dim-screen -l -v -- lock-screen'
+exec --no-startup-id bash -c 'xss-lock -s $XDG_SESSION_ID -l -v -- lock-screen'
 
 # Set random wallpaper from dir
 exec --no-startup-id feh --randomize --bg-fill ~/Pictures/wp/*

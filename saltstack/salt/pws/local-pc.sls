@@ -68,6 +68,8 @@ local-pc-soft:
       - numlockx
       - apt-file
       - ncal
+      # Locking / sleep events
+      - xss-lock
       # Audio
       - pipewire-audio
       - pipewire-alsa
