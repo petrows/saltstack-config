@@ -3,6 +3,8 @@
 # Kill all background jobs on exit
 trap 'kill $(jobs -p)' EXIT
 
+logger -t i3-session "Lock screen called"
+
 # Start background job to turn off display after 1 minute
 (sleep 10 && xset dpms force suspend) &
 
