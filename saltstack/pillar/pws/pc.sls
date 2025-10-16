@@ -24,6 +24,7 @@ sysctl:
 i3:
   bt_headphones:
     - AC:12:2F:E6:56:A9 # Company / Soundcore Life Q30
+    - 98:47:44:FB:BB:C9 # Company / Soundcore Q30
   apps_ws:
     - class: Spotify
       ws: 2

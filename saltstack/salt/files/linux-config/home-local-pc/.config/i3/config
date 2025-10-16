@@ -251,6 +251,9 @@ exec --no-startup-id systemctl start --user dunst.service
 # Start keyboard-indicator service (displays caps_lock in more explicit way)
 exec --no-startup-id xkb-display &
 
+# Handle lock screen on signal from systemd
+exec --no-startup-id bash -c 'xss-lock -s $XDG_SESSION_ID -l -v -- lock-screen'
+
 # Set random wallpaper from dir
 exec --no-startup-id feh --randomize --bg-fill ~/Pictures/wp/*
 # Auto mount USB
