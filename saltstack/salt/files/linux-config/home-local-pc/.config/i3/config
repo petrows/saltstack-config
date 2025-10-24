@@ -280,7 +280,7 @@ exec --no-startup-id doublecmd --no-splash
 exec --no-startup-id konsole
 exec --no-startup-id keepassxc
 # Crashes
-# exec --no-startup-id bash -c 'QT_QPA_PLATFORMTHEME=qt5ct run-nagstamon'
+exec --no-startup-id run-nagstamon
 exec --no-startup-id copyq
 exec --no-startup-id flameshot
 # exec --no-startup-id spotify --uri=/

@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Adjust UI size for HDPI
-export QT_SCALE_FACTOR=2
+# Dont need anymore
+# export QT_SCALE_FACTOR=2
 
 # Call initial LED command
 led-indicator-set OK
