@@ -70,6 +70,8 @@ local-pc-soft:
       - ncal
       # Locking / sleep events
       - xss-lock
+      # Auto display profile switcher
+      - autorandr
       # Audio
       - pipewire-audio
       - pipewire-alsa

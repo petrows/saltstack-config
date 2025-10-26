@@ -52,3 +52,11 @@ pws-backup-petro-pc.timer:
         MACAddress=1c:86:0b:23:a2:66
         [Link]
         Name=eth-pve
+
+# Fix Nvidia GPU drm events
+# See: https://github.com/phillipberndt/autorandr?tab=readme-ov-file#udev-triggers-with-nvidia-cards
+/etc/modprobe.d/nvidia-drm-modeset.conf:
+  file.managed:
+    - contents: |
+        # Fix Nvidia GPU drm events
+        options nvidia-drm modeset=1

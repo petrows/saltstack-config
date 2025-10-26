@@ -2,20 +2,4 @@
 
 echo "Setting up auto config for screens"
 
-SCREEN_ONBOARD=eDP-1
-SCREEN_EXT_1=DP-3-1
-SCREEN_EXT_2=DP-3-2
-
-if screen-detect $SCREEN_EXT_1; then
-    echo "External screen $SCREEN_EXT_1 detected"
-    xrandr --output eDP-1 --off
-    xrandr --output DP-3-1 --auto --dpi 138 --pos 0x0 --primary
-else
-    echo "Onboard screen use"
-    export GDK_DPI_SCALE=1.2
-    xrandr --output eDP-1 --primary --auto --dpi 128
-fi
-if screen-detect $SCREEN_EXT_2; then
-    echo "External screen $SCREEN_EXT_2 detected"
-    xrandr --output DP-3-2 --auto --dpi 138 --right-of $SCREEN_EXT_1
-fi
+autorandr -c
