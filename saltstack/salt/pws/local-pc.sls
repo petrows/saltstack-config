@@ -300,6 +300,7 @@ local-pc-configs-{{ user_id }}:
     - template: jinja
     - user: {{user_id}}
     - group: {{user_id}}
+    - file_mode: keep
 
 local-pc-local-{{ user_id }}:
   file.recurse:
@@ -308,6 +309,7 @@ local-pc-local-{{ user_id }}:
     - template: jinja
     - user: {{user_id}}
     - group: {{user_id}}
+    - file_mode: keep
 
 # File accociations
 {{user.home}}/.config/mimeapps.list:

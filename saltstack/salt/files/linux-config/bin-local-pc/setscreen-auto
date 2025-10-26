@@ -1,5 +1,6 @@
 #!/bin/bash
 
 echo "Setting up auto config for screens"
+logger -t i3-session "Setting up auto config for screens"
 
-autorandr -c
+autorandr -c --force
