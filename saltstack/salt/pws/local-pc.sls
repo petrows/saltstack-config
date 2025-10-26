@@ -182,7 +182,7 @@ local-tg-installer:
   archive.extracted:
     - name: /opt/telegram-{{ pillar.telegram.version }}/
     - source: https://github.com/telegramdesktop/tdesktop/releases/download/v{{ pillar.telegram.version }}/tsetup.{{ pillar.telegram.version }}.tar.xz
-    - skip_verify: True
+    - source_hash: {{ pillar.telegram.hash }}
 
 local-tg-binary:
   file.symlink:
@@ -250,7 +250,7 @@ kustomize-installer:
   archive.extracted:
     - name: /opt/kustomize-{{ pillar.kustomize.version }}/
     - source: https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv{{ pillar.kustomize.version }}/kustomize_v{{ pillar.kustomize.version }}_linux_amd64.tar.gz
-    - skip_verify: True
+    - source_hash: {{ pillar.kustomize.hash }}
     - enforce_toplevel: False
 
 /usr/local/bin/kustomize:
@@ -265,6 +265,7 @@ vlogscli-installer:
   archive.extracted:
     - name: /opt/vlogscli-{{ pillar.vlogscli.version }}/
     - source: https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v{{ pillar.vlogscli.version }}-victorialogs/vlogscli-linux-amd64-v{{ pillar.vlogscli.version }}-victorialogs.tar.gz
+    - source_hash: https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v{{ pillar.vlogscli.version }}-victorialogs/vlogscli-linux-amd64-v{{ pillar.vlogscli.version }}-victorialogs_checksums.txt
     - skip_verify: True
     - enforce_toplevel: False
 
@@ -280,7 +281,7 @@ vmutils-installer:
   archive.extracted:
     - name: /opt/vmutils-{{ pillar.vmutils.version }}/
     - source: https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v{{ pillar.vmutils.version }}/vmutils-linux-amd64-v{{ pillar.vmutils.version }}.tar.gz
-    - skip_verify: True
+    - source_hash: https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v{{ pillar.vmutils.version }}/vmutils-linux-amd64-v{{ pillar.vmutils.version }}_checksums.txt
     - enforce_toplevel: False
 
 /usr/local/bin/vmctl:

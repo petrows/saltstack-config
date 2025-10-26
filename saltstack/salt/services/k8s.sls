@@ -62,7 +62,7 @@ k8s-krew:
   archive.extracted:
     - name: /opt/krew/
     - source: https://github.com/kubernetes-sigs/krew/releases/download/v{{ pillar.k8s.krew.version }}/krew-linux_{{ grains.osarch }}.tar.gz
-    - skip_verify: True
+    - source_hash: https://github.com/kubernetes-sigs/krew/releases/download/v{{ pillar.k8s.krew.version }}/krew-linux_{{ grains.osarch }}.tar.gz.sha256
 
 /usr/sbin/k8s-upgrade-node:
   file.managed:

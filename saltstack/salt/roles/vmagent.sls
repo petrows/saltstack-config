@@ -3,7 +3,7 @@ vmagent-installer:
   archive.extracted:
     - name: /opt/vmutils-{{ pillar.vmagent.version }}/
     - source: https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v{{ pillar.vmagent.version }}/vmutils-linux-amd64-v{{ pillar.vmagent.version }}.tar.gz
-    - skip_verify: True
+    - source_hash: https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v{{ pillar.vmagent.version }}/vmutils-linux-amd64-v{{ pillar.vmagent.version }}_checksums.txt
     - enforce_toplevel: False
 
 {% set vmagent_utils = ['vmagent'] %}

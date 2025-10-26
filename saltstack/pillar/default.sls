@@ -280,10 +280,12 @@ php-docker:
 
 # https://github.com/telegramdesktop/tdesktop/releases
 telegram:
-  version: 4.16.6
+  version: 6.2.4
+  hash: 996de9468d170270ace1d2d092edc29078a0376567d2e94caf03f886a9732dcc
 
 kustomize:
-  version: 5.5.0
+  version: 5.7.1
+  hash: ea375e7372f9aa029129d4b2d16c66b7750b7f1213c4f66f910d981c895818d8
 
 vlogscli:
   version: 1.3.2
