@@ -6,6 +6,9 @@ include:
   - common.nftables
 {% endif %}
   - common.python
+{% if salt['pillar.get']('nfs-exports', {}) %}
+  - common.nfs
+{% endif %}
 
 locale-us:
   locale.present:
@@ -92,29 +95,6 @@ vm.swappiness:
     - mods:
       - {{ name }}
 {% endif %}
-{% endfor %}
-
-# NFS exports
-{% if salt['pillar.get']('nfs-exports', {}) %}
-nfs-packages:
-  pkg.installed:
-    - pkgs:
-      - nfs-kernel-server
-{% endif %}
-{% for id, export in salt['pillar.get']('nfs-exports', {}).items() %}
-nfs-export-{{ id }}:
-  nfs_export.present:
-    - name: {{ export.path }}
-    - clients:
-    {% for host in export.hosts %}
-      - hosts: {{ host.host }}
-        options:
-      {% for opt in host.opts %}
-        - {{ opt }}
-      {% endfor %}
-    {% endfor %}
-    - require:
-      - pkg: nfs-packages
 {% endfor %}
 
 # Systemd cronjobs?

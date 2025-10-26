@@ -246,6 +246,15 @@ nginx:
   # Force generate new dhparm keys for Nginx (required for external servers)
   dhparam: False
 
+nfs:
+  ports:
+    rpcbind: 111
+    statd: 662
+    mountd: 892
+    rquotad: 875
+    lockd: 32803
+    nlm: 32769
+
 php:
   # PHP version avaliable in packages, to be replaced by grains-driven pillar
   version: 7.3
