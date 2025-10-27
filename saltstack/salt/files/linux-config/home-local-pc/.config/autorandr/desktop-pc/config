@@ -11,6 +11,7 @@ off
 output USB-C-0
 off
 output DP-2
+dpi 138
 crtc 0
 mode 3840x2160
 pos 0x0
@@ -18,6 +19,7 @@ primary
 rate 60.00
 x-prop-non_desktop 0
 output DP-4
+dpi 138
 crtc 1
 mode 3840x2160
 pos 3840x0
