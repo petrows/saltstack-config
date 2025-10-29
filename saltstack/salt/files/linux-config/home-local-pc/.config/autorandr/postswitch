@@ -4,4 +4,4 @@
 notify-send -i display "Display profile" "$AUTORANDR_CURRENT_PROFILE"
 
 # Reload i3 configuration to adjust to new display setup
-i3-msg restart
+i3-msg restart &

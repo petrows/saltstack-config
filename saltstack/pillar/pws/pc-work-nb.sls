@@ -16,7 +16,7 @@ xsession:
       light -N 1
       light -S 10
       # Detect and set screen layout
-      . /usr/local/sbin/setscreen-auto
+      . /usr/local/sbin/setscreen-auto &
 
 kernel-modules:
   nct6775: False
