@@ -13,6 +13,7 @@ off
 output DP-3-3
 off
 output DP-3-1
+dpi 138
 crtc 1
 mode 3840x2160
 pos 0x0
@@ -22,6 +23,7 @@ x-prop-broadcast_rgb Automatic
 x-prop-max_bpc 12
 x-prop-non_desktop 0
 output DP-3-2
+dpi 138
 crtc 2
 mode 3840x2160
 pos 3840x0
