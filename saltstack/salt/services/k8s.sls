@@ -111,6 +111,7 @@ k8s-krew:
         done
 
 # Kill / restart pods on node, if firewall config was updated
+{% if pillar.firewall.enabled %}
 k8s-restart-pods:
   cmd.run:
     - name: k8s-stop-all-pods
@@ -118,3 +119,4 @@ k8s-restart-pods:
     - runas: root
     - onchanges:
       - cmd: nftables-reload-main
+{% endif %}

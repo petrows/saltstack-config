@@ -249,3 +249,9 @@ tmp_ramdisk:
     - watch:
       - file: /etc/apt/keyrings/{{ key_name }}.source
 {% endfor %}
+
+# Cleanup, if firewall disabled
+{% if not pillar.firewall.enabled %}
+/etc/nftables.conf:
+  file.absent: []
+{% endif %}

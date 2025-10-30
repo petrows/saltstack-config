@@ -17,6 +17,11 @@ k8s:
   ct: True
   {% endif %}
 
+# ! nftables breaks the k8s routing !
+# Disable firewall
+firewall:
+  enabled: False
+
 # VM only
 {% if not is_ct %}
 
