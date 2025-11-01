@@ -53,9 +53,9 @@ net.bridge.bridge-nf-call-iptables:
 k8s-pkg-node:
   pkg.installed:
     - pkgs:
-      - kubelet: '{{ pillar.k8s.version }}.*'
-      - containerd: installed
-      - nfs-common: installed
+      - kubelet
+      - containerd
+      - nfs-common
     - refresh: True
     - require:
       - file: /etc/apt/sources.list.d/k8s.sources

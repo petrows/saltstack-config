@@ -20,8 +20,8 @@
 k8s-pkg:
   pkg.installed:
     - pkgs:
-      - kubeadm: '{{ pillar.k8s.version }}.*'
-      - kubectl: '{{ pillar.k8s.version }}.*'
+      - kubeadm
+      - kubectl
       - kubectx
     - refresh: True
     - require:
