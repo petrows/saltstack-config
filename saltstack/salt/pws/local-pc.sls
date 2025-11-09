@@ -134,6 +134,9 @@ local-pc-soft:
       - ansible
       - ansible-lint
       - ssh-askpass
+      # Hardware development
+      - esptool
+      - minicom
 
 local-pc-soft-cleanup:
   pkg.purged:
@@ -170,6 +173,35 @@ bluetooth.service:
     - enable: True
     - watch:
       - file: /etc/bluetooth/*
+
+# Sgrok software
+sigrok-software:
+  pkg.installed:
+    - pkgs:
+      - pulseview
+      - sigrok
+      - sigrok-cli
+      - sigrok-firmware-fx2lafw
+
+# Patch Sigrok to support Hantek 6022BL logic analyser with 16 channels
+# See: https://michlstechblog.info/blog/pulseview-sigrok-use-hantek-6022bl-with-16-channels-linux-debian/
+# See: https://www.eevblog.com/forum/testgear/hantek-6022bl-logic-analyzer-working-with-sigrok-all-16-channels
+# Copy another firmware to replace original one. Replace back in case of issues
+/usr/share/sigrok-firmware/fx2lafw-saleae-logic.fw:
+  file.managed:
+    - source: salt://files/sigrok/fx2lafw-saleae-logic-16ch.fw
+    #- source: salt://files/sigrok/fx2lafw-saleae-logic-original.fw
+
+# OpenHantek DSO
+/opt/OpenHantek6022.apk:
+  file.managed:
+    - source: https://github.com/OpenHantek/OpenHantek6022/releases/download/3.4.0/openhantek_3.4.0_amd64.deb
+    - source_hash: e86d88910537e6f1b9759deb6111b6db
+
+openhantek-soft:
+  pkg.installed:
+    - sources:
+      - openhantek: /opt/OpenHantek6022.apk
 
 # Telegram-desktop
 # Clean installed one

@@ -1,0 +1,7 @@
+#!/bin/bash
+# See: https://michlstechblog.info/blog/pulseview-sigrok-use-hantek-6022bl-with-16-channels-linux-debian/
+sudo cp /usr/share/sigrok-firmware/fx2lafw-saleae-logic.fw /usr/share/sigrok-firmware/fx2lafw-saleae-logic.fw.bak
+sudo cp /usr/share/sigrok-firmware/fx2lafw-sigrok-fx2-16ch.fw /usr/share/sigrok-firmware/fx2lafw-saleae-logic.fw
+sigrok-cli --scan
+sudo cp /usr/share/sigrok-firmware/fx2lafw-saleae-logic.fw.bak /usr/share/sigrok-firmware/fx2lafw-saleae-logic.fw
+pulseview
