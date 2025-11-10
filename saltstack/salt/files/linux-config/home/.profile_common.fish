@@ -4,7 +4,7 @@ set -gx VISUAL $EDITOR
 set -gx GIT_EDITOR $EDITOR
 set -gx SALT_SSH_KEY "$HOME/.ssh/id_ed25519"
 
-set test_user_path "$HOME/.krew/bin" "$HOME/.poetry/bin" "$HOME/.cargo/bin" "$HOME/.local/bin" "$HOME/bin" "/opt/wine-staging/bin/"
+set test_user_path "$HOME/.krew/bin" "$HOME/.poetry/bin" "$HOME/.cargo/bin" "$HOME/.local/bin" "$HOME/bin" "/opt/wine-staging/bin/" "$HOME/.platformio/penv/bin"
 
 for p in $test_user_path;
     if test -d $p;
