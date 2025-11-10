@@ -137,6 +137,11 @@ local-pc-soft:
       # Hardware development
       - esptool
       - minicom
+      # Development
+      - cmake
+      - build-essential
+      # Required for some VS Code extensions (i.e. platformio)
+      - python3-venv
 
 local-pc-soft-cleanup:
   pkg.purged:
