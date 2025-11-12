@@ -76,12 +76,6 @@ saltstack:
 # All local emails will be delivered to this one
 maintainer_email: petro@petro.ws
 
-# Docker-compose config
-docker_compose:
-  version: 2.16.0
-  # Services to be auto-added to run
-  services: {}
-
 docker:
   bip: 172.18.1.1/24
   subnet: 172.18.0.0/12

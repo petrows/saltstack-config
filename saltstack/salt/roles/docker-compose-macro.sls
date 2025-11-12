@@ -16,7 +16,7 @@
     - shell: /bin/bash
     - name: |
         if [[ -f docker-compose.yml ]]; then
-          docker-compose down --rmi all || true
+          docker compose down --rmi all || true
         fi
         if [[ -x cmd-down.sh ]]; then
            ./cmd-down.sh
@@ -25,7 +25,7 @@
     - prereq:
       - file: {{ service_id }}-compose
     - require:
-      - file: docker-compose-bin
+      - pkg: docker-pkg
       - file: {{ service_id }}-workdir
 
 # Compose data
@@ -48,12 +48,12 @@
     - context:
       compose_path: /opt/{{ service_id }}/
     - require:
-      - file: docker-compose-bin
+      - pkg: docker-pkg
   # Build image (if needed)
   cmd.run:
     - shell: /bin/bash
     - name: |
-        docker-compose build
+        docker compose build
         if [[ -x cmd-build.sh ]]; then
            ./cmd-build.sh
         fi
