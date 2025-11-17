@@ -28,7 +28,7 @@ if status --is-interactive
         echo "Activating python venv: $env_name"
         if not test -f $env_name/bin/activate.fish
             echo "Creating new venv"
-            python -m virtualenv $env_name
+            python -m venv $env_name
         end
         source $env_name/bin/activate.fish
     end

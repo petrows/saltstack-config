@@ -1,17 +1,17 @@
-FROM openhab/openhab:{{ pillar.openhab.version }}
+FROM openhab/openhab:latest
 
 RUN apt-get -qq update &&\
 	apt-get -qq install -y --no-install-recommends \
     netcat-openbsd \
 	python3-pip \
-    python3-virtualenv \
+    python3-venv \
     && \
 	apt-get -qq clean && \
 	rm -rf /var/lib/apt/lists/*
 
 ENV VIRTUAL_ENV=/var/venv
 RUN mkdir -m 777 $VIRTUAL_ENV
-RUN python3 -m virtualenv --python=/usr/bin/python3 $VIRTUAL_ENV
+RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 RUN pip3 install --no-cache-dir \
