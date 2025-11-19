@@ -312,6 +312,11 @@ base:
     - services.openhab
     - services.openhab-julia
 
+  'build-linux.j.*':
+    - users.master
+    - services.github-runner
+    - j.build-linux
+
   'vpn.j.*':
     - users.ssh-pve
     - users.master

@@ -48,6 +48,9 @@ base:
   'roles:jenkins-node':
     - match: pillar
     - roles.jenkins-node
+  'roles:github-runner':
+    - match: pillar
+    - roles.github-runner
   'roles:unattended-upgrades':
     - match: pillar
     - roles.unattended-upgrades

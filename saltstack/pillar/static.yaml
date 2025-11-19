@@ -11,6 +11,7 @@ uids:
   jenkins: 2022
   julia: 2023
   octoprint: 2024
+  github: 2025
   www_eu: 1000
 
 # Services proxy ports
