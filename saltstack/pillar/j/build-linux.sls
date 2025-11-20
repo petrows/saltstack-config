@@ -11,7 +11,7 @@ network:
           dhcp4: false
           dhcp6: false
           addresses:
-          - 10.82.3.4/24
+          - 10.82.3.5/24
           routes:
           - to: default
             via: 10.82.3.1

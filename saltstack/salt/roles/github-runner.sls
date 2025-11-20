@@ -13,9 +13,9 @@ github-{{ id }}-package:
     - source: {{ pillar.github_runner.package.url }}
     - source_hash: {{ pillar.github_runner.package.hash }}
 
-github-{{ id }}-script:
+github-{{ id }}-configure:
   file.managed:
-    - name: /home/github/{{ id }}/pws-runner
+    - name: /home/github/{{ id }}/pws-runner-configure
     - contents: |
         #!/bin/sh -xe
         ./config.sh remove --local || true
@@ -25,10 +25,17 @@ github-{{ id }}-script:
           --token {{ runner.token }} \
           --name {{ grains.id }} \
           --replace
-        ./run.sh
     - mode: 755
     - user: github
     - group: github
+
+github-{{ id }}-configure-update:
+  cmd.run:
+    - name: ./pws-runner-configure
+    - cwd: /home/github/{{ id }}/
+    - runas: github
+    - onchanges:
+      - file: github-{{ id }}-configure
 
 github-runner-{{ id }}.service:
   file.managed:
@@ -43,7 +50,7 @@ github-runner-{{ id }}.service:
         User=github
         Group=github
         WorkingDirectory=/home/github/{{ id }}/
-        ExecStart=/home/github/{{ id }}/pws-runner
+        ExecStart=/home/github/{{ id }}/run.sh
         [Install]
         WantedBy=multi-user.target
   service.running:
@@ -51,6 +58,6 @@ github-runner-{{ id }}.service:
     - no_block: True
     - watch:
       - file: /etc/systemd/system/github-runner-{{ id }}.service
-      - file: /home/github/{{ id }}/pws-runner
+      - cmd: github-{{ id }}-configure-update
 
 {% endfor %}
