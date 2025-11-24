@@ -83,8 +83,9 @@ kubelet.service:
 
 # Backup k8s node configs
 
-/etc/systemd/system/k8s-node-backup.service:
+k8s-node-backup.service:
   file.managed:
+    - name: /etc/systemd/system/k8s-node-backup.service
     - contents: |
         [Unit]
         Description=K8s Node Backup Service
@@ -94,6 +95,7 @@ kubelet.service:
         ExecStart=/usr/local/bin/k8s-node-backup
         [Install]
         WantedBy=multi-user.target
+  service.disabled: []
 
 /usr/local/bin/k8s-node-backup:
   file.managed:

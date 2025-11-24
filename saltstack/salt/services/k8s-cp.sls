@@ -96,3 +96,33 @@ k8s-backup.timer:
         WantedBy=timers.target
   service.running:
     - enable: True
+
+# Startup k8s cp configs
+
+k8s-node-startup.service:
+  file.managed:
+    - name: /etc/systemd/system/k8s-node-startup.service
+    - contents: |
+        [Unit]
+        Description=K8s Node Startup Service
+        After=network.target
+        [Service]
+        Type=oneshot
+        RemainAfterExit=yes
+        ExecStart=/usr/local/bin/k8s-node-startup
+        [Install]
+        WantedBy=multi-user.target
+  service.running:
+    - enable: True
+    - watch:
+      - file: /etc/systemd/system/k8s-node-startup.service
+      - file: /usr/local/bin/k8s-node-startup
+
+/usr/local/bin/k8s-node-startup:
+  file.managed:
+    - mode: 755
+    - contents: |
+        #!/bin/bash -e
+        iptables -t nat -A PREROUTING ! -d 127.0.0.1/32 -p tcp -m tcp --dport 10259 -j DNAT --to-destination 127.0.0.1:10259
+        iptables -t nat -A PREROUTING ! -d 127.0.0.1/32 -p tcp -m tcp --dport 10257 -j DNAT --to-destination 127.0.0.1:10257
+        echo "K8s cp startup script executed"
