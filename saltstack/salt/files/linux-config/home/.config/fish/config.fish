@@ -23,7 +23,7 @@ if status --is-interactive
     function venv
         set env_name $argv[1]
         if test -z "$env_name"
-            set env_name ".env"
+            set env_name ".venv"
         end
         echo "Activating python venv: $env_name"
         if not test -f $env_name/bin/activate.fish
