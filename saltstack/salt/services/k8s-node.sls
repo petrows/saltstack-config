@@ -80,3 +80,41 @@ kubelet.service:
       - pkg: k8s-pkg
       - file: /etc/default/kubelet
       - file: /etc/resolv.conf
+
+# Backup k8s node configs
+
+/etc/systemd/system/k8s-node-backup.service:
+  file.managed:
+    - contents: |
+        [Unit]
+        Description=K8s Node Backup Service
+        After=network.target
+        [Service]
+        Type=oneshot
+        ExecStart=/usr/local/bin/k8s-node-backup
+        [Install]
+        WantedBy=multi-user.target
+
+/usr/local/bin/k8s-node-backup:
+  file.managed:
+    - mode: 755
+    - contents: |
+        #!/bin/bash -e
+        mkdir -p /srv/backup/srv
+        mkdir -p /srv/backup/etc
+        # Backup script for k8s node configurations
+        echo "Backup configs"
+        #tar --zstd -cf /srv/backup/etc/k8s-node-configs.tar.gz /etc/kubernetes /etc/containerd /etc/default/kubelet      
+        # Backup data volumes (if any)
+        echo "Backup /srv data"        
+        success=0
+        for i in {1..5}; do
+          rsync -avh --delete --exclude /backup /srv/ /srv/backup/srv/ && { success=1; break; }
+          sleep 2
+        done
+        if [ "$success" -ne 1 ]; then
+          echo "Backup failed after 5 attempts." >&2
+          exit 1
+        fi
+        echo "Backup done"
+        
