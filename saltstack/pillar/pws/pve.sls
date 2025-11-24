@@ -86,8 +86,16 @@ mounts:
   ]
 %}
 
+# Media centers
 {%
-  set allow_nfs_backup = [
+  set allow_nfs_backup_stb = [
+    '10.80.0.15/32',
+    '10.80.0.22/32',
+  ]
+%}
+
+{%
+  set allow_nfs_backup_k8s = [
     '10.80.0.7/32',
     '10.80.0.8/32',
     '10.88.0.0/24',
@@ -97,6 +105,8 @@ mounts:
 nfs-exports:
   media:
     path: /srv/pws-media/media
+    user: {{ static.uids.master }}
+    mode: 755
     hosts:
     {% for net in allow_nfs_media %}
     - host: '{{ net }}'
@@ -106,17 +116,40 @@ nfs-exports:
       - insecure
       - no_subtree_check
     {% endfor %}
-# Allow NFS mounts for k8s-related shit
-  k8s_backup:
-    path: /srv/pws-cache/backup
+# Allow NFS mounts for media centers
+  backup_stb:
+    path: /srv/pws-cache/backup/stb
+    user: {{ static.uids.master }}
+    mode: 755
     hosts:
-    {% for net in allow_nfs_backup %}
+    {% for net in allow_nfs_backup_stb %}
     - host: '{{ net }}'
       opts:
       - rw
       - async
       - insecure
-      - no_root_squash
+      # All users to master user mapping
+      - all_squash
+      - anonuid={{ static.uids.master }}
+      - anongid={{ static.uids.master }}
+      - no_subtree_check
+    {% endfor %}
+# Allow NFS mounts for k8s-related shit
+  backup_k8s:
+    path: /srv/pws-cache/backup/k8s
+    user: {{ static.uids.master }}
+    mode: 755
+    hosts:
+    {% for net in allow_nfs_backup_k8s %}
+    - host: '{{ net }}'
+      opts:
+      - rw
+      - async
+      - insecure
+      # All users to master user mapping
+      - all_squash
+      - anonuid={{ static.uids.master }}
+      - anongid={{ static.uids.master }}
       - no_subtree_check
     {% endfor %}
 

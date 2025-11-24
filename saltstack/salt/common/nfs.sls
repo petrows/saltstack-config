@@ -60,6 +60,13 @@ fs.nfs.nlm_udpport:
     - value: {{ salt['pillar.get']('nfs:ports:nlm') }}
 
 {% for id, export in salt['pillar.get']('nfs-exports', {}).items() %}
+{{ export.path }}:
+  file.directory:
+    - user: {{ export.user }}
+    - group: {{ export.get('group', export.user) }}
+    - mode: {{ export.mode }}
+    - makedirs: True
+
 nfs-export-{{ id }}:
   nfs_export.present:
     - name: {{ export.path }}
@@ -73,4 +80,5 @@ nfs-export-{{ id }}:
     {% endfor %}
     - require:
       - pkg: nfs-packages
+      - file: {{ export.path }}
 {% endfor %}
