@@ -18,11 +18,21 @@ github-{{ id }}-configure:
     - name: /home/github/{{ id }}/pws-runner-configure
     - contents: |
         #!/bin/sh -xe
+        if [[ -z "$GH_TOKEN" ]]; then
+          echo "GH_TOKEN is not set"
+          exit 1
+        fi
+        # Get new runner token for provisioning
+        RUNNER_TOKEN=$(curl -sX POST -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer $GH_TOKEN" \
+          https://api.github.com/repos/{{ runner.owner }}/{{ runner.repo }}/actions/runners/registration-token \
+          | jq -r .token )
+        # Start new instance
         ./config.sh remove --local || true
         ./config.sh \
           --unattended \
-          --url {{ runner.url }} \
-          --token {{ runner.token }} \
+          --url https://github.com/{{ runner.owner }}/{{ runner.repo }} \
+          --token "$RUNNER_TOKEN" \
           --name {{ grains.id }} \
           --replace
     - mode: 755
@@ -33,6 +43,8 @@ github-{{ id }}-configure-update:
   cmd.run:
     - name: ./pws-runner-configure
     - cwd: /home/github/{{ id }}/
+    - env:
+      - GH_TOKEN: "{{ pillar.pws_secrets.github_runners.administration_rw_token }}"
     - runas: github
     - onchanges:
       - file: github-{{ id }}-configure
