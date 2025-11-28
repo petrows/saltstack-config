@@ -20,6 +20,7 @@ salt:
     vpn.j.pws: {}
     media.j.pws: {}
     web.j.pws: {}
+    build-linux.j.pws: {}
     # External
     cz.vds.pws:
       port: 8144
