@@ -35,6 +35,8 @@ apt:
     k8s: https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key
     # WineHQ keys
     winehq: https://dl.winehq.org/wine-builds/winehq.key
+    # Github CLI
+    githubcli: https://cli.github.com/packages/githubcli-archive-keyring.gpg
 
 # List of packages, will be installed to system venv,
 # Use `/opt/venv/system/bin/python` as interpreter

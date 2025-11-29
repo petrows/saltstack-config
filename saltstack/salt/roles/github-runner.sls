@@ -1,5 +1,25 @@
 # Role for Github runner
 
+# Software prerequisites
+
+/etc/apt/sources.list.d/github.sources:
+  file.managed:
+    - contents: |
+        X-Repolib-Name: Github CLI
+        Description: GitHub CLI is a command line tool that brings pull requests, issues, and other GitHub concepts to the terminal next to where you are already working.
+          - Website: https://cli.github.com/
+          - Public key: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+        Enabled: yes
+        Types: deb
+        URIs: https://cli.github.com/packages
+        Signed-By: /etc/apt/keyrings/githubcli.gpg
+        Suites: stable
+        Components: main
+
+github-cli-pkg:
+  pkg.installed:
+    - pkgs:
+      - gh
 
 # Iterate runners
 
