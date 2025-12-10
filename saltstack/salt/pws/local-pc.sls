@@ -387,6 +387,10 @@ local-pc-local-{{ user_id }}:
 nvidia-persistenced.service:
   service.masked
 
+# Stop / break unattended-upgrades.service, updates installed manually only
+unattended-upgrades.service:
+  service.masked
+
 # Udev rules
 udev-user:
   file.recurse:

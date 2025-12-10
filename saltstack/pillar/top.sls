@@ -42,7 +42,10 @@ base:
     - users.vagrant
     - common.server-dev
 
-# Config by-network
+# Config by-network ipcidr
+# IPCDR must not apply for laptop machine(s)
+{% set machines_no_ipcidr = ['pc-work-nb'] %}
+{% if grains.id not in machines_no_ipcidr %}
   '10.80.0.0/24':
     - match: ipcidr
     - grains.network-lan
@@ -75,6 +78,8 @@ base:
     - match: ipcidr
     - grains.network-dmz
     - grains.network-dmz-w
+{% endif %}
+
   # b
   '*.b.pws':
     - match: compound
