@@ -21,6 +21,12 @@ github-cli-pkg:
     - pkgs:
       - gh
 
+# Common github runner tmp
+/home/github/tmp:
+  file.directory:
+    - user: github
+    - group: github
+
 # Iterate runners
 
 {% for id, runner in salt['pillar.get']('pws_secrets:github_runners:runners', {}).items() %}
