@@ -32,6 +32,7 @@ salt:
     # k8s-cp-w1.pws: {}
     k8s-node-w1.pws: {}
     k8s-node-w2.pws: {}
+    build-linux.w.pws: {}
     # M
     pve.m.pws: {}
     vpn.m.pws: {}

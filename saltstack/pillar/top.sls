@@ -345,6 +345,10 @@ base:
     - services.vmagent
     - services.vmagent-pve-w
     - w.pve
+  'build-linux.w.*':
+    - users.master
+    - services.github-runner
+    - w.build-linux
 
 # M hosts
   'pve.m.*':

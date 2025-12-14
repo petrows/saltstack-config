@@ -25,6 +25,12 @@ github-cli-pkg:
 
 {% for id, runner in salt['pillar.get']('pws_secrets:github_runners:runners', {}).items() %}
 
+github-{{ id }}-tmp:
+  file.directory:
+    - name: /home/github/{{ id }}/tmp
+    - user: github
+    - group: github
+
 github-{{ id }}-package:
   archive.extracted:
     - name: /home/github/{{ id }}/
