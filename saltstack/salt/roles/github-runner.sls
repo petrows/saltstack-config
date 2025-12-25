@@ -44,6 +44,7 @@ github-{{ id }}-package:
     - group: github
     - source: {{ pillar.github_runner.package.url }}
     - source_hash: {{ pillar.github_runner.package.hash }}
+    - if_missing: /home/github/{{ id }}/run.sh
 
 github-{{ id }}-configure:
   file.managed:
