@@ -47,7 +47,8 @@ proxy_vhosts:
     port: {{ static.proxy_ports.petro_wp_http }}
     php:
       user: www-data
-      version: 7.4
+      version: 8.5
+      container_revision: 2025-12-26
       cron:
         wp-cron:
           calendar: '*-*-* *:*:00'
