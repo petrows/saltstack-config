@@ -16,6 +16,11 @@ services-upgrade-checker.timer:
     - enable: True
 
 # Bambu printer watch service script
+bambu-software:
+  pkg.installed:
+    - pkgs:
+      - ffmpeg
+
 /opt/bambu-bot:
   file.recurse:
     - source: salt://files/bambu-bot/
