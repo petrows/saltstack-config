@@ -83,6 +83,11 @@ class BambuWatcher:
 
         p = payload["print"]
         state = p.get("gcode_state")
+
+        if not state:
+            logging.debug("Invalid print state")
+            return
+
         self.print_id = p.get("job_id")
         self.print_file = p.get("file")
         self.print_task = p.get("subtask_name")
