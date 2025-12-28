@@ -78,7 +78,7 @@ class BambuWatcher:
         logging.debug("Received message: %s", msg.payload.decode())
 
         if "print" not in payload:
-            logging.error("No print data in payload")
+            logging.debug("No print data in payload")
             return
 
         p = payload["print"]
@@ -109,7 +109,7 @@ class BambuWatcher:
         if should_publish:
             smarthome_topic = f"{self.cfg['mqtt_report']['topic']}/status"
             ret = self.smarthome_client.publish(smarthome_topic, json.dumps(payload), retain=True)
-            logging.info(f"Published to {smarthome_topic}, result: {ret}")
+            logging.debug(f"Published to {smarthome_topic}, result: {ret}")
             self.smarthome_last_mqtt_publish = current_time
             # Dump file
             dump_filename = f"dumps/payload-{self.print_id}-{state}.json"
