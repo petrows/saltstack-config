@@ -26,12 +26,6 @@ salt:
       port: 8144
     # W
     pve.w.pws: {}
-    # K8s
-    k8s-cp-h1.pws: {}
-    k8s-node-h1.pws: {}
-    # k8s-cp-w1.pws: {}
-    k8s-node-w1.pws: {}
-    k8s-node-w2.pws: {}
     build-linux.w.pws: {}
     # M
     pve.m.pws: {}

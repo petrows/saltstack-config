@@ -299,8 +299,8 @@ base:
     - users.ssh-pve
     - users.master
     - services.iphone-copy
-    - services.vmagent
-    - services.vmagent-pve-j
+    - metrics.vmagent
+    - metrics.vmagent-pve-j
     - j.pve
 
   'media.j.*':
