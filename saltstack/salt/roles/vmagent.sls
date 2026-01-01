@@ -63,7 +63,7 @@ vmagent.service:
         User=root
         Group=root
         WorkingDirectory=/etc/prometheus
-        ExecStart=/usr/local/bin/vmagent -promscrape.config=/etc/prometheus/vmagent.yaml {% if pillar.vmagent.endpoint %} -remoteWrite.url={{ pillar.vmagent.endpoint }} -remoteWrite.tmpDataPath=/srv/vmagent-data/cache{% endif %}
+        ExecStart=/usr/local/bin/vmagent -promscrape.config=/etc/prometheus/vmagent.yaml {% if pillar.vmagent.endpoint %} -remoteWrite.url={{ pillar.vmagent.endpoint }} -remoteWrite.tlsInsecureSkipVerify=true -remoteWrite.tmpDataPath=/srv/vmagent-data/cache{% endif %}
         [Install]
         WantedBy=multi-user.target
   service.running:

@@ -1,5 +1,6 @@
 apiVersion: 1
 
+# Warning! Do not change name: it will duplicate data sources
 datasources:
   - name: VictoriaMetrics
     orgId: 1
