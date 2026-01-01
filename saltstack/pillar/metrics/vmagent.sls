@@ -7,6 +7,6 @@ roles:
 vmagent:
   enable: True
   version: 1.107.0
-  endpoint: https://vm.system.pws/api/v1/write
+  endpoint: https://10.80.0.14:5959/
   node_exporters:
     {{ grains.id }}: {}

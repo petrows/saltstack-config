@@ -44,7 +44,10 @@ proxy_ports:
   privatebin_http:  7020
   trss_http:        7021
   zoneminder_http:  7022
-
+  vm_http:          7023
+  vl_http:          7023
+  # Special port to lixten for external connections
+  vm_http_ext:      8428
 
   # Resillio sync
   rslsync_petro:    8888

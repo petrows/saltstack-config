@@ -19,6 +19,8 @@ openhab:
     id: Openhab-mosquitto
   tuyamqtt:
     id: Openhab-tuyamqtt
+  vmagent:
+    id: Openhab-vmagent
   influxdb:
     id: Openhab-influxdb
   yandex2mqtt:

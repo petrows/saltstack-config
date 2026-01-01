@@ -1,36 +1,22 @@
 version: '3'
-
+{% set config_vm = salt['pillar.get']('metrics:victoria-metrics') %}
+{% set config_grafana = salt['pillar.get']('metrics:grafana') %}
 services:
-  victoriametrics:
-    container_name: victoriametrics
-    image: victoriametrics/victoria-metrics:{{ pillar.metrics.victoriametrics.version }}
+  victoria-metrics:
+    container_name: victoria-metrics
+    image: victoriametrics/victoria-metrics:{{ config_vm.version }}
     restart: always
     ports:
-      - 8428:8428
-    volumes:
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-      - {{ pillar.metrics.data_dir }}/victoriametrics:/victoria-metrics-data
-  vmagent:
-    container_name: vmagent
-    image: victoriametrics/vmagent:{{ pillar.metrics.vmagent.version }}
-    depends_on:
-      - "victoriametrics"
-    ports:
-      - 8429:8429
-    volumes:
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/ssl/certs/pws.ca.pem:/etc/ssl/certs/pws.ca.pem:ro
-      - {{ pillar.metrics.data_dir }}/vmagent/data:/vmagentdata
-      - {{ pillar.metrics.data_dir }}/vmagent/vmagent.yml:/etc/prometheus/prometheus.yml
+      - '127.0.0.1:{{ pillar.static.proxy_ports.vm_http }}:8428'
     command:
-      - '--promscrape.config=/etc/prometheus/prometheus.yml'
-      - '--remoteWrite.url=http://victoriametrics:8428/api/v1/write'
-    restart: always
+      - '--retentionPeriod={{ config_vm.retention }}'
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - {{ pillar.metrics.data_dir }}/victoria-metrics:/victoria-metrics-data
   grafana:
     container_name: grafana
-    image: grafana/grafana:{{ pillar.metrics.grafana.version }}
+    image: grafana/grafana:{{ config_grafana.version }}
     restart: always
     ports:
       - '127.0.0.1:{{ pillar.static.proxy_ports.grafana_http }}:3000'
@@ -41,28 +27,3 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - {{ pillar.metrics.data_dir }}/grafana/datasources:/etc/grafana/provisioning/datasources
       - {{ pillar.metrics.data_dir }}/grafana:/var/lib/grafana
-  # telegraf:
-  #   container_name: metrics-telegraf
-  #   image: telegraf:{{ pillar.metrics.telegraf.version }}
-  #   restart: always
-  #   volumes:
-  #     - /etc/timezone:/etc/timezone:ro
-  #     - /etc/localtime:/etc/localtime:ro
-  #     - /etc/ssl/certs/pws.ca.pem:/etc/ssl/certs/pws.ca.pem:ro
-  #     - {{ pillar.metrics.data_dir }}/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
-  snmp_exporter:
-    container_name: snmp-exporter
-    image: prom/snmp-exporter:{{ pillar.metrics.snmp_exporter.version }}
-    restart: always
-    volumes:
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-      - {{ pillar.metrics.data_dir }}/snmp_exporter/:/etc/snmp_exporter/
-  mktxp:
-    container_name: mktxp
-    image: guenterbailey/mktxp:{{ pillar.metrics.mktxp.version }}
-    restart: always
-    volumes:
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-      - {{ pillar.metrics.data_dir }}/mktxp/:/root/mktxp:rw

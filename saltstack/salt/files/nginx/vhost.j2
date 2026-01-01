@@ -5,6 +5,7 @@
 
 {%- set port_http = conf.port_http|default(80) %}
 {%- set port_https = conf.port_https|default(443) %}
+{%- set proxy_dst = conf.proxy_dst|default('') %}
 {%- set force_ssl = conf.ssl_force|default(True) %}
 {%- set enable_frame = conf.enable_frame|default(False) %}
 {%- set enable_http2 = conf.enable_http2|default(False) %}
@@ -44,7 +45,7 @@ server {
     server_name {{ conf.domain }};
 
 {%- if conf.port|default(False) %}
-    set $proxy_dst {{ conf.host|default('127.0.0.1') }}:{{ conf.port }};
+    set $proxy_dst {{ conf.host|default('127.0.0.1') }}:{{ conf.port }}{{ proxy_dst }};
 {%- endif %}
 
 {% if conf_type == 'php' or conf_type == 'php-docker' %}

@@ -85,6 +85,7 @@ services:
       - {{ pillar.openhab.vmagent.data_dir }}/data:/vmagentdata
     command:
       - '--remoteWrite.url={{ pillar.openhab.vmagent.remote_url }}'
+      - '-remoteWrite.tlsInsecureSkipVerify=true'
       # Extra config to mark this instance
       - '--remoteWrite.urlRelabelConfig=/cfg/vm-relabel.yaml'
       # Enable disk cache to store data on network loss

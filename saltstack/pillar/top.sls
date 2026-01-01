@@ -119,9 +119,9 @@ base:
   'pve.pws':
     - pws.pve
     # Metrics service
-    - services.vmagent
-    - services.vmagent-pve
-    - services.vector
+    - metrics.vmagent
+    - metrics.vmagent-pve
+    - metrics.vector
     # FS honeypots
     - common.integrity-pve
 
@@ -140,7 +140,7 @@ base:
     - services.salt-master
     - services.cmk-server
   #  - services.graylog
-  #  - services.metrics
+    - metrics.metrics
     - services.adguard
   'system.pws':
     - services.salt-master-prod
@@ -228,9 +228,6 @@ base:
     - services.paperless-prod
   'media.dev':
     - services.samba-dev
-
-  'metrics.dev':
-    - services.metrics
 
 # K8S Nodes
   'k8s-*.pws':

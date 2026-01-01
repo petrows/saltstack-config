@@ -44,7 +44,7 @@ openhab:
     id: Openhab-vmagent-dev
     version: 1.107.0
     # Remote URL to send data to prometheus/victoriametrics
-    remote_url: https://vmagent.k8s.pws/api/v1/write
+    remote_url: https://10.80.0.14:5959/
     data_dir: /srv/influxdb-vmagent-data
     dirs:
       - /srv/influxdb-vmagent-data
