@@ -120,7 +120,7 @@ base:
     - pws.pve
     # Metrics service
     - metrics.vmagent
-    - metrics.vmagent-pve
+    - metrics.vmagent-pve-h
     - metrics.vector
     # FS honeypots
     - common.integrity-pve
@@ -322,8 +322,8 @@ base:
   'vpn.j.*':
     - users.ssh-pve
     - users.master
-    - services.vmagent
-    - services.vmagent-passive
+    - metrics.vmagent
+    - metrics.vmagent-passive
     - services.jvpn
     - j.vpn
 
@@ -339,8 +339,8 @@ base:
 # W hosts
   'pve.w.*':
     - grains.host-hdd
-    - services.vmagent
-    - services.vmagent-pve-w
+    - metrics.vmagent
+    - metrics.vmagent-pve-w
     - w.pve
   'build-linux.w.*':
     - users.master
@@ -350,14 +350,14 @@ base:
 # M hosts
   'pve.m.*':
     - grains.host-hdd
-    - services.vmagent
-    - services.vmagent-pve-m
+    - metrics.vmagent
+    - metrics.vmagent-pve-m
     - m.pve
   'vpn.m.*':
     - users.ssh-pve
     - users.master
-    - services.vmagent
-    - services.vmagent-passive
+    - metrics.vmagent
+    - metrics.vmagent-passive
     - services.jvpn
     - m.vpn
 
@@ -370,8 +370,8 @@ base:
     - grains.network-dmz
     - users.ssh-pve
     - users.master
-    - services.vmagent
-    - services.vmagent-passive
+    - metrics.vmagent
+    - metrics.vmagent-passive
     - services.jvpn
     - b.vpn
 
