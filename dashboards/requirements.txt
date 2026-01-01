@@ -1,2 +1,0 @@
-python-openhab==2.*
-grafanalib==0.7.*
