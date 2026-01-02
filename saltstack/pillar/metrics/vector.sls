@@ -6,6 +6,8 @@ roles:
 vector:
   enable: True
   endpoint: https://10.80.0.14:5858
+  data_dir: /srv/vector
+  max_buffer_disk_size: {{ 1 * 1024 * 1024 * 1024 }}
   syslog:
     {{ grains.id }}: True
 

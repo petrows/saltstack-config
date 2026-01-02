@@ -13,10 +13,18 @@ vector-pkg:
     - require:
       - pkgrepo: vector-repository
 
+{{ pillar.vector.data_dir }}:
+  file.directory:
+    - user: vector
+    - group: vector
+    - mode: 755
+    - makedirs: True
+
 /etc/vector/vector.yaml:
   file.managed:
     - makedirs: True
     - contents: |
+        data_dir: {{ pillar.vector.data_dir }}
         sources:
           syslog:
             type: syslog
@@ -45,6 +53,10 @@ vector-pkg:
               verify_certificate: false
             healthcheck:
               enabled: false
+            buffer:
+              - type: disk
+                max_size: {{ pillar.vector.max_buffer_disk_size }}
+                when_full: drop_newest
             query:
               _msg_field: message
               _time_field: timestamp

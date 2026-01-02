@@ -299,6 +299,7 @@ base:
     - users.ssh-pve
     - users.master
     - services.iphone-copy
+    - metrics.vector
     - metrics.vmagent
     - metrics.vmagent-pve-j
     - j.pve
@@ -339,6 +340,7 @@ base:
 # W hosts
   'pve.w.*':
     - grains.host-hdd
+    - metrics.vector
     - metrics.vmagent
     - metrics.vmagent-pve-w
     - w.pve
@@ -350,6 +352,7 @@ base:
 # M hosts
   'pve.m.*':
     - grains.host-hdd
+    - metrics.vector
     - metrics.vmagent
     - metrics.vmagent-pve-m
     - m.pve
