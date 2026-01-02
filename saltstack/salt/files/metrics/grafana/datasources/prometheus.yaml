@@ -8,3 +8,13 @@ datasources:
     type: prometheus
     access: proxy
     url: http://victoria-metrics:8428
+  - name: VictoriaLogs
+    type: victoriametrics-logs-datasource
+    access: proxy
+    url: http://victoria-logs:9428
+    isDefault: false
+    jsonData:
+      esVersion: 80
+      logLevelField: "level"
+      messageField: "message"
+      timestampField: "timestamp"

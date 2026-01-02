@@ -38,9 +38,11 @@ vector-pkg:
               - syslog
             type: elasticsearch
             endpoints:
-              - {{ pillar.vector.endpoint }}/insert/elasticsearch/
+              - {{ pillar.vector.endpoint }}
             api_version: v8
             compression: gzip
+            tls:
+              verify_certificate: false
             healthcheck:
               enabled: false
             query:

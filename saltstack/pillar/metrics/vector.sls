@@ -5,7 +5,7 @@ roles:
 
 vector:
   enable: True
-  endpoint: https://vl.system.pws
+  endpoint: https://10.80.0.14:5858
   syslog:
     {{ grains.id }}: True
 

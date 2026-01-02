@@ -1,5 +1,6 @@
 version: '3'
 {% set config_vm = salt['pillar.get']('metrics:victoria-metrics') %}
+{% set config_vl = salt['pillar.get']('metrics:victoria-logs') %}
 {% set config_grafana = salt['pillar.get']('metrics:grafana') %}
 services:
   victoria-metrics:
@@ -15,6 +16,19 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
       - {{ pillar.metrics.data_dir }}/victoria-metrics:/victoria-metrics-data
+  victoria-logs:
+    container_name: victoria-logs
+    image: victoriametrics/victoria-logs:{{ config_vl.version }}
+    restart: always
+    ports:
+      - '127.0.0.1:{{ pillar.static.proxy_ports.vl_http }}:9428'
+    command:
+      - '-retentionPeriod={{ config_vl.retention }}'
+      - '-logIngestedRows'
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - {{ pillar.metrics.data_dir }}/victoria-logs:/victoria-logs-data
   grafana:
     container_name: grafana
     image: grafana/grafana:{{ config_grafana.version }}
