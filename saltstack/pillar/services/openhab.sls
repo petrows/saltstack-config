@@ -49,13 +49,6 @@ openhab:
     dirs:
       - /srv/influxdb-vmagent-data
 
-  influxdb:
-    id: Openhab-influxdb-dev
-    version: 1.8
-    data_dir: /srv/influxdb-data
-    dirs:
-      - /srv/influxdb-data
-
   # Yandex2mqtt proxy
   yandex2mqtt:
     id: False # Do not start by default
