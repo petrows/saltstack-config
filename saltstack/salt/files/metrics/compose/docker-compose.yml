@@ -9,7 +9,8 @@ services:
     ports:
       - '127.0.0.1:{{ pillar.static.proxy_ports.vm_http }}:8428'
     command:
-      - '--retentionPeriod={{ config_vm.retention }}'
+      - '-retentionPeriod={{ config_vm.retention }}'
+      - '-search.maxSamplesPerSeries={{ config_vm.max_samples_per_series }}'
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro

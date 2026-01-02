@@ -13,6 +13,7 @@ metrics:
   victoria-metrics:
     version: v1.132.0
     retention: 5y
+    max_samples_per_series: {{ 1 * 1024 * 1024 * 1024 }}
   # https://hub.docker.com/r/grafana/grafana
   grafana:
     version: 12.3.1

@@ -100,6 +100,8 @@ services:
     ports:
       # Expose port as 9086 for debug
       - '9086:8086'
+    environment:
+      INFLUXDB_LOGGING_LEVEL: debug
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
