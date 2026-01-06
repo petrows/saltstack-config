@@ -21,6 +21,7 @@ octoprint:
   klipper:
     version: 0.13.0
     home: /srv/klipper-data
+    tty: /tmp/tty-ender3
   cfg:
     appearance:
       name: PWS Octoprint

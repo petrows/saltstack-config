@@ -129,14 +129,14 @@ klipper.service:
         User=octoprint
         Group=octoprint
         WorkingDirectory={{ pillar.octoprint.klipper.home }}
-        ExecStart={{ pillar.octoprint.klipper.home }}/.venv/bin/python {{ pillar.octoprint.klipper.home }}/klipper/klippy/klippy.py {{ pillar.octoprint.klipper.home }}/printer.cfg
+        ExecStart={{ pillar.octoprint.klipper.home }}/.venv/bin/python {{ pillar.octoprint.klipper.home }}/klipper/klippy/klippy.py {{ pillar.octoprint.klipper.home }}/printer.cfg --input-tty={{ pillar.octoprint.klipper.tty }}
         [Install]
         WantedBy=multi-user.target
   service.running:
     - enable: True
     - watch:
       - file: /etc/systemd/system/klipper.service
-      - file: {{ pillar.octoprint.klipper.home }}
+      - file: {{ pillar.octoprint.klipper.home }}/*
       - git: klipper-git
       - virtualenv: {{ pillar.octoprint.klipper.home }}/.venv
 
