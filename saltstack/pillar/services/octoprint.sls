@@ -20,7 +20,7 @@ octoprint:
   port: {{ static.proxy_ports.octoprint_http }}
   klipper:
     version: 0.13.0
-    port: /dev/ttyUSB0
+    home: /srv/klipper-data
   cfg:
     appearance:
       name: PWS Octoprint

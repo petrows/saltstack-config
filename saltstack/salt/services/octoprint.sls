@@ -63,6 +63,83 @@ octoprint-stream.service:
       - file: /etc/systemd/system/octoprint-stream.service
       - file: {{ pillar.octoprint.home }}/*
 
+# Klipper application
+
+{{ pillar.octoprint.klipper.home }}:
+  file.directory:
+    - user: octoprint
+    - group: octoprint
+    - dir_mode: 755
+    - makedirs: True
+
+klipper-packages:
+  pkg.installed:
+    - pkgs:
+      - virtualenv
+      - python3-dev
+      - libffi-dev
+      - build-essential
+      - libncurses-dev
+      - libusb-dev
+      - avrdude
+      - gcc-avr
+      - binutils-avr
+      - avr-libc
+      - stm32flash
+      - dfu-util
+      - libnewlib-arm-none-eabi
+      - gcc-arm-none-eabi
+      - binutils-arm-none-eabi
+      - libusb-1.0-0
+
+{{ pillar.octoprint.klipper.home }}/printer.cfg:
+  file.managed:
+    - source: salt://files/octoprint/klipper/printer.cfg
+    - user: octoprint
+    - group: octoprint
+    - mode: 644
+    - makedirs: True
+
+klipper-git:
+  git.detached:
+    - user: octoprint
+    - name: https://github.com/Klipper3d/klipper.git
+    - target: {{ pillar.octoprint.klipper.home }}/klipper
+    - rev: v{{ pillar.octoprint.klipper.version }}
+
+{{ pillar.octoprint.klipper.home }}/.venv:
+  virtualenv.managed:
+    - user: octoprint
+    - python: {{ pillar.python_system_bin }}
+    - requirements: {{ pillar.octoprint.klipper.home }}/klipper/scripts/klippy-requirements.txt
+    - watch:
+      - git: klipper-git
+    - require:
+      - pkg: klipper-packages
+
+klipper.service:
+  file.managed:
+    - name: /etc/systemd/system/klipper.service
+    - contents: |
+        [Unit]
+        Description=Klipper 3D printer firmware
+        After=network.target
+        OnFailure=status-email@%n.service
+        [Service]
+        User=octoprint
+        Group=octoprint
+        WorkingDirectory={{ pillar.octoprint.klipper.home }}
+        ExecStart={{ pillar.octoprint.klipper.home }}/.venv/bin/python {{ pillar.octoprint.klipper.home }}/klipper/klippy/klippy.py {{ pillar.octoprint.klipper.home }}/printer.cfg
+        [Install]
+        WantedBy=multi-user.target
+  service.running:
+    - enable: True
+    - watch:
+      - file: /etc/systemd/system/klipper.service
+      - file: {{ pillar.octoprint.klipper.home }}
+      - git: klipper-git
+      - virtualenv: {{ pillar.octoprint.klipper.home }}/.venv
+
 # # Prepare deps
 # update-octopi-files:
 #   file.recurse:
