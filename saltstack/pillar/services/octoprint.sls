@@ -14,6 +14,7 @@ packages:
   - mosquitto-clients
   - libimage-exiftool-perl
   - cpulimit
+  - minicom
 
 octoprint:
   home: /srv/octoprint-data
@@ -31,7 +32,6 @@ octoprint:
       stream: /video/stream
       # Absolute URL: for backend only
       snapshot: http://127.0.0.1:{{ static.proxy_ports.octoprint_video }}/snapshot
-
     plugins:
       psucontrol:
         GPIODevice: /dev/gpiochip0
