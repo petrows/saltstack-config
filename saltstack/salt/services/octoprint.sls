@@ -129,7 +129,7 @@ klipper.service:
         User=octoprint
         Group=octoprint
         WorkingDirectory={{ pillar.octoprint.klipper.home }}
-        ExecStart={{ pillar.octoprint.klipper.home }}/.venv/bin/python {{ pillar.octoprint.klipper.home }}/klipper/klippy/klippy.py {{ pillar.octoprint.klipper.home }}/printer.cfg --input-tty={{ pillar.octoprint.klipper.tty }}
+        ExecStart={{ pillar.octoprint.klipper.home }}/.venv/bin/python {{ pillar.octoprint.klipper.home }}/klipper/klippy/klippy.py {{ pillar.octoprint.klipper.home }}/printer.cfg --input-tty={{ pillar.octoprint.klipper.tty }} -l /tmp/klippy.log
         Restart=always
         RestartSec=10
         StartLimitBurst=48
