@@ -65,6 +65,13 @@ octoprint-stream.service:
 
 # Klipper application
 
+# Restart klipper firmware on USB (re)connect
+/etc/udev/rules.d/98-klipper.rules:
+  file.managed:
+    - contents: |
+        SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", SYMLINK+="klipper_tty", RUN+="/usr/bin/sudo -u octoprint /bin/sh -c '/bin/echo RESTART > {{ pillar.octoprint.klipper.tty }}'"
+    - mode: 644
+
 {{ pillar.octoprint.klipper.home }}:
   file.directory:
     - user: octoprint
