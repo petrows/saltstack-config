@@ -4,6 +4,7 @@ rslsync-extract:
     - source: {{ pillar.rslsync.download_url }}
     - skip_verify: True
     - enforce_toplevel: False
+    - if_missing: /opt/rslsync/rslsync
 
 # Instances config
 {%- for conf_id, conf in (salt['pillar.get']('rslsync:instances', {})).items() %}
