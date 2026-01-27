@@ -133,14 +133,27 @@ class BambuWatcher:
         else:
             print_duration = "Unknown"
 
-        image = self.fetch_snapshot_ffmpeg()
+        # Retry logic for snapshot fetch
+        max_retries = 5
+        for attempt in range(max_retries):
+            try:
+                image = self.fetch_snapshot_ffmpeg()
+                break
+            except Exception as e:
+                logging.warning(f"Snapshot fetch attempt {attempt + 1}/{max_retries} failed: {e}")
+            if attempt < max_retries - 1:
+                time.sleep(10)
+            else:
+                logging.error("All snapshot fetch attempts failed")
+                image = None
+
         text = f"✅ Print done!\n\nTime: `{print_duration}`\nTask: `{self.print_task}`\nNozzle: `{self.print_nozzle_size}` mm\nLayers: `{self.print_layers}`"
         self.send_telegram(text, image)
 
     def fetch_snapshot_ffmpeg(self):
         logging.info("Fetching snapshot via FFmpeg from RTSP stream")
         tmpdir = "/tmp"
-        img_path = Path(tmpdir) / "snapshot-778.jpg"
+        img_path = Path(tmpdir) / "snapshot-bot.jpg"
         rtsp_url = f"rtsps://bblp:{self.cfg["bambu"]["access_code"]}@{self.cfg["bambu"]["host"]}:322/streaming/live/1"
 
         cmd = [
