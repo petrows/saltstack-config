@@ -454,16 +454,23 @@ wine-soft:
     - contents: |
         :Wine:M::MZ::/opt/wine-staging/bin/wine:
 
-# Bambu studio
-/home/devel/tools/bambu-studio/bambu-studio:
+# Install AppImages from pc-appimages pillar
+{% for app_id, app_data in salt['pillar.get']('pc-appimages', {}).items() %}
+
+{% set app_binary_name = app_data.get('filename', app_data.url.split('/') | last) %}
+
+# {{ app_id }} AppImage
+/home/devel/tools/{{ app_id }}/{{ app_binary_name }}:
   file.managed:
-    - source: https://github.com/bambulab/BambuStudio/releases/download/v02.04.00.70/Bambu_Studio_ubuntu-24.04_PR-8834.AppImage
-    - source_hash: sha256=26bc07dccb04df2e462b1e03a3766509201c46e27312a15844f6f5d7fdf1debd
+    - source: {{ app_data.url }}
+    - source_hash: {{ app_data.hash }}
     - mode: 0755
     - makedirs: True
 
 # Link to /usr/local/bin
-/usr/local/bin/bambu-studio:
+/usr/local/bin/{{ app_id }}:
   file.symlink:
-    - target: /home/devel/tools/bambu-studio/bambu-studio
+    - target: /home/devel/tools/{{ app_id }}/{{ app_binary_name }}
     - force: True
+
+{% endfor %}
