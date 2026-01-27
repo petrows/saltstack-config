@@ -148,7 +148,17 @@ class BambuWatcher:
                 image = None
 
         text = f"✅ Print done!\n\nTime: `{print_duration}`\nTask: `{self.print_task}`\nNozzle: `{self.print_nozzle_size}` mm\nLayers: `{self.print_layers}`"
-        self.send_telegram(text, image)
+
+        for attempt in range(max_retries):
+            try:
+                self.send_telegram(text, image)
+                break
+            except Exception as e:
+                logging.warning(f"Telegram send attempt {attempt + 1}/{max_retries} failed: {e}")
+            if attempt < max_retries - 1:
+                time.sleep(10)
+            else:
+                logging.error("All Telegram send attempts failed")
 
     def fetch_snapshot_ffmpeg(self):
         logging.info("Fetching snapshot via FFmpeg from RTSP stream")
