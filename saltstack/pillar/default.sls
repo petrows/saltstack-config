@@ -289,6 +289,12 @@ vlogscli:
 vmutils:
   version: 1.107.0
 
+# GitHub Copilot CLI
+# https://github.com/github/copilot-cli/releases
+copilot-cli:
+  version: 0.0.396
+  hash: 6e877f6758792d98965eb1b6f2c7e3bb2d65401419f6c146860e86e641273ebc
+
 xsession:
   gtk_scale: 1.0
   qt_dpi: 138

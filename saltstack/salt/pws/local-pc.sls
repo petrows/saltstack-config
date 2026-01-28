@@ -328,6 +328,21 @@ vmutils-installer:
     - require:
       - archive: vmutils-installer
 
+# GitHub Copilot CLI
+copilot-cli-installer:
+  archive.extracted:
+    - name: /opt/copilot-cli-{{ pillar['copilot-cli'].version }}/
+    - source: https://github.com/github/copilot-cli/releases/download/v{{ pillar['copilot-cli'].version }}/copilot-linux-x64.tar.gz
+    - source_hash: {{ pillar['copilot-cli'].hash }}
+    - enforce_toplevel: False
+
+/usr/local/bin/copilot:
+  file.symlink:
+    - target: /opt/copilot-cli-{{ pillar['copilot-cli'].version }}/copilot
+    - force: True
+    - require:
+      - archive: copilot-cli-installer
+
 # Loop over allowed users on this server
 {% for user_id, user in salt['pillar.get']('users', {}).items() %}
 local-pc-configs-{{ user_id }}:
