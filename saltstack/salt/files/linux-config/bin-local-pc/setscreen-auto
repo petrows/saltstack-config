@@ -4,3 +4,18 @@ echo "Setting up auto config for screens"
 logger -t i3-session "Setting up auto config for screens"
 
 autorandr -c --force
+
+# Move workspaces to correct screens
+autorandr_profile=$(autorandr --current | tr -d '\n')
+screens_count=$(xrandr --query | grep " connected" | wc -l | tr -d '\n')
+
+if [ "$screens_count" == "2" ] || [ "$screens_count" == "3" ]; then
+    echo "Activating 2 screen workspace layout"
+    i3-msg "workspace 1; move workspace to output primary"
+    i3-msg "workspace 2; move workspace to output nonprimary"
+    i3-msg "workspace 3; move workspace to output primary"
+    # Switch back to 1st
+    i3-msg "workspace 1;"
+fi
+
+# TODO: Add more profiles as needed
