@@ -36,11 +36,21 @@ if status --is-interactive
     function vapp
         venv /opt/venv/app
     end
-    # FSSH shortcut implementation (moved from script)
+
     function fssh
-        set SSH_CONN $argv[1]
+        fssh-common fish $argv
+    end
+
+    function fssh-mac
+        fssh-common /opt/homebrew/bin/fish $argv
+    end
+
+    # FSSH shortcut implementation (moved from script)
+    function fssh-common
+        set SSH_SHELL $argv[1]
+        set SSH_CONN $argv[2]
         if test -z "$SSH_CONN"
-            echo "Usage: fssh <user@host>"
+            echo "Usage: fssh <shell> <user@host>"
             return 1
         end
 
@@ -75,7 +85,7 @@ if status --is-interactive
         end
 
         # Call SSH
-        ssh -A $SSH_USERNAME@$SSH_HOSTNAME -t fish $argv[2..-1]
+        ssh -A $SSH_USERNAME@$SSH_HOSTNAME -t $SSH_SHELL $argv[3..-1]
     end
 end
 
