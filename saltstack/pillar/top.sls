@@ -380,3 +380,7 @@ base:
 
   'nft-test.pws':
     - pws.nft-test
+
+# Test machines
+  'vpn-test.pws':
+    - pws.vpn-test
