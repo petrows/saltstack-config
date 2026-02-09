@@ -16,6 +16,8 @@ packages:
   - iperf3
   - iproute2
   - net-tools
+  # Investigate disk usage tool:
+  - ncdu
 
 # Apt options
 apt:
