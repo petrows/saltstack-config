@@ -18,8 +18,8 @@
         if [[ -f docker-compose.yml ]]; then
           docker compose down --rmi all || true
         fi
-        if [[ -x cmd-down.sh ]]; then
-           ./cmd-down.sh
+        if [[ -f cmd-down.sh ]]; then
+           bash cmd-down.sh
         fi
     - cwd: /opt/{{ service_id }}
     - prereq:
@@ -54,8 +54,8 @@
     - shell: /bin/bash
     - name: |
         docker compose build
-        if [[ -x cmd-build.sh ]]; then
-           ./cmd-build.sh
+        if [[ -f cmd-build.sh ]]; then
+           bash cmd-build.sh
         fi
     - cwd: /opt/{{ service_id }}
     - onchanges:

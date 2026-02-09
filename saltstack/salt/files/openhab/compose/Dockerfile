@@ -1,4 +1,4 @@
-FROM openhab/openhab:latest
+FROM openhab/openhab:{{ pillar.openhab.version }}
 
 RUN apt-get -qq update &&\
 	apt-get -qq install -y --no-install-recommends \
