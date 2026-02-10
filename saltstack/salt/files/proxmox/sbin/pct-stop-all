@@ -1,0 +1,15 @@
+#!/bin/bash -e
+
+CT_LIST=$(pct list | grep running | sed 's/|/ /' | awk '{print $1}')
+
+for CT in $CT_LIST; do
+  echo "Stopping CT $CT"
+  pct stop $CT
+done
+
+VM_LIST=$(qm list | grep running | sed 's/|/ /' | awk '{print $1}')
+
+for VM in $VM_LIST; do
+  echo "Stopping VM $VM"
+  qm stop $VM
+done

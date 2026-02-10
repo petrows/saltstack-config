@@ -1,0 +1,47 @@
+#!/bin/bash -e
+
+# How much backups to store
+VMZ_RETAIN="1"
+
+DIR_BACKUP="$1"
+DIR_TMP="$2"
+
+if [ -z "$DIR_BACKUP" ] || [ -z "$DIR_TMP" ]; then
+    echo "Usage: $0 <backup-dir> <tmp-dir>"
+    exit 1
+fi
+
+cd "$DIR_BACKUP"
+
+# Generate full list of objects, having tag 'backup'
+VMZ_BACKUP=''
+VMZ_BACKUP_EXCLUDE=''
+
+# List of CT's
+CTS=$(pct list | sed 's/|/ /' | awk '{print $1}' | sed 1,1d)
+for ct in $CTS ; do
+    if pct config $ct | grep -F 'tags:' | grep backup ; then
+        echo "Backup CT: $ct"
+        VMZ_BACKUP+="$ct "
+    else
+        echo "No backup CT: $ct"
+        VMZ_BACKUP_EXCLUDE+="$ct,"
+    fi
+done
+
+# List of VM's
+VMS=$(qm list | sed 's/|/ /' | awk '{print $1}' | sed 1,1d)
+for ct in $VMS ; do
+    if qm config $ct | grep -F 'tags:' | grep backup ; then
+        echo "Backup VM: $ct"
+        VMZ_BACKUP+="$ct "
+    else
+        VMZ_BACKUP_EXCLUDE+="$ct,"
+        echo "No backup VM: $ct"
+    fi
+done
+
+echo "Backup VMS: $VMZ_BACKUP"
+echo "Exclude VMS: $VMZ_BACKUP_EXCLUDE"
+
+vzdump --all -exclude "$VMZ_BACKUP_EXCLUDE" -compress lzo -mailto root -dumpdir ./ -tmpdir "$DIR_TMP" -maxfiles "$VMZ_RETAIN"

@@ -7,25 +7,11 @@ pve-swap-umnount:
     - device: /dev/pve/swap
     - persist: True
 
-/usr/sbin/pct-stop-all:
-  file.managed:
-    - mode: 755
-    - contents: |
-        #!/bin/bash
-
-        CT_LIST=$(pct list | grep running | sed 's/|/ /' | awk '{print $1}')
-
-        for CT in $CT_LIST; do
-          echo "Stopping CT $CT"
-          pct stop $CT
-        done
-
-        VM_LIST=$(qm list | grep running | sed 's/|/ /' | awk '{print $1}')
-
-        for VM in $VM_LIST; do
-          echo "Stopping VM $VM"
-          qm stop $VM
-        done
+pve-scripts-sbin:
+  file.recurse:
+    - name: /usr/sbin
+    - source: salt://files/proxmox/sbin
+    - file_mode: 755
 
 # Load overlay module to allow run docker in CT
 
@@ -44,7 +30,7 @@ pve-packages:
       - ntp
       # Wireguard for LXC
       - wireguard
-      # PVE recommends to install intel-micode-ucode on Intel systems
+      # PVE recommends to install intel-microcode-ucode on Intel systems
       {% if (grains.cpu_model | regex_search('intel', ignorecase=True)) is not none %}
       - intel-microcode
       {% endif %}

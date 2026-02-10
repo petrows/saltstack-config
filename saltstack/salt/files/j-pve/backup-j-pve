@@ -1,14 +1,6 @@
-#!/bin/bash -xe
+#!/bin/bash -e
 
-cd /mnt/julia-data/backup/vz/
+# Backup only machines, having tag 'backup'. Exclude all others.
+# This allows to exclude test machines, which are running on the same host.
 
-# How much backups to store
-VMZ_RETAIN="3"
-# Included
-VMZ_BACKUP="--all"
-# Excluded
-# 100: old home ct with broken disk: TODO: remove
-VMZ_EXCLUDE="--exclude 100"
-
-# Backup all CT and VM
-vzdump $VMZ_BACKUP $VMZ_EXCLUDE -compress lzo -dumpdir $PWD/ -tmpdir $PWD/ -mailto root --maxfiles $VMZ_RETAIN
+pct-vzdump-all /mnt/julia-data/backup/vz/ /mnt/julia-data/backup/vz/
