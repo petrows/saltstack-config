@@ -344,7 +344,7 @@ base:
     - metrics.vmagent
     - metrics.vmagent-pve-w
     - w.pve
-  'build-linux.w.*':
+  'build-linux-*.w.*':
     - users.master
     - services.github-runner
     - w.build-linux

@@ -27,7 +27,8 @@ salt:
       port: 8144
     # W
     pve.w.pws: {}
-    build-linux.w.pws: {}
+    build-linux-1.w.pws: {}
+    build-linux-2.w.pws: {}
     # M
     pve.m.pws: {}
     vpn.m.pws: {}
