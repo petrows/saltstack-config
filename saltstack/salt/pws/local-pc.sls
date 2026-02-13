@@ -489,3 +489,16 @@ wine-soft:
     - force: True
 
 {% endfor %}
+
+# Kowabunga
+# https://packages.kowabunga.cloud/
+/etc/apt/sources.list.d/kowabunga.sources:
+  file.managed:
+    - contents: |
+        X-Repolib-Name: Kowabunga
+        Enabled: yes
+        Types: deb
+        URIs: https://packages.kowabunga.cloud/ubuntu
+        Suites: {{ grains.oscodename }}
+        Components: main
+        Signed-By: /etc/apt/keyrings/kowabunga.gpg

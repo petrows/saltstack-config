@@ -39,6 +39,8 @@ apt:
     winehq: https://dl.winehq.org/wine-builds/winehq.key
     # Github CLI
     githubcli: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+    # Kowabunga: https://packages.kowabunga.cloud/
+    kowabunga: https://packages.kowabunga.cloud/kowabunga.asc
 
 # List of packages, will be installed to system venv,
 # Use `/opt/venv/system/bin/python` as interpreter
