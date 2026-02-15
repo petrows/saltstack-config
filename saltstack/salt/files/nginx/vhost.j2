@@ -92,9 +92,13 @@ server {
 {%- if not enable_dotfiles %}
     # Disable .dotfiles
     location ~ /\. {
-        deny all;
+        return 404;
     }
 {%- endif %}
+    # Disable Readme files
+    location ~ /readme.html {
+        return 404;
+    }
 {%- if conf_type == 'proxy' %}
     location / {
         client_max_body_size    0;
