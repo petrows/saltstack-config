@@ -272,6 +272,10 @@ php-docker:
     user: www-data
     container_revision: '2022-08-24'
     cfg:
+      session.cookie_secure: 1
+      session.cookie_httponly: 1
+      session.cookie_samesite: Strict
+      expose_php: Off
       display_errors: Off
       log_errors: On
       memory_limit: 1G
