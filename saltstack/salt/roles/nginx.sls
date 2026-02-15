@@ -3,9 +3,7 @@ nginx-common-packages:
     - pkgs:
       - certbot
       - openssl
-{% if pillar.get('proxy_streams') %}
       - nginx-extras
-{% endif %}
 
 nginx:
   pkg:
