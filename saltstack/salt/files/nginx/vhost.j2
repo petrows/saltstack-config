@@ -76,9 +76,6 @@ server {
     add_header X-Robots-Tag "noindex, nofollow";
 {%- endif %}
 
-    # Remove X-Powered-By, which is an information leak
-    add_header X-Powered-By DENY;
-
     # SSL configuration
 {%- if ssl_type == 'external' %}
     # Config defined as 'external' - try to use Letsencrypt
