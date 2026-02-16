@@ -9,12 +9,13 @@ services:
   proxy:
     container_name: whatsapp-proxy
     image: facebook/whatsapp_proxy:latest
-    network_mode: host
     restart: unless-stopped
     ports:
     {% for port in cfg.get('ports', []) %}
       - "{{ cfg.get('local_ip', '') }}:{{ port }}:{{ port }}"
     {% endfor %}
+      # Stats
+      - "8199:8199"
     dns:
       - 8.8.8.8
       - 4.4.4.4
