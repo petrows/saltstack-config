@@ -39,16 +39,43 @@
         service_id: {{ service_id }}
         args: {{ args|yaml }}
 
+# Compose script
+/opt/{{ service_id }}/{{ service_id }}:
+  file.managed:
+    - contents: |
+        #!/bin/bash
+        set -xe
+        if [[ -f cmd-start.sh ]]; then
+          bash cmd-start.sh
+        fi
+        docker compose up -d
+    - mode: 755
+    - require:
+      - file: {{ service_id }}-compose
+
 # Systemd service
 {{ service_id }}-service:
   file.managed:
     - name: /etc/systemd/system/{{ service_id }}.service
-    - source: salt://files/docker-compose/systemd.service
-    - template: jinja
-    - context:
-      compose_path: /opt/{{ service_id }}/
+    - contents: |
+        [Unit]
+        Description=Docker-Compose Service for /opt/{{ service_id }}/
+        Requires=docker.service
+        BindsTo=docker.service
+        OnFailure=status-email@%n.service
+        [Service]
+        Type=oneshot
+        RemainAfterExit=yes
+        WorkingDirectory=/opt/{{ service_id }}/
+        ExecStart=/opt/{{ service_id }}/{{ service_id }}
+        ExecStop=/usr/bin/docker compose down
+        TimeoutStartSec=0
+        [Install]
+        WantedBy=docker.service
+        WantedBy=multi-user.target
     - require:
       - pkg: docker-pkg
+
   # Build image (if needed)
   cmd.run:
     - shell: /bin/bash
