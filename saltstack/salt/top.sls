@@ -182,6 +182,9 @@ base:
   'roles:photosync-sftp':
     - match: pillar
     - services.photosync-sftp
+  'roles:whatsapp-proxy':
+    - match: pillar
+    - services.whatsapp-proxy
 
   # Hosts configs
   'pve.pws':
