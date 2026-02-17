@@ -1,5 +1,11 @@
 # This block called only on "human" shells
 if status --is-interactive
+    # Display MOTD
+    if status --is-login
+        cat /run/motd.dynamic
+        echo ""
+    end
+
     # Include powerline (if exists)
     if test -d /usr/share/powerline
         set fish_function_path $fish_function_path /usr/share/powerline/bindings/fish
@@ -85,7 +91,7 @@ if status --is-interactive
         end
 
         # Call SSH
-        ssh -A $SSH_USERNAME@$SSH_HOSTNAME -t $SSH_SHELL $argv[3..-1]
+        ssh -A $SSH_USERNAME@$SSH_HOSTNAME -t $SSH_SHELL --login $argv[3..-1]
     end
 end
 
