@@ -83,11 +83,14 @@ amnezia-pkg:
 {% set peers = salt['pillar.get']('pws_secrets:wireguard:'+server_id+':client', {}) %}
 {% if server_type == 'wg' %}
 {% set server_conf_path = '/etc/wireguard/wg-' + server_id + '.conf' %}
+{% set server_peer_path = '/etc/wireguard/peers-' + server_id + '.json' %}
 # Cleanup "opposite"
 {{ '/etc/amnezia/amneziawg/awg-' + server_id + '.conf'}}:
   file.absent: []
 {% elif server_type == 'awg' %}
 {% set server_conf_path = '/etc/amnezia/amneziawg/awg-' + server_id + '.conf' %}
+{% set server_peer_path = '/etc/amnezia/amneziawg/peers-' + server_id + '.json' %}
+{% set ns.peers = {} %}
 # Cleanup "opposite"
 {{ '/etc/wireguard/wg-' + server_id + '.conf'}}:
   file.absent: []
@@ -125,6 +128,7 @@ amnezia-pkg:
   {%- endfor %}
 {%- endfor %}
 {%- for peer_id, peer in peers.items() %}
+        {%- do ns.peers.update({peer_id: { 'name': peer_id, 'key': peer.public, 'comment': peer.comment | default('') }}) %}
         # {{ peer_id }}: {{ peer.comment | default('') }}
         [Peer]
         {% if peer.get('endpoint', False) %}
@@ -134,6 +138,12 @@ amnezia-pkg:
         PublicKey = {{ peer.public }}
         AllowedIPs = {{ peer.address }}
 {% endfor %}
+
+{{ server_peer_path }}:
+  file.managed:
+    - makedirs: True
+    - contents: |
+        {{ ns.peers | json }}
 
 {% if server.get('autorun', True) %}
 {{ server_type }}-quick@{{ server_type }}-{{ server_id }}.service:
