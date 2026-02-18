@@ -76,6 +76,7 @@ amnezia-pkg:
 
 # Server config(s)
 
+{% set servers_ns = namespace(servers={}) %}
 
 {% for server_id, server in salt['pillar.get']('wireguard-server', {}).items() %}
 {% set server_type = server.get('type', 'wg') %}
@@ -83,14 +84,12 @@ amnezia-pkg:
 {% set peers = salt['pillar.get']('pws_secrets:wireguard:'+server_id+':client', {}) %}
 {% if server_type == 'wg' %}
 {% set server_conf_path = '/etc/wireguard/wg-' + server_id + '.conf' %}
-{% set server_peer_path = '/etc/wireguard/peers-' + server_id + '.json' %}
 # Cleanup "opposite"
 {{ '/etc/amnezia/amneziawg/awg-' + server_id + '.conf'}}:
   file.absent: []
 {% elif server_type == 'awg' %}
 {% set server_conf_path = '/etc/amnezia/amneziawg/awg-' + server_id + '.conf' %}
-{% set server_peer_path = '/etc/amnezia/amneziawg/peers-' + server_id + '.json' %}
-{% set ns.peers = {} %}
+
 # Cleanup "opposite"
 {{ '/etc/wireguard/wg-' + server_id + '.conf'}}:
   file.absent: []
@@ -127,8 +126,9 @@ amnezia-pkg:
         PostDown = iptables-nft -t nat -D PREROUTING -d {{ default_ip }} -p udp --dport {{ port }} -j DNAT --to-destination {{ peer_ip }}
   {%- endfor %}
 {%- endfor %}
+{% set peers_ns = namespace(peers={}) %}
 {%- for peer_id, peer in peers.items() %}
-        {%- do ns.peers.update({peer_id: { 'name': peer_id, 'key': peer.public, 'comment': peer.comment | default('') }}) %}
+        {%- do peers_ns.peers.update({peer_id: { 'name': peer_id, 'key': peer.public, 'comment': peer.comment | default('') }}) %}
         # {{ peer_id }}: {{ peer.comment | default('') }}
         [Peer]
         {% if peer.get('endpoint', False) %}
@@ -139,11 +139,7 @@ amnezia-pkg:
         AllowedIPs = {{ peer.address }}
 {% endfor %}
 
-{{ server_peer_path }}:
-  file.managed:
-    - makedirs: True
-    - contents: |
-        {{ ns.peers | json }}
+{%- do servers_ns.servers.update({server_id: peers_ns.peers}) %}
 
 {% if server.get('autorun', True) %}
 {{ server_type }}-quick@{{ server_type }}-{{ server_id }}.service:
@@ -154,6 +150,12 @@ amnezia-pkg:
       - file: {{ server_conf_path }}
 {% endif %}
 {% endfor %} # Servers
+
+/etc/wg-peers.json:
+  file.managed:
+    - makedirs: True
+    - contents: |
+        {{ servers_ns.servers | json }}
 
 iptables-masquerade-sysctl:
   sysctl.present:
