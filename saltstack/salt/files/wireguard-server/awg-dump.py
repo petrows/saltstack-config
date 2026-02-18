@@ -342,7 +342,8 @@ def build_prometheus_metrics(interfaces: Dict[str, AWGInterface]) -> str:
     lines.append("# TYPE wg_interface_jc gauge\n")
 
     for iface_name, iface in sorted(interfaces.items()):
-        iface_labels = {"interface": iface_name}
+        server_info = get_server_name(iface_name)
+        iface_labels = {"interface": iface_name, "interface_comment": server_info['comment']}
         if iface.listen_port is not None:
             lines.append(_metric_line("wg_interface_listen_port", iface.listen_port, iface_labels))
         if iface.fwmark is not None:
@@ -352,7 +353,7 @@ def build_prometheus_metrics(interfaces: Dict[str, AWGInterface]) -> str:
 
         for peer in iface.peers:
             peer_info = get_peer_name(iface_name, peer.public_key)
-            peer_labels = {"interface": iface_name, "name": peer_info['name'], "comment": peer_info['comment']}
+            peer_labels = {"interface": iface_name, "interface_comment": server_info['comment'], "name": peer_info['id'], "comment": peer_info['comment']}
             lines.append(_metric_line("wg_peer_transfer_rx_bytes", peer.transfer_rx, peer_labels))
             lines.append(_metric_line("wg_peer_transfer_tx_bytes", peer.transfer_tx, peer_labels))
             handshake = int(peer.latest_handshake.timestamp()) if peer.latest_handshake else 0
@@ -377,13 +378,22 @@ def write_metrics_file(path: str, content: str):
         if os.path.exists(tmp_path):
             os.unlink(tmp_path)
 
+
 def get_peer_name(server_name, public_key: str) -> str:
     """Get peer name from info_data based on public key"""
     if server_name in info_data:
-        for peer_id, peer_info in info_data[server_name].items():
+        for peer_id, peer_info in info_data[server_name].get('peers', {}).items():
             if peer_info.get('key') == public_key:
-                return {'name': peer_info.get('name', peer_id), 'comment': peer_info.get('comment', '')}
-    return {'name': public_key[:8], 'comment': ''}  # Fallback to short key if no name found
+                return {'id': peer_id, 'comment': peer_info.get('comment', public_key[:8])}
+    return {'id': public_key[:8], 'comment': public_key[:8]} # Fallback to short key if no name found
+
+
+def get_server_name(server_name) -> str:
+    """Get server name from info_data based on server name"""
+    if server_name in info_data:
+        comment = info_data[server_name].get('comment', server_name)
+        return {'id': server_name, 'comment': comment}
+    return {'id': server_name, 'comment': server_name}  # Fallback to server name if no info found
 
 
 def run_awg_dump(command: str) -> str:

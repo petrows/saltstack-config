@@ -81,6 +81,7 @@ amnezia-pkg:
 {% for server_id, server in salt['pillar.get']('wireguard-server', {}).items() %}
 {% set server_type = server.get('type', 'wg') %}
 {% set server_secrets = salt['pillar.get']('pws_secrets:wireguard:'+server_id+':server', {}) %}
+{% set server_comment = server_secrets.get('comment', server_id) %}
 {% set peers = salt['pillar.get']('pws_secrets:wireguard:'+server_id+':client', {}) %}
 {% if server_type == 'wg' %}
 {% set server_conf_path = '/etc/wireguard/wg-' + server_id + '.conf' %}
@@ -100,6 +101,7 @@ amnezia-pkg:
 {{ server_conf_path }}:
   file.managed:
     - contents: |
+        # {{ server_comment }}
         [Interface]
         Address = {{ server.address }}
         {% if server.get('port', False) %}ListenPort = {{ server.port }}{% endif %}
@@ -139,7 +141,7 @@ amnezia-pkg:
         AllowedIPs = {{ peer.address }}
 {% endfor %}
 
-{%- do servers_ns.servers.update({server_type + '-' + server_id: peers_ns.peers}) %}
+{%- do servers_ns.servers.update({server_type + '-' + server_id: {'peers': peers_ns.peers, 'comment': server_comment}}) %}
 
 {% if server.get('autorun', True) %}
 {{ server_type }}-quick@{{ server_type }}-{{ server_id }}.service:
