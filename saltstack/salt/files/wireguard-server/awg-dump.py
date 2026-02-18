@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python-app
 """
 Parse Amnezia WireGuard (awg-dump) output.
 
@@ -11,19 +11,27 @@ The awg-dump command outputs interface and peer information in tab-separated for
               (AWG peers use standard WireGuard format without obfuscation parameters)
 
 Usage:
-    awg-dump | ./awg_dump_parser.py
-    ./awg_dump_parser.py < dump.txt
-    ./awg_dump_parser.py --file dump.txt
-    ./awg_dump_parser.py --json
+    awg-dump | ./awg-dump.py
+    ./awg-dump.py < dump.txt
+    ./awg-dump.py --file dump.txt
+    ./awg-dump.py --json
+    ./awg-dump.py --daemon --interval 15 --metrics-file /var/lib/node_exporter/textfile_collector/awg.prom
 """
 
 import argparse
 import json
+import os
+import shlex
+import subprocess
 import sys
+import tempfile
+import time
+import systemd.daemon
 from dataclasses import dataclass, asdict
 from datetime import datetime, timedelta
 from typing import List, Dict, Optional
 
+info_data = {}
 
 @dataclass
 class AWGPeer:
@@ -92,12 +100,8 @@ class AWGDumpParser:
 
         fields = line.strip().split('\t')
 
-        print(len(fields))
-
         if len(fields) < 5:
             return
-
-        interface_name = fields[0]
 
         # Check if this is an interface or peer line
         # Interface line: 5 fields (WG) or 21 fields (AWG)
@@ -258,12 +262,29 @@ def print_human_readable(interfaces: Dict[str, AWGInterface]):
             print(f"    H3 (underload): {iface.h3}")
             print(f"    H4 (transport): {iface.h4}")
         if iface.i1 is not None:
-            print(f"  AWG Additional Parameters:")
+            print("  AWG Additional Parameters:")
             print(f"    i1: {iface.i1}")
-            if iface.i2: print(f"    i2: {iface.i2}")
-            if iface.i3: print(f"    i3: {iface.i3}")
-            if iface.i4: print(f"    i4: {iface.i4}")
-            if iface.i5: print(f"    i5: {iface.i5}")
+            if iface.i2:
+                print(f"    i2: {iface.i2}")
+            if iface.i3:
+                print(f"    i3: {iface.i3}")
+            if iface.i4:
+                print(f"    i4: {iface.i4}")
+            if iface.i5:
+                print(f"    i5: {iface.i5}")
+
+        if not iface.peers:
+            print("  No peers configured")
+        else:
+            print(f"  Peers: {len(iface.peers)}")
+
+        for i, peer in enumerate(iface.peers, 1):
+            print(f"\n  Peer #{i}:")
+            print(f"    Public key: {peer.public_key}")
+
+            if peer.preshared_key:
+                print("    Preshared key: (hidden)")
+
             if peer.endpoint:
                 print(f"    Endpoint: {peer.endpoint}")
 
@@ -274,19 +295,114 @@ def print_human_readable(interfaces: Dict[str, AWGInterface]):
                 time_ago = datetime.now() - peer.latest_handshake
                 print(f"    Latest handshake: {format_timedelta(time_ago)}")
             else:
-                print(f"    Latest handshake: Never")
+                print("    Latest handshake: Never")
 
-            print(f"    Transfer: {format_bytes(peer.transfer_rx)} received, "
-                  f"{format_bytes(peer.transfer_tx)} sent")
+            print(
+                f"    Transfer: {format_bytes(peer.transfer_rx)} received, "
+                f"{format_bytes(peer.transfer_tx)} sent"
+            )
 
             if peer.persistent_keepalive:
-                print(f"    Persistent keepalive: every {peer.persistent_keepalive} seconds")
+                print(
+                    "    Persistent keepalive: "
+                    f"every {peer.persistent_keepalive} seconds"
+                )
 
         print()
 
 
+def _escape_label_value(value: str) -> str:
+    return value.replace('\\', '\\\\').replace('\n', '\\n').replace('"', '\\"')
+
+
+def _metric_line(name: str, value: int, labels: Dict[str, str]) -> str:
+    if labels:
+        label_str = ",".join(
+            f"{k}=\"{_escape_label_value(v)}\"" for k, v in sorted(labels.items())
+        )
+        return f"{name}{{{label_str}}} {value}\n"
+    return f"{name} {value}\n"
+
+
+def build_prometheus_metrics(interfaces: Dict[str, AWGInterface]) -> str:
+    lines = []
+    lines.append("# HELP wg_peer_transfer_rx_bytes Received bytes per peer.\n")
+    lines.append("# TYPE wg_peer_transfer_rx_bytes counter\n")
+    lines.append("# HELP wg_peer_transfer_tx_bytes Sent bytes per peer.\n")
+    lines.append("# TYPE wg_peer_transfer_tx_bytes counter\n")
+    lines.append("# HELP wg_peer_latest_handshake_timestamp Unix timestamp of last handshake.\n")
+    lines.append("# TYPE wg_peer_latest_handshake_timestamp gauge\n")
+    lines.append("# HELP wg_peer_persistent_keepalive_seconds Peer keepalive interval.\n")
+    lines.append("# TYPE wg_peer_persistent_keepalive_seconds gauge\n")
+    lines.append("# HELP wg_interface_listen_port Interface listen port.\n")
+    lines.append("# TYPE wg_interface_listen_port gauge\n")
+    lines.append("# HELP wg_interface_fwmark Interface fwmark (hex as int).\n")
+    lines.append("# TYPE wg_interface_fwmark gauge\n")
+    lines.append("# HELP wg_interface_jc Junk packet count.\n")
+    lines.append("# TYPE wg_interface_jc gauge\n")
+
+    for iface_name, iface in sorted(interfaces.items()):
+        iface_labels = {"interface": iface_name}
+        if iface.listen_port is not None:
+            lines.append(_metric_line("wg_interface_listen_port", iface.listen_port, iface_labels))
+        if iface.fwmark is not None:
+            lines.append(_metric_line("wg_interface_fwmark", iface.fwmark, iface_labels))
+        if iface.jc is not None:
+            lines.append(_metric_line("wg_interface_jc", iface.jc, iface_labels))
+
+        for peer in iface.peers:
+            peer_info = get_peer_name(iface_name, peer.public_key)
+            peer_labels = {"interface": iface_name, "name": peer_info['name'], "comment": peer_info['comment']}
+            lines.append(_metric_line("wg_peer_transfer_rx_bytes", peer.transfer_rx, peer_labels))
+            lines.append(_metric_line("wg_peer_transfer_tx_bytes", peer.transfer_tx, peer_labels))
+            handshake = int(peer.latest_handshake.timestamp()) if peer.latest_handshake else 0
+            lines.append(_metric_line("wg_peer_latest_handshake_timestamp", handshake, peer_labels))
+            keepalive = peer.persistent_keepalive if peer.persistent_keepalive else 0
+            lines.append(_metric_line("wg_peer_persistent_keepalive_seconds", keepalive, peer_labels))
+
+    return "".join(lines)
+
+
+def write_metrics_file(path: str, content: str):
+    directory = os.path.dirname(path) or "."
+    os.makedirs(directory, exist_ok=True)
+    fd, tmp_path = tempfile.mkstemp(prefix=".awg.", dir=directory)
+    # Chmod tm file to 644 so that it's readable by node_exporter (which may run as non-root)
+    os.chmod(tmp_path, 0o644)
+    try:
+        with os.fdopen(fd, "w") as tmp_file:
+            tmp_file.write(content)
+        os.replace(tmp_path, path)
+    finally:
+        if os.path.exists(tmp_path):
+            os.unlink(tmp_path)
+
+def get_peer_name(server_name, public_key: str) -> str:
+    """Get peer name from info_data based on public key"""
+    if server_name in info_data:
+        for peer_id, peer_info in info_data[server_name].items():
+            if peer_info.get('key') == public_key:
+                return {'name': peer_info.get('name', peer_id), 'comment': peer_info.get('comment', '')}
+    return {'name': public_key[:8], 'comment': ''}  # Fallback to short key if no name found
+
+
+def run_awg_dump(command: str) -> str:
+    result = subprocess.run(
+        shlex.split(command),
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(result.stderr.strip() or "awg-dump command failed")
+    return result.stdout
+
+
 def main():
     """Main entry point"""
+
+    global info_data
+
     parser = argparse.ArgumentParser(
         description='Parse Amnezia WireGuard (awg-dump) output',
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -311,28 +427,90 @@ def main():
         help='Pretty print JSON output (only with --json)'
     )
 
+    parser.add_argument(
+        '--daemon', '-d',
+        action='store_true',
+        help='Run in daemon mode and periodically update Prometheus metrics file'
+    )
+
+    parser.add_argument(
+        '--interval', '-i',
+        type=int,
+        default=15,
+        help='Polling interval in seconds for daemon mode (default: 15)'
+    )
+
+    parser.add_argument(
+        '--command', '-c',
+        default='awg show all dump',
+        help='Command to run for dump output (default: awg show all dump)'
+    )
+
+    parser.add_argument(
+        '--metrics-file',
+        type=str,
+        default=''
+    )
+
+    parser.add_argument(
+        '--info-file',
+        type=str,
+        default='',
+        help='File to read for peers info',
+    )
+
     args = parser.parse_args()
 
-    # Read input
-    if args.file:
-        with open(args.file, 'r') as f:
-            data = f.read()
+    if args.info_file:
+        try:
+            with open(args.info_file, 'r') as f:
+                info_data = json.load(f)
+                # print(json.dumps(info_data, indent=2))
+        except Exception as exc:
+            print(f"Error reading info file: {exc}", file=sys.stderr)
+            sys.exit(1)
+
+    if args.daemon:
+        if not args.metrics_file:
+            print("Error: --metrics-file is required in daemon mode", file=sys.stderr)
+            sys.exit(2)
+
+        systemd.daemon.notify('READY=1')
+
+        while True:
+            try:
+                data = run_awg_dump(args.command)
+                awg_parser = AWGDumpParser()
+                awg_parser.parse(data)
+                metrics = build_prometheus_metrics(awg_parser.interfaces)
+                write_metrics_file(args.metrics_file, metrics)
+            except Exception as exc:
+                print(f"Error: {exc}", file=sys.stderr)
+            time.sleep(max(1, args.interval))
     else:
-        data = sys.stdin.read()
-
-    # Parse
-    awg_parser = AWGDumpParser()
-    awg_parser.parse(data)
-
-    # Output
-    if args.json:
-        output = awg_parser.to_dict()
-        if args.pretty:
-            print(json.dumps(output, indent=2, default=str))
+        # Read input
+        if args.file:
+            with open(args.file, 'r') as f:
+                data = f.read()
         else:
-            print(json.dumps(output, default=str))
-    else:
-        print_human_readable(awg_parser.interfaces)
+            data = sys.stdin.read()
+
+        # Parse
+        awg_parser = AWGDumpParser()
+        awg_parser.parse(data)
+
+        # Output
+        if args.metrics_file:
+            metrics = build_prometheus_metrics(awg_parser.interfaces)
+            write_metrics_file(args.metrics_file, metrics)
+        elif args.json:
+            output = awg_parser.to_dict()
+            if args.pretty:
+                print(json.dumps(output, indent=2, default=str))
+            else:
+                print(json.dumps(output, default=str))
+        else:
+            print_human_readable(awg_parser.interfaces)
 
 
 if __name__ == '__main__':

@@ -139,7 +139,7 @@ amnezia-pkg:
         AllowedIPs = {{ peer.address }}
 {% endfor %}
 
-{%- do servers_ns.servers.update({server_id: peers_ns.peers}) %}
+{%- do servers_ns.servers.update({server_type + '-' + server_id: peers_ns.peers}) %}
 
 {% if server.get('autorun', True) %}
 {{ server_type }}-quick@{{ server_type }}-{{ server_id }}.service:
@@ -151,11 +151,41 @@ amnezia-pkg:
 {% endif %}
 {% endfor %} # Servers
 
+# Client config(s) - for dumping to file, used by external scripts
 /etc/wg-peers.json:
   file.managed:
     - makedirs: True
     - contents: |
         {{ servers_ns.servers | json }}
+
+/usr/sbin/awg-dump.py:
+  file.managed:
+    - makedirs: True
+    - source: salt://files/wireguard-server/awg-dump.py
+    - mode: '755'
+
+wireguard-server-stats.service:
+  file.managed:
+    - name: /etc/systemd/system/wireguard-server-stats.service
+    - contents: |
+        [Unit]
+        Description=WireGuard server stats
+        After=network.target wireguard-server.service
+        OnFailure=status-email@%n.service
+        [Service]
+        User=root
+        Group=root
+        Type=notify
+        WorkingDirectory=/
+        ExecStart=/opt/venv/app/bin/python /usr/sbin/awg-dump.py -d --metrics-file /var/lib/node_exporter/metrics/wg.prom --command "awg show all dump" --info-file /etc/wg-peers.json --interval 30
+        [Install]
+        WantedBy=multi-user.target
+  service.running:
+    - enable: True
+    - watch:
+      - file: /usr/sbin/awg-dump.py
+      - file: /etc/systemd/system/wireguard-server-stats.service
+      - file: /etc/wg-peers.json
 
 iptables-masquerade-sysctl:
   sysctl.present:
