@@ -143,7 +143,7 @@
                             }
                         ]
                     },
-                    "unit": "bytes"
+                    "unit": "binBps"
                 },
                 "overrides": []
             },
@@ -172,12 +172,22 @@
                 {
                     "datasource": {},
                     "editorMode": "code",
-                    "expr": "sum(increase(wg_peer_transfer_rx_bytes{ instance=~\"$node\", interface!=\"awg-wan\", interface_comment!=\"\", interface_comment=~\"$user\" }) + increase(wg_peer_transfer_tx_bytes{ instance=~\"$node\", interface!=\"awg-wan\", interface_comment!=\"\", interface_comment=~\"$user\" })) by (interface_comment)",
+                    "expr": "-1 * sum(rate(wg_peer_transfer_tx_bytes{ instance=~\"$node\", interface!=\"awg-wan\", interface_comment!=\"\", interface_comment=~\"$user\" }[5m])) by (interface_comment)",
                     "instant": false,
                     "interval": "$resolution",
                     "legendFormat": "__auto",
                     "range": true,
-                    "refId": "A"
+                    "refId": "TX"
+                },
+                {
+                    "datasource": {},
+                    "editorMode": "code",
+                    "expr": "sum(rate(wg_peer_transfer_rx_bytes{ instance=~\"$node\", interface!=\"awg-wan\", interface_comment!=\"\", interface_comment=~\"$user\" }[5m])) by (interface_comment)",
+                    "hide": false,
+                    "instant": false,
+                    "legendFormat": "__auto",
+                    "range": true,
+                    "refId": "RX"
                 }
             ],
             "title": "Client traffic (hourly)",
@@ -468,7 +478,7 @@
                             }
                         ]
                     },
-                    "unit": "bytes"
+                    "unit": "binBps"
                 },
                 "overrides": []
             },
@@ -496,11 +506,22 @@
             "targets": [
                 {
                     "editorMode": "code",
-                    "expr": "sum(increase(wg_peer_transfer_rx_bytes{ instance=~\"$node\", interface_comment!=\"\", interface_comment=~\"$user\", interface!=\"awg-wan\" } + wg_peer_transfer_tx_bytes{ instance=~\"$node\", interface_comment!=\"\", interface_comment=~\"$user\", interface!=\"awg-wan\" })) by (comment, interface_comment)",
+                    "expr": "sum(rate(wg_peer_transfer_rx_bytes{ instance=~\"$node\", interface_comment!=\"\", interface_comment=~\"$user\", interface!=\"awg-wan\" }[5m])) by (comment, interface_comment)",
                     "interval": "$resolution",
                     "legendFormat": "{{interface_comment}} / {{comment}}",
                     "range": true,
-                    "refId": "A"
+                    "refId": "RX"
+                },
+                {
+                    "datasource": {},
+                    "editorMode": "code",
+                    "expr": "-1 * sum(rate(wg_peer_transfer_tx_bytes{ instance=~\"$node\", interface_comment!=\"\", interface_comment=~\"$user\", interface!=\"awg-wan\" }[5m])) by (comment, interface_comment)",
+                    "hide": false,
+                    "instant": false,
+                    "interval": "$resolution",
+                    "legendFormat": "{{interface_comment}} / {{comment}}",
+                    "range": true,
+                    "refId": "TX"
                 }
             ],
             "title": "Peers traffic",
@@ -561,7 +582,7 @@
                             }
                         ]
                     },
-                    "unit": "bytes"
+                    "unit": "binBps"
                 },
                 "overrides": []
             },
@@ -589,11 +610,22 @@
             "targets": [
                 {
                     "editorMode": "code",
-                    "expr": "sum(increase(wg_peer_transfer_rx_bytes{ interface_comment!=\"\", interface_comment=~\"$user\", interface!=\"awg-wan\" } + wg_peer_transfer_tx_bytes{ interface_comment!=\"\", interface_comment=~\"$user\", interface!=\"awg-wan\" })) by (instance, comment)",
+                    "expr": "sum(rate(wg_peer_transfer_rx_bytes{ interface_comment!=\"\", interface_comment=~\"$user\", interface!=\"awg-wan\" }[5m])) by (instance, comment)",
                     "interval": "$resolution",
                     "legendFormat": "{{comment}} / {{instance}}",
                     "range": true,
-                    "refId": "A"
+                    "refId": "RX"
+                },
+                {
+                    "datasource": {},
+                    "editorMode": "code",
+                    "expr": "-1 * sum(rate(wg_peer_transfer_tx_bytes{ interface_comment!=\"\", interface_comment=~\"$user\", interface!=\"awg-wan\" }[5m])) by (instance, comment)",
+                    "hide": false,
+                    "instant": false,
+                    "interval": "$resolution",
+                    "legendFormat": "{{comment}} / {{instance}}",
+                    "range": true,
+                    "refId": "TX"
                 }
             ],
             "title": "Traffic per node",
@@ -872,6 +904,6 @@
     "timezone": "browser",
     "title": "VPN Julia clients",
     "uid": "vpn-j-clients",
-    "version": 38,
+    "version": 42,
     "weekStart": ""
 }
