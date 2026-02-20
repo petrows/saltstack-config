@@ -52,9 +52,9 @@ proxy_vhosts:
     domain: vl.h.pws
     port: {{ static.proxy_ports.vl_http }}
     ssl: internal
-    ssl_name: system
+    ssl_name: h_pws
   grafana:
     domain: grafana.h.pws
     port: {{ static.proxy_ports.grafana_http }}
     ssl: internal
-    ssl_name: system
+    ssl_name: h_pws

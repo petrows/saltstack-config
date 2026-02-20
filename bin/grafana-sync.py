@@ -21,7 +21,7 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    'url',
+    '--url',
     type=str,
     action='store',
     default='https://grafana.h.pws/',
@@ -42,15 +42,17 @@ parser.add_argument(
     help='Action to perform: upload to Grafana, or download from Grafana',
 )
 
+parser.add_argument(
+    'dashboards',
+    nargs='+',
+    help='List of dashboards to process, in format <folder>/<uid>',
+)
+
+
 args = parser.parse_args()
 
 log_level = args.log
 logging.basicConfig(level=log_level)
-
-
-
-je = Environment(loader=FileSystemLoader("templates/"))
-tpl = je.get_template("grafana-dashboard.tpl")
 
 # Download datasources
 api_url = urljoin(args.url, f'api/datasources')
@@ -103,16 +105,10 @@ for dashboard_uri in args.dashboards:
     # Drop folder, if matches existing namespace
     if folder == 'vm': folder = ''
 
-    content = tpl.render(
-        folder=folder,
-        uid=dashboard_uid,
-        dashboard=dashboard_json,
-    )
-
     out_file = f"dashboards/{dashboard_folder}/{dashboard_uid}.yaml"
 
     with open(out_file, mode="w", encoding="utf-8") as f:
-        f.write(content)
+        f.write(dashboard_json)
         logging.info("Wrote: %s", out_file)
 
 
