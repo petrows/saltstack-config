@@ -781,6 +781,398 @@
                 }
             ],
             "type": "table"
+        },
+        {
+            "datasource": {},
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisBorderShow": false,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "barWidthFactor": 0.6,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineInterpolation": "linear",
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "showValues": false,
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": 0
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    },
+                    "unit": "binBps"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 9,
+                "w": 24,
+                "x": 0,
+                "y": 45
+            },
+            "id": 10,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": true
+                },
+                "tooltip": {
+                    "hideZeros": false,
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "pluginVersion": "12.3.1",
+            "targets": [
+                {
+                    "editorMode": "code",
+                    "expr": "-1 * sum(rate(iptables_stat_bytes_total{ instance=~\"$node\", interface!=\"awg-wan\", interface_comment!=\"\", interface_comment=~\"$user\", direction=\"rx\", wan_id=\"ru\" }[5m])) by (interface_comment)",
+                    "legendFormat": "__auto",
+                    "range": true,
+                    "refId": "RX"
+                },
+                {
+                    "datasource": {},
+                    "editorMode": "code",
+                    "expr": "sum(rate(iptables_stat_bytes_total{ instance=~\"$node\", interface!=\"awg-wan\", interface_comment!=\"\", interface_comment=~\"$user\", direction=\"tx\", wan_id=\"ru\" }[5m])) by (interface_comment)",
+                    "hide": false,
+                    "instant": false,
+                    "legendFormat": "__auto",
+                    "range": true,
+                    "refId": "TX"
+                }
+            ],
+            "title": "Traffic RU",
+            "type": "timeseries"
+        },
+        {
+            "datasource": {},
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisBorderShow": false,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "barWidthFactor": 0.6,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineInterpolation": "linear",
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "showValues": false,
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": 0
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    },
+                    "unit": "binBps"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 9,
+                "w": 24,
+                "x": 0,
+                "y": 54
+            },
+            "id": 11,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": true
+                },
+                "tooltip": {
+                    "hideZeros": false,
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "pluginVersion": "12.3.1",
+            "targets": [
+                {
+                    "editorMode": "code",
+                    "expr": "-1 * sum(rate(iptables_stat_bytes_total{ instance=~\"$node\", interface!=\"awg-wan\", interface_comment!=\"\", interface_comment=~\"$user\", direction=\"rx\", wan_id=\"eu\" }[5m])) by (interface_comment)",
+                    "legendFormat": "__auto",
+                    "range": true,
+                    "refId": "RX"
+                },
+                {
+                    "datasource": {},
+                    "editorMode": "code",
+                    "expr": "sum(rate(iptables_stat_bytes_total{ instance=~\"$node\", interface!=\"awg-wan\", interface_comment!=\"\", interface_comment=~\"$user\", direction=\"tx\", wan_id=\"eu\" }[5m])) by (interface_comment)",
+                    "hide": false,
+                    "instant": false,
+                    "legendFormat": "__auto",
+                    "range": true,
+                    "refId": "TX"
+                }
+            ],
+            "title": "Traffic EU",
+            "type": "timeseries"
+        },
+        {
+            "datasource": {},
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisBorderShow": false,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "barWidthFactor": 0.6,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineInterpolation": "linear",
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "showValues": false,
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "max": 1,
+                    "min": 0,
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": 0
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    },
+                    "unit": "percentunit"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 9,
+                "w": 24,
+                "x": 0,
+                "y": 63
+            },
+            "id": 12,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": true
+                },
+                "tooltip": {
+                    "hideZeros": false,
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "pluginVersion": "12.3.1",
+            "targets": [
+                {
+                    "editorMode": "code",
+                    "expr": "sum(rate(iptables_stat_bytes_total{ instance=~\"$node\", interface!=\"awg-wan\", interface_comment!=\"\", interface_comment=~\"$user\", wan_id=\"eu\" }[5m])) by (interface_comment) / sum(rate(iptables_stat_bytes_total{ instance=~\"$node\", interface!=\"awg-wan\", interface_comment!=\"\", interface_comment=~\"$user\" }[5m])) by (interface_comment)",
+                    "legendFormat": "__auto",
+                    "range": true,
+                    "refId": "RX"
+                }
+            ],
+            "title": "Traffic EU ratio",
+            "type": "timeseries"
+        },
+        {
+            "datasource": {},
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisBorderShow": false,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "barWidthFactor": 0.6,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineInterpolation": "linear",
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "showValues": false,
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "max": 1,
+                    "min": 0,
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": 0
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    },
+                    "unit": "percentunit"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 9,
+                "w": 24,
+                "x": 0,
+                "y": 72
+            },
+            "id": 13,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": true
+                },
+                "tooltip": {
+                    "hideZeros": false,
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "pluginVersion": "12.3.1",
+            "targets": [
+                {
+                    "editorMode": "code",
+                    "expr": "sum(rate(iptables_stat_bytes_total{ instance=~\"$node\", interface!=\"awg-wan\", interface_comment!=\"\", interface_comment=~\"$user\", wan_id=\"eu\" }[5m])) by (interface_comment, comment) / sum(rate(iptables_stat_bytes_total{ instance=~\"$node\", interface!=\"awg-wan\", interface_comment!=\"\", interface_comment=~\"$user\" }[5m])) by (interface_comment, comment)",
+                    "legendFormat": "{{comment}} / {{interface_comment}}",
+                    "range": true,
+                    "refId": "RX"
+                }
+            ],
+            "title": "Traffic EU ratio for peer",
+            "type": "timeseries"
         }
     ],
     "preload": false,
@@ -904,6 +1296,6 @@
     "timezone": "browser",
     "title": "VPN Julia clients",
     "uid": "vpn-j-clients",
-    "version": 42,
+    "version": 51,
     "weekStart": ""
 }
