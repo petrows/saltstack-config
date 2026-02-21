@@ -814,7 +814,7 @@
                             "tooltip": false,
                             "viz": false
                         },
-                        "insertNulls": 3600000,
+                        "insertNulls": false,
                         "lineInterpolation": "smooth",
                         "lineStyle": {
                             "fill": "solid"
@@ -826,7 +826,7 @@
                         },
                         "showPoints": "auto",
                         "showValues": false,
-                        "spanNulls": false,
+                        "spanNulls": 3600000,
                         "stacking": {
                             "group": "A",
                             "mode": "none"
@@ -921,7 +921,7 @@
                             "tooltip": false,
                             "viz": false
                         },
-                        "insertNulls": 3600000,
+                        "insertNulls": false,
                         "lineInterpolation": "smooth",
                         "lineStyle": {
                             "fill": "solid"
@@ -933,7 +933,7 @@
                         },
                         "showPoints": "auto",
                         "showValues": false,
-                        "spanNulls": false,
+                        "spanNulls": 3600000,
                         "stacking": {
                             "group": "A",
                             "mode": "none"
@@ -1028,7 +1028,7 @@
                             "tooltip": false,
                             "viz": false
                         },
-                        "insertNulls": 3600000,
+                        "insertNulls": false,
                         "lineInterpolation": "smooth",
                         "lineStyle": {
                             "fill": "solid"
@@ -1040,7 +1040,7 @@
                         },
                         "showPoints": "auto",
                         "showValues": false,
-                        "spanNulls": false,
+                        "spanNulls": 3600000,
                         "stacking": {
                             "group": "A",
                             "mode": "none"
@@ -1126,7 +1126,7 @@
                             "tooltip": false,
                             "viz": false
                         },
-                        "insertNulls": 3600000,
+                        "insertNulls": false,
                         "lineInterpolation": "smooth",
                         "lineStyle": {
                             "fill": "solid"
@@ -1138,7 +1138,7 @@
                         },
                         "showPoints": "auto",
                         "showValues": false,
-                        "spanNulls": false,
+                        "spanNulls": 3600000,
                         "stacking": {
                             "group": "A",
                             "mode": "none"
@@ -1165,7 +1165,32 @@
                     },
                     "unit": "percentunit"
                 },
-                "overrides": []
+                "overrides": [
+                    {
+                        "__systemRef": "hideSeriesFrom",
+                        "matcher": {
+                            "id": "byNames",
+                            "options": {
+                                "mode": "exclude",
+                                "names": [
+                                    "iPhone / \u041c\u0430\u0440\u0438\u044f"
+                                ],
+                                "prefix": "All except:",
+                                "readOnly": true
+                            }
+                        },
+                        "properties": [
+                            {
+                                "id": "custom.hideFrom",
+                                "value": {
+                                    "legend": false,
+                                    "tooltip": true,
+                                    "viz": true
+                                }
+                            }
+                        ]
+                    }
+                ]
             },
             "gridPos": {
                 "h": 9,
@@ -1323,6 +1348,6 @@
     "timezone": "browser",
     "title": "VPN Julia clients",
     "uid": "vpn-j-clients",
-    "version": 56,
+    "version": 62,
     "weekStart": ""
 }
