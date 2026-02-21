@@ -866,6 +866,7 @@
                 {
                     "editorMode": "code",
                     "expr": "-1 * sum(rate(iptables_stat_bytes_total{ instance=~\"$node\", interface!=\"awg-wan\", interface_comment!=\"\", interface_comment=~\"$user\", direction=\"rx\", wan_id=\"ru\" }[5m])) by (interface_comment)",
+                    "interval": "$resolution",
                     "legendFormat": "__auto",
                     "range": true,
                     "refId": "RX"
@@ -876,6 +877,7 @@
                     "expr": "sum(rate(iptables_stat_bytes_total{ instance=~\"$node\", interface!=\"awg-wan\", interface_comment!=\"\", interface_comment=~\"$user\", direction=\"tx\", wan_id=\"ru\" }[5m])) by (interface_comment)",
                     "hide": false,
                     "instant": false,
+                    "interval": "$resolution",
                     "legendFormat": "__auto",
                     "range": true,
                     "refId": "TX"
@@ -968,6 +970,7 @@
                 {
                     "editorMode": "code",
                     "expr": "-1 * sum(rate(iptables_stat_bytes_total{ instance=~\"$node\", interface!=\"awg-wan\", interface_comment!=\"\", interface_comment=~\"$user\", direction=\"rx\", wan_id=\"eu\" }[5m])) by (interface_comment)",
+                    "interval": "$resolution",
                     "legendFormat": "__auto",
                     "range": true,
                     "refId": "RX"
@@ -978,6 +981,7 @@
                     "expr": "sum(rate(iptables_stat_bytes_total{ instance=~\"$node\", interface!=\"awg-wan\", interface_comment!=\"\", interface_comment=~\"$user\", direction=\"tx\", wan_id=\"eu\" }[5m])) by (interface_comment)",
                     "hide": false,
                     "instant": false,
+                    "interval": "$resolution",
                     "legendFormat": "__auto",
                     "range": true,
                     "refId": "TX"
@@ -1072,6 +1076,7 @@
                 {
                     "editorMode": "code",
                     "expr": "sum(rate(iptables_stat_bytes_total{ instance=~\"$node\", interface!=\"awg-wan\", interface_comment!=\"\", interface_comment=~\"$user\", wan_id=\"eu\" }[5m])) by (interface_comment) / sum(rate(iptables_stat_bytes_total{ instance=~\"$node\", interface!=\"awg-wan\", interface_comment!=\"\", interface_comment=~\"$user\" }[5m])) by (interface_comment)",
+                    "interval": "$resolution",
                     "legendFormat": "__auto",
                     "range": true,
                     "refId": "RX"
@@ -1166,6 +1171,7 @@
                 {
                     "editorMode": "code",
                     "expr": "sum(rate(iptables_stat_bytes_total{ instance=~\"$node\", interface!=\"awg-wan\", interface_comment!=\"\", interface_comment=~\"$user\", wan_id=\"eu\" }[5m])) by (interface_comment, comment) / sum(rate(iptables_stat_bytes_total{ instance=~\"$node\", interface!=\"awg-wan\", interface_comment!=\"\", interface_comment=~\"$user\" }[5m])) by (interface_comment, comment)",
+                    "interval": "$resolution",
                     "legendFormat": "{{comment}} / {{interface_comment}}",
                     "range": true,
                     "refId": "RX"
@@ -1296,6 +1302,6 @@
     "timezone": "browser",
     "title": "VPN Julia clients",
     "uid": "vpn-j-clients",
-    "version": 51,
+    "version": 53,
     "weekStart": ""
 }
