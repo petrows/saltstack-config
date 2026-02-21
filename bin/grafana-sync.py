@@ -37,6 +37,20 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    '--ca-bundle',
+    type=str,
+    action='store',
+    default=os.getenv('REQUESTS_CA_BUNDLE', ''),
+    help='Path to custom CA bundle (overrides REQUESTS_CA_BUNDLE if set)',
+)
+
+parser.add_argument(
+    '--insecure',
+    action='store_true',
+    help='Disable TLS certificate verification (not recommended)',
+)
+
+parser.add_argument(
     'operation',
     choices=['upload', 'download'],
     help='Action to perform: upload to Grafana, or download from Grafana',
@@ -54,7 +68,7 @@ args = parser.parse_args()
 log_level = args.log
 logging.basicConfig(level=log_level)
 
-def build_session(base_url, token):
+def build_session(base_url, token, ca_bundle=None, insecure=False):
     parsed = urlparse(base_url)
     auth = None
     if parsed.username or parsed.password:
@@ -69,23 +83,36 @@ def build_session(base_url, token):
         session.headers.update({'Authorization': f'Bearer {token}'})
     if auth:
         session.auth = auth
+    verify = None
+    if insecure:
+        verify = False
+    elif ca_bundle:
+        verify = ca_bundle
+    if verify is not None:
+        session.verify = verify
 
-    return session, base_url
+    return session, base_url, verify
 
 
-def ensure_folder_id(session, base_url, folder_title):
+def request_with_verify(session, method, url, verify=None, **kwargs):
+    if verify is None:
+        return session.request(method, url, **kwargs)
+    return session.request(method, url, verify=verify, **kwargs)
+
+
+def ensure_folder_id(session, base_url, folder_title, verify=None):
     if not folder_title:
         return 0
 
     api_url = urljoin(base_url, 'api/folders')
-    response = session.get(api_url)
+    response = request_with_verify(session, 'GET', api_url, verify=verify)
     response.raise_for_status()
     for folder in response.json():
         if folder.get('title') == folder_title:
             return folder.get('id', 0)
 
     create_url = urljoin(base_url, 'api/folders')
-    response = session.post(create_url, json={'title': folder_title})
+    response = request_with_verify(session, 'POST', create_url, verify=verify, json={'title': folder_title})
     response.raise_for_status()
     return response.json().get('id', 0)
 
@@ -123,7 +150,8 @@ def update_ds(obj):
     return obj
 
 
-session, base_url = build_session(args.url, args.token)
+ca_bundle = args.ca_bundle.strip() if args.ca_bundle else ''
+session, base_url, verify = build_session(args.url, args.token, ca_bundle=ca_bundle or None, insecure=args.insecure)
 
 
 for dashboard_uri in args.dashboards:
@@ -133,7 +161,7 @@ for dashboard_uri in args.dashboards:
         logging.info("Downloading dashboard %s, folder %s", dashboard_uid, dashboard_folder)
 
         api_url = urljoin(base_url, f'api/dashboards/uid/{dashboard_uid}')
-        response = session.get(api_url)
+        response = request_with_verify(session, 'GET', api_url, verify=verify)
         response.raise_for_status()
 
         dashboard_json = response.json()['dashboard']
@@ -176,7 +204,7 @@ for dashboard_uri in args.dashboards:
         if folder == 'vm':
             folder = ''
 
-        folder_id = ensure_folder_id(session, base_url, folder)
+        folder_id = ensure_folder_id(session, base_url, folder, verify=verify)
         payload = {
             'dashboard': dashboard_data,
             'folderId': folder_id,
@@ -184,7 +212,7 @@ for dashboard_uri in args.dashboards:
         }
 
         api_url = urljoin(base_url, 'api/dashboards/db')
-        response = session.post(api_url, json=payload)
+        response = request_with_verify(session, 'POST', api_url, verify=verify, json=payload)
         response.raise_for_status()
         logging.info("Uploaded: %s", source_path)
 
