@@ -95,7 +95,7 @@ openhab-dir-mosquitto-{{ dir }}:
           log_level: info
         device_options: {}
         devices: devices.yaml
-        version: 4
+        version: 5
 
 {{ z2m_data_dir }}/secrets.yaml:
   file.managed:
