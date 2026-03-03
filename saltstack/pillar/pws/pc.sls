@@ -59,9 +59,9 @@ systemd-cron:
 # Requires to be set: `hash` to verify download integrity for SaltStack (can be direct hash or URL)
 pc-appimages:
   bambu-studio:
-    # https://github.com/bambulab/BambuStudio/releases/tag/v02.04.00.70
-    url: https://github.com/bambulab/BambuStudio/releases/download/v02.04.00.70/Bambu_Studio_ubuntu-24.04_PR-8834.AppImage
-    hash: sha256=26bc07dccb04df2e462b1e03a3766509201c46e27312a15844f6f5d7fdf1debd
+    # https://github.com/bambulab/BambuStudio/releases/tag/v02.05.00.67
+    url: https://github.com/bambulab/BambuStudio/releases/download/v02.05.00.67/Bambu_Studio_ubuntu-24.04_PR-9540.AppImage
+    hash: sha256=dee6d96e5aec389cf3d69df84228b089a80a681ee723cc4379a74558706459f8
   freecad:
     # https://github.com/FreeCAD/FreeCAD/releases/tag/1.0.2
     url: https://github.com/FreeCAD/FreeCAD/releases/download/1.0.2/FreeCAD_1.0.2-conda-Linux-x86_64-py311.AppImage
