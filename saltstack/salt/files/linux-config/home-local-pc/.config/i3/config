@@ -273,6 +273,9 @@ exec --no-startup-id numlockx on
 # Clipboard manager
 exec --no-startup-id copyq
 
+# Disable Blutooth by default
+exec --no-startup-id bt-off
+
 # Default list
 exec --no-startup-id telegram-desktop
 exec --no-startup-id bash -c 'sleep 5; firefox'

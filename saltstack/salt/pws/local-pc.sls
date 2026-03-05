@@ -499,6 +499,6 @@ wine-soft:
         Enabled: yes
         Types: deb
         URIs: https://packages.kowabunga.cloud/ubuntu
-        Suites: {{ grains.oscodename }}
+        Suites: noble
         Components: main
         Signed-By: /etc/apt/keyrings/kowabunga.gpg
