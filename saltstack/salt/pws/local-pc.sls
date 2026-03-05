@@ -450,6 +450,11 @@ wine-soft-remove:
   pkg.removed:
     - pkgs:
       - wine
+      - winehq-stable
+      - wine-stable-i386
+      - wine-stable-amd64
+      - wine-stable
+      - winetricks
       - wine-binfmt
       - wine64
 
