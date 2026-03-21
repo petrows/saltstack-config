@@ -21,6 +21,8 @@ class BambuWatcher:
     def __init__(self, config):
         self.cfg = config
         self.last_state = STATE_FINISHED
+        self.last_temp = None
+        self.last_progress = None
         self.current_job = None
 
         self.print_file = None
@@ -98,6 +100,20 @@ class BambuWatcher:
 
         current_time = time.time()
         should_publish = (current_time - self.smarthome_last_mqtt_publish >= 60)
+
+        current_progress = p.get("percent")
+        current_temp = p.get("nozzle_temper")
+
+        if self.last_progress != current_progress:
+            logging.info(f"Progress changed: {self.last_progress} → {current_progress}")
+            should_publish = True
+
+        if self.last_temp != current_temp:
+            logging.info(f"Temperature changed: {self.last_temp} → {current_temp}")
+            should_publish = True
+
+        self.last_progress = current_progress
+        self.last_temp = current_temp
 
         if state != self.last_state:
             logging.info(f"State changed: {self.last_state} → {state}")
