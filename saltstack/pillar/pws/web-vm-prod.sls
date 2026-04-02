@@ -114,6 +114,11 @@ proxy_vhosts:
     redirect_target: https://bagrintsev.me/
     ssl: external
     enable_robots: False
+  gp-petro:
+    type: redirect
+    domain: gp.petro.ws
+    ssl: external
+    redirect_target: 'https://github.com/petrows/smarthome-galoped-dekad'
 
 proxy_streams:
   # Sb0y stream endpoint
