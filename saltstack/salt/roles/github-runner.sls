@@ -46,6 +46,15 @@ github-{{ id }}-package:
     - source_hash: {{ pillar.github_runner.package.hash }}
     - if_missing: /home/github/{{ id }}/run.sh
 
+github-{{ id }}-env:
+  file.managed:
+    - name: /home/github/{{ id }}/.env
+    - contents: |
+        ACTIONS_RUNNER_HOOK_JOB_COMPLETED=/home/github/{{ id }}/pws-runner-cleanup
+    - mode: 755
+    - user: github
+    - group: github
+
 github-{{ id }}-configure:
   file.managed:
     - name: /home/github/{{ id }}/pws-runner-configure
@@ -80,6 +89,7 @@ github-{{ id }}-configure-update:
       - GH_TOKEN: "{{ pillar.pws_secrets.github_runners.administration_rw_token }}"
     - runas: github
     - onchanges:
+      - file: github-{{ id }}-env
       - file: github-{{ id }}-configure
 
 github-runner-{{ id }}.service:
@@ -104,5 +114,15 @@ github-runner-{{ id }}.service:
     - watch:
       - file: /etc/systemd/system/github-runner-{{ id }}.service
       - cmd: github-{{ id }}-configure-update
+
+github-{{ id }}-cleanup:
+  file.managed:
+    - name: /home/github/{{ id }}/pws-runner-cleanup
+    - contents: |
+        #!/bin/sh -xe
+        rm -rf /home/github/{{ id }}/_work/{{ id }}
+    - mode: 755
+    - user: github
+    - group: github
 
 {% endfor %}
