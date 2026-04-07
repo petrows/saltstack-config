@@ -51,7 +51,7 @@ github-{{ id }}-env:
     - name: /home/github/{{ id }}/.env
     - contents: |
         LANG=en_US.UTF-8
-        ACTIONS_RUNNER_HOOK_JOB_COMPLETED=/home/github/{{ id }}/pws-runner-cleanup
+        ACTIONS_RUNNER_HOOK_JOB_COMPLETED=/home/github/{{ id }}/pws-runner-cleanup.sh
     - mode: 755
     - user: github
     - group: github
@@ -118,7 +118,7 @@ github-runner-{{ id }}.service:
 
 github-{{ id }}-cleanup:
   file.managed:
-    - name: /home/github/{{ id }}/pws-runner-cleanup
+    - name: /home/github/{{ id }}/pws-runner-cleanup.sh
     - contents: |
         #!/bin/sh -xe
         rm -rf /home/github/{{ id }}/_work/{{ id }}
