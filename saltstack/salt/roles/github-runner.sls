@@ -120,8 +120,23 @@ github-{{ id }}-cleanup:
   file.managed:
     - name: /home/github/{{ id }}/pws-runner-cleanup.sh
     - contents: |
-        #!/bin/sh -xe
-        rm -rf /home/github/{{ id }}/_work/{{ id }}
+        #!/bin/bash -xe
+        # Source: https://github.com/orgs/community/discussions/51329
+
+        if [ -z "${GITHUB_WORKSPACE}" ]; then
+          echo "ERROR: GITHUB_WORKSPACE is not set"
+          exit 1
+        fi
+
+        workspace_dir=$(realpath "$GITHUB_WORKSPACE")
+        runner_base_dir=/home/github/{{ id }}/_work
+
+        if [[ $workspace_dir == $runner_base_dir* ]]; then
+          find $GITHUB_WORKSPACE -mindepth 1 -delete
+        else
+          echo "ERROR: GITHUB_WORKSPACE ($GITHUB_WORKSPACE) must be within $runner_base_dir"
+          exit 1
+        fi
     - mode: 755
     - user: github
     - group: github
