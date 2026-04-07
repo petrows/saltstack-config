@@ -50,6 +50,7 @@ github-{{ id }}-env:
   file.managed:
     - name: /home/github/{{ id }}/.env
     - contents: |
+        LANG=en_US.UTF-8
         ACTIONS_RUNNER_HOOK_JOB_COMPLETED=/home/github/{{ id }}/pws-runner-cleanup
     - mode: 755
     - user: github
