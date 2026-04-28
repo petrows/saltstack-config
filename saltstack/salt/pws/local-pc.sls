@@ -507,3 +507,15 @@ wine-soft:
         Suites: noble
         Components: main
         Signed-By: /etc/apt/keyrings/kowabunga.gpg
+
+# Fix SDDM to enforce Wayland (does not work for i3)
+/etc/sddm.conf.d/10-wayland.conf:
+  file.managed:
+    - contents: |
+        # Wayland is not supported by i3
+        [General]
+        DisplayServer=x11
+        # GreeterEnvironment=QT_WAYLAND_SHELL_INTEGRATION=layer-shell
+
+        # [Wayland]
+        # CompositorCommand=kwin_wayland --no-lockscreen --no-global-shortcuts --locale1 --inputmethod maliit-keyboard
