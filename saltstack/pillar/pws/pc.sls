@@ -63,6 +63,6 @@ pc-appimages:
     url: https://github.com/bambulab/BambuStudio/releases/download/v02.05.00.67/Bambu_Studio_ubuntu-24.04_PR-9540.AppImage
     hash: sha256=dee6d96e5aec389cf3d69df84228b089a80a681ee723cc4379a74558706459f8
   freecad:
-    # https://github.com/FreeCAD/FreeCAD/releases/tag/1.1.0
-    url: https://github.com/FreeCAD/FreeCAD/releases/download/1.1.0/FreeCAD_1.1.0-Linux-x86_64-py311.AppImage
-    hash: sha256=ef85f171f2d09eec93f358bc49c1730d33f72bfbd353e6465609b30e45acf2f0
+    # https://github.com/FreeCAD/FreeCAD/releases/tag/1.1.1
+    url: https://github.com/FreeCAD/FreeCAD/releases/download/1.1.1/FreeCAD_1.1.1-Linux-x86_64-py311.AppImage
+    hash: sha256=e2006138400b2fa85fa2e160e872d00767eb32964e85075830f7e198a3a876e1
