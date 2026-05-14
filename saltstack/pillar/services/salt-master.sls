@@ -30,9 +30,9 @@ salt:
     build-linux-1.w.pws: {}
     build-linux-2.w.pws: {}
     # M
-    pve.m.pws: {}
-    vpn.m.pws: {}
-    fs.m.pws: {}
+    # pve.m.pws: {}
+    # vpn.m.pws: {}
+    # fs.m.pws: {}
     # B
     vpn.b.pws:
       port: 2224
