@@ -142,6 +142,8 @@ local-pc-soft:
       - build-essential
       # Required for some VS Code extensions (i.e. platformio)
       - python3-venv
+      # Git-pre-commit-checker
+      - pre-commit
 
 local-pc-soft-cleanup:
   pkg.purged:
@@ -374,6 +376,15 @@ local-pc-local-{{ user_id }}:
           {% for app_mime,app_desktop in pillar.i3.mime_types.default.items() %}
           {{ app_mime }}: {{ app_desktop }}
           {% endfor %}
+
+# Git-precommit
+{{user.home}}/.git-template/hooks/pre-commit:
+  file.managed:
+    - source: salt://files/pre-commit
+    - user: {{user_id}}
+    - group: {{user_id}}
+    - mode: 0755
+    - makedirs: True
 
 # Apps config
 {% for file_id, file_data in salt['pillar.get']('i3:apps_config_ini', {}).items() %}
