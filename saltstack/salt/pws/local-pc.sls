@@ -142,8 +142,11 @@ local-pc-soft:
       - build-essential
       # Required for some VS Code extensions (i.e. platformio)
       - python3-venv
-      # Git-pre-commit-checker
+      # Code tools
+      - clang-format
       - pre-commit
+      - pylint
+      - yamllint
 
 local-pc-soft-cleanup:
   pkg.purged:
