@@ -76,3 +76,7 @@ check_mk_plugin_docker_cfg:
     - makedirs: True
     - mode: 755
 {% endif %}
+
+# Wrong file check-mk
+/var/lib/check_mk_agent/spool/ipmi.cachefail:
+  file.absent: []
