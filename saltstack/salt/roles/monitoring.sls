@@ -77,6 +77,8 @@ check_mk_plugin_docker_cfg:
     - mode: 755
 {% endif %}
 
-# Wrong file check-mk
-/var/lib/check_mk_agent/spool/ipmi.cachefail:
-  file.absent: []
+# Wrong files for check-mk
+remove_check_mk_cachefail:
+  cmd.run:
+    - name: find /var/lib/check_mk_agent/spool/ -maxdepth 1 -type f -name '*.cachefail' -delete
+    - onlyif: find /var/lib/check_mk_agent/spool/ -maxdepth 1 -type f -name '*.cachefail' | grep -q .
