@@ -2,6 +2,7 @@ include:
   - common.packages
   - common.fzf
   - common.ssh
+  - common.unattended-upgrades
 {% if pillar.firewall.enabled %}
   - common.nftables
 {% endif %}

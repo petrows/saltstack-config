@@ -44,7 +44,7 @@ base:
 
 # Config by-network ipcidr
 # IPCDR must not apply for laptop machine(s)
-{% set machines_no_ipcidr = ['pc-work-nb'] %}
+{% set machines_no_ipcidr = ['pve.pws','pc-work-nb'] %}
 {% if grains.id not in machines_no_ipcidr %}
   '10.80.0.0/24':
     - match: ipcidr

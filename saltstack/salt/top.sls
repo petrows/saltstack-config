@@ -51,9 +51,6 @@ base:
   'roles:github-runner':
     - match: pillar
     - roles.github-runner
-  'roles:unattended-upgrades':
-    - match: pillar
-    - roles.unattended-upgrades
   'roles:wireguard-server':
     - match: pillar
     - roles.wireguard-server

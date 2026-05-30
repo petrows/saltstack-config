@@ -7,13 +7,6 @@
 check_mk_plugins:
   - mk_apt
 
-# Auto updates for linux systems
-roles:
-  - unattended-upgrades
-
-upgrades:
-  auto: True
-
 network:
   type: dmz
   ntp: '0.de.pool.ntp.org 1.de.pool.ntp.org 2.de.pool.ntp.org 3.de.pool.ntp.org'

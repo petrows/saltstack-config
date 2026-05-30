@@ -3,10 +3,6 @@
 # Set ramdisk as default, to save flash resource
 tmp_ramdisk: True
 
-upgrades:
-  # Do not install upgrades on remote hosts
-  auto: False
-
 firewall:
   # Allow connections by default (hosts under firewall already)
   strict_mode: False
