@@ -406,7 +406,7 @@ local-pc-local-{{ user_id }}:
     - group: {{user_id}}
     - contents: |
         [preferred]
-        default=kde;gtk
+        default=gtk
         org.freedesktop.impl.portal.FileChooser=kde
         org.freedesktop.impl.portal.Settings=kde
         org.freedesktop.impl.portal.AppChooser=kde

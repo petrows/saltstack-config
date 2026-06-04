@@ -15,7 +15,7 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term foot
+set $term konsole
 # Your preferred application launcher
 set $menu wmenu-run
 
@@ -255,3 +255,6 @@ exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CU
 
 exec_always gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 exec_always gsettings set org.gnome.desktop.interface gtk-theme 'Breeze-Dark'
+
+# Start polkit daemon (visual sudo)
+exec /usr/lib/x86_64-linux-gnu/libexec/polkit-kde-authentication-agent-1
