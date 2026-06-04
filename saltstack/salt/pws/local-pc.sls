@@ -385,21 +385,31 @@ local-pc-local-{{ user_id }}:
     - makedirs: True
 
 # GTK Apps
-{{ user.home }}/.config/gtk-3.0/settings.ini:
+{% for gtk_v in ['2.0','3.0','4.0'] %}
+{{ user.home }}/.config/gtk-{{ gtk_v }}/settings.ini:
   file.managed:
+    - makedirs: True
+    - user: {{user_id}}
+    - group: {{user_id}}
     - contents: |
         [Settings]
         gtk-theme-name=Breeze-Dark
         gtk-application-prefer-dark-theme=1
-    - makedirs: True
+{% endfor %}
 
-{{ user.home }}/.config/gtk-4.0/settings.ini:
+# File selector dialogs (use KDE + Dark)
+# Apply in runtime: systemctl --user restart xdg-desktop-portal
+{{ user.home }}/.config/xdg-desktop-portal/portals.conf:
   file.managed:
-    - contents: |
-        [Settings]
-        gtk-theme-name=Breeze-Dark
-        gtk-application-prefer-dark-theme=1
     - makedirs: True
+    - user: {{user_id}}
+    - group: {{user_id}}
+    - contents: |
+        [preferred]
+        default=kde;gtk
+        org.freedesktop.impl.portal.FileChooser=kde
+        org.freedesktop.impl.portal.Settings=kde
+        org.freedesktop.impl.portal.AppChooser=kde
 
 # Apps config
 {% for file_id, file_data in salt['pillar.get']('i3:apps_config_ini', {}).items() %}
