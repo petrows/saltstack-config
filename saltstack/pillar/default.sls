@@ -361,6 +361,12 @@ i3:
         ShellOpenFileInTabs: 'true'
       Core Performance:
         TextHinting: Enabled
+    # Global settings
+    kdeglobals:
+      General:
+        ColorScheme: BreezeDark
+      KDE:
+        LookAndFeelPackage: org.kde.breezedark.desktop
     # Global shortcuts
     kglobalshortcutsrc:
       klipper:
@@ -377,6 +383,7 @@ i3:
         CloseTabButton: None
         CloseTabOnMiddleMouseButton: 'true'
         TabBarVisibility: AlwaysShowTabBar
+        TabBarPosition: Bottom
     spectaclerc:
       General:
         autoSaveImage: 'true'

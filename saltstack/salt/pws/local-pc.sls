@@ -58,20 +58,20 @@ apparmor-reload:
 local-pc-soft:
   pkg.latest:
     - pkgs:
-      - i3
-      - i3lock-fancy
-      - compton
-      - udiskie
-      - rofi
-      - feh
-      - network-manager-gnome
-      - numlockx
-      - apt-file
-      - ncal
-      # Locking / sleep events
-      - xss-lock
-      # Auto display profile switcher
-      - autorandr
+      # - i3
+      # - i3lock-fancy
+      # - compton
+      # - udiskie
+      # - rofi
+      # - feh
+      # - network-manager-gnome
+      # - numlockx
+      # - apt-file
+      # - ncal
+      # # Locking / sleep events
+      # - xss-lock
+      # # Auto display profile switcher
+      # - autorandr
       # Audio
       - pipewire-audio
       - pipewire-alsa
@@ -84,7 +84,7 @@ local-pc-soft:
       - qt6ct
       {% endif %}
       # Set default GTK-Driven apps
-      - gtk-chtheme
+      # - gtk-chtheme
       # GTK Front for Libreoffice
       - libreoffice-gtk3
       # BT tooling
@@ -123,7 +123,8 @@ local-pc-soft:
       - kdiff3
       # Desktop notifications
       - libnotify-bin
-      - dunst
+      # - dunst
+      - mako-notifier
       # fdfund tool (friendly find): https://github.com/sharkdp/fd
       - fd-find
       # Wine formats
@@ -203,7 +204,7 @@ sigrok-software:
     #- source: salt://files/sigrok/fx2lafw-saleae-logic-original.fw
 
 # OpenHantek DSO
-/opt/OpenHantek6022.apk:
+/opt/OpenHantek6022.deb:
   file.managed:
     - source: https://github.com/OpenHantek/OpenHantek6022/releases/download/3.4.0/openhantek_3.4.0_amd64.deb
     - source_hash: e86d88910537e6f1b9759deb6111b6db
@@ -211,7 +212,7 @@ sigrok-software:
 openhantek-soft:
   pkg.installed:
     - sources:
-      - openhantek: /opt/OpenHantek6022.apk
+      - openhantek: /opt/OpenHantek6022.deb
 
 # Telegram-desktop
 # Clean installed one
@@ -233,12 +234,6 @@ local-tg-binary:
     - force: True
     - require:
       - archive: local-tg-installer
-
-# xorg conf
-/etc/X11/xorg.conf.d/xorg.touchpad.conf:
-  file.managed:
-    - source: salt://files/linux-config/xorg.touchpad.conf
-    - makedirs: True
 
 # VS Code
 /etc/apt/sources.list.d/vscode.sources:
@@ -389,6 +384,23 @@ local-pc-local-{{ user_id }}:
     - mode: 0755
     - makedirs: True
 
+# GTK Apps
+{{ user.home }}/.config/gtk-3.0/settings.ini:
+  file.managed:
+    - contents: |
+        [Settings]
+        gtk-theme-name=Breeze-Dark
+        gtk-application-prefer-dark-theme=1
+    - makedirs: True
+
+{{ user.home }}/.config/gtk-4.0/settings.ini:
+  file.managed:
+    - contents: |
+        [Settings]
+        gtk-theme-name=Breeze-Dark
+        gtk-application-prefer-dark-theme=1
+    - makedirs: True
+
 # Apps config
 {% for file_id, file_data in salt['pillar.get']('i3:apps_config_ini', {}).items() %}
 {% set file_data = file_data|yaml %}
@@ -476,7 +488,6 @@ wine-soft:
   pkg.latest:
     - pkgs:
       - wine-staging
-      - wine-staging-amd64
 
 # PATH is set in saltstack/salt/files/linux-config/home/.profile_common.fish
 
@@ -526,10 +537,10 @@ wine-soft:
 /etc/sddm.conf.d/10-wayland.conf:
   file.managed:
     - contents: |
-        # Wayland is not supported by i3
+        # Wayland is now live
         [General]
-        DisplayServer=x11
-        # GreeterEnvironment=QT_WAYLAND_SHELL_INTEGRATION=layer-shell
+        DisplayServer=wayland
+        GreeterEnvironment=QT_WAYLAND_SHELL_INTEGRATION=layer-shell
+        [Wayland]
+        CompositorCommand=kwin_wayland --drm --no-lockscreen --no-global-shortcuts --locale1
 
-        # [Wayland]
-        # CompositorCommand=kwin_wayland --no-lockscreen --no-global-shortcuts --locale1 --inputmethod maliit-keyboard
