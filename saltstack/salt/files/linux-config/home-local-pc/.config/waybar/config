@@ -5,7 +5,7 @@
     // "width": 1366, // Waybar width
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode"],
-    "modules-center": ["sway/window"],
+    "modules-center": [],
     "modules-right": ["pulseaudio", "network", "cpu", "memory", "disk", "battery", "tray", "sway/language", "clock"],
     "sway/workspaces": {
         "disable-scroll": true,

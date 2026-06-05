@@ -14,11 +14,11 @@ window#waybar {
 #window {
     font-weight: bold;
 }
-/*
+
 #workspaces {
     padding: 0 5px;
+    font-weight: bold;
 }
-*/
 
 #workspaces button {
     padding: 0 5px;
@@ -37,12 +37,18 @@ window#waybar {
     border-bottom: 3px solid white;
 }
 
-#clock, #battery, #cpu, #memory, #network, #pulseaudio, #custom-spotify, #tray, #mode {
-    padding: 0 3px;
+#tray, #language {
+    padding: 0 10px;
+}
+
+#battery, #cpu, #memory, #disk, #network, #pulseaudio, #mode {
+    padding: 0 5px;
     margin: 0 2px;
+    border-right: 1px dashed #666;
 }
 
 #clock {
+    padding: 0 5px;
     font-weight: bold;
 }
 
