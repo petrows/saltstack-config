@@ -401,6 +401,68 @@ i3:
     keepassxc/keepassxc.ini:
       General:
         ConfigVersion: 2
+        AutoReloadOnChange: 'true'
+        AutoSaveAfterEveryChange: 'true'
+        AutoSaveOnExit: 'true'
+        AutoTypeDelay: 25
+        AutoTypeEntryTitleMatch: 'true'
+        AutoTypeEntryURLMatch: 'true'
+        AutoTypeStartDelay: 500
+        BackupBeforeSave: 'false'
+        GlobalAutoTypeKey: 0
+        GlobalAutoTypeModifiers: 0
+        IgnoreGroupExpansion: 'true'
+        MinimizeAfterUnlock: 'true'
+        MinimizeOnCopy: 'false'
+        OpenPreviousDatabasesOnStartup: 'true'
+        RememberLastDatabases: 'true'
+        RememberLastKeyFiles: 'true'
+        SingleInstance: 'true'
+        UseAtomicSaves: 'true'
+        UseGroupIconOnEntryCreation: 'true'
+      Browser:
+        AllowExpiredCredentials: 'false'
+        AlwaysAllowAccess: 'true'
+        AlwaysAllowUpdate: 'false'
+        BestMatchOnly: 'false'
+        CustomProxyLocation:
+        Enabled: 'true'
+        HttpAuthPermission: 'false'
+        MatchUrlScheme: 'false'
+        SearchInAllDatabases: 'false'
+        ShowNotification: 'true'
+        SortByUsername: 'false'
+        SupportBrowserProxy: 'true'
+        SupportKphFields: 'true'
+        UnlockDatabase: 'true'
+        UpdateBinaryPath: 'true'
+        UseCustomProxy: 'false'
+      GUI:
+        ApplicationTheme: dark
+        CheckForUpdates: 'false'
+        CheckForUpdatesIncludeBetas: 'false'
+        CompactMode: 'true'
+        HidePreviewPanel: 'false'
+        HideToolbar: 'false'
+        HideUsernames: 'false'
+        Language: system
+        MinimizeOnClose: 'true'
+        MinimizeOnStartup: 'true'
+        MinimizeToTray: 'false'
+        MonospaceNotes: 'true'
+        MovableToolbar: 'false'
+        ShowTrayIcon: 'true'
+        ToolButtonStyle: 0
+        TrayIconAppearance: monochrome-light
+      PasswordGenerator:
+        Length: 12
+        LowerCase: 'true'
+        Punctuation: 'true'
+        SpecialChars: 'true'
+        UpperCase: 'true'
+      Security:
+        ClearClipboardTimeout: 60
+        IconDownloadFallback: 'true'
 
 swap_size_mb: 0
 
