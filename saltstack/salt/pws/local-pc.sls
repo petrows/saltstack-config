@@ -449,7 +449,7 @@ local-pc-local-{{ user_id }}:
         gtk-theme-name=Breeze-Dark
         gtk-icon-theme-name=Papirus-Dark
         gtk-application-prefer-dark-theme=1
-        gtk-font-name=Noto Sans 10
+        gtk-font-name=Liberation Mono 10
 {% endfor %}
 {{ user.home }}/.gtkrc-2.0:
   file.managed:
@@ -467,7 +467,7 @@ local-pc-local-{{ user_id }}:
         gtk-cursor-theme-size=30
         gtk-cursor-theme-name="breeze_cursors"
         gtk-sound-theme-name="ocean"
-        gtk-font-name="Noto Sans 10"
+        gtk-font-name="Liberation Mono 10"
         gtk-theme-name="Breeze-Dark"
         gtk-icon-theme-name="Papirus-Dark"
         gtk-application-prefer-dark-theme=1
