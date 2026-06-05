@@ -6,6 +6,14 @@ local-pc-custom-bin:
     - template: jinja
     - file_mode: 755
 
+# Additional scripts (custom / fake bin)
+local-pc-fake-bin:
+  file.recurse:
+    - name: /usr/local/sbin-fake
+    - source: salt://files/linux-config/bin-fake-local-pc
+    - template: jinja
+    - file_mode: 755
+
 # /etc config
 local-pc-custom-etc:
   file.recurse:
@@ -120,7 +128,7 @@ local-pc-soft:
       - ncal
       - numlockx
       # Clipboard manipulation
-      - xclip
+      - wl-clipboard
       # Screenshot manipulation
       - flameshot
       # Video player

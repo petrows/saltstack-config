@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+#
+# wl-copy shim — drop the -o / --paste-once flag, forward everything else
+# to the real wl-copy. Useful for tools (e.g. keepmenu) that hardcode
+# `wl-copy -o`, which clears the clipboard after a single paste.
+#
+# Install: place this file as `wl-copy` in a directory that appears in
+# PATH *before* /usr/bin, e.g. ~/.local/bin, and chmod +x it.
+#
+#   mkdir -p ~/.local/bin
+#   cp wl-copy ~/.local/bin/wl-copy
+#   chmod +x ~/.local/bin/wl-copy
+#   # ensure ~/.local/bin precedes /usr/bin in PATH
+#
+# It must NOT call itself recursively, so it locates the real binary
+# explicitly rather than via the name `wl-copy`.
+# {% raw %}
+
+set -euo pipefail
+
+# --- locate the real wl-copy ------------------------------------------------
+# Prefer the canonical system path; fall back to searching PATH for a
+# wl-copy that is not this script.
+REAL=""
+if [[ -x /usr/bin/wl-copy ]]; then
+    REAL=/usr/bin/wl-copy
+else
+    SELF="$(readlink -f "$0")"
+    while IFS= read -r candidate; do
+        [[ -x "$candidate" ]] || continue
+        [[ "$(readlink -f "$candidate")" == "$SELF" ]] && continue
+        REAL="$candidate"
+        break
+    done < <(command -v -a wl-copy 2>/dev/null || true)
+fi
+
+if [[ -z "$REAL" ]]; then
+    echo "wl-copy shim: could not find the real wl-copy binary" >&2
+    exit 1
+fi
+
+# --- filter out the paste-once flag -----------------------------------------
+ARGS=()
+for arg in "$@"; do
+    case "$arg" in
+        -o|--paste-once) ;;                 # drop it
+        *) ARGS+=("$arg") ;;
+    esac
+done
+
+# Forward stdin and the remaining args to the real wl-copy.
+exec "$REAL" "${ARGS[@]}"
+
+# {% endraw %}

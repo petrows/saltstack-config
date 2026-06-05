@@ -1,0 +1,10 @@
+#!/bin/bash
+# The `keepmenu` has hardcoded `wl-copy -o`, which makes single-copy,
+# clipboard managers, like CopyQ breaks this, as clipboard is always cleared.
+# We need to push fake bin, which ignores the `-o` option.
+
+swaymsg input type:keyboard xkb_switch_layout 0
+
+export PATH="/usr/local/sbin-fake:$PATH"
+
+/opt/venv/app/bin/keepmenu --clipboard

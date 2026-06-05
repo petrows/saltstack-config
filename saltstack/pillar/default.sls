@@ -466,6 +466,15 @@ i3:
       Security:
         ClearClipboardTimeout: 60
         IconDownloadFallback: 'true'
+    keepmenu/config.ini:
+      dmenu:
+        dmenu_command: wofi --dmenu
+      dmenu_passphrase:
+        obscure: 'True'
+        obscure_color: '#cdd6f4'
+      database:
+        pw_cache_period_min: 360
+        database_1: /home/petro/pwd-2018.kdbx
 
 swap_size_mb: 0
 

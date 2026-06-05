@@ -66,3 +66,8 @@ pc-appimages:
     # https://github.com/FreeCAD/FreeCAD/releases/tag/1.1.1
     url: https://github.com/FreeCAD/FreeCAD/releases/download/1.1.1/FreeCAD_1.1.1-Linux-x86_64-py311.AppImage
     hash: sha256=e2006138400b2fa85fa2e160e872d00767eb32964e85075830f7e198a3a876e1
+
+# Pip soft
+packages_pip3:
+  - keepmenu
+
