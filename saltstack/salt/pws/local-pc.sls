@@ -61,23 +61,31 @@ local-pc-soft:
       # - i3
       # - i3lock-fancy
       # - compton
-      # - udiskie
+      # -
       # - rofi
-      # - feh
-      # - network-manager-gnome
+      # -
+      #
       # - numlockx
-      # - apt-file
+      # -
       # - ncal
       # # Locking / sleep events
       # - xss-lock
       # # Auto display profile switcher
       # - autorandr
+      # Sway + Wayland
+      - sway
+      - waybar
+      - swaylock
+      # Network
+      - network-manager-gnome
       # Audio
       - pipewire-audio
       - pipewire-alsa
       - pasystray
       - pavucontrol
       - playerctl
+      # Theming
+      - breeze-gtk-theme
       # Set default QT-Driven apps
       - qt5ct
       {% if grains.osmajorrelease >= 25 %}
@@ -92,7 +100,10 @@ local-pc-soft:
       - rfkill
       # Bat-cat tool: https://github.com/sharkdp/bat
       - bat
+      # Auto maount removable media:
+      - udiskie
       # File manager
+      - apt-file
       - doublecmd-qt
       {% if grains.osfinger in ['Ubuntu-24.04'] or grains.osmajorrelease >= 25 %}
       - libunrar5t64
@@ -100,6 +111,8 @@ local-pc-soft:
       - libunrar5
       {% endif %}
       - unrar
+      # Other cli tools
+      - ncal
       # Clipboard manipulation
       - xclip
       # Screenshot manipulation
@@ -116,6 +129,7 @@ local-pc-soft:
       - kate
       - okteta
       # Media viewers
+      - feh
       - okular
       - gwenview
       # Log viewer
