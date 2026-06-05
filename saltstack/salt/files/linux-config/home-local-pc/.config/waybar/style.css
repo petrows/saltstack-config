@@ -97,3 +97,13 @@ window#waybar {
 
 #tray {
 }
+
+#language.us {
+    background-color: #060;
+    color: white;
+}
+
+#language.ru {
+    background-color: #600;
+    color: white;
+}

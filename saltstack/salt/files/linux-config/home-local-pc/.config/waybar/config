@@ -4,9 +4,9 @@
     "height": 24, // Waybar height
     // "width": 1366, // Waybar width
     // Choose the order of the modules
-    "modules-left": ["sway/workspaces", "sway/mode", "custom/spotify"],
+    "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["sway/window"],
-    "modules-right": ["pulseaudio", "network", "cpu", "memory", "battery", "tray", "clock"],
+    "modules-right": ["pulseaudio", "network", "cpu", "memory", "battery", "tray", "sway/language", "clock"],
     "sway/workspaces": {
         "disable-scroll": true,
         "all-outputs": false
@@ -61,12 +61,5 @@
             "default": ["", ""]
         },
         "on-click": "pavucontrol"
-    },
-    "custom/spotify": {
-        "format": " {}",
-        "max-length": 40,
-        "interval": 30, // Remove this if your script is endless and write in loop
-        "exec": "$HOME/.config/waybar/mediaplayer.sh 2> /dev/null", // Script in resources folder
-        "exec-if": "pgrep spotify"
     }
 }
