@@ -398,6 +398,9 @@ i3:
         defaultSaveImageFormat: JPEG
         defaultSaveLocation: file:/%HOME%/Pictures/screenshots
         saveFilenameFormat: Screenshot_%HOSTID%_%Y%M%D_%H%m%S
+    keepassxc/keepassxc.ini:
+      General:
+        ConfigVersion: 2
 
 swap_size_mb: 0
 

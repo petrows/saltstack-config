@@ -246,6 +246,8 @@ input * {
     xkb_options grp:caps_toggle,caps:none,grp_led:caps
 }
 
+font pango:Liberation Mono 8
+
 workspace_layout tabbed
 
 output DP-2 scale 1.5 position 0 0

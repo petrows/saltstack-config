@@ -386,24 +386,50 @@ local-pc-local-{{ user_id }}:
 
 # GTK Apps
 {% for gtk_v in ['2.0','3.0','4.0'] %}
+# Remove some dump files
+{{ user.home }}/.config/gtk-{{ gtk_v }}/colors.css:
+  file.absent: []
+{{ user.home }}/.config/gtk-{{ gtk_v }}/gtk.css:
+  file.absent: []
+# Configuration
 {{ user.home }}/.config/gtk-{{ gtk_v }}/settings.ini:
   file.managed:
     - makedirs: True
-    - user: {{user_id}}
-    - group: {{user_id}}
+    - user: {{ user_id }}
+    - group: {{ user_id }}
     - contents: |
         [Settings]
+        gtk-enable-animations=0
         gtk-theme-name=Breeze-Dark
         gtk-application-prefer-dark-theme=1
 {% endfor %}
+{{ user.home }}/.gtkrc-2.0:
+  file.managed:
+    - makedirs: True
+    - user: {{ user_id }}
+    - group: {{ user_id }}
+    - contents: |
+        gtk-enable-animations=0
+        gtk-primary-button-warps-slider=1
+        gtk-toolbar-style=3
+        gtk-menu-images=1
+        gtk-button-images=1
+        gtk-cursor-blink-time=1000
+        gtk-cursor-blink=1
+        gtk-cursor-theme-size=30
+        gtk-cursor-theme-name="breeze_cursors"
+        gtk-sound-theme-name="ocean"
+        gtk-font-name="Noto Sans,  10"
+        gtk-theme-name="Breeze-Dark"
+        gtk-icon-theme-name="breeze-dark"
 
 # File selector dialogs (use KDE + Dark)
 # Apply in runtime: systemctl --user restart xdg-desktop-portal
 {{ user.home }}/.config/xdg-desktop-portal/portals.conf:
   file.managed:
     - makedirs: True
-    - user: {{user_id}}
-    - group: {{user_id}}
+    - user: {{ user_id }}
+    - group: {{ user_id }}
     - contents: |
         [preferred]
         default=gtk
@@ -417,6 +443,12 @@ local-pc-local-{{ user_id }}:
 {% set file_data = file_data|replace("%HOME%", user.home) %}
 {% set file_data = file_data|replace("%HOSTID%", grains.id) %}
 {{user.home}}/.config/{{ file_id }}:
+  file.managed:
+    - makedirs: True
+    - replace: False
+    - user: {{ user_id }}
+    - group: {{ user_id }}
+    - mode: '0600'
   ini.options_present:
     - separator: '='
     - strict: False
