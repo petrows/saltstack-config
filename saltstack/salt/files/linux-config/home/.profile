@@ -37,8 +37,10 @@ fi
 # export QT_SCALE_FACTOR=1
 
 export QT_QPA_PLATFORMTHEME=kde
+export XDG_CURRENT_DESKTOP=KDE
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1  # use Sway's borders, not Qt's
 export GTK_THEME=Breeze-Dark
+export GTK_ICON_THEME=breeze-dark
 
 # Ask python to use system CA bundle
 export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
