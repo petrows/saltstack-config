@@ -106,6 +106,7 @@ local-pc-soft:
       # Auto maount removable media:
       - udiskie
       # File manager
+      - sshfs
       - apt-file
       - doublecmd-qt
       {% if grains.osfinger in ['Ubuntu-24.04'] or grains.osmajorrelease >= 25 %}
@@ -627,3 +628,11 @@ wine-soft:
         [Wayland]
         CompositorCommand=kwin_wayland --drm --no-lockscreen --no-global-shortcuts --locale1
 
+# Common mount / work folders
+{% for common_user_folder in ['/home/devel', '/home/pws', '/home/pws-home'] %}
+{{ common_user_folder }}:
+  file.directory:
+  - user: {{ pillar.firefox.user }}
+  - group: {{ pillar.firefox.user }}
+  - makedirs: True
+{% endfor %}
