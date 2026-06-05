@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+#
+# random-wallpaper.sh — set a random wallpaper on each Sway output.
+#
+# Usage:
+#   random-wallpaper.sh [WALLPAPER_DIR] [MODE]
+#
+#   WALLPAPER_DIR  folder to pick images from   (default: ~/Pictures/wallpapers)
+#   MODE           swaybg scaling mode          (default: fill)
+#                  one of: stretch fit fill center tile
+#
+# Examples:
+#   random-wallpaper.sh
+#   random-wallpaper.sh ~/Pictures/walls fit
+# {% raw %}
+
+set -euo pipefail
+
+WALLPAPER_DIR="${1:-$HOME/Pictures/wp}"
+MODE="${2:-fill}"
+
+# --- sanity checks ----------------------------------------------------------
+
+command -v swaymsg >/dev/null || { echo "swaymsg not found — are you in a Sway session?" >&2; exit 1; }
+command -v jq      >/dev/null || { echo "jq not found — install it: sudo apt install jq" >&2; exit 1; }
+
+if [[ ! -d "$WALLPAPER_DIR" ]]; then
+    echo "Wallpaper directory does not exist: $WALLPAPER_DIR" >&2
+    exit 1
+fi
+
+# Collect candidate images (case-insensitive extensions) into an array.
+mapfile -t IMAGES < <(find "$WALLPAPER_DIR" -type f \
+    \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.bmp' \))
+
+if (( ${#IMAGES[@]} == 0 )); then
+    echo "No images found in $WALLPAPER_DIR" >&2
+    exit 1
+fi
+
+# --- assign one random image per output ------------------------------------
+
+# Get the list of output names currently known to Sway.
+mapfile -t OUTPUTS < <(swaymsg -t get_outputs | jq -r '.[].name')
+
+if (( ${#OUTPUTS[@]} == 0 )); then
+    echo "No outputs reported by Sway." >&2
+    exit 1
+fi
+
+for OUTPUT in "${OUTPUTS[@]}"; do
+    # Pick a random image for this output.
+    IMG="${IMAGES[ RANDOM % ${#IMAGES[@]} ]}"
+    echo "Setting $OUTPUT -> $IMG"
+    swaymsg output "$OUTPUT" bg "$IMG" "$MODE"
+done
+
+# {% endraw %}
