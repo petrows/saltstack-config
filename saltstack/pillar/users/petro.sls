@@ -10,6 +10,7 @@ users:
       - video
       - dialout
       - fuse
+      - sudo
     #  - admin
     sudo: True
     sudo_nopassword: True
