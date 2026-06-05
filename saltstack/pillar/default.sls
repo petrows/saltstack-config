@@ -366,7 +366,7 @@ i3:
       General:
         ColorScheme: BreezeDark
       Icons:
-        Theme: breeze-dark
+        Theme: Papirus-Dark
       KDE:
         AnimationDurationFactor: 0
         LookAndFeelPackage: org.kde.breezedark.desktop

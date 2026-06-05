@@ -88,6 +88,7 @@ local-pc-soft:
       # Theming
       - breeze-gtk-theme
       - breeze-icon-theme
+      - papirus-icon-theme
       # Set default QT-Driven apps
       - qt5ct
       {% if grains.osmajorrelease >= 25 %}
@@ -425,7 +426,7 @@ local-pc-local-{{ user_id }}:
         [Settings]
         gtk-enable-animations=0
         gtk-theme-name=Breeze-Dark
-        gtk-icon-theme-name=breeze-dark
+        gtk-icon-theme-name=Papirus-Dark
         gtk-application-prefer-dark-theme=1
         gtk-font-name=Noto Sans 10
 {% endfor %}
@@ -447,7 +448,7 @@ local-pc-local-{{ user_id }}:
         gtk-sound-theme-name="ocean"
         gtk-font-name="Noto Sans 10"
         gtk-theme-name="Breeze-Dark"
-        gtk-icon-theme-name="breeze-dark"
+        gtk-icon-theme-name="Papirus-Dark"
         gtk-application-prefer-dark-theme=1
 
 # File selector dialogs (use KDE + Dark)
