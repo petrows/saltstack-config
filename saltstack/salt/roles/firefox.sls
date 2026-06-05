@@ -72,3 +72,19 @@ firefox-xdg:
             # Site-specific additions and overrides. See local/README for details.
             include if exists <local/firefox>
         }
+
+# Apply polices: CA Bundle
+/opt/firefox/distribution/policies.json:
+  file.managed:
+    - contents: |
+        {
+          "policies": {
+            "Certificates": {
+              "ImportEnterpriseRoots": true,
+              "Install": [
+                "/usr/local/share/ca-certificates/pws.ca.crt",
+                "pws.ca.crt"
+              ]
+            }
+          }
+        }
