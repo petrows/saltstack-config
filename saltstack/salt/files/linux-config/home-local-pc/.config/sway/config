@@ -253,6 +253,10 @@ workspace_layout tabbed
 output DP-2 scale 1.5 position 0 0
 output DP-3 scale 1.5 position 2560,0
 
+# Start portals in right order
+exec systemctl --user start plasma-xdg-desktop-portal-kde
+exec systemctl --user start xdg-desktop-portal
+
 exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=KDE
 
 exec_always gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
