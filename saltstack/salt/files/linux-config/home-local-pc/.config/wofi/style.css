@@ -1,0 +1,67 @@
+* {
+    font-family: "Liberation Mono", monospace;
+    font-size: 14px;
+}
+
+/* Main window */
+window {
+    background-color: #1e1e2e;
+    border: 2px solid #5294e2;
+    border-radius: 8px;
+}
+
+/* Search input box */
+#input {
+    margin: 8px;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 6px;
+    color: #e0e0e0;
+    background-color: #2d2d3a;
+    outline: none;
+}
+
+#input:focus {
+    border: 1px solid #5294e2;
+}
+
+/* Outer container */
+#outer-box {
+    margin: 4px;
+    padding: 4px;
+    background-color: #1e1e2e;
+}
+
+/* Scrollable results area */
+#scroll {
+    margin: 0px;
+}
+
+/* Each result row */
+#entry {
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: #cdd6f4;
+    background-color: transparent;
+}
+
+/* Selected/highlighted row */
+#entry:selected {
+    background-color: #5294e2;
+    color: #ffffff;
+}
+
+#entry:selected #text {
+    color: #ffffff;
+}
+
+/* Result text */
+#text {
+    color: #cdd6f4;
+    margin: 0px 4px;
+}
+
+/* Icons (if allow-images=true) */
+#img {
+    margin-right: 8px;
+}

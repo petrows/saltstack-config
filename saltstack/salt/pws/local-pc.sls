@@ -75,6 +75,7 @@ local-pc-soft:
       # Sway + Wayland
       - sway
       - waybar
+      - wofi
       - swaylock
       - xdg-desktop-portal-wlr
       # Network
