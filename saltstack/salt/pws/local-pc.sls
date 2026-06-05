@@ -419,6 +419,17 @@ local-pc-local-{{ user_id }}:
     - mode: 0755
     - makedirs: True
 
+# GTK Fav folders
+{{ user.home }}//.config/gtk-3.0/bookmarks:
+  file.managed:
+    - makedirs: True
+    - user: {{ user_id }}
+    - group: {{ user_id }}
+    - contents: |
+        {% for bkm in pillar.i3.bookmark_folders %}
+        file://{{ bkm.path }} {{ bkm.name }}
+        {% endfor %}
+
 # GTK Apps
 {% for gtk_v in ['2.0','3.0','4.0'] %}
 # Remove some dump files

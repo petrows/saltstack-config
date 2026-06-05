@@ -735,14 +735,9 @@
     <IgnoreListFile>%DC_CONFIG_PATH%/ignorelist.txt</IgnoreListFile>
   </IgnoreList>
   <DirectoryHotList>
-    <HotDir Name="home" Path="/home"/>
-    <HotDir Name="devel" Path="/home/devel"/>
-    <HotDir Name="notes" Path="~/btsync-home/notes"/>
-    <HotDir Name="tmp" Path="/tmp"/>
-    <HotDir Name="tmp (home)" Path="~/tmp"/>
-    <HotDir Name="PWS-home" Path="/home/pws-home"/>
-    <HotDir Name="PWS-media" Path="/home/pws/pws-media/media"/>
-    <HotDir Name="PWS-storage" Path="/home/pws/pws-data/storage/common"/>
+  {%- for bkm in pillar.i3.bookmark_folders %}
+    <HotDir Name="{{ bkm.name }}" Path="{{ bkm.path }}"/>
+  {%- endfor %}
   </DirectoryHotList>
   <Viewer>
     <PreviewVisible>False</PreviewVisible>

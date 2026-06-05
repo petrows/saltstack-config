@@ -353,6 +353,27 @@ i3:
       x-scheme-handler/http: firefox.desktop
       x-scheme-handler/https: firefox.desktop
 
+  # Bookmarks for fav's in system (Double commander, KDE dialog)
+  bookmark_folders:
+    - path: /
+      name: Root
+    - path: /home
+      name: Home
+    - path: /home/devel
+      name: Devel
+    - path: ~/btsync-home/notes
+      name: Notes
+    - path: /tmp
+      name: TMP (system)
+    - path: ~/tmp
+      name: TMP (user)
+    - path: /home/pws-home
+      name: PWS (home)
+    - path: /home/pws/pws-media/media
+      name: PWS (media)
+    - path: /home/pws/pws-data/storage/common
+      name: PWS (storage)
+
   # Apps config, uses [ini] format in ~/.config,
   # true for most KDE apps
   apps_config_ini:
