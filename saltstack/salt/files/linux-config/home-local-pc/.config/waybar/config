@@ -6,7 +6,7 @@
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["sway/window"],
-    "modules-right": ["pulseaudio", "network", "cpu", "memory", "battery", "tray", "sway/language", "clock"],
+    "modules-right": ["pulseaudio", "network", "cpu", "memory", "disk", "battery", "tray", "sway/language", "clock"],
     "sway/workspaces": {
         "disable-scroll": true,
         "all-outputs": false
@@ -26,7 +26,10 @@
         "format": "{usage}% "
     },
     "memory": {
-        "format": "{}% "
+        "format": "{avail}GiB "
+    },
+    "disk": {
+        "format": "{free} "
     },
     "battery": {
         "bat": "BAT0",
