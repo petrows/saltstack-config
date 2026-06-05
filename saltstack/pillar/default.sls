@@ -365,7 +365,10 @@ i3:
     kdeglobals:
       General:
         ColorScheme: BreezeDark
+      Icons:
+        Theme: breeze-dark
       KDE:
+        AnimationDurationFactor: 0
         LookAndFeelPackage: org.kde.breezedark.desktop
     # Global shortcuts
     kglobalshortcutsrc:

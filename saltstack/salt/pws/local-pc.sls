@@ -76,6 +76,7 @@ local-pc-soft:
       - sway
       - waybar
       - swaylock
+      - xdg-desktop-portal-wlr
       # Network
       - network-manager-gnome
       # Audio
@@ -86,6 +87,7 @@ local-pc-soft:
       - playerctl
       # Theming
       - breeze-gtk-theme
+      - breeze-icon-theme
       # Set default QT-Driven apps
       - qt5ct
       {% if grains.osmajorrelease >= 25 %}
@@ -113,6 +115,7 @@ local-pc-soft:
       - unrar
       # Other cli tools
       - ncal
+      - numlockx
       # Clipboard manipulation
       - xclip
       # Screenshot manipulation
@@ -377,6 +380,13 @@ local-pc-local-{{ user_id }}:
     - group: {{user_id}}
     - file_mode: keep
 
+# Screenshot folder
+{{user.home}}/Pictures/screenshots:
+  file.directory:
+    - user: {{user_id}}
+    - group: {{user_id}}
+    - makedirs: True
+
 # File accociations
 {{user.home}}/.config/mimeapps.list:
   ini.options_present:
@@ -415,6 +425,7 @@ local-pc-local-{{ user_id }}:
         [Settings]
         gtk-enable-animations=0
         gtk-theme-name=Breeze-Dark
+        gtk-icon-theme-name=breeze-dark
         gtk-application-prefer-dark-theme=1
 {% endfor %}
 {{ user.home }}/.gtkrc-2.0:
@@ -436,6 +447,7 @@ local-pc-local-{{ user_id }}:
         gtk-font-name="Noto Sans,  10"
         gtk-theme-name="Breeze-Dark"
         gtk-icon-theme-name="breeze-dark"
+        gtk-application-prefer-dark-theme=1
 
 # File selector dialogs (use KDE + Dark)
 # Apply in runtime: systemctl --user restart xdg-desktop-portal
@@ -446,10 +458,20 @@ local-pc-local-{{ user_id }}:
     - group: {{ user_id }}
     - contents: |
         [preferred]
-        default=gtk
+        default=kde
         org.freedesktop.impl.portal.FileChooser=kde
         org.freedesktop.impl.portal.Settings=kde
         org.freedesktop.impl.portal.AppChooser=kde
+# See: https://wiki.archlinux.org/title/XDG_Desktop_Portal
+# In some cases, such as when you have a standalone window manager, you might want to make xdg-desktop-portal to think you are using a specific desktop environment. This can be achieved by setting the XDG_CURRENT_DESKTOP environment variable for the xdg-desktop-portal.service user unit using a drop-in snippet. For example, to use the backend associated with KDE:
+# {{ user.home }}/.config/systemd/user/xdg-desktop-portal.service.d/override.conf:
+#   file.managed:
+#     - makedirs: True
+#     - user: {{ user_id }}
+#     - group: {{ user_id }}
+#     - contents: |
+#         [Service]
+#         Environment="XDG_CURRENT_DESKTOP=KDE QT_QPA_PLATFORMTHEME=kde"
 
 # Apps config
 {% for file_id, file_data in salt['pillar.get']('i3:apps_config_ini', {}).items() %}
