@@ -260,14 +260,14 @@ bindsym --to-code $mod+t exec bash -c 'date "+%F" | wl-copy --trim-newline'
 # Take screenshot
 # Printscr also as win+p alternative
 # Printscr - normal
-bindsym --to-code Print exec flameshot full
-bindsym --to-code $mod+p exec flameshot full
+bindsym --to-code Print exec grim - | sway-screenshot
+bindsym --to-code $mod+p exec grim - | sway-screenshot
 # Shift+Printscr - rectangular
-bindsym --to-code $mod+Shift+Print exec flameshot gui
-bindsym --to-code $mod+Shift+p exec flameshot gui
+bindsym --to-code $mod+Shift+Print exec grim -g "$(slurp)" - | sway-screenshot
+bindsym --to-code $mod+Shift+p exec grim -g "$(slurp)" - | sway-screenshot
 # Win+Printscr - active window
-bindsym --to-code $mod+Control+Print exec flameshot screen
-bindsym --to-code $mod+Control+p exec flameshot screen
+bindsym --to-code $mod+Control+Print exec grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.focused?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | head -1)" - | sway-screenshot
+bindsym --to-code $mod+Control+p exec grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.focused?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | head -1)" - | sway-screenshot
 
 workspace_layout tabbed
 

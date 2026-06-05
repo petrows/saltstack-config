@@ -475,6 +475,16 @@ i3:
       database:
         pw_cache_period_min: 360
         database_1: /home/petro/pwd-2018.kdbx
+    swappy/config:
+      Default:
+        save_dir: $HOME/Pictures/screenshots
+        save_filename_format: Screenshot_{{ grains.id }}_-%F_%H-%M-%S-swappy.png
+        show_panel: 'true'
+        line_size: 10
+        text_size: 20
+        text_font: Liberation Mono
+        paint_mode: brush
+        early_exit: 'true'
 
 swap_size_mb: 0
 
