@@ -239,7 +239,7 @@ bar {
     swaybar_command waybar
 }
 
-# include /etc/sway/config.d/*
+include /etc/sway/config.d/*
 
 input * {
     xkb_layout us,ru
@@ -278,18 +278,6 @@ workspace $ws2 output DP-3
 
 output DP-2 scale 1.5 position 0 0
 output DP-3 scale 1.5 position 2560,0
-
-exec systemctl --user set-environment XDG_CURRENT_DESKTOP=KDE
-exec systemctl --user import-environment DISPLAY SWAYSOCK WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-exec dbus-update-activation-environment --systemd DISPLAY SWAYSOCK WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=KDE
-
-# import variables into system-user enviroment
-# based on the instructions in the sway wiki
-# see also https://github.com/swaywm/sway/issues/5732
-# and https://github.com/systemd/systemd/blob/dfc637d0ff756889e8e5b7cb4ec991eb06069aa1/xorg/50-systemd-user.sh
-
-# exec_always systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
-# exec_always dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway
 
 exec gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 exec gsettings set org.gnome.desktop.interface gtk-theme 'Breeze-Dark'

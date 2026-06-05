@@ -17,7 +17,7 @@ numlockx on &
 copyq &
 
 keepassxc &
-run-nagstamon &
+# run-nagstamon &
 copyq &
 flameshot &
 

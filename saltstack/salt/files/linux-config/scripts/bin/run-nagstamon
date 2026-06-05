@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# Adjust UI size for HDPI
-# Dont need anymore
-# export QT_SCALE_FACTOR=2
+# Use simple QT theme
+export QT_QPA_PLATFORMTHEME=qt6ct
 
 # Call initial LED command
 led-indicator-set OK
