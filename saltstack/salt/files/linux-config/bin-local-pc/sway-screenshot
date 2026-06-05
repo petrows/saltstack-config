@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+#
+# screenshot.sh — capture with grim, save to a file AND open an editor,
+# from a single capture stream (tee splits it).
+#
+# Usage:
+#   screenshot.sh [MODE]
+#
+#   MODE:
+#     region   drag a selection (default)
+#     full     entire output layout (all monitors)
+#     active   currently focused window
+#     output   the focused monitor only
+#
+# Env overrides:
+#   SHOT_DIR     save directory   (default: ~/Pictures/screenshots)
+#   SHOT_EDITOR  editor command   (default: satty, falls back to swappy)
+
+set -euo pipefail
+
+MODE="${1:-region}"
+SHOT_DIR="${SHOT_DIR:-$HOME/Pictures/screenshots}"
+
+mkdir -p "$SHOT_DIR"
+FILE="$SHOT_DIR/shot-$(date +%Y%m%d-%H%M%S).png"
+
+# --- dependency checks ------------------------------------------------------
+command -v grim >/dev/null || { echo "grim not found" >&2; exit 1; }
+
+# Pick an editor: explicit override, else satty, else swappy.
+if [[ -n "${SHOT_EDITOR:-}" ]]; then
+    EDITOR_CMD="$SHOT_EDITOR"
+elif command -v satty >/dev/null; then
+    EDITOR_CMD="satty --filename -"
+elif command -v swappy >/dev/null; then
+    EDITOR_CMD="swappy -f -"
+else
+    echo "No editor found (install satty or swappy, or set SHOT_EDITOR)" >&2
+    exit 1
+fi
+
+# --- build the grim capture command for the chosen mode ---------------------
+case "$MODE" in
+    region)
+        command -v slurp >/dev/null || { echo "slurp not found (needed for region)" >&2; exit 1; }
+        GEOM="$(slurp)" || exit 0          # user cancelled selection
+        GRIM=(grim -g "$GEOM" -)
+        ;;
+    full)
+        GRIM=(grim -)
+        ;;
+    active)
+        command -v jq >/dev/null || { echo "jq not found (needed for active)" >&2; exit 1; }
+        GEOM="$(swaymsg -t get_tree \
+            | jq -r '.. | select(.focused?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' \
+            | head -1)"
+        GRIM=(grim -g "$GEOM" -)
+        ;;
+    output)
+        command -v jq >/dev/null || { echo "jq not found (needed for output)" >&2; exit 1; }
+        NAME="$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')"
+        GRIM=(grim -o "$NAME" -)
+        ;;
+    *)
+        echo "Unknown mode: $MODE (use: region | full | active | output)" >&2
+        exit 1
+        ;;
+esac
+
+# --- capture once, tee the stream to the file AND into the editor -----------
+# grim writes PNG to stdout -> tee saves it to $FILE and forwards the same
+# bytes to the editor's stdin.
+"${GRIM[@]}" | tee "$FILE" | $EDITOR_CMD
+
+echo "Saved: $FILE"
