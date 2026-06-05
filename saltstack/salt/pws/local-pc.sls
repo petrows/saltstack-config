@@ -464,6 +464,9 @@ local-pc-local-{{ user_id }}:
         org.freedesktop.impl.portal.FileChooser=kde
         org.freedesktop.impl.portal.Settings=kde
         org.freedesktop.impl.portal.AppChooser=kde
+        org.freedesktop.impl.portal.Screenshot=wlr
+        org.freedesktop.impl.portal.ScreenCast=wlr
+
 # See: https://wiki.archlinux.org/title/XDG_Desktop_Portal
 # In some cases, such as when you have a standalone window manager, you might want to make xdg-desktop-portal to think you are using a specific desktop environment. This can be achieved by setting the XDG_CURRENT_DESKTOP environment variable for the xdg-desktop-portal.service user unit using a drop-in snippet. For example, to use the backend associated with KDE:
 # {{ user.home }}/.config/systemd/user/xdg-desktop-portal.service.d/override.conf:
