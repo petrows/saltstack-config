@@ -1,3 +1,3 @@
 #!/bin/bash
 
-bluetoothctl power off
+rfkill block bluetooth

@@ -273,6 +273,8 @@ bindsym --to-code $mod+p exec grim - | sway-screenshot
 # Shift+Printscr - rectangular
 bindsym --to-code $mod+Shift+Print exec grim -g "$(slurp)" - | sway-screenshot
 bindsym --to-code $mod+Shift+p exec grim -g "$(slurp)" - | sway-screenshot
+# Key 'screenshot' on Logitech keyboard (sends Win+Shift+S)
+bindsym --to-code $mod+Shift+s exec grim -g "$(slurp)" - | sway-screenshot
 # Win+Printscr - active window
 bindsym --to-code $mod+Control+Print exec sway-capture-window | sway-screenshot
 bindsym --to-code $mod+Control+p exec sway-capture-window | sway-screenshot
