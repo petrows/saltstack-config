@@ -103,6 +103,8 @@ local-pc-soft:
       {% if grains.osmajorrelease >= 25 %}
       - qt6ct
       {% endif %}
+      # Deps for Bambu and other UI apps
+      - libwebkit2gtk-4.1-0
       # Set default GTK-Driven apps
       # - gtk-chtheme
       # GTK Front for Libreoffice
