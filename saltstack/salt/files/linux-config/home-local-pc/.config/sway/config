@@ -279,8 +279,10 @@ set $ws2 "2"
 workspace $ws1 output DP-2
 workspace $ws2 output DP-3
 
-output DP-2 scale 1.5 position 0 0
-output DP-3 scale 1.5 position 2560,0
+# See .config/kanshi/config
+# output DP-2 scale 1.5 position 0 0
+# output DP-3 scale 1.5 position 2560,0
+exec kanshi
 
 # Set random BG's
 exec_always sway-bg

@@ -79,13 +79,15 @@ local-pc-soft:
       # # Locking / sleep events
       # - xss-lock
       # # Auto display profile switcher
-      # - autorandr
+      # -
       # Sway + Wayland
       - sway
       - waybar
       - wofi
       - swaylock
       - xdg-desktop-portal-wlr
+      # Auto display profile switcher
+      - kanshi
       # Network
       - network-manager-gnome
       # Audio

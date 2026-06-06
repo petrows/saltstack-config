@@ -1,0 +1,23 @@
+profile home {
+    output DP-2 scale 1.5 position 0,0
+    output DP-3 scale 1.5 position 2560,0
+    exec swaymsg workspace 1, move workspace to DP-2
+    exec swaymsg workspace 2, move workspace to DP-3
+    exec sway-bg
+}
+
+profile laptop {
+    output eDP-1 scale 1.5 position 0,0
+    exec swaymsg workspace 1, move workspace to eDP-1
+    exec swaymsg workspace 2, move workspace to eDP-1
+    exec sway-bg
+}
+
+profile docked {
+    output eDP-1 disable
+    output DP-3-1 scale 1.5 position 0,0
+    output DP-3-2 scale 1.5 position 2560,0
+    exec swaymsg workspace 1, move workspace to DP-3-1
+    exec swaymsg workspace 2, move workspace to DP-3-2
+    exec sway-bg
+}
