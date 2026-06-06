@@ -6,7 +6,7 @@ node_exporter-pkg:
 /var/lib/node_exporter/metrics:
   file.directory:
     - makedirs: True
-    - owner: root
+    - user: root
     - group: root
     - mode: '755'
 

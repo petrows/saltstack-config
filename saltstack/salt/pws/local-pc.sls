@@ -679,11 +679,10 @@ wine-soft:
 
 # Common mount / work folders
 {% for common_user_folder in ['/home/devel', '/home/pws', '/home/pws-home'] %}
+# We should ignore existing / mounted folders, otherwise error will follow
+# We should use manual creation, as command works unadecvate for mounted ones
 {{ common_user_folder }}:
-  file.directory:
-  - user: {{ pillar.firefox.user }}
-  - group: {{ pillar.firefox.user }}
-  - makedirs: True
-  # We should ignore existing / mounted folders, otherwise error will follow
-  - onlyif: test ! -d {{ common_user_folder }}
+  cmd.run:
+    - name: 'install -d -m 0755 -o {{ pillar.firefox.user }} -g {{ pillar.firefox.user }} "{{ common_user_folder }}"'
+    - unless: 'test ! -d "{{ common_user_folder }}"'
 {% endfor %}
