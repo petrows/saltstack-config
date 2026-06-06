@@ -26,18 +26,10 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-# # Force all QT apps to use this theme
-# export QT_QPA_PLATFORMTHEME=qt{{ pillar.i3.qt_version }}ct
-# # Force libreoffice to use this theme
-# export SAL_USE_VCLPLUGIN=gtk3
-# # Default apps scaling for HDPI
-# export GDK_DPI_SCALE={{ pillar.xsession.gtk_scale }}
-# export QT_FONT_DPI={{ pillar.xsession.qt_dpi }}
-# export QT_AUTO_SCREEN_SET_FACTOR=0
-# export QT_SCALE_FACTOR=1
-
+# Force all QT apps to use KDE theme
 export QT_QPA_PLATFORMTHEME=kde
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1  # use Sway's borders, not Qt's
+# Force all GTK apps to use dark theme
 export GTK_THEME=Breeze-Dark
 export GTK_ICON_THEME=Papirus-Dark
 

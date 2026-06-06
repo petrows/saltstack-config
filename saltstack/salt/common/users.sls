@@ -145,6 +145,16 @@ user_{{user_id}}_ssh_auth:
 
 {% if user.install_profile|default(True) %}
 
+# Global profile
+user_{{user_id}}_profile:
+  file.managed:
+    - name: {{user.home}}/.profile
+    - source: salt://files/linux-config/home/.profile
+    - template: jinja
+    - user: {{user_id}}
+    - group: {{user_id}}
+
+# Global profile (fish)
 user_{{user_id}}_fish_local:
   cmd.run:
     - name: |
