@@ -134,7 +134,9 @@ local-pc-soft:
       # Clipboard manipulation
       - wl-clipboard
       # Screenshot manipulation
-      - flameshot
+      - grim
+      - swappy
+      - slurp
       # Video player
       - vlc
       - vlc-plugin-base
