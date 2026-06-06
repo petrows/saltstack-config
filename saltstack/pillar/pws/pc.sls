@@ -76,3 +76,5 @@ pc-autorun:
   # https://wiki.archlinux.org/title/Kanshi
   display:
     cmd: kanshi
+    # We should restart service in Sway reload
+    start_mode: restart

@@ -303,8 +303,10 @@ exec_always gsettings set org.gnome.desktop.interface font-name 'Liberation Mono
 exec /usr/lib/x86_64-linux-gnu/libexec/polkit-kde-authentication-agent-1
 
 # Start systemd user targets
-{% for au_id, au_data in salt['pillar.get']('pc-autorun', {}).items() %}
-exec_always systemctl --user start autorun-{{ au_id }}.service
-{% endfor %}
+{%- for au_id, au_data in salt['pillar.get']('pc-autorun', {}).items() %}
+{%- set start_mode = au_data.start_mode|default('start') %}
+{%- set exec_mode = au_data.exec_mode|default('exec_always') %}
+{{ exec_mode }} systemctl --user {{ start_mode }} autorun-{{ au_id }}.service
+{%- endfor %}
 
 exec sway-autorun
