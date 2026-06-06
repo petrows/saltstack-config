@@ -15,7 +15,7 @@
    <GroupState-SearchFor-IsHidden>false</GroupState-SearchFor-IsHidden>
   </metadata>
  </info>
- <bookmark href="file:///home/petro">
+ <bookmark href="file://~">
   <title>Home</title>
   <info>
    <metadata owner="http://freedesktop.org">
@@ -27,7 +27,7 @@
    </metadata>
   </info>
  </bookmark>
- <bookmark href="file:///home/petro/Desktop">
+ <bookmark href="file://~/Desktop">
   <title>Desktop</title>
   <info>
    <metadata owner="http://freedesktop.org">
@@ -39,7 +39,7 @@
    </metadata>
   </info>
  </bookmark>
- <bookmark href="file:///home/petro/Documents">
+ <bookmark href="file://~/Documents">
   <title>Documents</title>
   <info>
    <metadata owner="http://freedesktop.org">
@@ -51,7 +51,7 @@
    </metadata>
   </info>
  </bookmark>
- <bookmark href="file:///home/petro/Downloads">
+ <bookmark href="file://~/Downloads">
   <title>Downloads</title>
   <info>
    <metadata owner="http://freedesktop.org">
@@ -63,7 +63,7 @@
    </metadata>
   </info>
  </bookmark>
- <bookmark href="file:///home/petro/Music">
+ <bookmark href="file://~/Music">
   <title>Music</title>
   <info>
    <metadata owner="http://freedesktop.org">
@@ -75,7 +75,7 @@
    </metadata>
   </info>
  </bookmark>
- <bookmark href="file:///home/petro/Pictures">
+ <bookmark href="file://~/Pictures">
   <title>Pictures</title>
   <info>
    <metadata owner="http://freedesktop.org">
@@ -87,7 +87,7 @@
    </metadata>
   </info>
  </bookmark>
- <bookmark href="file:///home/petro/Videos">
+ <bookmark href="file://~/Videos">
   <title>Videos</title>
   <info>
    <metadata owner="http://freedesktop.org">

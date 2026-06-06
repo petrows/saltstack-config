@@ -19,7 +19,6 @@ copyq &
 keepassxc &
 # run-nagstamon &
 copyq &
-flameshot &
 
 # Disable Blutooth by default
 bt-off &

@@ -497,7 +497,7 @@ i3:
         obscure_color: '#cdd6f4'
       database:
         pw_cache_period_min: 360
-        database_1: /home/petro/pwd-2018.kdbx
+        database_1: ~/btsync-home/pwd-2018.kdbx
     swappy/config:
       Default:
         save_dir: $HOME/Pictures/screenshots

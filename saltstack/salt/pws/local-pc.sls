@@ -660,5 +660,5 @@ wine-soft:
   - group: {{ pillar.firefox.user }}
   - makedirs: True
   # We should ignore existing / mounted folders, otherwise error will follow
-  - onlyif: test -d {{ common_user_folder }}
+  - onlyif: test ! -d {{ common_user_folder }}
 {% endfor %}

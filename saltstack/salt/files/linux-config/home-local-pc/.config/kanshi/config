@@ -15,9 +15,9 @@ profile laptop {
 
 profile docked {
     output eDP-1 disable
-    output DP-3-1 scale 1.5 position 0,0
-    output DP-3-2 scale 1.5 position 2560,0
-    exec swaymsg workspace 1, move workspace to DP-3-1
-    exec swaymsg workspace 2, move workspace to DP-3-2
+    output DP-5 scale 1.5 position 0,0
+    output DP-6 scale 1.5 position 2560,0
+    exec swaymsg workspace 1, move workspace to DP-5
+    exec swaymsg workspace 2, move workspace to DP-6
     exec sway-bg
 }
