@@ -686,5 +686,5 @@ wine-soft:
 {{ common_user_folder }}:
   cmd.run:
     - name: 'install -d -m 0755 -o {{ pillar.firefox.user }} -g {{ pillar.firefox.user }} "{{ common_user_folder }}"'
-    - unless: 'test ! -d "{{ common_user_folder }}"'
+    - unless: 'sudo -H -u {{ pillar.firefox.user }} test -d "{{ common_user_folder }}"'
 {% endfor %}
