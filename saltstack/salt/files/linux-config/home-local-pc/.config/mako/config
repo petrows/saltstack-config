@@ -1,0 +1,8 @@
+# Desktop notifications config
+default-timeout=5000
+
+[urgency=low]
+default-timeout=2000
+
+[urgency=critical]
+default-timeout=0
