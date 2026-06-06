@@ -248,6 +248,9 @@ input * {
 
 font pango:Liberation Mono 8
 
+# File manager
+bindsym --to-code $mod+o exec xdg-open /home
+
 # Lock screen
 bindsym --to-code $mod+l exec swaylock
 
@@ -282,10 +285,10 @@ workspace $ws2 output DP-3
 # See .config/kanshi/config
 # output DP-2 scale 1.5 position 0 0
 # output DP-3 scale 1.5 position 2560,0
-exec kanshi
+# exec kanshi
 
 # Set random BG's
-exec_always sway-bg
+# exec_always sway-bg
 
 exec_always gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 exec_always gsettings set org.gnome.desktop.interface gtk-theme 'Breeze-Dark'
@@ -294,5 +297,10 @@ exec_always gsettings set org.gnome.desktop.interface font-name 'Liberation Mono
 
 # Start polkit daemon (visual sudo)
 exec /usr/lib/x86_64-linux-gnu/libexec/polkit-kde-authentication-agent-1
+
+# Start systemd user targets
+{% for au_id, au_data in salt['pillar.get']('pc-autorun', {}).items() %}
+exec_always systemctl --user start autorun-{{ au_id }}.service
+{% endfor %}
 
 exec sway-autorun

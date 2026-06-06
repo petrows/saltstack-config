@@ -376,7 +376,9 @@ copilot-cli-installer:
       - archive: copilot-cli-installer
 
 # Loop over allowed users on this server
+# ======================================
 {% for user_id, user in salt['pillar.get']('users', {}).items() %}
+
 local-pc-configs-{{ user_id }}:
   file.recurse:
     - name: {{user.home}}/.config
@@ -394,6 +396,13 @@ local-pc-local-{{ user_id }}:
     - user: {{user_id}}
     - group: {{user_id}}
     - file_mode: keep
+
+# Wallpapers
+{{user.home}}/Pictures/wp:
+  file.recurse:
+    - source: salt://files/wallpapers
+    - user: {{ user_id }}
+    - group: {{ user_id }}
 
 # Screenshot folder
 {{user.home}}/Pictures/screenshots:
@@ -522,7 +531,23 @@ local-pc-local-{{ user_id }}:
         {{ file_data|indent(8) }}
 {% endfor %}
 
+# Autorun services
+{% for au_id, au_data in salt['pillar.get']('pc-autorun', {}).items() %}
+{{user.home}}/.config/systemd/user/autorun-{{ au_id }}.service:
+  file.managed:
+    - makedirs: True
+    - user: {{ user_id }}
+    - group: {{ user_id }}
+    - contents: |
+        [Unit]
+        Description=Autorun: {{ au_id }}
+        [Service]
+        Type=simple
+        ExecStart=/usr/bin/bash -c '{{ au_data.cmd }}'
 {% endfor %}
+
+{% endfor %}
+# ======================================
 
 # Stop/break annoying nvidia-persistenced service -> does not react on stop
 # Jun 11 12:03:03 petro-pc systemd[1]: Started nvidia-persistenced.service - NVIDIA Persistence Daemon.

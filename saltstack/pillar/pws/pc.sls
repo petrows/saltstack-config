@@ -71,3 +71,8 @@ pc-appimages:
 packages_pip3:
   - keepmenu
 
+pc-autorun:
+  # Manage displays and apply settings (kanshi)
+  # https://wiki.archlinux.org/title/Kanshi
+  display:
+    cmd: kanshi
