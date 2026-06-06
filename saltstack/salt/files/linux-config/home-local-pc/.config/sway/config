@@ -274,8 +274,8 @@ bindsym --to-code $mod+p exec grim - | sway-screenshot
 bindsym --to-code $mod+Shift+Print exec grim -g "$(slurp)" - | sway-screenshot
 bindsym --to-code $mod+Shift+p exec grim -g "$(slurp)" - | sway-screenshot
 # Win+Printscr - active window
-bindsym --to-code $mod+Control+Print exec grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.focused?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | head -1)" - | sway-screenshot
-bindsym --to-code $mod+Control+p exec grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.focused?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | head -1)" - | sway-screenshot
+bindsym --to-code $mod+Control+Print exec sway-capture-window | sway-screenshot
+bindsym --to-code $mod+Control+p exec sway-capture-window | sway-screenshot
 
 workspace_layout tabbed
 

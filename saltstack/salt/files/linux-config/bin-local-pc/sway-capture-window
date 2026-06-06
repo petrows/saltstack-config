@@ -1,0 +1,3 @@
+#!/bin/bash
+# Capture active window and return output to stdout
+grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.focused?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | head -1)" -
