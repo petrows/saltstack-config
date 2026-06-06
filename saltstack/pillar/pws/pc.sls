@@ -78,3 +78,29 @@ pc-autorun:
     cmd: kanshi
     # We should restart service in Sway reload
     start_mode: restart
+  # Auto mount disks
+  udiskie:
+    cmd: udiskie -ans
+    start_mode: restart
+  # Network-manager tray icon
+  nm-applet:
+    cmd: nm-applet
+    start_mode: restart
+  # Bluetooth tray icon
+  blueman-applet:
+    cmd: blueman-applet
+    start_mode: restart
+  # Pulse aution manager icon
+  pasystray:
+    cmd: pasystray
+    start_mode: restart
+  # Clipboard manager
+  copyq:
+    cmd: copyq
+    start_mode: restart
+  # Password manager
+  keepassxc:
+    cmd: keepassxc --minimized
+  # Telegram desktop
+  telegram-desktop:
+    cmd: telegram-desktop -startintray

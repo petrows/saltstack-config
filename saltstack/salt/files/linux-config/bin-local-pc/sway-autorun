@@ -1,36 +1,14 @@
-#!/bin/bash
+# #!/bin/bash
 
-sleep 1
+# sleep 1
 
-# User-defined startup
-# Auto mount USB
-udiskie -ans &
-# Network status applet
-nm-applet &
-# BT status
-blueman-applet &
-# Audio
-pasystray &
-# Num lock on
-numlockx on &
-# Clipboard manager
-copyq &
+# # Left (primary)
+# swaymsg "workspace 1"
+# konsole &
+# doublecmd --no-splash &
 
-keepassxc &
-# run-nagstamon &
-copyq &
+# # Right (secondary)
+# swaymsg "workspace 2"
 
-# Disable Blutooth by default
-bt-off &
-
-# Left (primary)
-swaymsg "workspace 1"
-konsole &
-doublecmd --no-splash &
-
-# Right (secondary)
-swaymsg "workspace 2"
-
-# Default list
-telegram-desktop &
-firefox &
+# # Default list
+# firefox &

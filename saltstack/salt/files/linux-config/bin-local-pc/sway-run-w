@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+#
+# launch-to-workspace.sh — start an app, wait for its window to appear in the
+# Sway tree (matching the launched PID or any of its child processes), then
+# move that window to the given workspace.
+#
+# Usage:
+#   launch-to-workspace.sh <app-binary> <workspace-number>
+#
+# Example:
+#   launch-to-workspace.sh firefox 2
+#   launch-to-workspace.sh /usr/bin/dolphin 3
+#
+# Notes:
+#   - Matches by PID, so it is immune to random/slow startup times and does
+#     not depend on app_id/class being known.
+#   - Waits up to 60 seconds for the window to map.
+
+set -euo pipefail
+
+APP="${1:-}"
+WS="${2:-}"
+
+if [[ -z "$APP" || -z "$WS" ]]; then
+    echo "Usage: $0 <app-binary> <workspace-number>" >&2
+    exit 1
+fi
+
+command -v swaymsg >/dev/null || { echo "swaymsg not found — not in a Sway session?" >&2; exit 1; }
+command -v jq      >/dev/null || { echo "jq not found — install it: sudo apt install jq" >&2; exit 1; }
+
+TIMEOUT=60          # max seconds to wait for the window
+INTERVAL=0.3        # poll interval
+
+# --- start the app and record its PID ---------------------------------------
+# setsid + background so the app survives this script exiting.
+setsid "$APP" >/dev/null 2>&1 &
+ROOT_PID=$!
+
+echo "App started, pid $ROOT_PID"
+
+# Collect a PID and all of its descendants (recursively).
+collect_pids() {
+    local pid=$1
+    printf '%s\n' "$pid"
+    echo "Child pid: $pid"
+    local child
+    for child in $(pgrep -P "$pid" 2>/dev/null || true); do
+        collect_pids "$child"
+    done
+}
+
+# --- poll the tree until a window with one of our PIDs appears --------------
+deadline=$(( $(date +%s) + TIMEOUT ))
+CON_ID=""
+
+while (( $(date +%s) < deadline )); do
+    # Has the launched process already died without ever mapping a window?
+    if ! kill -0 "$ROOT_PID" 2>/dev/null && [[ -z "$(pgrep -P "$ROOT_PID" 2>/dev/null || true)" ]]; then
+        # Process tree is gone. It may have re-parented (daemonized) — keep
+        # trying for the remainder of the timeout in case a window still maps,
+        # but if nothing shows up we'll exit via the deadline.
+        :
+    fi
+
+    # Build the current PID set (children can spawn over time).
+    mapfile -t PIDS < <(collect_pids "$ROOT_PID")
+    PIDS_JSON=$(printf '%s\n' "${PIDS[@]}" | jq -R 'tonumber?' | jq -s '.')
+
+    # Find the first window node whose .pid is in our set; return its con id.
+    CON_ID=$(swaymsg -t get_tree | jq -r --argjson pids "$PIDS_JSON" '
+        [ recurse(.nodes[]?, .floating_nodes[]?)
+          | select(.pid != null and (.pid as $p | $pids | index($p)))
+          | .id ] | first // empty')
+
+    [[ -n "$CON_ID" ]] && break
+    sleep "$INTERVAL"
+done
+
+if [[ -z "$CON_ID" ]]; then
+    echo "Timed out after ${TIMEOUT}s waiting for a window from '$APP' (pid $ROOT_PID)." >&2
+    exit 1
+fi
+
+# --- move the matched window to the target workspace ------------------------
+swaymsg "[con_id=$CON_ID] move to workspace number $WS" >/dev/null
+echo "Moved window (con_id=$CON_ID, from pid $ROOT_PID) to workspace $WS."

@@ -244,6 +244,7 @@ include /etc/sway/config.d/*
 input * {
     xkb_layout us,ru
     xkb_options grp:caps_toggle,caps:none,grp_led:caps
+    xkb_numlock enabled
 }
 
 font pango:Liberation Mono 8
@@ -283,8 +284,8 @@ set $ws1 "1"
 set $ws2 "2"
 
 # Bind workspaces to outputs (optional)
-workspace $ws1 output DP-2
-workspace $ws2 output DP-3
+# workspace $ws1 output DP-2
+# workspace $ws2 output DP-3
 
 # See .config/kanshi/config
 # output DP-2 scale 1.5 position 0 0
@@ -302,6 +303,9 @@ exec_always gsettings set org.gnome.desktop.interface font-name 'Liberation Mono
 # Start polkit daemon (visual sudo)
 exec /usr/lib/x86_64-linux-gnu/libexec/polkit-kde-authentication-agent-1
 
+# Disable bluetooth on start
+exec bt-off
+
 # Start systemd user targets
 {%- for au_id, au_data in salt['pillar.get']('pc-autorun', {}).items() %}
 {%- set start_mode = au_data.start_mode|default('start') %}
@@ -309,4 +313,9 @@ exec /usr/lib/x86_64-linux-gnu/libexec/polkit-kde-authentication-agent-1
 {{ exec_mode }} systemctl --user {{ start_mode }} autorun-{{ au_id }}.service
 {%- endfor %}
 
-exec sway-autorun
+# Start apps (app, workspace)
+#exec sway-run-w konsole 1
+#exec sway-run-w doublecmd 1
+exec sway-run-w firefox 2
+
+# exec sway-autorun
