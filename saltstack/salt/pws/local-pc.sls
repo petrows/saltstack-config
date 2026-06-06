@@ -383,21 +383,27 @@ copilot-cli-installer:
 
 local-pc-configs-{{ user_id }}:
   file.recurse:
-    - name: {{user.home}}/.config
+    - name: {{ user.home }}/.config
     - source: salt://files/linux-config/home-local-pc/.config
     - template: jinja
-    - user: {{user_id}}
-    - group: {{user_id}}
+    - user: {{ user_id }}
+    - group: {{ user_id }}
     - file_mode: keep
+    - context:
+      user_id: {{ user_id }}
+      user_data: {{ user|yaml }}
 
 local-pc-local-{{ user_id }}:
   file.recurse:
-    - name: {{user.home}}/.local
+    - name: {{ user.home }}/.local
     - source: salt://files/linux-config/home-local-pc/.local
     - template: jinja
-    - user: {{user_id}}
-    - group: {{user_id}}
+    - user: {{ user_id}}
+    - group: {{ user_id }}
     - file_mode: keep
+    - context:
+      user_id: {{ user_id }}
+      user_data: {{ user|yaml }}
 
 # Wallpapers
 {{user.home}}/Pictures/wp:
@@ -409,8 +415,8 @@ local-pc-local-{{ user_id }}:
 # Screenshot folder
 {{user.home}}/Pictures/screenshots:
   file.directory:
-    - user: {{user_id}}
-    - group: {{user_id}}
+    - user: {{ user_id }}
+    - group: {{ user_id }}
     - makedirs: True
 
 # File accociations

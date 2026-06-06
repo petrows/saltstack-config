@@ -15,8 +15,8 @@
    <GroupState-SearchFor-IsHidden>false</GroupState-SearchFor-IsHidden>
   </metadata>
  </info>
- <bookmark href="file://~">
-  <title>Home</title>
+ <bookmark href="file://{{ user_data.home }}">
+  <title>{{ user_id }}</title>
   <info>
    <metadata owner="http://freedesktop.org">
     <bookmark:icon name="user-home"/>
@@ -27,7 +27,7 @@
    </metadata>
   </info>
  </bookmark>
- <bookmark href="file://~/Desktop">
+ <!-- <bookmark href="file://{{ user_data.home }}/Desktop">
   <title>Desktop</title>
   <info>
    <metadata owner="http://freedesktop.org">
@@ -38,8 +38,8 @@
     <isSystemItem>true</isSystemItem>
    </metadata>
   </info>
- </bookmark>
- <bookmark href="file://~/Documents">
+ </bookmark> -->
+ <bookmark href="file://{{ user_data.home }}/Documents">
   <title>Documents</title>
   <info>
    <metadata owner="http://freedesktop.org">
@@ -51,7 +51,7 @@
    </metadata>
   </info>
  </bookmark>
- <bookmark href="file://~/Downloads">
+ <bookmark href="file://{{ user_data.home }}/Downloads">
   <title>Downloads</title>
   <info>
    <metadata owner="http://freedesktop.org">
@@ -63,7 +63,7 @@
    </metadata>
   </info>
  </bookmark>
- <bookmark href="file://~/Music">
+ <!-- <bookmark href="file://{{ user_data.home }}/Music">
   <title>Music</title>
   <info>
    <metadata owner="http://freedesktop.org">
@@ -74,8 +74,8 @@
     <isSystemItem>true</isSystemItem>
    </metadata>
   </info>
- </bookmark>
- <bookmark href="file://~/Pictures">
+ </bookmark> -->
+ <bookmark href="file://{{ user_data.home }}/Pictures">
   <title>Pictures</title>
   <info>
    <metadata owner="http://freedesktop.org">
@@ -87,7 +87,7 @@
    </metadata>
   </info>
  </bookmark>
- <bookmark href="file://~/Videos">
+ <!-- <bookmark href="file://{{ user_data.home }}/Videos">
   <title>Videos</title>
   <info>
    <metadata owner="http://freedesktop.org">
@@ -98,7 +98,7 @@
     <isSystemItem>true</isSystemItem>
    </metadata>
   </info>
- </bookmark>
+ </bookmark> -->
  <bookmark href="remote:/">
   <title>Network</title>
   <info>
@@ -111,7 +111,7 @@
    </metadata>
   </info>
  </bookmark>
- <bookmark href="trash:/">
+ <!-- <bookmark href="trash:/">
   <title>Trash</title>
   <info>
    <metadata owner="http://freedesktop.org">
@@ -122,7 +122,7 @@
     <isSystemItem>true</isSystemItem>
    </metadata>
   </info>
- </bookmark>
+ </bookmark> -->
  <bookmark href="recentlyused:/files">
   <title>Recent Files</title>
   <info>
