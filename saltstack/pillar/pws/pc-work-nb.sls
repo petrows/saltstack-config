@@ -18,6 +18,12 @@ xsession:
       # Detect and set screen layout
       . /usr/local/sbin/setscreen-auto &
 
+pc-autorun:
+  # Tuxedo control center
+  tuxedo-control-center:
+    cmd: tuxedo-control-center --tray
+
+
 kernel-modules:
   nct6775: False
 

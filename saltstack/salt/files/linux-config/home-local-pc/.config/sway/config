@@ -260,6 +260,10 @@ bindsym --to-code $mod+k exec sway-keepmenu
 # Copy date to clipboard: Win+T
 bindsym --to-code $mod+t exec bash -c 'date "+%F" | wl-copy --trim-newline'
 
+# Screen brighness
+bindsym XF86MonBrightnessUp exec brightnessctl s 10%+ # increase screen brightness
+bindsym XF86MonBrightnessDown exec brightnessctl s 10%- # decrease screen brightness
+
 # Take screenshot
 # Printscr also as win+p alternative
 # Printscr - normal
