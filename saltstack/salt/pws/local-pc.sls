@@ -176,6 +176,7 @@ local-pc-soft:
       - cmake
       - build-essential
       # Required for some VS Code extensions (i.e. platformio)
+      - python-is-python3
       - python3-venv
       # Code tools
       - clang-format
