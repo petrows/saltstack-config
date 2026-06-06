@@ -386,11 +386,13 @@ i3:
     kdeglobals:
       General:
         ColorScheme: BreezeDark
+        Name: Breeze Dark
       Icons:
         Theme: Papirus-Dark
       KDE:
         AnimationDurationFactor: 0
         LookAndFeelPackage: org.kde.breezedark.desktop
+        widgetStyle: Breeze
     # Global shortcuts
     kglobalshortcutsrc:
       klipper:
