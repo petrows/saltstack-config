@@ -480,6 +480,7 @@ i3:
         ShowTrayIcon: 'true'
         ToolButtonStyle: 0
         TrayIconAppearance: monochrome-light
+        ColorPasswords: 'true'
       PasswordGenerator:
         Length: 12
         LowerCase: 'true'
