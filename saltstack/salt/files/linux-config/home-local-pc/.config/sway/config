@@ -247,6 +247,14 @@ input * {
     xkb_numlock enabled
 }
 
+input type:touchpad {
+    tap enabled
+    natural_scroll enabled
+    dwt enabled
+    middle_emulation enabled
+    tap_button_map lrm
+}
+
 font pango:Liberation Mono 8
 
 # File manager
