@@ -1,9 +1,4 @@
-
-# Default config for sway
-#
-# Copy this to ~/.config/sway/config and edit it to your liking.
-#
-# Read `man 5 sway` for a complete reference.
+# Petro Sway config
 
 ### Variables
 #
@@ -13,53 +8,8 @@ set $mod Mod4
 set $term konsole
 # Your preferred application launcher (my custom one)
 set $menu sway-dmenu
-
-# include /etc/sway/config-vars.d/*
-
-### Output configuration
-#
-# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-# This is commented in Debian, because the Sway wallpaper files are in a separate
-# package `sway-backgrounds`. Installing this package drops a config file to
-# /etc/sway/config.d/
-# output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-#
-# Example configuration:
-#
-#   output HDMI-A-1 resolution 1920x1080 position 1920,0
-#
-# You can get the names of your outputs by running: swaymsg -t get_outputs
-
-### Idle configuration
-#
-# Example configuration:
-#
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-#          before-sleep 'swaylock -f -c 000000'
-#
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
-
-### Input configuration
-#
-# Example configuration:
-#
-#   input type:touchpad {
-#       dwt enabled
-#       tap enabled
-#       natural_scroll enabled
-#       middle_emulation enabled
-#   }
-#
-#   input type:keyboard {
-#       xkb_layout "eu"
-#   }
-#
-# You can also configure each device individually.
-# Read `man 5 sway-input` for more information about this section.
+# Lock app
+set $lock swaylock -f -c 000000
 
 ### Key bindings
 #
@@ -185,6 +135,7 @@ bindsym --to-code $mod+r mode "resize"
 #
 # Utilities:
 #
+
     # Special keys to adjust volume via PulseAudio
     bindsym --to-code --locked XF86AudioMute exec pactl set-sink-mute \@DEFAULT_SINK@ toggle
     bindsym --to-code --locked XF86AudioLowerVolume exec pactl set-sink-volume \@DEFAULT_SINK@ -5%
@@ -195,24 +146,6 @@ bindsym --to-code $mod+r mode "resize"
     bindsym --to-code --locked XF86MonBrightnessUp exec brightnessctl set 5%+
     # Special key to take a screenshot with grim
     # bindsym Print exec grim
-
-#
-# Status Bar:
-#
-# Read `man 5 sway-bar` for more information about this section.
-# bar {
-#     position top
-#
-#     # When the status_command prints a new line to stdout, swaybar updates.
-#     # The default just shows the current date and time.
-#     status_command while date +'%Y-%m-%d %X'; do sleep 1; done
-#
-#     colors {
-#         statusline #ffffff
-#         background #323232
-#         inactive_workspace #32323200 #32323200 #5c5c5c
-#     }
-# }
 
 bar {
     swaybar_command waybar
@@ -294,6 +227,15 @@ exec /usr/lib/x86_64-linux-gnu/libexec/polkit-kde-authentication-agent-1
 
 # Disable bluetooth on start
 exec bt-off
+
+# Lock on lid close (laptop)
+bindswitch --reload --locked lid:on exec $lock
+
+# Idle modes
+exec swayidle -w \
+        timeout 300 '$lock' \
+        timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+        before-sleep '$lock'
 
 # Start SSH-Agent service
 exec systemctl --user start ssh-agent.service
