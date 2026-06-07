@@ -130,7 +130,6 @@ local-pc-soft:
       - unrar
       # Other cli tools
       - ncal
-      - numlockx
       # Clipboard manipulation
       - wl-clipboard
       # Screenshot manipulation
