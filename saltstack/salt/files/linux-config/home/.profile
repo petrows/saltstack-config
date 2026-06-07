@@ -35,3 +35,6 @@ export GTK_ICON_THEME=Papirus-Dark
 
 # Ask python to use system CA bundle
 export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+
+# SSH Agent socket
+export SSH_AUTH_SOCK=${XDG_RUNTIME_DIR}/openssh_agent

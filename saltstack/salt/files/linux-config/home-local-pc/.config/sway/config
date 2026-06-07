@@ -295,6 +295,9 @@ exec /usr/lib/x86_64-linux-gnu/libexec/polkit-kde-authentication-agent-1
 # Disable bluetooth on start
 exec bt-off
 
+# Start SSH-Agent service
+exec systemctl --user start ssh-agent.service
+
 # Start systemd user targets
 {%- for au_id, au_data in salt['pillar.get']('pc-autorun', {}).items() %}
 {%- set start_mode = au_data.start_mode|default('start') %}
