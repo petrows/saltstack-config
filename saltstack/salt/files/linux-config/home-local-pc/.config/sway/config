@@ -9,7 +9,7 @@ set $term konsole
 # Your preferred application launcher (my custom one)
 set $menu sway-dmenu
 # Lock app
-set $lock swaylock -f -c 000000
+set $lock sway-lock
 
 ### Key bindings
 #
@@ -173,7 +173,7 @@ font pango:Liberation Mono 8
 bindsym --to-code $mod+o exec xdg-open /home
 
 # Lock screen
-bindsym --to-code $mod+l exec swaylock
+bindsym --to-code $mod+l exec $lock
 
 # Exec KeepassXC binding + wl-clip fake
 bindsym --to-code $mod+k exec sway-keepmenu
