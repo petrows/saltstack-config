@@ -32,3 +32,31 @@ tailscaled.service:
         # Disable powersave to tune AX211
         [connection]
         wifi.powersave = 2
+
+# Interfaces names
+/etc/systemd/network/10-interface-wlan.link:
+  file.managed:
+    - contents: |
+        # Wlan onboard
+        [Match]
+        MACAddress=dc:97:ba:72:16:db
+        [Link]
+        Name=wlan
+
+/etc/systemd/network/10-interface-onboard.link:
+  file.managed:
+    - contents: |
+        # Oboard 1gbe lan uplink
+        [Match]
+        MACAddress=b0:25:aa:6b:7a:b3
+        [Link]
+        Name=eth-onb
+
+/etc/systemd/network/10-interface-dock-w.link:
+  file.managed:
+    - contents: |
+        # Dock station (W)
+        [Match]
+        MACAddress=04:bf:1b:4d:f8:35
+        [Link]
+        Name=eth-dw

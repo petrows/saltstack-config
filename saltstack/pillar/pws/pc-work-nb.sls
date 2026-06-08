@@ -22,6 +22,9 @@ pc-autorun:
   # Tuxedo control center
   tuxedo-control-center:
     cmd: tuxedo-control-center --tray
+  # Work apps and environment
+  work-apps:
+    cmd: autorun-work
 
 
 kernel-modules:
