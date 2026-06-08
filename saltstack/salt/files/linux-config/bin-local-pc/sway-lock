@@ -1,18 +1,60 @@
 #!/bin/bash
 # {% raw %}
 
+# set -x
+
 # Reset current layout to default (US)
 # to allow promt be always-correct
 swaymsg input type:keyboard xkb_switch_layout 0
 
+# Turn ON indicator led
 sudo brightnessctl --device='*::scrolllock' set 1
 
-# Effects args, select random
-effects_args=("" "--pixelate")
-effects_arg=${effects_args[ $RANDOM % ${#effects_args[@]} ]}
+# Cache folder for processed images
+BG_CACHE_PATH="${HOME}/.cache/sway-bg"
+# Image processing params
+declare -a BG_ARGS=()
+# Blur image a bit
+BG_ARGS+=( -blur 40x40 )
+# Add 'lock' icon
+BG_ARGS+=( '(' /opt/swaylock-fancy/icons/white.png -background none -alpha on -resize 256x256x256x256 ')' -gravity center )
+# Reduce colors a bit
+BG_ARGS+=( -modulate 100,50 )
 
-PREFIX=/opt/swaylock-fancy /opt/swaylock-fancy/swaylock-fancy -g $effects_arg
+# Swaylock args
+SWAYLOCK_CMD="swaylock"
+declare -a SWAYLOCK_ARGS=()
 
+mkdir -p "$BG_CACHE_PATH"
+
+# Generate BG image
+# Get the list of output names currently known to Sway.
+mapfile -t OUTPUTS < <(swaymsg -t get_outputs | jq -r '.[].name')
+for OUTPUT in "${OUTPUTS[@]}"; do
+    BG_PATH=$(readlink -f $XDG_RUNTIME_DIR/sway-bg/$OUTPUT)
+    if [[ -z "$BG_PATH" ]]; then
+        continue
+    fi
+
+    # Calculate output file path (hashed)
+    BG_HASH=$(echo -n "${BG_PATH}" "${BG_ARGS[@]}" | md5sum | awk '{print $1}')
+    BG_OUT_PATH="$BG_CACHE_PATH/${BG_HASH}.jpg"
+
+    echo "Output $OUTPUT has $BG_PATH -> ${BG_OUT_PATH}"
+
+    if [[ ! -f "${BG_OUT_PATH}" ]]; then
+        magick "${BG_PATH}" "${BG_ARGS[@]}" -composite "${BG_OUT_PATH}"
+    fi
+    SWAYLOCK_ARGS+=( --image "${OUTPUT}:${BG_OUT_PATH}" )
+done
+
+# try to use swaylock with prepared parameters
+if ! "${SWAYLOCK_CMD}" "${SWAYLOCK_ARGS[@]}" >/dev/null 2>&1; then
+    # We have failed, lets get back to stock one
+    "${SWAYLOCK_CMD}"
+fi
+
+# Turn OFF indicator led
 sudo brightnessctl --device='*::scrolllock' set 0
 
 # {% endraw %}

@@ -48,11 +48,15 @@ if (( ${#OUTPUTS[@]} == 0 )); then
     exit 1
 fi
 
+# Dump set images into local run/tmp
+mkdir -p ${XDG_RUNTIME_DIR}/sway-bg
+
 for OUTPUT in "${OUTPUTS[@]}"; do
     # Pick a random image for this output.
     IMG="${IMAGES[ RANDOM % ${#IMAGES[@]} ]}"
     echo "Setting $OUTPUT -> $IMG"
     swaymsg output "$OUTPUT" bg "$IMG" "$MODE"
+    ln -s "$IMG" ${XDG_RUNTIME_DIR}/sway-bg/"$OUTPUT"
 done
 
 # {% endraw %}

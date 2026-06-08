@@ -120,6 +120,7 @@ local-pc-soft:
       - slurp
       - imagemagick-7.q16hdri
       - wlr-randr
+      - libarchive-zip-perl
       # Video player
       - vlc
       - vlc-plugin-base

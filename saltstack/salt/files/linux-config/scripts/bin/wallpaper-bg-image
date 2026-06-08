@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+#
+# blur-overlay.sh — take an image, apply a slight blur, composite an icon
+# on top, and save the result to /tmp.
+#
+# Usage:
+#   blur-overlay.sh <base-image> <icon> [position] [icon-size] [blur]
+#
+#   base-image   image to process (any format ImageMagick reads)
+#   icon         overlay icon (PNG with alpha, or SVG)
+#   position     gravity: northwest|north|northeast|west|center|east|
+#                southwest|south|southeast   (default: southeast)
+#   icon-size    overlay size in px, e.g. 64 -> 64x64   (default: 64)
+#   blur         ImageMagick blur, e.g. 0x2             (default: 0x2)
+#
+# Examples:
+#   blur-overlay.sh photo.jpg logo.png
+#   blur-overlay.sh shot.png icon.svg center 96 0x3
+# {% raw %}
+
+set -euo pipefail
+set -x
+
+BASE="${1:-}"
+ICON="${2:-}"
+POS="${3:-southeast}"
+SIZE="${4:-64}"
+BLUR="${5:-0x2}"
+
+if [[ -z "$BASE" || -z "$ICON" ]]; then
+    echo "Usage: $0 <base-image> <icon> [position] [icon-size] [blur]" >&2
+    exit 1
+fi
+[[ -f "$BASE" ]] || { echo "Base image not found: $BASE" >&2; exit 1; }
+[[ -f "$ICON" ]] || { echo "Icon not found: $ICON" >&2; exit 1; }
+
+# Pick the ImageMagick entrypoint (v7 = magick, v6 = convert).
+if command -v magick >/dev/null; then IM=magick; else IM=convert; fi
+command -v "$IM" >/dev/null || { echo "ImageMagick not found" >&2; exit 1; }
+
+OUT="/tmp/overlay-$(date +%Y%m%d-%H%M%S).png"
+
+# --- prepare the icon -------------------------------------------------------
+# For SVGs, rasterize with rsvg-convert first — it produces a properly
+# transparent PNG, sidestepping ImageMagick's SVG delegate (which can render
+# a black background). PNG icons are used as-is.
+ICON_PNG="$ICON"
+CLEANUP=""
+if [[ "${ICON,,}" == *.svg ]]; then
+    command -v rsvg-convert >/dev/null || {
+        echo "rsvg-convert not found (install librsvg2-bin) — needed for SVG icons" >&2
+        exit 1
+    }
+    ICON_PNG="$(mktemp /tmp/icon-XXXXXX.png)"
+    CLEANUP="$ICON_PNG"
+    rsvg-convert -w "$SIZE" -h "$SIZE" "$ICON" -o "$ICON_PNG"
+fi
+trap '[[ -n "$CLEANUP" ]] && rm -f "$CLEANUP"' EXIT
+
+# --- blur the base, composite the icon, save -------------------------------
+# - base is blurred with -blur
+# - icon is sized to SIZE x SIZE (kept transparent with -background none/-alpha on)
+# - placed at POS with a 20px inset
+"$IM" "$BASE" -blur "$BLUR" \
+    \( "$ICON_PNG" -background none -alpha on -resize "${SIZE}x${SIZE}" \) \
+    -gravity "$POS" -geometry +20+20 \
+    -modulate 100,50 \
+    -composite "$OUT"
+
+echo "Saved: $OUT"
+
+# {% endraw %}
