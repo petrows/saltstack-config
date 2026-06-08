@@ -66,20 +66,6 @@ apparmor-reload:
 local-pc-soft:
   pkg.latest:
     - pkgs:
-      # - i3
-      # - i3lock-fancy
-      # - compton
-      # -
-      # - rofi
-      # -
-      #
-      # - numlockx
-      # -
-      # - ncal
-      # # Locking / sleep events
-      # - xss-lock
-      # # Auto display profile switcher
-      # -
       # Sway + Wayland
       - sway
       - waybar
@@ -100,11 +86,11 @@ local-pc-soft:
       - breeze-gtk-theme
       - breeze-icon-theme
       - papirus-icon-theme
+      # Brightness control
+      - brightnessctl
       # Set default QT-Driven apps
       - qt5ct
-      {% if grains.osmajorrelease >= 25 %}
       - qt6ct
-      {% endif %}
       # Deps for Bambu and other UI apps
       - libwebkit2gtk-4.1-0
       # Set default GTK-Driven apps
@@ -122,11 +108,7 @@ local-pc-soft:
       - sshfs
       - apt-file
       - doublecmd-qt
-      {% if grains.osfinger in ['Ubuntu-24.04'] or grains.osmajorrelease >= 25 %}
       - libunrar5t64
-      {% else %}
-      - libunrar5
-      {% endif %}
       - unrar
       # Other cli tools
       - ncal

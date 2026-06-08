@@ -2,8 +2,9 @@
 local-laptop-soft:
   pkg.latest:
     - pkgs:
-      # Brightness control
-      - brightnessctl
+      # VPN
+      - wireguard-tools
+      # Tuxedo
       - tuxedo-control-center
       - tuxedo-tomte
       - tuxedo-drivers
