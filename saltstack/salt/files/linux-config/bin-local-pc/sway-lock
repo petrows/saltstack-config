@@ -1,6 +1,8 @@
 #!/bin/bash
 # {% raw %}
 
+set -euo pipefail
+
 # set -x
 
 # Reset current layout to default (US)
@@ -17,7 +19,7 @@ declare -a BG_ARGS=()
 # Blur image a bit
 BG_ARGS+=( -blur 40x40 )
 # Add 'lock' icon
-BG_ARGS+=( '(' /opt/swaylock-fancy/icons/white.png -background none -alpha on -resize 256x256x256x256 ')' -gravity center )
+BG_ARGS+=( '(' /opt/swaylock-fancy/icons/white.png -background none -alpha on -resize 128x128 ')' -gravity north -geometry +0+256 )
 # Reduce colors a bit
 BG_ARGS+=( -modulate 100,50 )
 
@@ -25,7 +27,7 @@ BG_ARGS+=( -modulate 100,50 )
 SWAYLOCK_CMD="swaylock"
 declare -a SWAYLOCK_ARGS=()
 
-mkdir -p "$BG_CACHE_PATH"
+mkdir -p "${BG_CACHE_PATH}"
 
 # Generate BG image
 # Get the list of output names currently known to Sway.
@@ -38,7 +40,7 @@ for OUTPUT in "${OUTPUTS[@]}"; do
 
     # Calculate output file path (hashed)
     BG_HASH=$(echo -n "${BG_PATH}" "${BG_ARGS[@]}" | md5sum | awk '{print $1}')
-    BG_OUT_PATH="$BG_CACHE_PATH/${BG_HASH}.jpg"
+    BG_OUT_PATH="$BG_CACHE_PATH/lock-${BG_HASH}.jpg"
 
     echo "Output $OUTPUT has $BG_PATH -> ${BG_OUT_PATH}"
 
@@ -56,5 +58,8 @@ fi
 
 # Turn OFF indicator led
 sudo brightnessctl --device='*::scrolllock' set 0
+
+# Cleanup cache folder a bit (90 days -> remove)
+find "${BG_CACHE_PATH}" -maxdepth 1 -type f -name '*.jpg' -mtime +90 -delete
 
 # {% endraw %}
