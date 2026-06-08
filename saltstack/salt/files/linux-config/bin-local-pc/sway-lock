@@ -4,4 +4,8 @@
 # to allow promt be always-correct
 swaymsg input type:keyboard xkb_switch_layout 0
 
-swaylock -c 000000
+sudo brightnessctl --device='*::scrolllock' set 1
+
+PREFIX=/opt/swaylock-fancy /opt/swaylock-fancy/swaylock-fancy --pixelate
+
+sudo brightnessctl --device='*::scrolllock' set 0

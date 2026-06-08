@@ -118,6 +118,8 @@ local-pc-soft:
       - grim
       - swappy
       - slurp
+      - imagemagick-7.q16hdri
+      - wlr-randr
       # Video player
       - vlc
       - vlc-plugin-base
@@ -676,3 +678,9 @@ wine-soft:
     - name: 'install -d -m 0755 -o {{ pillar.firefox.user }} -g {{ pillar.firefox.user }} "{{ common_user_folder }}"'
     - unless: 'sudo -H -u {{ pillar.firefox.user }} test -d "{{ common_user_folder }}"'
 {% endfor %}
+
+# Swaylock-fancy script
+/opt/swaylock-fancy:
+  file.recurse:
+    - source: salt://files/swaylock-fancy
+    - file_mode: keep
