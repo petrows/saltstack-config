@@ -220,7 +220,7 @@ set $ws2 "2"
 exec_always gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 exec_always gsettings set org.gnome.desktop.interface gtk-theme 'Breeze-Dark'
 exec_always gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark'
-exec_always gsettings set org.gnome.desktop.interface font-name 'Liberation Mono 10'
+exec_always gsettings set org.gnome.desktop.interface font-name '{{ pillar.i3.apps_ui.font }} {{ pillar.i3.apps_ui.font_size }}'
 
 # Start polkit daemon (visual sudo)
 exec /usr/lib/x86_64-linux-gnu/libexec/polkit-kde-authentication-agent-1

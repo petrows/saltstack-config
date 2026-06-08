@@ -353,6 +353,11 @@ i3:
       x-scheme-handler/http: firefox.desktop
       x-scheme-handler/https: firefox.desktop
 
+  # Apps settings (Look & Feel):
+  apps_ui:
+    font: Noto Sans
+    font_size: 10
+
   # Bookmarks for fav's in system (Double commander, KDE dialog)
   bookmark_folders:
     - path: /
