@@ -25,6 +25,8 @@ pc-autorun:
   # Work apps and environment
   work-apps:
     cmd: autorun-work
+    # Do not recall on reload
+    exec_mode: exec
 
 
 kernel-modules:
