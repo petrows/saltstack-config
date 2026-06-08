@@ -1,4 +1,5 @@
 #!/bin/bash
+# {% raw %}
 
 # Reset current layout to default (US)
 # to allow promt be always-correct
@@ -6,6 +7,12 @@ swaymsg input type:keyboard xkb_switch_layout 0
 
 sudo brightnessctl --device='*::scrolllock' set 1
 
-PREFIX=/opt/swaylock-fancy /opt/swaylock-fancy/swaylock-fancy --pixelate
+# Effects args, select random
+effects_args=("" "--pixelate")
+effects_arg=${effects_args[ $RANDOM % ${#effects_args[@]} ]}
+
+PREFIX=/opt/swaylock-fancy /opt/swaylock-fancy/swaylock-fancy -g $effects_arg
 
 sudo brightnessctl --device='*::scrolllock' set 0
+
+# {% endraw %}
