@@ -229,7 +229,7 @@ exec /usr/lib/x86_64-linux-gnu/libexec/polkit-kde-authentication-agent-1
 exec bt-off
 
 # Lock on lid close (laptop)
-bindswitch --reload --locked lid:on exec $lock
+bindswitch --locked lid:on exec $lock
 
 # Idle modes
 exec swayidle -w \
