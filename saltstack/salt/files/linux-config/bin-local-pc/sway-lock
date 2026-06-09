@@ -42,9 +42,13 @@ BG_CACHE_PATH="${HOME}/.cache/sway-bg"
 # Image processing params
 declare -a BG_ARGS=()
 # Blur image a bit
-BG_ARGS+=( -blur 40x40 )
+#BG_ARGS+=( -blur 20x20 )
+# Faster variant from https://stackoverflow.com/a/48443430
+BG_ARGS+=( -scale 20% -gaussian-blur 0x2.5 -resize 500% )
+# Add text
+BG_ARGS+=( -font DejaVu-Sans -pointsize 48 -fill white -gravity south -annotate +0+50 "Petr Golovachev" )
 # Add 'lock' icon
-BG_ARGS+=( '(' /opt/swaylock-fancy/icons/white.png -background none -alpha on -resize 128x128 ')' -gravity north -geometry +0+256 )
+BG_ARGS+=( '(' /opt/swaylock-fancy/icons/white.png -background none -alpha on ')' -gravity north -geometry +0+256 )
 # Reduce colors a bit
 BG_ARGS+=( -modulate 100,50 )
 

@@ -45,8 +45,8 @@ fi
 
 # --- assign one random image per output ------------------------------------
 
-# Get the list of output names currently known to Sway.
-mapfile -t OUTPUTS < <(swaymsg -t get_outputs | jq -r '.[].name')
+# Get the list of output names currently active in Sway.
+mapfile -t OUTPUTS < <(swaymsg -t get_outputs | jq -r '.[] | select(.active == true) | .name')
 
 if (( ${#OUTPUTS[@]} == 0 )); then
     echo "No outputs reported by Sway." >&2
