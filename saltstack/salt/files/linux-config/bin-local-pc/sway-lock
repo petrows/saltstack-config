@@ -5,6 +5,31 @@ set -euo pipefail
 
 # set -x
 
+ensure_single_instance() {
+    # Default lockfile name derived from the script's basename.
+    local lockfile="${1:-/tmp/$(basename "$0").pid}"
+
+    if [[ -f "$lockfile" ]]; then
+        local old_pid
+        old_pid="$(cat "$lockfile" 2>/dev/null || true)"
+
+        # Is the recorded PID a live process?  kill -0 tests existence
+        # without sending a real signal.
+        if [[ -n "$old_pid" ]] && kill -0 "$old_pid" 2>/dev/null; then
+            echo "Already running (pid $old_pid) — exiting." >&2
+            exit 1
+        fi
+        # Stale lockfile (process is gone) — fall through and reclaim it.
+    fi
+
+    # Record our PID and clean up the lockfile when we exit (any reason).
+    echo "$$" > "$lockfile"
+    # shellcheck disable=SC2064
+    trap "rm -f '$lockfile'" EXIT INT TERM
+}
+
+ensure_single_instance "${XDG_RUNTIME_DIR}/sway-lock.pid"
+
 # Reset current layout to default (US)
 # to allow promt be always-correct
 swaymsg input type:keyboard xkb_switch_layout 0

@@ -71,6 +71,7 @@ local-pc-soft:
       - waybar
       - wofi
       - swaylock
+      - swayidle
       - xdg-desktop-portal-wlr
       # Auto display profile switcher
       - kanshi

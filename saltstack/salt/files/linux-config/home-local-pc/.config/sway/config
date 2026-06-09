@@ -232,9 +232,11 @@ exec bt-off
 bindswitch --locked lid:on exec $lock
 
 # Idle modes
+# 30 min - display off
+# 31 min - lock screen
 exec swayidle -w \
-        timeout 300 '$lock' \
-        timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+        timeout 300 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+        timeout 310 '$lock' \
         before-sleep '$lock'
 
 # Start SSH-Agent service
