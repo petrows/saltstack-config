@@ -60,3 +60,21 @@ tailscaled.service:
         MACAddress=04:bf:1b:4d:f8:35
         [Link]
         Name=eth-dw
+
+/etc/systemd/network/10-interface-dock-h.link:
+  file.managed:
+    - contents: |
+        # Dock station (H)
+        [Match]
+        MACAddress=60:5b:30:1e:02:11
+        [Link]
+        Name=eth-dh
+
+/etc/systemd/network/10-interface-dock-m.link:
+  file.managed:
+    - contents: |
+        # Dock station (Mobile)
+        [Match]
+        MACAddress=a0:ce:c8:f9:38:bb
+        [Link]
+        Name=eth-dm
