@@ -34,7 +34,8 @@ mkdir -p "${BG_CACHE_PATH}"
 mapfile -t OUTPUTS < <(swaymsg -t get_outputs | jq -r '.[].name')
 for OUTPUT in "${OUTPUTS[@]}"; do
     BG_PATH=$(readlink -f $XDG_RUNTIME_DIR/sway-bg/$OUTPUT)
-    if [[ -z "$BG_PATH" ]]; then
+    if [[ ! -f "$BG_PATH" ]]; then
+        echo "Skipping: ${BG_PATH}"
         continue
     fi
 
