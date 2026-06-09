@@ -392,6 +392,9 @@ i3:
       General:
         ColorScheme: BreezeDark
         Name: Breeze Dark
+        XftAntialias: 'true'
+        XftHintStyle: 'hintnone'
+        XftSubPixel: 'none'
       Icons:
         Theme: Papirus-Dark
       KDE:
