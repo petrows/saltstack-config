@@ -7,16 +7,16 @@ profile home {
 }
 
 profile laptop {
-    output eDP-1 scale 1.5 position 0,0
+    output eDP-1 enable scale 1.5 position 0,0
     exec swaymsg workspace 1, move workspace to eDP-1
     exec swaymsg workspace 2, move workspace to eDP-1
     exec sway-bg
 }
 
-profile docked {
+profile docked-work {
     output eDP-1 disable
-    output DP-5 scale 1.5 position 0,0
-    output DP-6 scale 1.5 position 2560,0
+    output 'Samsung Electric Company U32J59x H4ZN400219' enable scale 1.5 position 0,0
+    output 'Samsung Electric Company U32J59x HNMN600818' enable scale 1.5 position 2560,0
     exec swaymsg workspace 1, move workspace to DP-5
     exec swaymsg workspace 2, move workspace to DP-6
     exec sway-bg
