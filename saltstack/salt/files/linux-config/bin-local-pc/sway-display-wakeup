@@ -1,0 +1,23 @@
+#!/bin/bash
+# {% raw %}
+
+set -x
+
+# Kill all process with lock-grace
+killall sway-lock-grace
+
+# Restore list of active outputs from file, and turn them on again
+if [[ ! -f ${XDG_RUNTIME_DIR}/sway-display-sleep-outputs ]]; then
+    echo "No outputs file found" >&2
+    swaymsg "output * power on enable"
+    exit 1
+fi
+
+mapfile -t OUTPUTS < <(cat ${XDG_RUNTIME_DIR}/sway-display-sleep-outputs)
+
+for OUTPUT in "${OUTPUTS[@]}"; do
+    echo "Wakeup: ${OUTPUT}"
+    swaymsg "output ${OUTPUT} power on enable"
+done
+
+# {% endraw %}

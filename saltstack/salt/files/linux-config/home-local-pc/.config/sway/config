@@ -235,7 +235,7 @@ bindswitch --locked lid:on exec $lock
 # 30 min - display off
 # 31 min - lock screen
 exec swayidle -w \
-        timeout 300 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+        timeout 30 'sway-display-sleep' resume 'sway-display-wakeup' \
         timeout 310 '$lock' \
         before-sleep '$lock'
 

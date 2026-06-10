@@ -1,0 +1,14 @@
+#!/bin/bash
+# {% raw %}
+
+if [[ -f ${XDG_RUNTIME_DIR}/sway-lock-grace-notif-id ]]; then
+    NOTIF_ID=$(cat ${XDG_RUNTIME_DIR}/sway-lock-grace-notif-id)
+    notify-send --expire-time=2000 --replace-id="${NOTIF_ID}" "Locking cancelled" "Locking has been cancelled by user activity."
+    rm -f ${XDG_RUNTIME_DIR}/sway-lock-grace-notif-id
+else
+    echo "No lock grace notification ID found, cannot cancel." >&2
+fi
+
+killall sway-lock-grace
+
+# {% endraw %}

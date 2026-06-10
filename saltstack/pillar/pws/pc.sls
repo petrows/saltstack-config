@@ -82,6 +82,10 @@ pc-autorun:
     cmd: kanshi
     # We should restart service in Sway reload
     start_mode: restart
+  # Idle modes: sleep and resume display + lock
+  # Define timeouts here
+  idle:
+    cmd: swayidle -d timeout 300 'sway-lock-grace 10' resume 'sway-lock-grace-wakeup' timeout 320 'sway-display-sleep' resume 'sway-display-wakeup' before-sleep 'sway-lock'
   # Auto mount disks
   udiskie:
     cmd: udiskie -ans
