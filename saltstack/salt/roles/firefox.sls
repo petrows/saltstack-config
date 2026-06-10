@@ -50,6 +50,8 @@ firefox-def-{{ def }}:
 # Apply XDG settings
 firefox-xdg:
   cmd.run:
+    - runas: {{ pillar.firefox.user | default('root') }}
+    - shell: /bin/bash
     - name : |
         echo 'y' | xdg-settings set default-web-browser firefox.desktop
         echo 'y' | xdg-settings set default-url-scheme-handler http firefox.desktop
