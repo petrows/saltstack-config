@@ -1,0 +1,13 @@
+# /etc/initramfs-tools/scripts/local-top/luks-led-on
+#!/bin/sh
+
+set -x
+
+PREREQ="udev"
+prereqs() { echo "$PREREQ"; }
+case "$1" in prereqs) prereqs; exit 0;; esac
+
+# Turn ON all Scroll Lock LEDs
+for led in /sys/class/leds/*::scrolllock; do
+    [ -f "$led/brightness" ] && echo 1 > "$led/brightness"
+done

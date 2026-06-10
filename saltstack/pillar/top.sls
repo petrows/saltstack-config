@@ -279,6 +279,7 @@ base:
     - common.scan
     - users.root
     - pws.powerline-gitstatus
+    - services.boot-leds-display
     - services.rslsync
     - services.k8s
     - pws.pc

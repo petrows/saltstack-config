@@ -562,6 +562,8 @@ mount-folders: {}
 nfs-exports: {}
 
 kernel-modules: {}
+initramfs-modules: {}
+initramfs-scripts: {}
 
 # meta pillar for simple systemd 'crontab'
 # avaliable options are:

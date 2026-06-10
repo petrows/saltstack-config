@@ -98,6 +98,38 @@ vm.swappiness:
 {% endif %}
 {% endfor %}
 
+# Initramfs tune
+{% if salt['pillar.get']('initramfs-modules', {}) or salt['pillar.get']('initramfs-scripts', {}) %}
+/etc/initramfs-tools/modules:
+  file.managed:
+    - makedirs: True
+    - contents: |
+        # Managed by Salt!
+        # List of modules that you want to include in your initramfs.
+        # They will be loaded at boot time in the order below.
+        # Syntax:  module_name [args ...]
+        #
+        {%- for name, value in salt['pillar.get']('initramfs-modules', {}).items() %}
+        {%- if value %}
+        {{ name }}
+        {%- endif %}
+        {%- endfor %}
+
+{% for name, path in salt['pillar.get']('initramfs-scripts', {}).items() %}
+/etc/initramfs-tools/scripts/{{ path }}:
+  file.managed:
+    - makedirs: True
+    - mode: '0755'
+    - source: salt://files/initramfs/scripts/{{ name }}
+{% endfor %}
+
+update-initramfs:
+  cmd.run:
+    - name: 'update-initramfs -u -k all'
+    - onchanges:
+      - file: /etc/initramfs-tools/*
+{% endif %} # Initramfs tune
+
 # Systemd cronjobs?
 {% for id, cron in salt['pillar.get']('systemd-cron', {}).items() %}
 {% set service_enabled = cron.enable | default(True) %}
