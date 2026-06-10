@@ -244,6 +244,12 @@ exec systemctl --user start ssh-agent.service
 {{ exec_mode }} systemctl --user {{ start_mode }} autorun-{{ au_id }}.service
 {%- endfor %}
 
+# Start direct exec targets
+{%- for au_id, au_data in salt['pillar.get']('pc-exec', {}).items() %}
+{%- set exec_mode = au_data.exec_mode|default('exec_always') %}
+{{ exec_mode }} {{ au_data.cmd }}
+{%- endfor %}
+
 # Start apps (app, workspace)
 #exec sway-run-w konsole 1
 #exec sway-run-w doublecmd 1

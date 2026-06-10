@@ -32,7 +32,12 @@ fuse-group:
 /etc/apparmor.d/local/fusermount3:
   file.managed:
     - contents: |
+        # allow setuid capability
+        capability setuid,
+        # allow mount
         mount fstype=@{fuse_types} -> /home/**/,
+        # allow umount
+        umount /home/**/,
 
 apparmor-reload:
   cmd.wait:

@@ -17,3 +17,8 @@ xsession:
       # xrandr --output DP-2 --mode 3840x2160 --dpi 138 --pos 0x0 --primary
       # xrandr --output DP-4 --mode 3840x2160 --dpi 138 --pos 3840x0
 
+pc-exec:
+  # Manage displays and apply settings (kanshi)
+  # https://wiki.archlinux.org/title/Kanshi
+  pws-mount:
+    cmd: pws-mount
