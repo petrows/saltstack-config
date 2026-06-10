@@ -546,6 +546,18 @@ local-pc-local-{{ user_id }}:
 {% endfor %}
 # ======================================
 
+# KDE App mime default list
+/etc/xdg/menus/applications.menu:
+  file.symlink:
+    - target: /etc/xdg/menus/plasma-applications.menu
+    - force: True
+
+kbuildsycoca-plasma:
+  cmd.run:
+    - name: kbuildsycoca6 --noincremental
+    - onchanges:
+      - file: /etc/xdg/menus/*
+
 # Stop/break annoying nvidia-persistenced service -> does not react on stop
 # Jun 11 12:03:03 petro-pc systemd[1]: Started nvidia-persistenced.service - NVIDIA Persistence Daemon.
 # Jun 11 12:11:00 petro-pc nvidia-persistenced[1189]: Received signal 15
