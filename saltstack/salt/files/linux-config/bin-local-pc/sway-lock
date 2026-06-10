@@ -35,7 +35,7 @@ ensure_single_instance "${XDG_RUNTIME_DIR}/sway-lock.pid"
 swaymsg input type:keyboard xkb_switch_layout 0
 
 # Turn ON indicator led
-sudo brightnessctl --device='*::scrolllock' set 1
+led-kb-set scrolllock 1
 
 # Cache folder for processed images
 BG_CACHE_PATH="${HOME}/.cache/sway-bg"
@@ -87,7 +87,7 @@ if ! "${SWAYLOCK_CMD}" "${SWAYLOCK_ARGS[@]}" >/dev/null 2>&1; then
 fi
 
 # Turn OFF indicator led
-sudo brightnessctl --device='*::scrolllock' set 0
+led-kb-set scrolllock 0
 
 # Cleanup cache folder a bit (90 days -> remove)
 find "${BG_CACHE_PATH}" -maxdepth 1 -type f -name '*.jpg' -mtime +90 -delete

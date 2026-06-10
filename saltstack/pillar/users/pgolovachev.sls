@@ -8,6 +8,7 @@ users:
     groups:
       - docker
       - video
+      - input
       - dialout
       - fuse
       - sudo

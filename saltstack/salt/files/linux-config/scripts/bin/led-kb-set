@@ -1,0 +1,25 @@
+#!/bin/bash
+# Script to toggle Keyboard LED on command
+# User must be in 'input' group
+# {% raw %}
+
+DEVICE=$1
+VALUE=$2
+
+if [[ -z "$DEVICE" ]] || [[ -z "$VALUE" ]]; then
+    echo "Usage: $0 <led-name> <state>"
+    exit 1
+fi
+
+mapfile -t OUTPUTS < <(brightnessctl -l | awk '/Device/ {print $2}' | tr -d "'" | grep "$DEVICE")
+
+if (( ${#OUTPUTS[@]} == 0 )); then
+    echo "No outputs reported (search is $DEVICE)" >&2
+    exit 1
+fi
+
+for OUTPUT in "${OUTPUTS[@]}"; do
+    brightnessctl --device=$OUTPUT set $VALUE
+done
+
+# {% endraw %}
