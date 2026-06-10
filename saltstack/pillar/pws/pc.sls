@@ -66,6 +66,10 @@ pc-appimages:
     # https://github.com/FreeCAD/FreeCAD/releases/tag/1.1.1
     url: https://github.com/FreeCAD/FreeCAD/releases/download/1.1.1/FreeCAD_1.1.1-Linux-x86_64-py311.AppImage
     hash: sha256=e2006138400b2fa85fa2e160e872d00767eb32964e85075830f7e198a3a876e1
+  aptakube:
+    # https://github.com/aptakube/aptakube/releases/tag/1.17.2
+    url: https://github.com/aptakube/aptakube/releases/download/1.17.2/aptakube_1.17.2_amd64.AppImage
+    hash: sha256=5d8930baf17554b0a319f91dae246fe8c9d66b73fdbb5170d94e25dfd7a3e620
 
 # Pip soft
 packages_pip3:

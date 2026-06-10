@@ -105,6 +105,9 @@ local-pc-soft:
       - bat
       # Auto maount removable media:
       - udiskie
+      # Fuse / Electron
+      - fuse
+      - libfuse2t64
       # File manager
       - sshfs
       - apt-file
@@ -686,3 +689,15 @@ wine-soft:
   file.recurse:
     - source: salt://files/swaylock-fancy
     - file_mode: keep
+
+# Allow non-root fuse commands
+/etc/fuse.conf:
+  file.managed:
+    - contents: |
+        # Managed by Salt
+        #
+        user_allow_other
+        # mount_max = n - this option sets the maximum number of mounts.
+        # It must be typed exactly as shown (with a single space before and after the
+        # equals sign).
+        mount_max = 1000
