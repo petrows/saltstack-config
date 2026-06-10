@@ -89,7 +89,6 @@ pc-autorun:
   # Network-manager tray icon
   nm-applet:
     cmd: nm-applet
-    start_mode: restart
   # Bluetooth tray icon
   blueman-applet:
     cmd: blueman-applet

@@ -1,0 +1,14 @@
+#!/bin/bash
+# {% raw %}
+
+TIMEOUT=${1:-10}
+
+NOTIF_ID=$(notify-send --print-id --expire-time=$((TIMEOUT * 1000)) "Locking in ${TIMEOUT} seconds..." "Move mouse or press any key to cancel.")
+
+echo "${NOTIF_ID}" > ${XDG_RUNTIME_DIR}/sway-lock-grace-notif-id
+
+sleep $TIMEOUT
+
+setsid sway-lock &> /dev/null &
+
+# {% endraw %}

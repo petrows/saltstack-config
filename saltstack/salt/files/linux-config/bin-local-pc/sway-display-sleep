@@ -1,0 +1,24 @@
+#!/bin/bash
+# {% raw %}
+
+set -x
+
+# Save current 'active' display list into a file, so we can check it later in idle script
+# and turn off display only if it is the same (to avoid turning off display when user
+
+mapfile -t OUTPUTS < <(swaymsg -t get_outputs | jq -r '.[] | select(.active == true) | .name')
+
+if (( ${#OUTPUTS[@]} == 0 )); then
+    echo "No outputs reported by Sway." >&2
+    exit 1
+fi
+
+for OUTPUT in "${OUTPUTS[@]}"; do
+    echo "Sleep: ${OUTPUT}"
+done
+
+printf "%s\n" "${OUTPUTS[@]}" > ${XDG_RUNTIME_DIR}/sway-display-sleep-outputs
+
+swaymsg "output * power off"
+
+# {% endraw %}

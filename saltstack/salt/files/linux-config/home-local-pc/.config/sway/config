@@ -231,13 +231,8 @@ exec bt-off
 # Lock on lid close (laptop)
 bindswitch --locked lid:on exec $lock
 
-# Idle modes
-# 30 min - display off
-# 31 min - lock screen
-exec swayidle -w \
-        timeout 300 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-        timeout 310 '$lock' \
-        before-sleep '$lock'
+# Idle modes (does not work fully from systemd unit - vars missing?)
+exec swayidle -d timeout 300 'sway-lock-grace 30' resume 'sway-lock-grace-wakeup' timeout 350 'sway-display-sleep' resume 'sway-display-wakeup' before-sleep 'sway-lock'
 
 # Start SSH-Agent service
 exec systemctl --user start ssh-agent.service
