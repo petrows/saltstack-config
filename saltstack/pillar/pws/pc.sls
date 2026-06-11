@@ -80,6 +80,12 @@ pc-tools:
     hash: sha256=0406443436565eec6262fd818723242118b7ab08c37f40f1fb7ffcb5e270f8f7
     symlink:
       logcli-linux-amd64: logcli
+  winbox:
+    # https://mikrotik.com/download/winbox
+    url: https://download.mikrotik.com/routeros/winbox/4.1/WinBox_Linux.zip
+    hash: sha256=28d35b661c321f5b618936546b7edf6593292549ed4a9584788dadff39a54d8f
+    symlink:
+      WinBox: winbox
 
 # Pip soft
 packages_pip3:
