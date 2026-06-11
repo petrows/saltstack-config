@@ -71,6 +71,16 @@ pc-appimages:
     url: https://github.com/aptakube/aptakube/releases/download/1.17.2/aptakube_1.17.2_amd64.AppImage
     hash: sha256=5d8930baf17554b0a319f91dae246fe8c9d66b73fdbb5170d94e25dfd7a3e620
 
+# Packages, distributed as archive file, installed into /home/devel/tools with optional symlinks in /usr/local/bin
+# Requires to be set: `hash` to verify download integrity for SaltStack (can be direct hash or URL)
+pc-tools:
+  loki-cli:
+    # https://github.com/grafana/loki/releases/tag/v3.7.0
+    url: https://github.com/grafana/loki/releases/download/v3.7.0/logcli-linux-amd64.zip
+    hash: sha256=0406443436565eec6262fd818723242118b7ab08c37f40f1fb7ffcb5e270f8f7
+    symlink:
+      logcli-linux-amd64: logcli
+
 # Pip soft
 packages_pip3:
   - keepmenu

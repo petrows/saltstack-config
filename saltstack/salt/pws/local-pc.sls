@@ -648,7 +648,6 @@ wine-soft:
 
 # Install AppImages from pc-appimages pillar
 {% for app_id, app_data in salt['pillar.get']('pc-appimages', {}).items() %}
-
 {% set app_binary_name = app_data.get('filename', app_data.url.split('/') | last) %}
 
 # {{ app_id }} AppImage
@@ -664,6 +663,25 @@ wine-soft:
   file.symlink:
     - target: /home/devel/tools/{{ app_id }}/{{ app_binary_name }}
     - force: True
+
+{% endfor %}
+
+# Install Arvied tools from pc-tools pillar
+{% for app_id, app_data in salt['pillar.get']('pc-tools', {}).items() %}
+
+/home/devel/tools/{{ app_id }}:
+  archive.extracted:
+    - source: {{ app_data.url }}
+    - source_hash: {{ app_data.hash }}
+    - enforce_toplevel: False
+
+{% for symlink_from, symlink_to in app_data.get('symlink', {}).items() %}
+# Link to application binary(es)
+/usr/local/bin/{{ symlink_to }}:
+  file.symlink:
+    - target: /home/devel/tools/{{ app_id }}/{{ symlink_from }}
+    - force: True
+{% endfor %}
 
 {% endfor %}
 
