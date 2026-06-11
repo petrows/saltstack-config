@@ -15,9 +15,18 @@ profile laptop {
 
 profile docked-work {
     output eDP-1 disable
-    output 'Samsung Electric Company U32J59x H4ZN400219' enable scale 1.5 position 0,0
-    output 'Samsung Electric Company U32J59x HNMN600818' enable scale 1.5 position 2560,0
-    exec swaymsg workspace 1, move workspace to DP-5
-    exec swaymsg workspace 2, move workspace to DP-6
+    output "Samsung Electric Company U32J59x H4ZN400219" enable scale 1.5 position 0,0
+    output "Samsung Electric Company U32J59x HNMN600818" enable scale 1.5 position 2560,0
+    exec swaymsg workspace 1, move workspace to '"Samsung Electric Company U32J59x H4ZN400219"'
+    exec swaymsg workspace 2, move workspace to '"Samsung Electric Company U32J59x HNMN600818"'
+    exec sway-bg
+}
+
+profile docked-home {
+    output eDP-1 disable
+    output "Samsung Electric Company U32J59x HTPKB03746" enable scale 1.5 position 0,0
+    output "Samsung Electric Company U32J59x HTPM201471" enable scale 1.5 position 2560,0
+    exec swaymsg workspace 1, move workspace to '"Samsung Electric Company U32J59x HTPKB03746"'
+    exec swaymsg workspace 2, move workspace to '"Samsung Electric Company U32J59x HTPM201471"'
     exec sway-bg
 }
