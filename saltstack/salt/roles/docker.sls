@@ -14,6 +14,7 @@
         Types: deb
         URIs: https://download.docker.com/linux/{{ grains.os|lower }}
         Signed-By: /etc/apt/keyrings/docker.gpg
+        Architectures: amd64
         Suites: {{ grains['oscodename'] }}
         Components: stable
 

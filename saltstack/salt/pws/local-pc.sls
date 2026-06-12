@@ -273,7 +273,8 @@ local-tg-binary:
           - Public key: https://packages.microsoft.com/keys/microsoft.asc
         Enabled: yes
         Types: deb
-        URIs: https://packages.microsoft.com/repos/vscode
+        URIs: https://packages.microsoft.com/repos/code
+        Architectures: amd64
         Signed-By: /etc/apt/keyrings/microsoft.gpg
         Suites: stable
         Components: main
@@ -290,6 +291,7 @@ local-tg-binary:
         Types: deb
         URIs: https://apt.releases.hashicorp.com
         Signed-By: /etc/apt/keyrings/vagrant.gpg
+        Architectures: amd64
         # Broken on Ubuntu 25.X
         # Suites: {{ grains.oscodename }}
         Suites: noble
@@ -307,6 +309,7 @@ local-tg-binary:
         Types: deb
         URIs: https://downloads.k8slens.dev/apt/debian
         Signed-By: /etc/apt/keyrings/lens.gpg
+        Architectures: amd64
         Suites: stable
         Components: main
 
@@ -616,7 +619,7 @@ udev-user:
         URIs: https://dl.winehq.org/wine-builds/ubuntu
         Suites: {{ grains.oscodename }}
         Components: main
-        Architectures: amd64 i386
+        Architectures: amd64
         Signed-By: /etc/apt/keyrings/winehq.gpg
 
 wine-soft-remove:
@@ -695,6 +698,7 @@ wine-soft:
         Types: deb
         URIs: https://packages.kowabunga.cloud/ubuntu
         Suites: noble
+        Architectures: amd64
         Components: main
         Signed-By: /etc/apt/keyrings/kowabunga.gpg
 
