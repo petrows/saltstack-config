@@ -60,3 +60,17 @@
     - contents: |
         # Fix Nvidia GPU drm events
         options nvidia-drm modeset=1
+
+# Fix issue with Nvidia GPU
+/etc/modprobe.d/nouveau-gsp.conf:
+  file.managed:
+    - contents: |
+        # /etc/modprobe.d/nouveau-gsp.conf
+        # Fix driver crash
+        options nouveau gsp_rm=0
+
+update-initrd-home:
+  cmd.run:
+    - name: 'update-initramfs -u -k all'
+    - onchanges:
+      - file: /etc/modprobe.d/*
