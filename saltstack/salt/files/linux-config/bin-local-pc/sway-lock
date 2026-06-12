@@ -46,7 +46,7 @@ declare -a BG_ARGS=()
 # Faster variant from https://stackoverflow.com/a/48443430
 BG_ARGS+=( -scale 20% -gaussian-blur 0x2.5 -resize 500% )
 # Add text
-BG_ARGS+=( -font DejaVu-Sans -pointsize 48 -fill white -gravity south -annotate +0+50 "Petr Golovachev" )
+BG_ARGS+=( -font DejaVu-Sans -pointsize 48 -fill white -gravity south -annotate +0+50 "Peter Kopf" )
 # Add 'lock' icon
 BG_ARGS+=( '(' /opt/swaylock-fancy/icons/white.png -background none -alpha on ')' -gravity north -geometry +0+256 )
 # Reduce colors a bit
