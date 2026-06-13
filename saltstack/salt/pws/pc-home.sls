@@ -53,24 +53,8 @@
         [Link]
         Name=eth-pve
 
-# Fix Nvidia GPU drm events
-# See: https://github.com/phillipberndt/autorandr?tab=readme-ov-file#udev-triggers-with-nvidia-cards
+# Old fixes:
 /etc/modprobe.d/nvidia-drm-modeset.conf:
-  file.managed:
-    - contents: |
-        # Fix Nvidia GPU drm events
-        options nvidia-drm modeset=1
-
-# Fix issue with Nvidia GPU
+  file.absent: []
 /etc/modprobe.d/nouveau-gsp.conf:
-  file.managed:
-    - contents: |
-        # /etc/modprobe.d/nouveau-gsp.conf
-        # Fix driver crash
-        options nouveau gsp_rm=0
-
-update-initrd-home:
-  cmd.run:
-    - name: 'update-initramfs -u -k all'
-    - onchanges:
-      - file: /etc/modprobe.d/*
+  file.absent: []

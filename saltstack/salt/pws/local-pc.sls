@@ -652,6 +652,7 @@ wine-soft:
 # Install AppImages from pc-appimages pillar
 {% for app_id, app_data in salt['pillar.get']('pc-appimages', {}).items() %}
 {% set app_binary_name = app_data.get('filename', app_data.url.split('/') | last) %}
+{% set app_env = app_data.get('env', {}) %}
 
 # {{ app_id }} AppImage
 /home/devel/tools/{{ app_id }}/{{ app_binary_name }}:
@@ -661,15 +662,21 @@ wine-soft:
     - mode: 0755
     - makedirs: True
 
-# Link to /usr/local/bin
+# App laucnher
 /usr/local/bin/{{ app_id }}:
-  file.symlink:
-    - target: /home/devel/tools/{{ app_id }}/{{ app_binary_name }}
-    - force: True
+  file.managed:
+    - follow_symlinks: False
+    - mode: 0755
+    - contents: |
+        #!/bin/bash
+        {%- for env_name, env_value in app_env.items() %}
+        export {{ env_name }}={{ env_value }}
+        {%- endfor %}
+        /home/devel/tools/{{ app_id }}/{{ app_binary_name }} | tee /tmp/{{ app_binary_name }}.log
 
 {% endfor %}
 
-# Install Arvied tools from pc-tools pillar
+# Install Archived tools from pc-tools pillar
 {% for app_id, app_data in salt['pillar.get']('pc-tools', {}).items() %}
 
 /home/devel/tools/{{ app_id }}:

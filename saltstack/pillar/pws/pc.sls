@@ -62,10 +62,16 @@ pc-appimages:
     # https://github.com/bambulab/BambuStudio/releases/tag/v02.07.01.57
     url: https://github.com/bambulab/BambuStudio/releases/download/v02.07.01.57/BambuStudio_ubuntu-24.04-v02.07.01.57-20260601192128.AppImage
     hash: sha256=85b053853f1a238775cd7ae2d4d19544e35260592428d2276ca27dcbd5f8eb53
+    env:
+      # Enforce Wayland for this app
+      QT_QPA_PLATFORM: wayland
   freecad:
     # https://github.com/FreeCAD/FreeCAD/releases/tag/1.1.1
     url: https://github.com/FreeCAD/FreeCAD/releases/download/1.1.1/FreeCAD_1.1.1-Linux-x86_64-py311.AppImage
     hash: sha256=e2006138400b2fa85fa2e160e872d00767eb32964e85075830f7e198a3a876e1
+    env:
+      # Enforce Wayland for this app
+      QT_QPA_PLATFORM: wayland
   aptakube:
     # https://github.com/aptakube/aptakube/releases/tag/1.17.2
     url: https://github.com/aptakube/aptakube/releases/download/1.17.2/aptakube_1.17.2_amd64.AppImage
