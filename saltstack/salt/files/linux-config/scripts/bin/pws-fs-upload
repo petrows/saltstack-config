@@ -17,6 +17,6 @@ FILENAME=$(basename "$FILE")
 # Replace all spaces to _ for URL compatibility
 ENCODED_FILENAME="${FILENAME// /_}"
 
-scp "$FILE" master@fs.m.pws:/srv/file-storage/"$ENCODED_FILENAME"
+scp "$FILE" master@web.j.pws:/srv/file-storage/"$ENCODED_FILENAME"
 
 echo "File uploaded to: https://fs.petro.ws/$ENCODED_FILENAME"

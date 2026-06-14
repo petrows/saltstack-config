@@ -340,6 +340,7 @@ base:
     - users.ssh-pve
     - users.master
     - j.web
+    - services.file-storage
 
 # W hosts
   'pve.w.*':
