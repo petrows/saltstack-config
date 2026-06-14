@@ -9,6 +9,7 @@ import json
 import requests
 import paho.mqtt.client as mqtt
 import logging
+from datetime import datetime
 from ftplib import FTP_TLS
 from pathlib import Path
 import systemd.daemon
@@ -31,6 +32,12 @@ class BambuWatcher:
         self.print_start_time = None
         self.print_layers = None
 
+        self.bambu_connected = False
+        self.bambu_loop_started = False
+        self.last_seen_time = None
+        # Count idle from startup; reset to None when printer becomes active
+        self.idle_start_time = time.time()
+
         # Bambu MQTT client setup
         self.client = mqtt.Client(
             client_id=f"bambu-watcher"
@@ -42,6 +49,7 @@ class BambuWatcher:
         self.client.tls_set(cert_reqs=ssl.CERT_NONE)
         self.client.tls_insecure_set(True)
         self.client.on_connect = self.on_connect
+        self.client.on_disconnect = self.on_disconnect
         self.client.on_message = self.on_message
 
         # Smarthome metrics mqtt client setup
@@ -55,13 +63,6 @@ class BambuWatcher:
         )
 
     def connect(self):
-        # Connect to Bambu MQTT broker
-        self.client.connect(
-            self.cfg["bambu"]["host"],
-            self.cfg["bambu"]["mqtt_port"],
-            keepalive=60
-        )
-        self.client.loop_start()
         # Connect to Smarthome MQTT broker
         self.smarthome_client.connect(
             self.cfg["mqtt_report"]["host"],
@@ -70,12 +71,40 @@ class BambuWatcher:
         )
         self.smarthome_client.loop_start()
 
+    def try_connect_bambu(self):
+        """Attempt connection to Bambu printer MQTT. Returns True if initiated."""
+        try:
+            self.client.connect(
+                self.cfg["bambu"]["host"],
+                self.cfg["bambu"]["mqtt_port"],
+                keepalive=60
+            )
+            if not self.bambu_loop_started:
+                self.client.loop_start()
+                self.bambu_loop_started = True
+            logging.info("Bambu MQTT connection attempt initiated")
+            return True
+        except Exception as e:
+            logging.warning("Bambu MQTT connect failed: %s", e)
+            return False
+
     def on_connect(self, client, userdata, flags, rc):
-        topic = f"device/{self.cfg['bambu']['serial']}/report"
-        client.subscribe(topic)
-        logging.info(f"Subscribed to {topic}")
+        if rc == 0:
+            self.bambu_connected = True
+            topic = f"device/{self.cfg['bambu']['serial']}/report"
+            client.subscribe(topic)
+            logging.info(f"Subscribed to {topic}")
+        else:
+            logging.warning("Bambu MQTT connect rejected, rc=%d", rc)
+
+    def on_disconnect(self, client, userdata, rc):
+        self.bambu_connected = False
+        self.idle_start_time = None
+        logging.warning("Disconnected from Bambu printer (rc=%d)", rc)
 
     def on_message(self, client, userdata, msg):
+        self.last_seen_time = time.time()
+
         payload = json.loads(msg.payload.decode())
         logging.debug("Received message: %s", msg.payload.decode())
 
@@ -96,7 +125,7 @@ class BambuWatcher:
         self.print_nozzle_size = p.get("nozzle_diameter")
         self.print_layers = p.get("total_layer_num")
 
-        # We have to filter metrics, as printer sensd it too frequently (about every second)
+        # We have to filter metrics, as printer sends it too frequently (about every second)
 
         current_time = time.time()
         should_publish = (current_time - self.smarthome_last_mqtt_publish >= 60)
@@ -127,15 +156,67 @@ class BambuWatcher:
 
             self.last_state = state
 
+        # Check the dry status
+        # $.print.ams.ams[1].dry_setting.dry_temperature
+        is_drying = False
+        ams_list = list()
+        try:
+            ams_list = p["ams"]["ams"]
+        except (KeyError, IndexError, TypeError):
+            logging.debug("No AMS data present")
+        if ams_list:
+            for ams in ams_list:
+                # Get current dry temperature, should be > 0, if dry is active
+                dry_temp = -1
+                try:
+                    dry_temp = ams["dry_setting"]["dry_temperature"]
+                except (KeyError, IndexError, TypeError):
+                    logging.debug("No AMS dry setting present")
+                logging.debug("AMS dry temp: %d", dry_temp)
+                if dry_temp > 0:
+                    is_drying = True
+
+        # Track idle time: active only while RUNNING (printing or drying)
+        if state == STATE_PRINTING or is_drying:
+            if self.idle_start_time is not None:
+                logging.info("Printer became active, idle timer reset")
+            self.idle_start_time = None
+        elif self.idle_start_time is None:
+            self.idle_start_time = current_time
+            logging.info("Printer became idle, idle timer started")
+
         if should_publish:
+            idle_seconds = int(current_time - self.idle_start_time) if self.idle_start_time is not None else 0
+            publish_payload = dict(payload)
+            publish_payload["_meta"] = {
+                "printer_connected": True,
+                "printer_drying": is_drying,
+                "idle_seconds": idle_seconds,
+            }
             smarthome_topic = f"{self.cfg['mqtt_report']['topic']}/status"
-            ret = self.smarthome_client.publish(smarthome_topic, json.dumps(payload), retain=True)
+            ret = self.smarthome_client.publish(smarthome_topic, json.dumps(publish_payload), retain=True)
             logging.debug(f"Published to {smarthome_topic}, result: {ret}")
             self.smarthome_last_mqtt_publish = current_time
             # Dump file
             dump_filename = f"dumps/payload-{self.print_id}-{state}.json"
             with open(dump_filename, "w") as f:
-                json.dump(payload, f, indent=2)
+                json.dump(publish_payload, f, indent=2)
+
+    def publish_disconnected_status(self):
+        # Stop Idle timer (we dont track idle for disconnected device)
+        self.idle_start_time = None
+        now = time.time()
+        meta = {
+            "printer_connected": False,
+            "idle_seconds": -1,
+        }
+        if self.last_seen_time is not None:
+            meta["last_seen_seconds"] = int(now - self.last_seen_time)
+            meta["last_seen_datetime"] = datetime.fromtimestamp(self.last_seen_time).isoformat()
+
+        topic = f"{self.cfg['mqtt_report']['topic']}/status"
+        self.smarthome_client.publish(topic, json.dumps({"_meta": meta}), retain=True)
+        logging.info("Published disconnected printer status")
 
     def on_print_finished(self):
         logging.info("Print finished")
@@ -278,12 +359,28 @@ def main():
 
     cfg = load_config(Path(args.cfg))
     watcher = BambuWatcher(cfg)
-    watcher.connect()
+    watcher.connect()  # smarthome MQTT only
 
     systemd.daemon.notify('READY=1')
 
+    last_bambu_connect_attempt = 0  # triggers immediately on first iteration
+    last_disconnected_publish = 0
+
     try:
         while True:
+            now = time.time()
+
+            if not watcher.bambu_connected:
+                # paho-mqtt auto-reconnects once the loop is started;
+                # manual retry only needed before first successful connect
+                if not watcher.bambu_loop_started and (now - last_bambu_connect_attempt >= 60):
+                    last_bambu_connect_attempt = now
+                    watcher.try_connect_bambu()
+
+                if now - last_disconnected_publish >= 60:
+                    last_disconnected_publish = now
+                    watcher.publish_disconnected_status()
+
             time.sleep(cfg["service"]["poll_interval_sec"])
     except KeyboardInterrupt:
         print("Stopping service")
