@@ -222,6 +222,7 @@ base:
     - common.users
     - services.salt-repo
     - pws.local-pc
+    - pws.local-pc-private
 
   'pc-home':
     - pws.pc-home
