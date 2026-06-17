@@ -26,7 +26,8 @@ sshd.service:
             SendEnv LANG LC_*
             HashKnownHosts yes
             GSSAPIAuthentication yes
-
+            # FIXME: https://www.openssh.org/pq.html
+            WarnWeakCrypto no
 
 # Local hosts config
 
