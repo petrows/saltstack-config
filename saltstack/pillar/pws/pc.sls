@@ -2,6 +2,7 @@ roles:
   - docker
   - php-fpm
   - nginx
+  - cups
 
 include:
   - services.nginx

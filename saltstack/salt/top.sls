@@ -90,6 +90,9 @@ base:
   'roles:no-torrent':
     - match: pillar
     - roles.no-torrent
+  'roles:cups':
+    - match: pillar
+    - roles.cups
 
   # Services
   'roles:salt-master':
