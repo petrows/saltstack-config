@@ -119,6 +119,7 @@ local-pc-soft:
       - doublecmd-qt
       - libunrar5t64
       - unrar
+      - cifs-utils
       # Other cli tools
       - ncal
       # Clipboard manipulation
