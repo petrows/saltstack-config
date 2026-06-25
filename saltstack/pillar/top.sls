@@ -181,6 +181,7 @@ base:
     - services.wiki-prod
     - services.nextcloud-prod
     - services.gitlab-prod
+    - services.trss-private
     - services.trss-prod
     - pws.web-vm-prod
 
