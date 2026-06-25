@@ -56,7 +56,7 @@ services:
 
   db:
     container_name: {{ pillar.trss.id }}-db
-    image: postgres:{{ pillar.trss.version_db }}
+    image: pgautoupgrade/pgautoupgrade:{{ pillar.trss.version_db }}
     restart: unless-stopped
     environment:
       LANG: en_US.utf8
