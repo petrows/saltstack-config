@@ -17,6 +17,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - {{ pillar.trss.data_dir }}/app:/var/www/html
       - {{ pillar.trss.data_dir }}/config.d:/opt/tt-rss/config.d:ro
+      - ./relabel_existing.php:/opt/tt-rss/relabel_existing.php:ro
     extra_hosts:
     {%- for _, all_cfg in salt['pillar.get']('proxy_vhosts', {}).items() %}
       - "{{ all_cfg.domain }}:{{ all_cfg.host|default(default_ip) }}"
