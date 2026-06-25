@@ -13,8 +13,8 @@ include:
 
 trss:
   id: Tiny-rss-dev
-  # https://hub.docker.com/r/cthulhoo/ttrss-fpm-pgsql-static/tags
-  version: 1fb202b2
+  # https://hub.docker.com/r/supahgreg/tt-rss/tags
+  version: '20260618-185702'
   version_db: '16.4'
   data_dir: /srv/trss-data
   url: http://trss-dev.local.pws

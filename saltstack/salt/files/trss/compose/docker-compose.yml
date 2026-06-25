@@ -6,7 +6,7 @@ version: '3'
 services:
   app:
     container_name: {{ pillar.trss.id }}-app
-    image: cthulhoo/ttrss-fpm-pgsql-static:{{ pillar.trss.version }}
+    image: supahgreg/tt-rss:{{ pillar.trss.version }}
     restart: unless-stopped
     depends_on:
       - db
@@ -24,13 +24,15 @@ services:
 
   updater:
     container_name: {{ pillar.trss.id }}-updater
-    image: cthulhoo/ttrss-fpm-pgsql-static:{{ pillar.trss.version }}
+    image: supahgreg/tt-rss:{{ pillar.trss.version }}
     restart: unless-stopped
     depends_on:
       - app
     env_file:
       - trss.env
     volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
       - {{ pillar.trss.data_dir }}/app:/var/www/html
       - {{ pillar.trss.data_dir }}/config.d:/opt/tt-rss/config.d:ro
     command: /opt/tt-rss/updater.sh
@@ -41,7 +43,7 @@ services:
 
   web:
     container_name: {{ pillar.trss.id }}-web
-    image: cthulhoo/ttrss-web-nginx:{{ pillar.trss.version }}
+    image: supahgreg/tt-rss-web-nginx:{{ pillar.trss.version }}
     restart: unless-stopped
     env_file:
       - trss.env
