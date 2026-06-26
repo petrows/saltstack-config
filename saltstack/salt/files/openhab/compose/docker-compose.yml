@@ -16,6 +16,8 @@ services:
       USER_ID: {{ pillar.static.uids.master }}
       GROUP_ID: {{ pillar.static.uids.master }}
       EXTRA_JAVA_OPTS: -Duser.timezone={{ pillar.timezone }}
+      # Fix for Midea AC binding (the "AES decryption error: InvalidKeyException: Illegal key size" failure)
+      CRYPTO_POLICY: unlimited
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
