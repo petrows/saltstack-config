@@ -19,7 +19,7 @@ metrics:
     retention: 90d
   # https://hub.docker.com/r/grafana/grafana
   grafana:
-    version: 12.3.1
+    version: 13.1.0
 
 proxy_vhosts:
   victoria-metrics:
