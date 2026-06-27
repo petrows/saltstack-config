@@ -58,3 +58,6 @@ proxy_vhosts:
     port: {{ static.proxy_ports.grafana_http }}
     ssl: internal
     ssl_name: h_pws
+    enable_frame: True
+    enable_frame_hosts:
+      - https://home.pws/

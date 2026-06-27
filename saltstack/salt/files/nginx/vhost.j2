@@ -8,6 +8,7 @@
 {%- set proxy_dst = conf.proxy_dst|default('') %}
 {%- set force_ssl = conf.ssl_force|default(True) %}
 {%- set enable_frame = conf.enable_frame|default(False) %}
+{%- set enable_frame_hosts = conf.enable_frame_hosts|default([]) %}
 {%- set enable_http2 = conf.enable_http2|default(True) %}
 {%- set enable_dotfiles = conf.enable_dotfiles|default(False) %}
 {%- set enable_robots = conf.enable_robots|default(False) %}
@@ -69,6 +70,10 @@ server {
     add_header X-Content-Type-Options "nosniff";
 {%- if not enable_frame %}
     add_header X-Frame-Options "SAMEORIGIN";
+{%- else %}
+    {%- if enable_frame_hosts %}
+    add_header Content-Security-Policy "frame-ancestors 'self' {{ enable_frame_hosts | join(' ') }}" always;
+    {%- endif %}
 {%- endif %}
     add_header X-Permitted-Cross-Domain-Policies "none";
     add_header X-XSS-Protection "1; mode=block";
