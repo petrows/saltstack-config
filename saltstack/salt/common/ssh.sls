@@ -26,8 +26,10 @@ sshd.service:
             SendEnv LANG LC_*
             HashKnownHosts yes
             GSSAPIAuthentication yes
+            {%- if grains.os == 'Ubuntu' and grains.osmajorrelease >= 26 %}
             # FIXME: https://www.openssh.org/pq.html
             WarnWeakCrypto no
+            {%- endif %}
 
 # Local hosts config
 
