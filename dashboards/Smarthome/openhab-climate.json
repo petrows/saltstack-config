@@ -15,7 +15,7 @@
     "editable": false,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
-    "id": 19,
+    "id": 4,
     "links": [],
     "panels": [
         {
@@ -485,6 +485,6 @@
     "timezone": "browser",
     "title": "Climate",
     "uid": "openhab-climate",
-    "version": 3,
+    "version": 2,
     "weekStart": ""
 }

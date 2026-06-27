@@ -15,7 +15,7 @@
     "editable": false,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
-    "id": 7,
+    "id": 11,
     "links": [],
     "panels": [
         {
@@ -225,6 +225,6 @@
     "timezone": "browser",
     "title": "3D Printer",
     "uid": "3d-printer",
-    "version": 21,
+    "version": 2,
     "weekStart": ""
 }

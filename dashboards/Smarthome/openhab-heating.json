@@ -15,7 +15,7 @@
     "editable": false,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
-    "id": 20,
+    "id": 5,
     "links": [],
     "panels": [
         {
@@ -483,8 +483,8 @@
                 {
                     "editorMode": "code",
                     "expr": "label_replace({__name__=~'.*_heating_local_temperature_calibration_value',smarthome=\"$smarthome\"}, \"label_s\", \"$1\", \"label\", \"([^ ]+).*\")",
-                    "interval": "$resolution",
                     "instant": false,
+                    "interval": "$resolution",
                     "legendFormat": "{{label_s}}",
                     "range": true,
                     "refId": "A"
@@ -546,6 +546,6 @@
     "timezone": "browser",
     "title": "Heating",
     "uid": "openhab-heating",
-    "version": 4,
+    "version": 2,
     "weekStart": ""
 }
