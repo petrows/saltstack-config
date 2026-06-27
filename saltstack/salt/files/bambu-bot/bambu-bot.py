@@ -156,6 +156,9 @@ class BambuWatcher:
 
             self.last_state = state
 
+        # Check the warmed-up status
+        is_warm = current_temp > 100
+
         # Check the dry status
         # $.print.ams.ams[1].dry_setting.dry_temperature
         is_drying = False
@@ -176,8 +179,8 @@ class BambuWatcher:
                 if dry_temp > 0:
                     is_drying = True
 
-        # Track idle time: active only while RUNNING (printing or drying)
-        if state == STATE_PRINTING or is_drying:
+        # Track idle time: active only while RUNNING (printing or drying or warmed)
+        if state == STATE_PRINTING or is_drying or is_warm:
             if self.idle_start_time is not None:
                 logging.info("Printer became active, idle timer reset")
             self.idle_start_time = None
