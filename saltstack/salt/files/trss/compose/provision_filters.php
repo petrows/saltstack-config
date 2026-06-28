@@ -54,6 +54,62 @@ if (php_sapi_name() != 'cli') {
 const FILTER_TYPE_TITLE  = 1;
 const FILTER_ACTION_LABEL = 7;
 
+/**
+ * Build the rule regex from a YAML `match` token: a "contains" pattern
+ * `.*<token>.*`. The token is inserted as-is (treated as a regex fragment,
+ * matching TT-RSS's verbatim handling); escape metacharacters in your YAML if
+ * you need them literal.
+ */
+function match_to_regex(string $token): string {
+    return '.*' . $token . '.*';
+}
+
+/* ----------------------- label colors ------------------------- */
+/**
+ * Deterministic label colors derived from a checksum of the caption.
+ * The background hue comes from crc32(caption); saturation and lightness are
+ * fixed so swatches are vivid but consistent. The foreground is chosen (black
+ * or white) for readable contrast against that background using the WCAG
+ * relative-luminance crossover (~0.179). Both values are therefore a pure,
+ * stable function of the caption's checksum.
+ *
+ * @return array{0:string,1:string} [fg_hex, bg_hex] e.g. ['#000000', '#7fd1a3']
+ */
+function label_colors(string $caption): array {
+    $sum = crc32($caption);          // 32-bit checksum of the caption
+    $hue = $sum % 360;               // 0..359
+    [$r, $g, $b] = hsl_to_rgb($hue / 360.0, 0.65, 0.62);
+    $bg = sprintf('#%02x%02x%02x', $r, $g, $b);
+
+    $lin = fn(int $c) => (($c / 255.0) <= 0.03928)
+        ? ($c / 255.0) / 12.92
+        : pow((($c / 255.0) + 0.055) / 1.055, 2.4);
+    $L = 0.2126 * $lin($r) + 0.7152 * $lin($g) + 0.0722 * $lin($b);
+    $fg = ($L > 0.179) ? '#000000' : '#ffffff';   // WCAG contrast crossover
+
+    return [$fg, $bg];
+}
+
+/** HSL (h,s,l each in 0..1) -> [r,g,b] ints in 0..255. */
+function hsl_to_rgb(float $h, float $s, float $l): array {
+    if ($s == 0.0) { $v = (int)round($l * 255); return [$v, $v, $v]; }
+    $hue2rgb = function (float $p, float $q, float $t): float {
+        if ($t < 0) $t += 1;
+        if ($t > 1) $t -= 1;
+        if ($t < 1/6) return $p + ($q - $p) * 6 * $t;
+        if ($t < 1/2) return $q;
+        if ($t < 2/3) return $p + ($q - $p) * (2/3 - $t) * 6;
+        return $p;
+    };
+    $q = $l < 0.5 ? $l * (1 + $s) : $l + $s - $l * $s;
+    $p = 2 * $l - $q;
+    return [
+        (int)round($hue2rgb($p, $q, $h + 1/3) * 255),
+        (int)round($hue2rgb($p, $q, $h)       * 255),
+        (int)round($hue2rgb($p, $q, $h - 1/3) * 255),
+    ];
+}
+
 /* ---------------------------- args ---------------------------- */
 $config_path = null;
 $dry_run     = false;
@@ -191,7 +247,11 @@ $esth->execute([$owner_uid]);
 $existing = $esth->fetchAll(PDO::FETCH_ASSOC);
 
 printf("User: %s (uid %d)\n", $urow['login'], $owner_uid);
-printf("Labels referenced: %s\n", implode(', ', $all_labels));
+printf("Labels referenced (%d):\n", count($all_labels));
+foreach ($all_labels as $caption) {
+    [$fg, $bg] = label_colors($caption);
+    printf("  %-24s bg=%s fg=%s\n", $caption, $bg, $fg);
+}
 printf("Filters to provision (%d): %s\n", count($desired), implode(', ', array_keys($desired)));
 printf("Existing filters to be REMOVED (%d): %s\n",
     count($existing), implode(', ', array_map(fn($r) => "{$r['title']}#{$r['id']}", $existing)) ?: '(none)');
@@ -200,7 +260,7 @@ if ($dry_run) {
     echo "\n[DRY RUN] no changes written.\n";
     foreach ($desired as $title => $d) {
         printf("  filter '%s': match_any(title) [%s] -> labels [%s]\n",
-            $title, implode(' | ', $d['match']), implode(', ', $d['labels']));
+            $title, implode(' | ', array_map('match_to_regex', $d['match'])), implode(', ', $d['labels']));
     }
     exit(0);
 }
@@ -208,10 +268,16 @@ if ($dry_run) {
 /* ----------------------- apply changes ------------------------ */
 $pdo->beginTransaction();
 try {
-    // 1) auto-create missing labels (idempotent)
+    // 1) auto-create missing labels with deterministic colors, and enforce
+    //    those colors on labels that already exist (idempotent / declarative).
     $labels_created = 0;
+    $upd_color = $pdo->prepare(
+        "UPDATE ttrss_labels2 SET fg_color = ?, bg_color = ?
+          WHERE LOWER(caption) = LOWER(?) AND owner_uid = ?");
     foreach ($all_labels as $caption) {
-        if (Labels::create($caption, '', '', $owner_uid) !== false) $labels_created++;
+        [$fg, $bg] = label_colors($caption);
+        if (Labels::create($caption, $fg, $bg, $owner_uid) !== false) $labels_created++;
+        $upd_color->execute([$fg, $bg, $caption, $owner_uid]); // recolor if pre-existing
     }
 
     // 2) hard provision: wipe ALL existing filters for this user
@@ -241,8 +307,8 @@ try {
         $filter_id = (int)$frow['id'];
         $filters_created++;
 
-        foreach ($d['match'] as $reg_exp) {
-            $ins_rule->execute([$filter_id, ".*$reg_exp.*", FILTER_TYPE_TITLE, $match_on_all_feeds, 0]);
+        foreach ($d['match'] as $token) {
+            $ins_rule->execute([$filter_id, match_to_regex($token), FILTER_TYPE_TITLE, $match_on_all_feeds, 0]);
             $rules_created++;
         }
         foreach ($d['labels'] as $caption) {
