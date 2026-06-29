@@ -29,6 +29,7 @@ trss-exec-{{ pf }}:
     - cwd: /opt/trss
     - onchanges:
       - file: {{ pillar.trss.data_dir}}/config.d/{{ pf }}
+      - file: {{ pillar.trss.data_dir}}
 {% endfor %}
 
 trss-relabel-all:
@@ -37,4 +38,5 @@ trss-relabel-all:
     - cwd: /opt/trss
     - onchanges:
       - file: {{ pillar.trss.data_dir}}/config.d/*
+      - file: {{ pillar.trss.data_dir}}
 {% endif %}

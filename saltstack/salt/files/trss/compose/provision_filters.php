@@ -61,7 +61,7 @@ const FILTER_ACTION_LABEL = 7;
  * you need them literal.
  */
 function match_to_regex(string $token): string {
-    return '.*' . $token . '.*';
+    return '.*' . $token . '.*' . '1080p' . '.*';
 }
 
 /* ----------------------- label colors ------------------------- */
