@@ -38,6 +38,7 @@ transaction_keys = [
 
 transaction_import_config = {
     "version": 3,
+    "skip_form": False,
     "date": "Y-m-d",
     "default_account": 0, # ! updates below !
     "delimiter": "comma",
@@ -45,6 +46,7 @@ transaction_import_config = {
     "rules": True,
     "add_import_tag": True,
     "roles": transaction_keys,
+    "do_mapping": [True] * len(transaction_keys),
     "mapping": [],
     "duplicate_detection_method": "cell",
     "ignore_duplicate_lines": True,
