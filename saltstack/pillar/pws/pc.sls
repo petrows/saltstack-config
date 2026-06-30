@@ -75,8 +75,8 @@ pc-appimages:
       QT_QPA_PLATFORM: wayland
   aptakube:
     # https://github.com/aptakube/aptakube/releases/tag/1.17.2
-    url: https://github.com/aptakube/aptakube/releases/download/1.17.2/aptakube_1.17.2_amd64.AppImage
-    hash: sha256=5d8930baf17554b0a319f91dae246fe8c9d66b73fdbb5170d94e25dfd7a3e620
+    url: https://github.com/aptakube/aptakube/releases/download/1.18.0/aptakube_1.18.0_amd64.AppImage
+    hash: sha256=f43e743da814244e13d86f064dac7816f028b95b6312f6aac035c0f3e2c12a31
 
 # Packages, distributed as archive file, installed into /home/devel/tools with optional symlinks in /usr/local/bin
 # Requires to be set: `hash` to verify download integrity for SaltStack (can be direct hash or URL)
