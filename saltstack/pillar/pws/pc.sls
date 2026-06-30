@@ -136,3 +136,22 @@ pc-autorun:
   # Telegram desktop
   telegram-desktop:
     cmd: telegram-desktop -startintray
+
+# Printers
+cups:
+  default: PWS_OfficeJet_6970
+  printers:
+    # Home HP OfficeJet 6970
+    PWS_OfficeJet_6970:
+      uri: ipp://printer.pws/ipp/print
+      model: everywhere
+      info: "HP OfficeJet Pro 6970"
+      location: "Stutensee"
+      shared: false
+      options:
+        # PageSize/Media Size: 100x150mm 100x150mm.Borderless 3.5x5 3.5x5.Borderless 4x6 4x6.Borderless 5x7 5x7.Borderless 5x8 8x10 8x10.Borderless *A4 A4.Borderless A5 A5.Borderless A6 A6.Borderless B5 B5.Borderless Env10 EnvA2 EnvC5 EnvC6 EnvChou3 EnvChou4 EnvDL EnvMonarch EnvPersonal Executive FanFoldGermanLegal ISOB5 Legal Letter Letter.Borderless Postcard Postcard.Borderless Statement Custom.WIDTHxHEIGHT
+        PageSize: A4
+        # Duplex/Duplex: *None DuplexNoTumble DuplexTumble
+        Duplex: DuplexNoTumble
+        # ColorModel/Output Mode: *RGB Gray Gray16 DeviceGray DeviceRGB AdobeRGB
+        ColorModel: DeviceGray

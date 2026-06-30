@@ -17,6 +17,13 @@ cups_service:
       - pkg: cups_packages
 
 {% for name, cfg in printers.items() %}
+
+/etc/cups/pws/printer-{{ name }}.yaml:
+  file.serialize:
+    - makedirs: True
+    - serializer: yaml
+    - dataset: {{ cfg }}
+
 cups_printer_{{ name }}:
   cmd.run:
     - name: >
@@ -30,8 +37,8 @@ cups_printer_{{ name }}:
         {%- endfor %}
         -o printer-is-shared={{ cfg.get('shared', false) | string | lower }}
         -E
-    - unless:
-        - lpstat -v {{ name }} 2>/dev/null | grep -qF "{{ cfg['uri'] }}"
+    - onchanges:
+        - file: /etc/cups/pws/printer-{{ name }}.yaml
     - require:
       - service: cups_service
 {% endfor %}
