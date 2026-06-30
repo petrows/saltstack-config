@@ -87,6 +87,12 @@ pc-tools:
     hash: sha256=0406443436565eec6262fd818723242118b7ab08c37f40f1fb7ffcb5e270f8f7
     symlink:
       logcli-linux-amd64: logcli
+  vault:
+    # https://releases.hashicorp.com/vault/
+    url: https://releases.hashicorp.com/vault/2.0.3/vault_2.0.3_linux_amd64.zip
+    hash: sha256=1e0ffb7a82491219c7242da6e05e2d756b05d1097c29799a42228661f229bc2a
+    symlink:
+      vault: vault
   winbox:
     # https://mikrotik.com/download/winbox
     url: https://download.mikrotik.com/routeros/winbox/4.1/WinBox_Linux.zip
