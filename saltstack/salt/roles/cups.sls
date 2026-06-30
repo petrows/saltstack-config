@@ -4,6 +4,7 @@
 cups_packages:
   pkg.installed:
     - pkgs:
+      - hplip
       - cups
       - cups-filters        # driverless filters
       - cups-ipp-utils      # `driverless`/`ippfind` for discovery (optional)
