@@ -16,6 +16,8 @@ linux-base-packages:
       - python3
       - python3-pip
       - python3-virtualenv
+      - python3-venv
+      - python-is-python3
       {% if grains.osfinger == 'Raspbian-10' %}
       # RPi requires special package for virtualenv
       - virtualenv
