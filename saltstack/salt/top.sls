@@ -185,6 +185,9 @@ base:
   'roles:whatsapp-proxy':
     - match: pillar
     - services.whatsapp-proxy
+  'roles:cctv-timelapse':
+    - match: pillar
+    - services.cctv-timelapse
 
   # Hosts configs
   'pve.pws':

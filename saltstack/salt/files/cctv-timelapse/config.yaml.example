@@ -1,0 +1,10 @@
+# CCTV timelapse service configuration
+output_dir: /var/lib/cctv-timelapse
+interval: 60   # seconds between capture rounds
+timeout: 15    # seconds before a single capture is aborted
+
+cameras:
+  - name: front-door
+    url: rtsp://user:pass@10.0.0.10:554/stream1
+  - name: backyard
+    url: http://10.0.0.11/snapshot.jpg

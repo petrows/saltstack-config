@@ -55,3 +55,6 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+
+# AI
+.claude

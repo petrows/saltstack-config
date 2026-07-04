@@ -224,6 +224,7 @@ base:
     - services.paperless
     - services.photosync-sftp
     - services.photosync-sftp-julia
+    - services.cctv-timelapse
     - pws.media
   'media.pws':
     - pws.media-prod
