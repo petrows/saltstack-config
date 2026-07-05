@@ -30,6 +30,11 @@ cctv-timelapse-pkg:
     - source: salt://files/cctv-timelapse/cctv_timelapse.py
     - mode: 755
 
+/usr/bin/cctv-generate:
+  file.managed:
+    - source: salt://files/cctv-timelapse/cctv-generate
+    - mode: 755
+
 cctv-timelapse.service:
   file.managed:
     - name: /etc/systemd/system/cctv-timelapse.service
@@ -55,6 +60,36 @@ cctv-timelapse.timer:
         [Timer]
         OnCalendar=*:00:00
         Unit=cctv-timelapse.service
+        [Install]
+        WantedBy=timers.target
+  service.running:
+    - enable: True
+
+cctv-timelapse-generate.service:
+  file.managed:
+    - name: /etc/systemd/system/cctv-timelapse-generate.service
+    - contents: |
+        [Unit]
+        Description=CCTV Timelapse Video generator
+        OnFailure=status-email@%n.service
+        [Service]
+        User=master
+        Group=master
+        Type=simple
+        RemainAfterExit=no
+        ExecStart=/usr/bin/cctv-generate /srv/cctv-timelapse/data /mnt/pws-data/storage/common/photo/photos/
+  service.enabled:
+    - enable: True
+
+cctv-timelapse-generate.timer:
+  file.managed:
+    - name: /etc/systemd/system/cctv-timelapse-generate.timer
+    - contents: |
+        [Unit]
+        Description=CCTV Timelapse Video generator timer
+        [Timer]
+        OnCalendar=23:50:00
+        Unit=cctv-timelapse-generate.service
         [Install]
         WantedBy=timers.target
   service.running:

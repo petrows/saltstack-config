@@ -1,0 +1,19 @@
+#!/bin/bash
+
+SEARCH_FOLDER=$1
+OUT_FOLDER=$2
+YEAR=$(date +%Y)
+
+OUT_FOLDER_Y="${OUT_FOLDER}/${YEAR}/${YEAR} - CCTV-Timelapse"
+mkdir -p "${OUT_FOLDER_Y}"
+
+for dir in "${SEARCH_FOLDER}"/*/; do
+    name=$(basename "$dir")
+    echo "Camera: $name"
+    (
+        cd "$dir"
+        ffmpeg -y -framerate 24 -pattern_type glob -i "${YEAR}*.jpg" \
+            -c:v libx265 -crf 28 -tag:v hvc1 -pix_fmt yuv420p \
+            "${OUT_FOLDER_Y}/${name}-${YEAR}.mp4"
+    )
+done
