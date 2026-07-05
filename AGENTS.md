@@ -94,9 +94,11 @@ Compose service must be defined as macro:
 Scripts must be written on modern python, complain to PEP.
 Scripts must pass pylint.
 
-Scripts must use `argparse`.
-Config files must be in `yaml` format.
-Formatting: see `.editorconfig`.
+Scripts must use `argparse`
+Config files must be in `yaml` format
+Formatting: see `.editorconfig`
+
+Global packages installed: `saltstack/salt/common/packages.sls`
 
 Scripts, which require custom module installation, must:
 

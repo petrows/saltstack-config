@@ -2,10 +2,7 @@ linux-base-packages:
   pkg.installed:
     - pkgs:
       - software-properties-common
-      {% if grains.osfinger != 'Debian-8' %}
       - ack
-      - python3-git
-      {% endif %}
       - htop
       - strace
       - vim
@@ -14,14 +11,13 @@ linux-base-packages:
       - mailutils
       - git
       - python3
+      - python3-git
       - python3-pip
+      - python3-requests
       - python3-virtualenv
       - python3-venv
+      - python3-yaml
       - python-is-python3
-      {% if grains.osfinger == 'Raspbian-10' %}
-      # RPi requires special package for virtualenv
-      - virtualenv
-      {% endif %}
       - curl
       - wget
       - screen
