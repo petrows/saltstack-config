@@ -25,14 +25,25 @@ wiki-dir-mysql:
     - group:  999
     - mode:  700
 
-wiki-upload-config:
+{{ pillar.wiki.data_dir }}/uploads.ini:
   file.managed:
-    - name: {{ pillar.wiki.data_dir }}/uploads.ini
     - source: salt://files/wiki/uploads.ini
     - template: jinja
     - user: root
     - group: root
     - mode: 644
+    - watch_in:
+      - service: wiki.service
+
+{{ pillar.wiki.data_dir }}/LocalSettings.php:
+  file.managed:
+    - source: salt://files/wiki/LocalSettings.php
+    - template: jinja
+    - user: root
+    - group: root
+    - mode: 644
+    - watch_in:
+      - service: wiki.service
 
 {% import "roles/docker-compose-macro.sls" as compose %}
 {{ compose.service('wiki') }}
