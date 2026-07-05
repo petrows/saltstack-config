@@ -28,12 +28,24 @@ fi
 HOME_DIR=$(docker run --rm -u "$(id -u):$(id -g)" "$DOCKER_IMAGE" sh -c 'echo "$HOME"' 2>/dev/null) || HOME_DIR=""
 HOME_DIR=$(trim "$HOME_DIR")
 
-if [[ -z "$HOME_DIR" || "$HOME_DIR" == "/" ]]; then
-    # Image has no usable HOME for this uid, use /tmp which always exists
-    HOME_DIR=/tmp
+# Ignore detected value unless it is a sane absolute path (a-z, 0-9, ., /, -, _),
+# detection may return an error message instead
+if [[ ! "$HOME_DIR" =~ ^/[a-z0-9._/-]+$ ]]; then
+    # Image has no usable HOME for this uid, use / which always exists
+    HOME_DIR=/
     EXTRA_ARGS+=(-e "HOME=$HOME_DIR")
 fi
-EXTRA_ARGS+=(-v "$HOME/.bash_history:$HOME_DIR/.bash_history")
+
+# Mount bash history only when it is a regular file on the host,
+# docker would create a missing mount source as a directory
+if [[ ! -e "$HOME/.bash_history" ]]; then
+    touch "$HOME/.bash_history"
+fi
+if [[ -f "$HOME/.bash_history" ]]; then
+    EXTRA_ARGS+=(-v "$HOME/.bash_history:$HOME_DIR/.bash_history")
+else
+    echo "Not mounting bash history: $HOME/.bash_history is not a regular file." 1>&2
+fi
 
 docker run \
     -it --rm \
