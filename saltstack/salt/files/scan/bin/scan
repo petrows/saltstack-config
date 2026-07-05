@@ -1,4 +1,9 @@
 #!/usr/bin/env python-app
+"""Scan document from the HP scanner into the archive folder.
+
+Supports single page / document feeder (ADF) modes, merges multi-page
+scans, runs OCR (scan-ocr) and detects the document date from its name.
+"""
 
 import datetime
 import time
@@ -7,17 +12,17 @@ import logging
 import argparse
 import os
 import re
-from pathlib import Path
-from PyPDF2 import PdfReader
 import subprocess
 import sys
+from pathlib import Path
+from PyPDF2 import PdfReader
 
 file_tmp_raw = Path("/tmp/scan-raw.pdf")
 file_tmp_out = Path("/tmp/scan-out.pdf")
 file_tmp_ocr = Path("/tmp/scan-ocr.pdf")
 
-path_date_sub = r'(\d{4}-\d{2}-\d{2})'
-path_date_ym_sub = r'(\d{4}-\d{2})'
+PATH_DATE_SUB = r'(\d{4}-\d{2}-\d{2})'
+PATH_DATE_YM_SUB = r'(\d{4}-\d{2})'
 
 
 def search_date_in_path(pn: str):
@@ -26,79 +31,93 @@ def search_date_in_path(pn: str):
         * filename-YYYY-MM-DD
         * filename-YYYY-MM
     """
-    ss = re.search(path_date_sub, pn)
+    ss = re.search(PATH_DATE_SUB, pn)
     if ss:
         return datetime.date.fromisoformat(ss[1])
-    ss = re.search(path_date_ym_sub, pn)
+    ss = re.search(PATH_DATE_YM_SUB, pn)
     if ss:
         return datetime.date.fromisoformat(ss[1] + "-01")
     return None
 
 
-def exec(command, throw_error=True):
+def run_cmd(command, throw_error=True):
+    """Run command, stream its stdout/stderr, return True when it succeeded."""
     command_base = os.path.basename(command[0])
-    p = subprocess.Popen(
+    with subprocess.Popen(
         command,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-    )
+    ) as p:
+        fl = fcntl.fcntl(p.stdout, fcntl.F_GETFL)
+        fcntl.fcntl(p.stdout, fcntl.F_SETFL, fl | os.O_NONBLOCK)
 
-    fl = fcntl.fcntl(p.stdout, fcntl.F_GETFL)
-    fcntl.fcntl(p.stdout, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+        fl = fcntl.fcntl(p.stderr, fcntl.F_GETFL)
+        fcntl.fcntl(p.stderr, fcntl.F_SETFL, fl | os.O_NONBLOCK)
 
-    fl = fcntl.fcntl(p.stderr, fcntl.F_GETFL)
-    fcntl.fcntl(p.stderr, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+        while p.poll() is None:
+            try:
+                line = p.stdout.readline()
+                if line:
+                    sys.stdout.write(line.decode('utf-8'))
+            except OSError:
+                pass
+            try:
+                line = p.stderr.readline()
+                if line:
+                    logging.error("%s! %s", command_base, line.decode('utf-8').strip())
+            except OSError:
+                pass
 
-    while None == p.poll():
-        try:
-            line = p.stdout.readline()
-            if line :
-                sys.stdout.write(line.decode('utf-8'))
-        except OSError:
-            pass
-        try:
-            line = p.stderr.readline()
-            if line :
-                logging.error("%s! %s", command_base, line.decode('utf-8').strip())
-        except OSError:
-            pass
-
-    p.wait()
+        p.wait()
 
     if 0 != p.returncode:
         if throw_error:
             raise RuntimeError(f"Command '{' '.join(command)}' return code {p.returncode}")
-        else:
-            logging.error("Command '%s' return code %d", ' '.join(command), p.returncode)
+        logging.error("Command '%s' return code %d", ' '.join(command), p.returncode)
 
     return 0 == p.returncode
 
 
 def scan(mode: str, file_name: Path):
+    """Scan a single document from the scanner into `file_name` PDF."""
     # Cleanup hp-scan files
-    exec(["bash", "-c", "rm -rf /tmp/hpscan*"])
+    run_cmd(["bash", "-c", "rm -rf /tmp/hpscan*"])
     scanner_tmp = Path("/tmp/scanner-raw.pdf")
-    cmd = ["hp-scan", "--device=hpaio:/net/officejet_pro_6970?ip=10.80.0.9&queue=false", "--mode=color", "--dest=file", "--size=a4", "--compression=none", "--resolution=300", f"--output={str(scanner_tmp)}"]
+    cmd = [
+        "hp-scan",
+        "--device=hpaio:/net/officejet_pro_6970?ip=10.80.0.9&queue=false",
+        "--mode=color",
+        "--dest=file",
+        "--size=a4",
+        "--compression=none",
+        "--resolution=300",
+        f"--output={str(scanner_tmp)}",
+    ]
     if mode == "adf":
         cmd.append("--adf")
-    exec(cmd)
-    exec(["ps2pdf", str(scanner_tmp), str(file_name)])
+    run_cmd(cmd)
+    run_cmd(["ps2pdf", str(scanner_tmp), str(file_name)])
     scanner_tmp.unlink()
 
 def pdf_append(doc_a: Path, doc_b: Path, out: Path):
+    """Append `doc_b` pages after `doc_a` into `out`."""
     # Merge to tmp doc, then move
-    exec(["pdfunite", str(doc_a), str(doc_b), "/tmp/pdf_merge.pdf"])
-    exec(["mv", "/tmp/pdf_merge.pdf", str(out)])
+    run_cmd(["pdfunite", str(doc_a), str(doc_b), "/tmp/pdf_merge.pdf"])
+    run_cmd(["mv", "/tmp/pdf_merge.pdf", str(out)])
 
 def pdf_merge_adf(doc_a: Path, doc_b: Path, out: Path):
-    # Merge ADF front/back pages
-    exec(["pdftk", f"A={str(doc_a)}", f"B={str(doc_b)}", "shuffle", "A", "Bend-1", "output", "/tmp/pdf_merge.pdf"])
-    exec(["mv", "/tmp/pdf_merge.pdf", str(out)])
+    """Merge ADF front (`doc_a`) and reversed back (`doc_b`) pages into `out`."""
+    run_cmd([
+        "pdftk", f"A={str(doc_a)}", f"B={str(doc_b)}",
+        "shuffle", "A", "Bend-1", "output", "/tmp/pdf_merge.pdf",
+    ])
+    run_cmd(["mv", "/tmp/pdf_merge.pdf", str(out)])
 
 def pdf_get_pages_count(doc: Path):
-    file = open(doc, 'rb')
-    reader = PdfReader(file)
-    return len(reader.pages)
+    """Return the number of pages in the PDF document."""
+    with open(doc, 'rb') as file:
+        reader = PdfReader(file)
+        return len(reader.pages)
 
 parser = argparse.ArgumentParser(
     description='Scan document into archive folder')
@@ -148,9 +167,9 @@ logging.basicConfig(level=log_level)
 logging.info("Scanning: %s, type %s", args.name, args.mode)
 
 # Clean temporary files
-if file_tmp_raw.exists(): file_tmp_raw.unlink()
-if file_tmp_out.exists(): file_tmp_out.unlink()
-if file_tmp_ocr.exists(): file_tmp_ocr.unlink()
+file_tmp_raw.unlink(missing_ok=True)
+file_tmp_out.unlink(missing_ok=True)
+file_tmp_ocr.unlink(missing_ok=True)
 
 # Document date
 file_date = datetime.date.today()
@@ -165,7 +184,8 @@ else:
 
 file_tms = int(round(time.mktime(file_date.timetuple())))
 
-file_output = Path("/mnt/pws-data/storage/common/archive") / str(file_date.year) / f"{args.name}.pdf"
+archive_root = Path("/mnt/pws-data/storage/common/archive")
+file_output = archive_root / str(file_date.year) / f"{args.name}.pdf"
 
 if file_output.exists():
     logging.error("Ouput file exists: %s", str(file_output))
@@ -200,7 +220,10 @@ for page_n in range(128):
         page_ask_text = ''
         if args.mode == 'adf':
             page_ask_text = "\nRotate document in ADF - back side up"
-        page_ask = input(f"\n\nScan another page?{page_ask_text}\nPress ENTER for new page, Ctrl+D to finish, Ctrl+C to cancel scan\n")
+        page_ask = input(
+            f"\n\nScan another page?{page_ask_text}\n"
+            "Press ENTER for new page, Ctrl+D to finish, Ctrl+C to cancel scan\n"
+        )
         logging.info("New page requested")
     except EOFError:
         # Ctrl+D
@@ -210,10 +233,10 @@ for page_n in range(128):
 file_tmp_ocr = Path("/tmp") / file_output.name
 logging.info("Scan done, prepare final document: %s", str(file_tmp_ocr))
 # Perform OCR
-exec(["scan-ocr", str(file_tmp_out), str(file_tmp_ocr)])
+run_cmd(["scan-ocr", str(file_tmp_out), str(file_tmp_ocr)])
 # Set file mtime
 os.utime(str(file_tmp_ocr), (file_tms, file_tms))
 # Move result file
-exec(["mv", str(file_tmp_ocr), str(file_output)])
+run_cmd(["mv", str(file_tmp_ocr), str(file_output)])
 
 logging.info("Done, result is %s", str(file_output))

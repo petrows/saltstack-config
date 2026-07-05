@@ -1,0 +1,4 @@
+[MAIN]
+# Scripts with the `python-app` shebang run from the managed venv
+# (see saltstack/salt/common/python.sls), resolve their imports from there
+init-hook='import sys, glob; sys.path.extend(glob.glob("/opt/venv/app/lib/python*/site-packages"))'
