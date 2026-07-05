@@ -2,7 +2,9 @@
 if status --is-interactive
     # Display MOTD
     if status --is-login
-        cat /run/motd.dynamic
+        if test -f /run/motd.dynamic
+            cat /run/motd.dynamic
+        end
         echo ""
     end
 
