@@ -7,7 +7,7 @@ named after the camera. Image files are named with a timestamp.
 
 Example configuration:
 
-    output_dir: /var/lib/cctv-timelapse
+    output_dir: /srv/cctv-timelapse/data
     interval: 60
     timeout: 15
     retries: 3

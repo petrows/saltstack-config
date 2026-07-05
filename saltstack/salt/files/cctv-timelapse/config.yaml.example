@@ -1,5 +1,5 @@
 # CCTV timelapse service configuration
-output_dir: /var/lib/cctv-timelapse
+output_dir: /srv/cctv-timelapse/data
 interval: 60    # seconds between capture rounds
 timeout: 15     # seconds before a single capture attempt is aborted
 retries: 3      # extra attempts when a capture fails (0 = no retries)

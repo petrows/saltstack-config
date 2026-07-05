@@ -48,8 +48,7 @@ cctv-timelapse.service:
         Type=simple
         RemainAfterExit=no
         ExecStart=/usr/bin/cctv-timelapse --one-shot --config /srv/cctv-timelapse/cctv-timelapse.yaml
-  service.enabled:
-    - enable: True
+  service.enabled: []
 
 cctv-timelapse.timer:
   file.managed:
@@ -64,6 +63,9 @@ cctv-timelapse.timer:
         WantedBy=timers.target
   service.running:
     - enable: True
+    - full_restart: True
+    - watch:
+      - file: /etc/systemd/system/cctv-timelapse.timer
 
 cctv-timelapse-generate.service:
   file.managed:
@@ -78,8 +80,7 @@ cctv-timelapse-generate.service:
         Type=simple
         RemainAfterExit=no
         ExecStart=/usr/bin/cctv-generate /srv/cctv-timelapse/data /mnt/pws-data/storage/common/photo/photos
-  service.enabled:
-    - enable: True
+  service.enabled: []
 
 cctv-timelapse-generate.timer:
   file.managed:
@@ -94,3 +95,6 @@ cctv-timelapse-generate.timer:
         WantedBy=timers.target
   service.running:
     - enable: True
+    - full_restart: True
+    - watch:
+      - file: /etc/systemd/system/cctv-timelapse-generate.timer
