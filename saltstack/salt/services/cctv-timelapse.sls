@@ -77,7 +77,7 @@ cctv-timelapse-generate.service:
         Group=master
         Type=simple
         RemainAfterExit=no
-        ExecStart=/usr/bin/cctv-generate /srv/cctv-timelapse/data /mnt/pws-data/storage/common/photo/photos/
+        ExecStart=/usr/bin/cctv-generate /srv/cctv-timelapse/data /mnt/pws-data/storage/common/photo/photos
   service.enabled:
     - enable: True
 
