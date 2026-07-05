@@ -9,7 +9,9 @@ include:
 
 wiki:
   # https://hub.docker.com/_/mediawiki
-  version: 1.37.1
+  version: 1.46.0
+  # https://hub.docker.com/_/mariadb
+  #version_db: 12.3.2
   version_db: 10.5
   data_dir: /srv/wiki-data
   dirs:
