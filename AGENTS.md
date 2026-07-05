@@ -13,6 +13,8 @@ All secrets should have empty/default value in stub file. Prodcution is located 
 
 File states must have filename as ID to avoid duplications.
 
+File names must prefer `-` over `_`.
+
 ## Systemd services configuration
 
 Simple systemd-timer script call ca be defined via `pillar.systemd-cron`.
@@ -91,14 +93,14 @@ Compose service must be defined as macro:
 
 ## Codebase
 
-Scripts must be written on modern python, complain to PEP.
-Scripts must pass pylint.
+Scripts should be written on modern python, complain to PEP, must pass pylint.
+Small scripts can be implemented using Bash.
 
-Scripts must use `argparse`
-Config files must be in `yaml` format
-Formatting: see `.editorconfig`
+Python scripts must use `argparse`,
+config files must be in `yaml` format.
+Formatting: see `.editorconfig`.
 
-Global packages installed: `saltstack/salt/common/packages.sls`
+Global packages installed: `saltstack/salt/common/packages.sls`.
 
 Scripts, which require custom module installation, must:
 

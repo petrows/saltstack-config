@@ -1,0 +1,31 @@
+repos:
+
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.44.0
+    hooks:
+      - id: markdownlint
+        files: ^.*\.md$
+        args: ["--config", ".markdownlint.yaml", "--fix"]
+
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck
+        files: ^saltstack/salt/files/
+        types: [shell]
+
+  - repo: local
+    hooks:
+      - id: pylint
+        name: pylint
+        entry: pylint
+        language: system
+        files: ^saltstack/salt/files/
+        types: [python]
+      # Extensionless scripts with a `#!/usr/bin/env python-app` shebang are
+      # not identified as python by pre-commit, list them explicitly
+      - id: pylint-python-app
+        name: pylint (python-app scripts)
+        entry: pylint
+        language: system
+        files: ^saltstack/salt/files/(scan/bin/scan|pws-pve/backup/bin/backup)$
