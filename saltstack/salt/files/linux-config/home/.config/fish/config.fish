@@ -43,6 +43,30 @@ if status --is-interactive
         venv /opt/venv/app
     end
 
+    # Powerline: toggle k8s prompt profile (theme with kubectl context/namespace)
+    # for current shell only. Usage: prompt-k8s [on|off], no argument toggles.
+    function prompt-k8s
+        set -l action $argv[1]
+        if test -z "$action"
+            if set -q POWERLINE_CONFIG_OVERRIDES
+                set action off
+            else
+                set action on
+            end
+        end
+        switch $action
+            case on
+                set -gx POWERLINE_CONFIG_OVERRIDES "ext.shell.theme=petro-k8s"
+                echo "k8s prompt: on"
+            case off
+                set -e POWERLINE_CONFIG_OVERRIDES
+                echo "k8s prompt: off"
+            case '*'
+                echo "Usage: prompt-k8s [on|off]"
+                return 1
+        end
+    end
+
     function fssh
         fssh-common fish $argv
     end

@@ -1,0 +1,7 @@
+{
+	"groups": {
+		"k8s_context":   {"fg": "white", "bg": "darkestblue", "attrs": ["bold"]},
+		"k8s_cluster":   {"fg": "white", "bg": "darkblue", "attrs": []},
+		"k8s_namespace": {"fg": "white", "bg": "darkestcyan", "attrs": []}
+	}
+}

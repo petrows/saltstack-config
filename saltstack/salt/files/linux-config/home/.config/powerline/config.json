@@ -1,6 +1,7 @@
 {
 	"common": {
-		"term_truecolor": true
+		"term_truecolor": true,
+		"paths": ["~/.config/powerline/segments"]
 	},
 	"ext": {
 		"shell": {
