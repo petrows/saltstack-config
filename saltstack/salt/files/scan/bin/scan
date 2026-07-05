@@ -6,6 +6,7 @@ import fcntl
 import logging
 import argparse
 import os
+import re
 from pathlib import Path
 from PyPDF2 import PdfReader
 import subprocess
@@ -14,6 +15,25 @@ import sys
 file_tmp_raw = Path("/tmp/scan-raw.pdf")
 file_tmp_out = Path("/tmp/scan-out.pdf")
 file_tmp_ocr = Path("/tmp/scan-ocr.pdf")
+
+path_date_sub = r'(\d{4}-\d{2}-\d{2})'
+path_date_ym_sub = r'(\d{4}-\d{2})'
+
+
+def search_date_in_path(pn: str):
+    """
+        Search date in file name:
+        * filename-YYYY-MM-DD
+        * filename-YYYY-MM
+    """
+    ss = re.search(path_date_sub, pn)
+    if ss:
+        return datetime.date.fromisoformat(ss[1])
+    ss = re.search(path_date_ym_sub, pn)
+    if ss:
+        return datetime.date.fromisoformat(ss[1] + "-01")
+    return None
+
 
 def exec(command, throw_error=True):
     command_base = os.path.basename(command[0])
@@ -136,6 +156,13 @@ if file_tmp_ocr.exists(): file_tmp_ocr.unlink()
 file_date = datetime.date.today()
 if args.date:
     file_date = datetime.date.fromisoformat(args.date)
+else:
+    # No date set -> try to detect from file name
+    file_date_path = search_date_in_path(args.name)
+    if file_date_path:
+        logging.info("Detected date from filename: %s", file_date_path)
+        file_date = file_date_path
+
 file_tms = int(round(time.mktime(file_date.timetuple())))
 
 file_output = Path("/mnt/pws-data/storage/common/archive") / str(file_date.year) / f"{args.name}.pdf"
