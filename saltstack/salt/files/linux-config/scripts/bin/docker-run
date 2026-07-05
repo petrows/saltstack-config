@@ -13,25 +13,33 @@ DOCKER_IMAGE=$1
 
 shift
 
+EXTRA_ARGS=()
+
 if [[ -z "${SSH_AUTH_SOCK}" ]]; then
     echo "Can't enable ssh on container, SSH_AUTH_SOCK is not set or is empty." 1>&2
 elif (( $(ssh-add -l | wc -l) < 1 )); then
     echo "Can't enable ssh on the container. No key available on the ssh-agent." 1>&2
 else
-    FORWARD_SSH_AGENT="-v $SSH_AUTH_SOCK:$SSH_AUTH_SOCK -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK"
+    EXTRA_ARGS+=(-v "$SSH_AUTH_SOCK:$SSH_AUTH_SOCK" -e "SSH_AUTH_SOCK=$SSH_AUTH_SOCK")
     echo "Enabling SSH enabled in the container."
 fi
 
-# Detect home dir
-HOME_DIR=$(docker run -it --rm -u $(id -u):$(id -g) $DOCKER_IMAGE sh -c 'echo $HOME')
+# Detect home dir, ignore detection failures
+HOME_DIR=$(docker run --rm -u "$(id -u):$(id -g)" "$DOCKER_IMAGE" sh -c 'echo "$HOME"' 2>/dev/null) || HOME_DIR=""
 HOME_DIR=$(trim "$HOME_DIR")
+
+if [[ -z "$HOME_DIR" || "$HOME_DIR" == "/" ]]; then
+    # Image has no usable HOME for this uid, use /tmp which always exists
+    HOME_DIR=/tmp
+    EXTRA_ARGS+=(-e "HOME=$HOME_DIR")
+fi
+EXTRA_ARGS+=(-v "$HOME/.bash_history:$HOME_DIR/.bash_history")
 
 docker run \
     -it --rm \
     --network host \
-    -u $(id -u):$(id -g) \
+    -u "$(id -u):$(id -g)" \
     -v "$PWD":"$PWD" \
-    -v "$HOME/.bash_history":"/$HOME_DIR/.bash_history" \
     -w "$PWD" \
-    ${FORWARD_SSH_AGENT} \
-    $DOCKER_IMAGE $@
+    "${EXTRA_ARGS[@]}" \
+    "$DOCKER_IMAGE" "$@"
