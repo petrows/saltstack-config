@@ -10,6 +10,8 @@ Example configuration:
     output_dir: /var/lib/cctv-timelapse
     interval: 60
     timeout: 15
+    retries: 3
+    retry_delay: 5
     cameras:
       - name: front-door
         url: rtsp://user:pass@10.0.0.10:554/stream1
@@ -37,6 +39,8 @@ LOG = logging.getLogger("cctv-timelapse")
 
 DEFAULT_INTERVAL = 60
 DEFAULT_TIMEOUT = 15
+DEFAULT_RETRIES = 3
+DEFAULT_RETRY_DELAY = 5
 TIMESTAMP_FORMAT = "%Y%m%d-%H%M%S"
 
 
@@ -59,6 +63,8 @@ class Config:
     output_dir: Path
     interval: int
     timeout: int
+    retries: int
+    retry_delay: int
     cameras: tuple[Camera, ...] = field(default_factory=tuple)
 
 
@@ -96,16 +102,23 @@ def load_config(path: Path) -> Config:
             raise ConfigError(f"camera name {name!r} is not a valid folder name")
         cameras.append(Camera(name=str(name), url=str(url)))
 
+    retries = int(raw.get("retries", DEFAULT_RETRIES))
+    retry_delay = int(raw.get("retry_delay", DEFAULT_RETRY_DELAY))
+    if retries < 0 or retry_delay < 0:
+        raise ConfigError("'retries' and 'retry_delay' must not be negative")
+
     return Config(
         output_dir=Path(output_dir),
         interval=int(raw.get("interval", DEFAULT_INTERVAL)),
         timeout=int(raw.get("timeout", DEFAULT_TIMEOUT)),
+        retries=retries,
+        retry_delay=retry_delay,
         cameras=tuple(cameras),
     )
 
 
 def capture_image(camera: Camera, output_dir: Path, timeout: int) -> bool:
-    """Grab a single frame from a camera stream via ffmpeg.
+    """Grab a single frame from a camera stream via ffmpeg (one attempt).
 
     Returns True on success, False otherwise.
     """
@@ -159,14 +172,44 @@ def capture_image(camera: Camera, output_dir: Path, timeout: int) -> bool:
     return True
 
 
-def capture_all(config: Config) -> int:
+def capture_with_retries(
+    camera: Camera, config: Config, abort: threading.Event
+) -> bool:
+    """Capture from one camera, retrying on failure.
+
+    Makes up to `config.retries` extra attempts, waiting
+    `config.retry_delay` seconds between them. Returns True as soon as
+    one attempt succeeds, False when all attempts failed or the service
+    is shutting down.
+    """
+    attempts = config.retries + 1
+    for attempt in range(1, attempts + 1):
+        if capture_image(camera, config.output_dir, config.timeout):
+            return True
+        if attempt < attempts:
+            LOG.warning(
+                "camera %s: attempt %d/%d failed, retrying in %ss",
+                camera.name,
+                attempt,
+                attempts,
+                config.retry_delay,
+            )
+            if abort.wait(config.retry_delay):
+                return False
+    LOG.error("camera %s: giving up after %d attempt(s)", camera.name, attempts)
+    return False
+
+
+def capture_all(config: Config, abort: threading.Event) -> int:
     """Capture one image from every configured camera.
 
     Returns the number of failed captures.
     """
     failures = 0
     for camera in config.cameras:
-        if not capture_image(camera, config.output_dir, config.timeout):
+        if abort.is_set():
+            break
+        if not capture_with_retries(camera, config, abort):
             failures += 1
     return failures
 
@@ -221,20 +264,23 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     LOG.info(
-        "loaded %d camera(s), output %s, interval %ss",
+        "loaded %d camera(s), output %s, interval %ss, retries %d every %ss",
         len(config.cameras),
         config.output_dir,
         config.interval,
+        config.retries,
+        config.retry_delay,
     )
-
-    if args.one_shot:
-        return 1 if capture_all(config) else 0
 
     shutdown = threading.Event()
     install_signal_handlers(shutdown)
+
+    if args.one_shot:
+        return 1 if capture_all(config, shutdown) else 0
+
     while not shutdown.is_set():
         started = time.monotonic()
-        capture_all(config)
+        capture_all(config, shutdown)
         elapsed = time.monotonic() - started
         shutdown.wait(max(0.0, config.interval - elapsed))
     return 0

@@ -1,7 +1,9 @@
 # CCTV timelapse service configuration
 output_dir: /var/lib/cctv-timelapse
-interval: 60   # seconds between capture rounds
-timeout: 15    # seconds before a single capture is aborted
+interval: 60    # seconds between capture rounds
+timeout: 15     # seconds before a single capture attempt is aborted
+retries: 3      # extra attempts when a capture fails (0 = no retries)
+retry_delay: 5  # seconds to wait between attempts
 
 cameras:
   - name: front-door
