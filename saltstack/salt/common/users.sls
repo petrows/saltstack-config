@@ -178,16 +178,6 @@ user_{{user_id}}_config_dir:
     - user: {{user_id}}
     - group: {{user_id}}
 
-{% if not salt['file.file_exists'](user.home + '/.config/fish/fish_variables') or pillar.force_user_update|default(False) %}
-user_{{user_id}}_fish_vars_config:
-  file.managed:
-    - name: {{user.home}}/.config/fish/fish_variables
-    - source: salt://files/linux-config/fish_variables
-    - makedirs: True
-    - user: {{user_id}}
-    - group: {{user_id}}
-{% endif %}
-
 # FZF uninstall old pkg
 fzf-clean-old-app-{{user_id}}:
   file.absent:

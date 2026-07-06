@@ -1,5 +1,14 @@
+# Common configuration
+# Current (config) folder
+set DIR (dirname (status --current-filename))
+
 # This block called only on "human" shells
 if status --is-interactive
+    # Load Petro's color theme
+    if test -f "$DIR/theme.fish"
+        source "$DIR/theme.fish"
+    end
+
     # Display MOTD
     if status --is-login
         if test -f /run/motd.dynamic
