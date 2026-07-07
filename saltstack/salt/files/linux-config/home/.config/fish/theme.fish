@@ -1,3 +1,5 @@
+# Disable greeting
+set -U fish_greeting
 # Petro color theme, to configure: fish_config
 # Colorscheme: Base16 Eighties
 set -U fish_color_normal normal

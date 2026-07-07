@@ -280,6 +280,22 @@ local-tg-binary:
         Suites: stable
         Components: main
 
+# Azure
+/etc/apt/sources.list.d/azure-cli.sources:
+  file.managed:
+    - contents: |
+        X-Repolib-Name: Azure-CLI
+        Description: Azure CLI software repository
+        Enabled: yes
+        Types: deb
+        URIs: https://packages.microsoft.com/repos/azure-cli/
+        # Broken on Ubuntu 25.X
+        # Suites: {{ grains.oscodename }}
+        Suites: noble
+        Components: main
+        Architectures: amd64
+        Signed-by: /etc/apt/keyrings/microsoft.gpg
+
 # # Vagrant
 /etc/apt/sources.list.d/vagrant.sources:
   file.managed:
