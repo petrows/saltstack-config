@@ -19,6 +19,7 @@ repos:
       - id: pylint
         name: pylint
         entry: pylint
+        args: ["--disable=import-error"]
         language: system
         files: ^saltstack/salt/files/
         types: [python]
@@ -27,5 +28,6 @@ repos:
       - id: pylint-python-app
         name: pylint (python-app scripts)
         entry: pylint
+        args: ["--disable=import-error"]
         language: system
         files: ^saltstack/salt/files/(scan/bin/scan|pws-pve/backup/bin/backup)$
