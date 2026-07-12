@@ -70,7 +70,7 @@ check_mk_plugin_docker_cfg:
 # Special plugins
 {% if salt['pillar.get']('check_mk_config:check_mk_awg', {}) %}
 /etc/check_mk/awg.json:
-  file.managed:
+  file.serialize:
     - dataset_pillar: 'check_mk_config:check_mk_awg'
     - serializer: json
     - makedirs: True
