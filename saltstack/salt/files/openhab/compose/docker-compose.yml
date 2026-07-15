@@ -110,6 +110,11 @@ services:
     environment:
       PATH_CONFIG: ./config
       PATH_DEVICES: ./config.devices
+      # Secrets to be used in service definition
+      {%- set secrets = salt.pillar.get('pws_secrets:openhab:yandex2mqtt_secrets:' + pillar.openhab.id, {}) %}
+      {%- for ss_k, ss_v in secrets.items() %}
+      {{ ss_k }}: "{{ ss_v }}"
+      {%- endfor %}
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
