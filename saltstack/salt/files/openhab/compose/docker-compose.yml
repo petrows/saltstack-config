@@ -18,6 +18,11 @@ services:
       EXTRA_JAVA_OPTS: -Duser.timezone={{ pillar.timezone }}
       # Fix for Midea AC binding (the "AES decryption error: InvalidKeyException: Illegal key size" failure)
       CRYPTO_POLICY: unlimited
+      # Secrets to be used in items definition
+      {%- set secrets = salt.pillar.get('pws_secrets:openhab:openhab_secrets:' + pillar.openhab.id, {}) %}
+      {%- for ss_k, ss_v in secrets.items() %}
+      {{ ss_k }}: "{{ ss_v }}"
+      {%- endfor %}
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
