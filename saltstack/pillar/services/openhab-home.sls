@@ -25,6 +25,10 @@ openhab:
     id: Openhab-yandex2mqtt
 
 proxy_vhosts:
+  ota:
+    domain: ota.home.pws
+    ssl: internal
+    ssl_name: home
   openhab:
     domain: home.pws
     ssl: internal

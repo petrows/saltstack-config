@@ -58,6 +58,13 @@ openhab:
       - /srv/yandex2mqtt-data
 
 proxy_vhosts:
+  ota:
+    domain: ota-dev.local.pws
+    type: folder
+    root: /srv/ota
+    ssl_force: False
+    ssl: internal
+    ssl_name: local
   openhab:
     domain: openhab-dev.local.pws
     port: {{ static.proxy_ports.openhab_http }}
