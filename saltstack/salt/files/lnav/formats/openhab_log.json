@@ -20,9 +20,21 @@
     "value": {
       "logger": { "kind": "string", "identifier": true }
     },
+    "highlights": {
+      "item-name": {
+        "pattern": "'[A-Za-z0-9_]+'",
+        "color": "Green"
+      },
+      "item-value": {
+        "pattern": "(?<=from |to |value )(?:\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:?\\d{2})?|-?\\d+(?:[.,]\\d+)*(?:E-?\\d+)?(?:\\s(?!to\\b|through\\b)[\\w°µ%²/]+)?|ON|OFF|OPEN|CLOSED|UP|DOWN|NULL|UNDEF)",
+        "color": "Teal"
+      }
+    },
     "sample": [
       { "line": "2026-07-16 12:40:37.048 [WARN ] [community.CommunityKarafAddonHandler] - Failed reinstalling add-on from cache" },
-      { "line": "2026-07-16 12:58:02.633 [INFO ] [el.core.internal.ModelRepositoryImpl] - Loading DSL model 'redmond.rules'" }
+      { "line": "2026-07-16 12:58:02.633 [INFO ] [el.core.internal.ModelRepositoryImpl] - Loading DSL model 'redmond.rules'" },
+      { "line": "2026-07-17 14:11:34.247 [INFO ] [hab.event.GroupItemStateChangedEvent] - Item 'g_all_ac_power' changed from 867.9 to 797.7 through kg_srv_power_ac_power" },
+      { "line": "2026-07-17 14:11:32.744 [INFO ] [openhab.event.ItemStateChangedEvent ] - Item 'astro_radiation_diff' changed from 125.29108324819832 W/m² to 125.28386881033393 W/m² (source: org.openhab.core.thing$astro:sun:home:radiation#diffuse)" }
     ]
   }
 }
