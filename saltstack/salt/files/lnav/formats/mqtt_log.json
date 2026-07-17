@@ -1,0 +1,41 @@
+{
+  "$schema": "https://lnav.org/schemas/format-v1.schema.json",
+  "mqtt_log": {
+    "title": "MQTT subscribe log",
+    "description": "mosquitto_sub -F '%I %t %p' output (timestamp, topic, payload)",
+    "regex": {
+      "std": {
+        "pattern": "^(?<timestamp>\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:?\\d{2})) (?<topic>[^ ]+) (?<body>.*)$"
+      }
+    },
+    "timestamp-format": ["%Y-%m-%dT%H:%M:%S%z", "%Y-%m-%dT%H:%M:%S.%f%z"],
+    "opid-field": "topic",
+    "value": {
+      "topic": { "kind": "string", "identifier": true }
+    },
+    "highlights": {
+      "lwt-offline": {
+        "pattern": "\\bOffline\\b",
+        "color": "Red",
+        "bold": true
+      },
+      "lwt-online": {
+        "pattern": "\\bOnline\\b",
+        "color": "Green"
+      },
+      "power-state": {
+        "pattern": "\"POWER\\d?\":\"(?:ON|OFF)\"",
+        "color": "Teal"
+      },
+      "wifi-signal": {
+        "pattern": "\"(?:Signal|RSSI)\":-?\\d+",
+        "color": "Yellow"
+      }
+    },
+    "sample": [
+      { "line": "2026-07-17T14:16:22+0200 tele/tasmota-pws_475492/LWT Offline" },
+      { "line": "2026-07-17T14:16:22+0200 tele/kg_lager4_main_light/SENSOR {\"Time\":\"2026-07-17T14:16:22\",\"Switch1\":\"ON\"}" },
+      { "line": "2026-07-17T14:16:22+0200 tele/lg3_up_light/STATE {\"Time\":\"2026-07-17T14:16:22\",\"Uptime\":\"0T00:15:10\",\"POWER\":\"ON\",\"Wifi\":{\"RSSI\":64,\"Signal\":-68}}" }
+    ]
+  }
+}

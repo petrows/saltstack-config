@@ -245,4 +245,4 @@ user_{{user_id}}_git_{{config_key}}:
 
 {% endif %} # if user.install_profile
 
-{% endfor %}
+{% endfor %} # Users loop

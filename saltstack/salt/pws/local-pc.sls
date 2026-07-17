@@ -568,7 +568,22 @@ local-pc-local-{{ user_id }}:
         ExecStart=/usr/bin/bash -c '{{ au_data.cmd }}'
 {% endfor %}
 
+# Mosquitto config
+{% for mf in ['mosquitto_sub', 'mosquitto_pub'] %}
+{% set mqtt_secrets = salt['pillar.get']('pws_secrets:openhab:mosquitto:home', {}) %}
+{{ user.home }}/.config/{{ mf }}:
+  file.managed:
+    - user: {{user_id}}
+    - group: {{user_id}}
+    - mode: 600
+    - contents: |
+        -h {{ mqtt_secrets.host }}
+        -u {{ mqtt_secrets.user }}
+        -P {{ mqtt_secrets.password }}
+
 {% endfor %}
+
+{% endfor %} # Users
 # ======================================
 
 # KDE App mime default list

@@ -75,7 +75,8 @@ for OUTPUT in "${OUTPUTS[@]}"; do
     echo "Output $OUTPUT has $BG_PATH -> ${BG_OUT_PATH}"
 
     if [[ ! -f "${BG_OUT_PATH}" ]]; then
-        magick "${BG_PATH}" "${BG_ARGS[@]}" -composite "${BG_OUT_PATH}"
+        # Convert image, ignore errors
+        magick "${BG_PATH}" "${BG_ARGS[@]}" -composite "${BG_OUT_PATH}" || true
     fi
     SWAYLOCK_ARGS+=( --image "${OUTPUT}:${BG_OUT_PATH}" )
 done
