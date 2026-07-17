@@ -1,0 +1,33 @@
+{
+  "$schema": "https://lnav.org/schemas/config-v1.schema.json",
+  "ui": {
+    "theme-defs": {
+      "default": {
+        "styles": {
+          "cursor-line": {
+            "color": "#ffffff",
+            "background-color": "#005f87",
+            "bold": true
+          },
+          "disabled-cursor-line": {
+            "background-color": "#3a3a3a"
+          }
+        },
+        "highlights": {
+          "log-info": {
+            "pattern": "\\bINFO\\b",
+            "style": { "color": "Green", "bold": true }
+          },
+          "log-warn": {
+            "pattern": "\\bWARN(ING)?\\b",
+            "style": { "color": "Yellow", "bold": true }
+          },
+          "log-error": {
+            "pattern": "\\bERROR\\b|\\bFATAL\\b",
+            "style": { "color": "Red", "bold": true }
+          }
+        }
+      }
+    }
+  }
+}

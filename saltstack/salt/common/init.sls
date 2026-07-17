@@ -288,3 +288,18 @@ tmp_ramdisk:
 /etc/nftables.conf:
   file.absent: []
 {% endif %}
+
+# Lnav formats
+/etc/lnav/formats/installed:
+  file.recurse:
+    - source: salt://files/lnav/formats
+    - makedirs: True
+    - clean: True
+    - file_mode: 755
+# Lnav configs
+/etc/lnav/configs/installed:
+  file.recurse:
+    - source: salt://files/lnav/configs
+    - makedirs: True
+    - clean: True
+    - file_mode: 755

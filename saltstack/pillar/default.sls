@@ -18,6 +18,8 @@ packages:
   - net-tools
   # Investigate disk usage tool:
   - ncdu
+  # Modern version of tail
+  - lnav
 
 # Apt options
 apt:
@@ -106,6 +108,8 @@ shell_alias:
   kpa: kubectl get po -A -o wide
   ksa: kubectl get svc -A -o wide
   kna: kubectl get node -o wide
+  # Log tailing
+  lnav: lnav -c ':goto 100%'
 
 # Values to ge set as git config for all users passed in 'users' role
 git_config:

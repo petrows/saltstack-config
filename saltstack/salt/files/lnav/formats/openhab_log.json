@@ -1,0 +1,28 @@
+{
+  "$schema": "https://lnav.org/schemas/format-v1.schema.json",
+  "openhab_log": {
+    "title": "openHAB Log",
+    "description": "openHAB openhab.log and events.log",
+    "regex": {
+      "std": {
+        "pattern": "^(?<timestamp>\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}\\.\\d{3}) \\[(?<level>[A-Z]+)\\s*\\] \\[(?<logger>[^\\]]+?)\\s*\\] - (?<body>.*)$"
+      }
+    },
+    "timestamp-format": ["%Y-%m-%d %H:%M:%S.%L"],
+    "level-field": "level",
+    "level": {
+      "error": "ERROR",
+      "warning": "WARN",
+      "info": "INFO",
+      "debug": "DEBUG",
+      "trace": "TRACE"
+    },
+    "value": {
+      "logger": { "kind": "string", "identifier": true }
+    },
+    "sample": [
+      { "line": "2026-07-16 12:40:37.048 [WARN ] [community.CommunityKarafAddonHandler] - Failed reinstalling add-on from cache" },
+      { "line": "2026-07-16 12:58:02.633 [INFO ] [el.core.internal.ModelRepositoryImpl] - Loading DSL model 'redmond.rules'" }
+    ]
+  }
+}
