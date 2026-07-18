@@ -39,7 +39,7 @@ bank-scripts:
     - serializer: json
     - dataset_pillar: 'pws_secrets:nordigen'
 
-/srv/bank/.env:
+/srv/bank/.venv:
   virtualenv.managed:
     - user: master
     - system_site_packages: False
