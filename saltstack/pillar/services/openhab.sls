@@ -7,6 +7,12 @@ roles:
 include:
   - services.nginx
 
+# Required for OpenThread BorderRouter
+sysctl:
+  net.ipv6.conf.eth0.accept_ra: 2
+  net.ipv6.conf.eth0.accept_ra_rt_info_max_plen: 64
+  net.ipv6.conf.all.forwarding: 1
+
 openhab:
   # https://hub.docker.com/r/openhab/openhab/tags
   id: Openhab-dev
@@ -24,6 +30,14 @@ openhab:
     version: 2.12.1
     instances: {}
     data_dir: /srv/zigbee2mqtt-data
+
+  # OpenThread Border Router
+  otbr:
+    id: False # Do not start by default
+    device: usb-Itead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_V2_4aa733bc4853ef118b5c20e0174bec31-if00-port0
+    # https://hub.docker.com/r/openthread/border-router/tags
+    version: sha-69f03f0
+    data_dir: /srv/otbr-data
 
   # https://hub.docker.com/_/eclipse-mosquitto
   mosquitto:

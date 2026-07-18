@@ -15,6 +15,8 @@ openhab:
         channel: 20
         pan_id: 0x1f02
         port: 3003
+  otbr:
+    id: Openhab-otbr
   mosquitto:
     id: Openhab-mosquitto
   tuyamqtt:

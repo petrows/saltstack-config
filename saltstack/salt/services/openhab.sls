@@ -9,6 +9,15 @@ openhab-dir-{{ dir }}:
     - mode:  755
 {% endfor %}
 
+{% if pillar.openhab.otbr.id %}
+{{ pillar.openhab.otbr.data_dir }}:
+  file.directory:
+    - makedirs: True
+    - user: root
+    - group: root
+    - mode: 755
+{% endif %}
+
 {% for dir in salt['pillar.get']('openhab:mosquitto:dirs', []) %}
 openhab-dir-mosquitto-{{ dir }}:
   file.directory:

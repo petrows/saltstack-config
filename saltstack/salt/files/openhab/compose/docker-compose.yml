@@ -1,5 +1,4 @@
 # Openhab
-version: '3'
 
 services:
 
@@ -50,6 +49,32 @@ services:
       - /dev/serial/by-id/{{ z2m.device }}:/dev/serial/by-id/{{ z2m.device }}
     {% endif %}
 {% endfor %}
+
+{% if pillar.openhab.otbr.id %}
+{% set otbr = pillar.openhab.otbr %}
+  otbr:
+    container_name: {{ otbr.id }}
+    image: openthread/border-router:{{ otbr.version }}
+    restart: always
+    network_mode: host
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - {{ otbr.data_dir }}:/data:rw
+    {% if otbr.device %}
+    environment:
+      OT_RCP_DEVICE: spinel+hdlc+uart:///dev/serial/by-id/{{ otbr.device }}?uart-baudrate=460800
+      OT_INFRA_IF: eth0
+      OT_THREAD_IF: thread0
+      OT_LOG_LEVEL: 7
+    devices:
+      - /dev/net/tun
+      - /dev/serial/by-id/{{ otbr.device }}:/dev/serial/by-id/{{ otbr.device }}
+    {% endif %}
+{% endif %}
 
   mosquitto:
     container_name: {{ pillar.openhab.mosquitto.id }}
