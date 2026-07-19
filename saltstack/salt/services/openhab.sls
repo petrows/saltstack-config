@@ -1,3 +1,12 @@
+# OpenHab Salt
+
+# Common cli tools
+openhab-tools:
+  file.recurse:
+    - name: /usr/local/bin
+    - source: salt://files/openhab/bin
+    - template: jinja
+    - file_mode: 755
 
 {% for dir in salt['pillar.get']('openhab:dirs', []) + salt['pillar.get']('openhab:zigbee2mqtt:dirs', []) + salt['pillar.get']('openhab:influxdb:dirs', []) %}
 openhab-dir-{{ dir }}:

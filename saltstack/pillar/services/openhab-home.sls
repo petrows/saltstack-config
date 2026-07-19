@@ -29,6 +29,7 @@ openhab:
 proxy_vhosts:
   ota:
     domain: ota.home.pws
+    ssl_force: False
     ssl: internal
     ssl_name: home
   openhab:
@@ -37,6 +38,7 @@ proxy_vhosts:
     ssl_name: home
   openhab-otbr:
     domain: otbr.home.pws
+    ssl_force: False
     ssl: internal
     ssl_name: home
     port: 7081

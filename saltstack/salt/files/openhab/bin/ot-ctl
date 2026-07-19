@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker exec "{{ salt['pillar.get']('openhab:otbr:id', 'otbr-docker') }}" ot-ctl -I thread0 "$@"
