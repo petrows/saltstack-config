@@ -35,6 +35,11 @@ proxy_vhosts:
     domain: home.pws
     ssl: internal
     ssl_name: home
+  openhab-otbr:
+    domain: otbr.home.pws
+    ssl: internal
+    ssl_name: home
+    port: 7081
   openhab-stats:
     domain: stats.home.pws
     ssl: internal

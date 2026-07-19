@@ -70,6 +70,10 @@ services:
       OT_INFRA_IF: eth0
       OT_THREAD_IF: thread0
       OT_LOG_LEVEL: 7
+      OT_REST_LISTEN_ADDR: 127.0.0.1
+      OT_REST_LISTEN_PORT: 7080
+      OT_WEB_LISTEN_ADDR: 127.0.0.1
+      OT_WEB_LISTEN_PORT: 7081
     devices:
       - /dev/net/tun
       - /dev/serial/by-id/{{ otbr.device }}:/dev/serial/by-id/{{ otbr.device }}
