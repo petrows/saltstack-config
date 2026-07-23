@@ -8,8 +8,7 @@ systemd-cron:
   fetch-transactions-cron:
     enable: True
     user: master
-    # Every 8 hours
-    calendar: '0/6:00:00'
+    calendar: '1,12,18:00:00'
     cwd: /srv/bank
     cmd: ./.venv/bin/python bin/fetch-transactions -l DEBUG --cfg-dir /srv/bank/cfg --data-dir /srv/bank/data --days 32
   fetch-transactions-rotate:
