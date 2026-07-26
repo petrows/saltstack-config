@@ -38,7 +38,7 @@ fi
 echo "Saved: $FILE"
 
 # Copy filename to clipboard
-echo "$FILE" | wl-copy
+echo -n "$FILE" | wl-copy
 
 # 2. Choose the editor and open the SAVED FILE (not a stream).
 if [[ -n "${SHOT_EDITOR:-}" ]]; then
