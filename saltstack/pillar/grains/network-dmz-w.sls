@@ -7,3 +7,7 @@ firewall:
 network:
   domain: w.pws
   dns: 10.88.0.1
+
+ssl:
+  default_cert: X.w.pws
+

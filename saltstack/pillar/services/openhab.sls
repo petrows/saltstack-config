@@ -77,21 +77,13 @@ proxy_vhosts:
     type: folder
     root: /srv/ota
     ssl_force: False
-    ssl: internal
-    ssl_name: local
   openhab:
     domain: openhab-dev.local.pws
     port: {{ static.proxy_ports.openhab_http }}
-    ssl: internal
-    ssl_name: local
   openhab-stats:
     domain: openhab-stats-dev.local.pws
     port: {{ static.proxy_ports.openhab_grafana }}
-    ssl: internal
-    ssl_name: local
     enable_frame: True
   openhab-zigbee2mqtt:
     domain: zigbee2mqtt-dev.local.pws
     port: {{ static.proxy_ports.openhab_zigbee2mqtt }}
-    ssl: internal
-    ssl_name: local

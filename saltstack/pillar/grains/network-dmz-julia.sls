@@ -15,3 +15,6 @@ network:
   cdn: ru
   domain: j.pws
   dns: 10.82.0.1
+
+ssl:
+  default_cert: X.j.pws

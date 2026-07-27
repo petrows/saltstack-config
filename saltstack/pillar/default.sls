@@ -96,6 +96,10 @@ docker:
   subnet_size: 24
   ipv6_cidr: fdfd:8b2c:086d:ecbd::/64
 
+# Default SSL certificates for https
+ssl:
+  default_cert: X.h.pws
+
 # This option forces to update bash / fish profile
 force_user_update: False
 

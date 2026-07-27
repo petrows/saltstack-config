@@ -31,25 +31,20 @@ proxy_vhosts:
     domain: ota.home.pws
     ssl_force: False
     ssl: internal
-    ssl_name: home
   openhab:
     domain: home.pws
     ssl: internal
-    ssl_name: home
   openhab-otbr:
     domain: otbr.home.pws
     ssl_force: False
     ssl: internal
-    ssl_name: home
     port: 7081
   openhab-stats:
     domain: stats.home.pws
     ssl: internal
-    ssl_name: home
   openhab-zigbee2mqtt:
     domain: z2m.home.pws
     ssl: internal
-    ssl_name: home
     port: 3001
     enable_http2: True
     custom_config: |
@@ -64,7 +59,6 @@ proxy_vhosts:
   openhab-zigbee2mqtt-ikea:
     domain: z2m-ikea.home.pws
     ssl: internal
-    ssl_name: home
     port: 3002
     enable_http2: True
     custom_config: |
@@ -78,7 +72,6 @@ proxy_vhosts:
   openhab-zigbee2mqtt-common:
     domain: z2m-common.home.pws
     ssl: internal
-    ssl_name: home
     port: 3003
     enable_http2: True
     custom_config: |

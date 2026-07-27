@@ -63,20 +63,21 @@ acme-certbot-dns:
 {% endif %} # / external
 
 {% if ssl_type == 'internal' %}
-{% set ssl_cert = '/etc/ssl/certs/pws-internal-'+conf.ssl_name+'.crt' %}
-{% set ssl_key = '/etc/ssl/certs/pws-internal-'+conf.ssl_name+'.key' %}
+{% set ssl_key_name = conf.get('ssl_name', pillar.ssl.default_cert) %}
+{% set ssl_cert = '/etc/ssl/certs/pws-internal-' + ssl_key_name + '.crt' %}
+{% set ssl_key = '/etc/ssl/certs/pws-internal-' + ssl_key_name + '.key' %}
 # Deploy internal key
 nginx-ssl-iternal-pem-{{ conf_id }}:
   file.managed:
     - name: {{ ssl_cert }}
-    - contents: {{ pillar['pws_secrets']['ssl_pws_'+conf.ssl_name]['crt']|yaml }}
+    - source: salt://files/ssl/{{ ssl_key_name }}/ssl.crt
     - user: root
     - group: root
     - mode: 644
 nginx-ssl-iternal-key-{{ conf_id }}:
   file.managed:
     - name:  {{ ssl_key }}
-    - contents: {{ pillar['pws_secrets']['ssl_pws_'+conf.ssl_name]['key']|yaml }}
+    - source: salt://files/ssl/{{ ssl_key_name }}/ssl.key
     - user: root
     - group: root
     - mode: 644
