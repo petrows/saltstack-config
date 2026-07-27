@@ -93,6 +93,12 @@ pc-tools:
     hash: sha256=1e0ffb7a82491219c7242da6e05e2d756b05d1097c29799a42228661f229bc2a
     symlink:
       vault: vault
+  tflint:
+    # https://github.com/terraform-linters/tflint/releases
+    url: https://github.com/terraform-linters/tflint/releases/download/v0.64.0/tflint_linux_amd64.zip
+    hash: cca9d13e2e1d7a2c627af60ff899a3c9b74212899416aeb96ec764d2ef954537
+    symlink:
+      tflint: tflint
   winbox:
     # https://mikrotik.com/download/winbox
     url: https://download.mikrotik.com/routeros/winbox/4.1/WinBox_Linux.zip
