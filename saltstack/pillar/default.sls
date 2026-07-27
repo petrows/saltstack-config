@@ -4,6 +4,12 @@
 
 timezone: Europe/Berlin
 
+pws:
+  # List of PWS common root certificates to install
+  ca:
+    - pws.ca.crt
+    - pws-v4.ca.crt
+
 # Mount /tmp as ramdisk?
 tmp_ramdisk: False
 

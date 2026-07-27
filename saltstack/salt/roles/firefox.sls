@@ -84,7 +84,9 @@ firefox-xdg:
             "Certificates": {
               "ImportEnterpriseRoots": true,
               "Install": [
-                "/usr/local/share/ca-certificates/pws.ca.crt",
+                {%- for caf in pillar.pws.ca %}
+                "/usr/local/share/ca-certificates/{{ caf }}",
+                {%- endfor %}
                 "pws.ca.crt"
               ]
             }

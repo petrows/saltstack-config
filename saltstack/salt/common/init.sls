@@ -38,10 +38,11 @@ ban-packages:
       - openipmi
 
 # PWS root CA
-pws-root-ca:
+{% for caf in pillar.pws.ca %}
+/usr/local/share/ca-certificates/{{ caf }}:
   file.managed:
-    - name: /usr/local/share/ca-certificates/pws.ca.crt
-    - source: salt://files/pws.ca.crt
+    - source: salt://files/{{ caf }}
+{% endfor %}
 
 system-ca-update:
   cmd.run:
