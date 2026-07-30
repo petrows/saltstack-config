@@ -67,9 +67,9 @@ pc-appimages:
       # Enforce Wayland for this app
       QT_QPA_PLATFORM: wayland
   freecad:
-    # https://github.com/FreeCAD/FreeCAD/releases/tag/1.1.1
-    url: https://github.com/FreeCAD/FreeCAD/releases/download/1.1.1/FreeCAD_1.1.1-Linux-x86_64-py311.AppImage
-    hash: sha256=e2006138400b2fa85fa2e160e872d00767eb32964e85075830f7e198a3a876e1
+    # https://github.com/FreeCAD/FreeCAD/releases/tag/1.1.3
+    url: https://github.com/FreeCAD/FreeCAD/releases/download/1.1.3/FreeCAD_1.1.3-Linux-x86_64-py311.AppImage
+    hash: sha256=3a853eb69ee595f779f2255dbf80a765926981d8ff68903cefee4dfb03a8f5ef
     env:
       # Enforce Wayland for this app
       QT_QPA_PLATFORM: wayland
