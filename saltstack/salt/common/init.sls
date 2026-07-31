@@ -11,21 +11,19 @@ include:
   - common.nfs
 {% endif %}
 
-locale-us:
+{% set pws_locales = ['en_US', 'ru_RU', 'de_DE'] %}
+
+{% for ll in pws_locales %}
+locale-gen-{{ ll }}:
   locale.present:
-    - name: en_US.UTF-8
-
-ru_RU.UTF-8:
-  locale.present
-
-de_DE.UTF-8:
-  locale.present
+    - name: {{ ll }} UTF-8
+{% endfor %}
 
 locale-default:
   locale.system:
-    - name: en_US.UTF-8
+    - name: {{ pws_locales[0] }}.UTF-8
     - require:
-      - locale: locale-us
+      - locale: locale-gen-{{ pws_locales[0] }}
 
 default-timezone:
   timezone.system:
